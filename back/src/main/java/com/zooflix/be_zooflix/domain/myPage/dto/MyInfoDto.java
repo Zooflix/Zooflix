@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyPageDto {
+public class MyInfoDto {
     private String userName;            //유저 닉네임
     private double userTemperature;     //유저 온도
     private int predictCount;           //총 예측 횟수
