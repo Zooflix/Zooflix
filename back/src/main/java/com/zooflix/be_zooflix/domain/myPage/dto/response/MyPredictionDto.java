@@ -1,4 +1,4 @@
-package com.zooflix.be_zooflix.domain.myPage.dto;
+package com.zooflix.be_zooflix.domain.myPage.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
