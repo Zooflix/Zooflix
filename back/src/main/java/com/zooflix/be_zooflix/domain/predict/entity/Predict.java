@@ -5,52 +5,49 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import static jakarta.persistence.FetchType.LAZY;
-
-@Entity
+@Table(name = "prediction")
 @Getter @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 public class Predict {
 
     @Id
-    @GeneratedValue
-    @Column(name = "pd_name")
-    private int pdName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pd_no", nullable = false)
+    private int pdNo;
 
     @Column(name = "stock_name", nullable = false)
-    private String stockName;
+    private String stockName; //종목명
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_no")
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_no")
+//    private User user;
+    @Column(name = "user_no")
+    private int userNo; //유저기본키
 
     @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    private LocalDateTime createDate; //글쓴날짜
 
     @Column(name = "pd_date", nullable = false)
-    private LocalDateTime pdDate;
+    private LocalDateTime pdDate; //예측날짜
 
     @Column(name = "pd_value", nullable = false)
-    private int pdValue;
+    private int pdValue; //가격예측값
 
     @Column(name = "pd_content")
-    private String pdContent;
+    private String pdContent; //예측 근거
 
     @Column(name = "pd_result")
-    private String pdResult;
+    private String pdResult; //예측 결과
 
     @Column(name = "pre_value")
-    private int preValue;
+    private int preValue; //예측시작시 시장가
 
     @Column(name = "nxt_value")
-    private int nxtValue;
+    private int nxtValue; //예측 날짜 실제시장가
 
     @Column(name = "pd_updown")
-    private boolean pdUpDown;
+    private boolean pdUpDown; //상승or하락
 }
+
