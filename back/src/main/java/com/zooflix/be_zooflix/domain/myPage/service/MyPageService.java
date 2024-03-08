@@ -25,12 +25,12 @@ public class MyPageService {
     private final UserSubscribeRepository userSubscribeRepository;
 
     // 내 정보
-//    public MyInfoDto getMyInfo(int userNo) {
-//        User user = myPageRepository.findMyInfo(userNo);   //Optional 쓰던데... 어떻게 쓰나..
-//        if (user == null) {
-//            throw new NullPointerException();
-//        }
-//
-//    }
+    public MyInfoDto getMyInfo(int userNo) {
+        User user =  myPageRepository.findMyInfo(userNo);   //Optional 쓰던데... 어떻게 쓰나..
+        if(user == null) {
+            throw new NullPointerException();
+        }
+
+    }
 
 }
