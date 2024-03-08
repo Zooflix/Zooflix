@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -30,10 +31,10 @@ public class Predict {
     private User user;
 
     @Column(name = "create_date", nullable = false)
-    private Date createDate;
+    private LocalDateTime createDate;
 
     @Column(name = "pd_date", nullable = false)
-    private Date pdDate;
+    private LocalDateTime pdDate;
 
     @Column(name = "pd_value", nullable = false)
     private int pdValue;

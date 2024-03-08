@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,6 +16,6 @@ public class MyStockDto {
     private String stockName;   //주식 명
     private int stockCount;     //구매할 주식 수량
     private int stockDate;      //구매할 일자
-    private Date stockSubscribeCreate;  //구독한 날짜
-    private int stockTotalCount;        //총 매수 수량
+    private LocalDateTime stockSubscribeCreate;  //구독한 날짜
+    private int stockTotalCount;//총 매수 수량
 }
