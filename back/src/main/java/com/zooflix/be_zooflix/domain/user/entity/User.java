@@ -1,16 +1,25 @@
 package com.zooflix.be_zooflix.domain.user.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userNo;
+
     @Column(unique = true)
     private String userId;
     @Column

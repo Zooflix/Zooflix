@@ -12,10 +12,10 @@ services:
                 volumes:
                         - zooflix-volume:/var/lib/mysql
                 environment:
-                        TZ=Asia/Seoul
-                        MYSQL_HOST=localhost
-                        MYSQL_PORT=3306
-                        MYSQL_ROOT_PASSWORD=malang
+                        TZ: Asia/Seoul
+                        MYSQL_HOST: localhost
+                        MYSQL_PORT: 3306
+                        MYSQL_ROOT_PASSWORD: malang
                 restart: always
                 command:
                         - --character-set-server=utf8mb4
