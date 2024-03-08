@@ -32,10 +32,10 @@ public class AlarmController {
     /*
      * 7.2 알림 전체 조회
      * */
-    @GetMapping("/{userNo}")
-    public ResponseEntity<ResultResponse<List<FindListAlarmResponse>>> alarmList(@PathVariable(value = "userNo") int userNo){
-        List<FindList>
-    }
+//    @GetMapping("/{userNo}")
+//    public ResponseEntity<ResultResponse<List<FindListAlarmResponse>>> alarmList(@PathVariable(value = "userNo") int userNo){
+//        List<FindList>
+//    }
 
     /*
      * 7.3 알람 읽음 여부 수정
