@@ -1,10 +1,16 @@
 package com.zooflix.be_zooflix.domain.alarm.service;
 
+import com.zooflix.be_zooflix.domain.alarm.dto.response.FindListAlarmResponse;
 import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.repository.EmitterRepository;
+import com.zooflix.be_zooflix.domain.user.entity.User;
+import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,15 +37,58 @@ public class AlarmService {
     }
 
     public void notify(int userNo, Object data, String comment){
-//        sendToClient(userNo, data, comment);
+        sendToClient(userNo, data, comment);
     }
 
     private <T> void sendToClient(int userNo, T data, String comment, String type) {
+        SseEmitter emitter = emitterRepository.get(userNo);
+        if(emitter != null){
+            try{
+                emitter.send(SseEmitter.event()
+                        .id(String.valueOf(userNo))
+                        .name("sse")
+                        .data(data)
+                        .comment(comment));
+            }catch (IOException e){
+                emitterRepository.deleteById(userNo);
+                emitter.completeWithError(e);
+            }
+        }
     }
 
-    private void sendToClient(int userNo, String s, String sse_접속성공) {
+    private void sendToClient(int userNo, Object data, String comment) {
+        SseEmitter emitter = emitterRepository.get(userNo);
+        if(emitter != null){
+            try{
+                emitter.send(SseEmitter.event()
+                        .id(String.valueOf(userNo))
+                        .name("sse")
+                        .data(data)
+                        .comment(comment));
+            }catch (IOException e){
+                emitterRepository.deleteById(userNo);
+                emitter.completeWithError(e);
+            }
+        }
     }
 
     private SseEmitter createEmitter(int userNo) {
+        SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
+        emitterRepository.save(userNo, emitter);
+
+        emitter.onCompletion(() -> emitterRepository.deleteById(userNo));
+        emitter.onTimeout(() -> emitterRepository.deleteById(userNo));
+        return emitter;
     }
+
+//    private User validUser(int userNo) {
+//        return userRepository.findById(userNo).orEl
+//    }
+    //user에게 온 알림 모두 확인
+//    public List<FindListAlarmResponse> findListAlarm(int userNo) {
+//        유저존재하는지 확인
+//        User receiverUser = validUser(userNo);
+//    }
+
+
 }

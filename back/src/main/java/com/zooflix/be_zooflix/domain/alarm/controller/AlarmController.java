@@ -1,7 +1,10 @@
 package com.zooflix.be_zooflix.domain.alarm.controller;
 
+import com.zooflix.be_zooflix.domain.alarm.dto.response.FindListAlarmResponse;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
+import com.zooflix.be_zooflix.global.result.ResultResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -32,10 +35,11 @@ public class AlarmController {
     /*
      * 7.2 알림 전체 조회
      * */
-//    @GetMapping("/{userNo}")
-//    public ResponseEntity<ResultResponse<List<FindListAlarmResponse>>> alarmList(@PathVariable(value = "userNo") int userNo){
-//        List<FindList>
-//    }
+    @GetMapping("/{userNo}")
+    public ResponseEntity<ResultResponse<List<FindListAlarmResponse>>> alarmList(@PathVariable(value = "userNo") int userNo){
+        List<FindListAlarmResponse> result = alarmService.findListAlarm(userNo);
+        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
+    }
 
     /*
      * 7.3 알람 읽음 여부 수정
