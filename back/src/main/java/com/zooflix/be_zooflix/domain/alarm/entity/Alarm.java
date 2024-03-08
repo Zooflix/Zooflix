@@ -38,7 +38,6 @@ public class Alarm {
     @Column(name = "is_read")
     private Boolean isRead; // 알림 확인 여부
 
-    public Alarm(User receiver, )
 
 
 }
