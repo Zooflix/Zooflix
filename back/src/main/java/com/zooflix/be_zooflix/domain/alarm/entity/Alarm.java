@@ -2,13 +2,12 @@ package com.zooflix.be_zooflix.domain.alarm.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
 @Getter
-@Setter
+@Table(name = "alarm")
 public class Alarm {
 
     @Id
@@ -24,7 +23,7 @@ public class Alarm {
 
     @Column(name = "alarm_type")
     private int alarmType;
-    
+
     @Column(name = "alarm_content")
     private String content;
 

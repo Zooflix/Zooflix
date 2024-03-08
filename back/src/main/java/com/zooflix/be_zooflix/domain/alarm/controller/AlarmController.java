@@ -5,6 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,9 +18,7 @@ public class AlarmController {
 
     private final AlarmService alarmService;
 
-    public AlarmService getAlarmService() {
-        return alarmService;
-    }
+    public static Map<Long, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
     /*
      * 7.1 알림을 위한 SSE 연결
@@ -25,6 +27,7 @@ public class AlarmController {
     /*
      * 7.2 알림 전체 조회
      * */
+//    @GetMapping("/")
 
     /*
      * 7.3 알람 읽음 여부 수정
