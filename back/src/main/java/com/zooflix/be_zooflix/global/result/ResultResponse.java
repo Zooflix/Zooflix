@@ -1,4 +1,4 @@
-package com.zooflix.be_zooflix.global;
+package com.zooflix.be_zooflix.global.result;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;
