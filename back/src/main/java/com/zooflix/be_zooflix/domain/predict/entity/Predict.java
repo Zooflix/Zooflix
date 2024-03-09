@@ -3,12 +3,15 @@ package com.zooflix.be_zooflix.domain.predict.entity;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-@Table(name = "prediction")
+import static jakarta.persistence.FetchType.LAZY;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter @Setter
 public class Predict {
 
@@ -20,17 +23,17 @@ public class Predict {
     @Column(name = "stock_name", nullable = false)
     private String stockName; //종목명
 
-//    @ManyToOne(fetch = FetchType.LAZY)
+    //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_no")
 //    private User user;
     @Column(name = "user_no")
     private int userNo; //유저기본키
 
     @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate; //글쓴날짜
+    private LocalDate createDate; //글쓴날짜
 
     @Column(name = "pd_date", nullable = false)
-    private LocalDateTime pdDate; //예측날짜
+    private LocalDate pdDate; //예측날짜
 
     @Column(name = "pd_value", nullable = false)
     private int pdValue; //가격예측값
