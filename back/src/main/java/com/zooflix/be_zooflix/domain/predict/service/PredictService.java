@@ -1,14 +1,14 @@
 package com.zooflix.be_zooflix.domain.predict.service;
 
+import com.zooflix.be_zooflix.domain.myPage.dto.response.MyPredictionDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -47,6 +47,27 @@ public class PredictService {
     //예측 글 삭제
     public void deletePredict(Integer pdNo){
         predictRepository.deleteById(pdNo);
+    }
+
+    //my page 에서 보여줄 내 예측 글 정보담기
+    public List<MyPredictionDto> getMyPredictByNo(int userNo) {
+        List<Predict> myPredict= predictRepository.findMyPredict(userNo);
+        if(myPredict.isEmpty()){//내 예측이 존재하지 않으면
+            throw new NullPointerException("예측이 존재하지 않습니다.");
+        }
+
+        List<MyPredictionDto> myPredictList = new ArrayList<>();
+
+        for(int i = 0; i < myPredict.size(); i++) {
+            myPredictList.get(i).setStockName(myPredict.get(i).getStockName());
+            myPredictList.get(i).setPdValue(myPredict.get(i).getPdValue());
+            myPredictList.get(i).setPdUpDown(myPredict.get(i).isPdUpDown());
+            myPredictList.get(i).setPdDate(myPredict.get(i).getPdDate());
+            myPredictList.get(i).setPdResult(myPredict.get(i).getPdResult());
+            myPredictList.get(i).setPdContent(myPredict.get(i).getPdContent());
+        }
+
+        return myPredictList;
     }
 
 }

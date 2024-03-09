@@ -1,11 +1,9 @@
 package com.zooflix.be_zooflix.domain.predict.entity;
 
-import com.zooflix.be_zooflix.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Table(name = "prediction")
@@ -48,6 +46,7 @@ public class Predict {
     private int nxtValue; //예측 날짜 실제시장가
 
     @Column(name = "pd_updown")
-    private boolean pdUpDown; //상승or하락
+    private boolean pdUpDown; //상승 or 하락
+
 }
 
