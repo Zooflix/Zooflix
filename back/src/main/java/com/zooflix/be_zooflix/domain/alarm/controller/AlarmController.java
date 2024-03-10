@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,6 +50,11 @@ public class AlarmController {
     /*
      * 7.4 알림 전체 지우기
      * */
+    @DeleteMapping
+    public FindListAlarmResponse deleteAlarm()throws IOException {
+        return alarmService.deleteAlarm();
+    }
+
 
 
 }
