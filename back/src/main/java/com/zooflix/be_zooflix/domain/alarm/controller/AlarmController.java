@@ -21,14 +21,15 @@ public class AlarmController {
 
     private final AlarmService alarmService;
 
+    //모든 Emitters를 저장하는 ConcurrentHashMap
     public static Map<Long, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
     /*
      * 7.1 알림을 위한 SSE 연결
      * */
     @GetMapping(value = "/subscribe/{user_no}", produces = "text/event-stream;charset=UTF-8")
-    public SseEmitter subscribe(@PathVariable(value = "user_no") int userNo){
-        return alarmService.subscribe(userNo);
+    public SseEmitter subscribe(@PathVariable(value = "user_no") int userNo, @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId){
+        return alarmService.subscribe(userNo, lastEventId);
     }
 
 

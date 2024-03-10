@@ -22,9 +22,17 @@ public class AlarmService {
 
     private static final Long DEFAULT_TIMEOUT = 600L * 1000 * 60;
 
-    public SseEmitter subscribe(int userNo){
+    public SseEmitter subscribe(int userNo, String lastEventId){
         SseEmitter emitter = createEmitter(userNo);
+
+        //더미이벤트 전송
         sendToClient(userNo, "EventStream Created. [userNo=" + userNo + "]", "sse 접속성공");
+
+        //클라이언트가 미수신한 event 목록이 존재하는 경우 - 유실 예방
+//        if(hasLostData(lastEventId)){
+//            sendLostData(lastEventId, userNo, emit)
+//        }
+
         return emitter;
     }
 
@@ -81,13 +89,15 @@ public class AlarmService {
         return emitter;
     }
 
+
+
 //    private User validUser(int userNo) {
 //        return userRepository.findById(userNo).orEl
 //    }
     //user에게 온 알림 모두 확인
 //    public List<FindListAlarmResponse> findListAlarm(int userNo) {
-//        유저존재하는지 확인
-//        User receiverUser = validUser(userNo);
+////        유저존재하는지 확인
+////        User receiverUser = validUser(userNo);
 //    }
 
 
