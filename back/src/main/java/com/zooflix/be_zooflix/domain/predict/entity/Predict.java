@@ -1,12 +1,14 @@
 package com.zooflix.be_zooflix.domain.predict.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-@Table(name = "prediction")
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter @Setter
 public class Predict {
 
@@ -18,17 +20,17 @@ public class Predict {
     @Column(name = "stock_name", nullable = false)
     private String stockName; //종목명
 
-//    @ManyToOne(fetch = FetchType.LAZY)
+    //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_no")
 //    private User user;
     @Column(name = "user_no")
     private int userNo; //유저기본키
 
     @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate; //글쓴날짜
+    private LocalDate createDate; //글쓴날짜
 
     @Column(name = "pd_date", nullable = false)
-    private LocalDateTime pdDate; //예측날짜
+    private LocalDate pdDate; //예측날짜
 
     @Column(name = "pd_value", nullable = false)
     private int pdValue; //가격예측값
@@ -46,7 +48,5 @@ public class Predict {
     private int nxtValue; //예측 날짜 실제시장가
 
     @Column(name = "pd_updown")
-    private boolean pdUpDown; //상승 or 하락
-
+    private boolean pdUpDown; //상승or하락
 }
-
