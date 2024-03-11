@@ -19,18 +19,8 @@ import java.util.Optional;
 public class MyPageService {
 
     private final MyPageRepository myPageRepository;
-    private final UserRepository userRepository;
-    private final PredictRepository predictRepository;
-    private final StockSubscribeRepository stockSubscribeRepository;
-    private final UserSubscribeRepository userSubscribeRepository;
 
     // 내 정보
-    public MyInfoDto getMyInfo(int userNo) {
-        User user =  myPageRepository.findMyInfo(userNo);   //Optional 쓰던데... 어떻게 쓰나..
-        if(user == null) {
-            throw new NullPointerException();
-        }
 
-    }
 
 }

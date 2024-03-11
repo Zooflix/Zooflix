@@ -20,4 +20,6 @@ public class FindListAlarmResponse {
     LocalDateTime createdAt;
 
     AlarmTypeStatus type;
+
+    Boolean isRead;
 }
