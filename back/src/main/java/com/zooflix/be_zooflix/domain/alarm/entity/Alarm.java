@@ -5,8 +5,11 @@ import com.zooflix.be_zooflix.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+<<<<<<< HEAD
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+=======
+>>>>>>> feature-be/mypage
 
 import java.time.LocalDateTime;
 import java.util.Date;

@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.predict.service;
 
+import com.zooflix.be_zooflix.domain.myPage.dto.response.MyPredictionDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 import jakarta.transaction.Transactional;
@@ -8,8 +9,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
