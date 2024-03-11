@@ -31,11 +31,25 @@ public class MyPageService {
         this.userRepository = userRepository;
         this.userSubscribeRepository = userSubscribeRepository;
     }
+
+    // 내 정보
     public MyInfoDto getUserInfo(int userNo) {
         User user = userRepository.findMyInfo(userNo);
         if( user == null) {
             throw new NullPointerException("존재하지 않은 유저입니다.");
         }
+
+        // 나를 구독한 사람 목록
+        List<UserSubscribe> subscribeToMe = userSubscribeRepository.findSubscribeToMe(userNo);
+
+        // 내가 구독한 사람 목록
+        List<UserSubscribe> subscribeFromMe = userSubscribeRepository.findSubscribeFromMe(userNo);
+
+        // 나를 구독한 사람의 수
+        int subscribeToMeCount = subscribeToMe.size();
+
+        // 내가 구독한 사람의 수
+        int subscribeFromMeCount = subscribeFromMe.size();
 
         MyInfoDto myInfo = new MyInfoDto();
 
@@ -44,6 +58,8 @@ public class MyPageService {
         myInfo.setPredictCount(user.getPredictCount());
         myInfo.setPredictionRate(Math.round((double)user.getSuccessCount()/user.getPredictCount() * 100));
         myInfo.setSuccessCount(user.getSuccessCount());
+        myInfo.setSubscribeFromMe(subscribeFromMeCount);
+        myInfo.setSubscribeToMe(subscribeToMeCount);
 
         return myInfo;
     }
