@@ -17,7 +17,7 @@ public class AddStockSubscribeRequest {
     int stockCount;
 
     @NotNull(message = "주식 구독일은 필수 항목입니다.")
-    String subscribeDate;
+    int subscribeDate;
 
     @NotNull(message = "user pk는 필수 항목입니다.")
     int userNo;
