@@ -27,6 +27,7 @@ public class AlarmService {
 
     private static final Long DEFAULT_TIMEOUT = 600L * 1000 * 60;
 
+    //sse 연결
     public SseEmitter subscribe(String userId, String lastEventId){
         String emitterId = makeTimeIncludeId(userId);
 
@@ -86,8 +87,9 @@ public class AlarmService {
     }
 
     //특정 유저에게 알림 전송
-    public void send(String userId, String content, AlarmTypeStatus type){
-        Alarm alarm = createAlarm(userId, content, type);
+    public void send(User receiver, String content, AlarmTypeStatus type){
+        String userId = receiver.getUserId();
+        Alarm alarm = createAlarm(receiver, content, type);
 
         Map<String, Object> sseEmitters = emitterRepository.findAllEventCacheStartWithByEmail(userId);
         sseEmitters.forEach(
@@ -98,21 +100,22 @@ public class AlarmService {
         );
     }
 
+    //=============
     //타입별 알림 생성
-    private Alarm createAlarm(String userId, String content, AlarmTypeStatus type) {
+    private Alarm createAlarm(User receiver, String content, AlarmTypeStatus type) {
         // 구독
-        if(type.equals("SUBSCRIBE")){
+        if(type == AlarmTypeStatus.SUBSCRIBE){
             return Alarm.builder()
-//                    .receiverUser(userId)
+                    .receiverUser(receiver)
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
                     .build();
 
             // 내가 구독한 사람이 글 쓴 경우
-        }else if(type.equals("WRITE")){
+        }else if(type == AlarmTypeStatus.WRITE){
             return Alarm.builder()
-//                    .receiverUser(userId)
+                    .receiverUser(receiver)
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
@@ -120,18 +123,18 @@ public class AlarmService {
 
 
             // 내가 구독한 사람이 매매한 경우
-        }else if(type.equals("TRADING")){
+        }else if(type == AlarmTypeStatus.TRADING){
             return Alarm.builder()
-//                    .receiverUser(userId)
+                    .receiverUser(receiver)
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
                     .build();
 
             //내 글의 예측 성공 여부
-        }else if(type.equals("RESULT")){
+        }else if(type == AlarmTypeStatus.RESULT){
             return Alarm.builder()
-//                    .receiverUser(userId)
+                    .receiverUser(receiver)
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
@@ -139,9 +142,9 @@ public class AlarmService {
 
 
             //내일이 매매일인 경우
-        }else if(type.equals("TOMORROW")){
+        }else if(type == AlarmTypeStatus.TOMORROW){
             return Alarm.builder()
-//                    .receiverUser(userId)
+                    .receiverUser(receiver)
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
