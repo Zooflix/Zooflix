@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

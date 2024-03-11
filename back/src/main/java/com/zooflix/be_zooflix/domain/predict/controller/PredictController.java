@@ -20,10 +20,9 @@ public class PredictController {
         this.predictService = predictService;
     }
 
-    //전체 예측 목록 조회
+    //전체 예측 목록 조회 getPredicts()
     @GetMapping("/predict")
     public ResponseEntity<?> selectPredicts(HttpServletRequest request){
-
         List<Predict> predicts = predictService.getPredicts();
         return ResponseEntity.ok(predicts);
     }

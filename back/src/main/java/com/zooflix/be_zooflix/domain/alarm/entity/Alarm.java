@@ -4,6 +4,8 @@ import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -32,7 +34,7 @@ public class Alarm extends BaseTimeEntity {
     private String content; // 알림 내용
 
     @Column(name = "alarm_create")
-    private Date createdAt; // 알림 발생 시점
+    private LocalDateTime createdAt; // 알림 발생 시점
 
     @Column(name = "is_read")
     private Boolean isRead; // 알림 확인 여부
