@@ -1,12 +1,8 @@
 package com.zooflix.be_zooflix.global.jwt;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-
-@Builder
-@Data
-@AllArgsConstructor
+//@Builder
+//@Data
+//@AllArgsConstructor
 public class TokenDto {
     private String grantType;
     private String accessToken;
