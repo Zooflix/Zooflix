@@ -7,9 +7,10 @@ import lombok.*;
 @AllArgsConstructor
 
 public class StockSubscribeDto {
+    private int stockCode;
     private String stockName;
     private int stockCount;
-    private int subscribeDate;
+    private int stockSubscribeDate;
     private int userNo;
     private String userAppKey;
     private String userSecretKey;

@@ -11,7 +11,9 @@ public class StockSubscribe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int stockNo;
+    private int stockSubscribeNo;
+    @Column
+    private int stockCode;
     @Column
     private String stockName;
 
@@ -33,12 +35,14 @@ public class StockSubscribe {
 
     public static StockSubscribe createStockSubscribe(
             User user,
+            int stockCode,
             String stockName,
             int stockCount,
             int subscribeDate
     ) {
         StockSubscribe subscribe = new StockSubscribe();
         subscribe.user = user;
+        subscribe.stockCode = stockCode;
         subscribe.stockName = stockName;
         subscribe.stockCount = stockCount;
         subscribe.stockDate = subscribeDate;

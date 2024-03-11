@@ -24,9 +24,10 @@ public class StockSubscribeService {
         User user = getUser(request.getUserNo());
         StockSubscribe subscribe = StockSubscribe.createStockSubscribe(
                 user,
+                request.getStockCode(),
                 request.getStockName(),
                 request.getStockCount(),
-                request.getSubscribeDate()
+                request.getStockSubscribeDate()
         );
 
         stockSubscribeRepository.save(subscribe);
@@ -37,9 +38,22 @@ public class StockSubscribeService {
         return request.getUserNo();
     }
 
+    public int terminationSubscribe(int stockSubscribeNo){
+        StockSubscribe subscribe = getStockSubscribe(stockSubscribeNo);
+        stockSubscribeRepository.delete(subscribe);
+
+        return feedId;
+
+    }
+
     private User getUser(int userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당하는 유저가 존재하지 않습니다"));
+    }
+
+    private User getStockSubscribe(int stockSubscribeNo) {
+        return stockSubscribeRepository.findById(stockSubscribeNo)
+                .orElseThrow(() -> new RuntimeException("해당하는 구독내역이 없습니다"));
     }
 }
 

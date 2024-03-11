@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, Integer> , JpaSpecificationExecutor<StockSubscribe> {
 
-
+    StockSubscribe findByStockSubscribeNo(int stockSubscribeNo);
 }
