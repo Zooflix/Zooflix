@@ -17,7 +17,7 @@ public class StockSubscribeService {
      */
     @Transactional
     public int postSubscribe(AddStockSubscribeRequest request) {
-        User user = getUser(request.getUserNo());
+//        User user = getUser(request.getUserNo());
 //        StockSubscribe subscribe =
 
         return request.getUserNo();
