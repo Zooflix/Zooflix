@@ -1,11 +1,9 @@
 package com.zooflix.be_zooflix.domain.user.service;
 
-import com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,7 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public String postIdCheck(String userId) {
@@ -53,4 +52,5 @@ public class UserService {
         } else return "로그인 실패";
 
     }
+
 }
