@@ -13,8 +13,9 @@ public class EmitterRepository {
 
     private final Map<Integer, SseEmitter> emitters = new ConcurrentHashMap<>();
 
-    public void save(int id, SseEmitter emitter){
-        emitters.put(id, emitter);
+    public SseEmitter save(int userNo, SseEmitter emitter){
+        emitters.put(userNo, emitter);
+        return emitter;
     }
 
     public void deleteById(int userNo){
