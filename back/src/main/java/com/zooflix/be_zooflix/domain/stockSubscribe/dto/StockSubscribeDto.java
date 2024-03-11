@@ -9,7 +9,7 @@ import lombok.*;
 public class StockSubscribeDto {
     private String stockName;
     private int stockCount;
-    private String subscribeDate;
+    private int subscribeDate;
     private int userNo;
     private String userAppKey;
     private String userSecretKey;
