@@ -67,25 +67,4 @@ public class PredictService {
         predictRepository.deleteById(pdNo);
     }
 
-    //my page 에서 보여줄 내 예측 글 정보담기
-    public List<MyPredictionDto> getMyPredictByNo(int userNo) {
-        List<Predict> myPredict= predictRepository.findMyPredict(userNo);
-        if(myPredict.isEmpty()){//내 예측이 존재하지 않으면
-            throw new NullPointerException("예측이 존재하지 않습니다.");
-        }
-
-        List<MyPredictionDto> myPredictList = new ArrayList<>();
-
-        for(int i = 0; i < myPredict.size(); i++) {
-            myPredictList.get(i).setStockName(myPredict.get(i).getStockName());
-            myPredictList.get(i).setPdValue(myPredict.get(i).getPdValue());
-            myPredictList.get(i).setPdUpDown(myPredict.get(i).isPdUpDown());
-            myPredictList.get(i).setPdDate(myPredict.get(i).getPdDate());
-            myPredictList.get(i).setPdResult(myPredict.get(i).getPdResult());
-            myPredictList.get(i).setPdContent(myPredict.get(i).getPdContent());
-        }
-
-        return myPredictList;
-    }
-
 }

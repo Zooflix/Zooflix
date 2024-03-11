@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -29,7 +30,7 @@ public class Predict {
     private int userNo; //유저기본키
 
     @Column(name = "create_date", nullable = false)
-    private LocalDate createDate; //글쓴날짜
+    private LocalDateTime createDate; //글쓴날짜
 
     @Column(name = "pd_date", nullable = false)
     private LocalDate pdDate; //예측날짜
