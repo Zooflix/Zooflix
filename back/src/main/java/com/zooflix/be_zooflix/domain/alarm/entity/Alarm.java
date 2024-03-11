@@ -5,6 +5,7 @@ import com.zooflix.be_zooflix.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Table(name = "alarm")
-@Builder
+@NoArgsConstructor
 public class Alarm extends BaseTimeEntity {
 
     @Id
@@ -43,20 +44,13 @@ public class Alarm extends BaseTimeEntity {
     @Setter
     private Boolean isRead; // 알림 확인 여부
 
-    public Alarm() {
-
-    }
-
-
-    public static Alarm createAlarm(User receiverUser, User senderUser, AlarmTypeStatus alarmType, String content, Boolean isRead) {
-        Alarm alarm = new Alarm();
-
-        alarm.senderUser = senderUser;
-        alarm.receiverUser = receiverUser;
-        alarm.alarmType = alarmType;
-        alarm.isRead = isRead;
-
-        return alarm;
+    @Builder
+    public Alarm(User receiverUser, User senderUser, AlarmTypeStatus alarmType, String content, Boolean isRead) {
+        this.receiverUser = receiverUser;
+        this.senderUser = senderUser;
+        this.alarmType = alarmType;
+        this.content = content;
+        this.isRead = isRead;
     }
 
 }
