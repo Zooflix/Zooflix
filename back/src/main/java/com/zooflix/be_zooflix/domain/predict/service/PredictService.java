@@ -1,12 +1,14 @@
 package com.zooflix.be_zooflix.domain.predict.service;
 
-import com.zooflix.be_zooflix.domain.myPage.dto.response.MyPredictionDto;
+import com.zooflix.be_zooflix.domain.predict.dto.PredictDto;
+
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
-import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,7 +36,8 @@ public class PredictService {
     }
 
     //예측 글 작성
-    public Predict postPredict(Predict predict){
+    public Predict postPredict(PredictDto predictDto){
+        Predict predict = predictDto.toEntity();
         return predictRepository.save(predict);
     }
 

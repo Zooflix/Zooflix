@@ -23,7 +23,7 @@ public class Predict {
     @Column(name = "stock_name", nullable = false)
     private String stockName; //종목명
 
-    //    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_no")
 //    private User user;
     @Column(name = "user_no")
