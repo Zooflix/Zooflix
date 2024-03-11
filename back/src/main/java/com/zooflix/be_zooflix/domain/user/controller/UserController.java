@@ -17,13 +17,13 @@ public class UserController {
     }
 
     @PostMapping("/id-check")
-    public ResponseEntity<String> selectIdCheck(@RequestBody String userId) {
-        return ResponseEntity.ok(userService.postIdCheck(userId));
+    public ResponseEntity<String> selectIdCheck(@RequestBody UserSignupDto userSignupDto) {
+        return ResponseEntity.ok(userService.postIdCheck(userSignupDto.getUserId()));
     }
 
     @PostMapping("/name-check")
-    public ResponseEntity<String> selectNameCheck(@RequestBody String userName) {
-        return ResponseEntity.ok(userService.postNameCheck(userName));
+    public ResponseEntity<String> selectNameCheck(@RequestBody UserSignupDto userSignupDto) {
+        return ResponseEntity.ok(userService.postNameCheck(userSignupDto.getUserName()));
     }
 
     @PostMapping("/signup")
