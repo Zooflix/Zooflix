@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.predict.controller;
 
+import com.zooflix.be_zooflix.domain.predict.dto.PredictDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.service.PredictService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,8 +39,8 @@ public class PredictController {
 
     //예측 글 작성
     @PostMapping("/predict")
-    public ResponseEntity<?> insertPredict(HttpServletRequest request, Predict predict){
-        Predict savedPredict = predictService.postPredict(predict);
+    public ResponseEntity<?> insertPredict(HttpServletRequest request, @RequestBody PredictDto predictDto){
+        Predict savedPredict = predictService.postPredict(predictDto);
         return new ResponseEntity<>(savedPredict, HttpStatus.CREATED);
     }
 
