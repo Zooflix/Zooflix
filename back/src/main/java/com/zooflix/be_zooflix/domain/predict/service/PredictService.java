@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +23,13 @@ public class PredictService {
     }
 
     //전체 예측 목록 조회
-    public List<Predict> getPredict(){
+    public List<Predict> getPredicts(){
         return predictRepository.findAll();
     }
 
     //종목명 검색
-    public List<Predict> getPredictByStockName(String stockName){
-        return predictRepository.findeByStockName(stockName);
+    public List<Predict> getPredictsByStockName(String stockName){
+        return predictRepository.findByStockName(stockName);
     }
 
     //예측 글 작성
@@ -37,12 +38,28 @@ public class PredictService {
     }
 
     //예측 글 성공여부 업데이트
-//    @Scheduled(cron = "0 30 15 ? * MON-FRI") //평일 15:30 마다
-//    public Predict putPredict(Integer pdNo, String pdResult){
-//        Optional<Predict> optionalPredict = predictRepository.findById(pdNo);
-//
-//
-//    }
+    @Scheduled(cron = "0 30 15 ? * MON-FRI")
+    public void postPredictResult(){
+        LocalDate today = LocalDate.now();
+        List<Predict> todayPredictions = predictRepository.findByPdDate(today);
+
+        for (Predict prediction : todayPredictions) {
+            if (isSuccessful(prediction)) {
+                prediction.setPdResult("성공");
+            } else {
+                prediction.setPdResult("실패");
+            }
+            predictRepository.save(prediction);
+        }
+
+    }
+    private boolean isSuccessful(Predict prediction) {
+        int pdValue = prediction.getPdValue();
+        int nxtValue = prediction.getNxtValue();
+        double differencePercentage = Math.abs((nxtValue - pdValue) / (double) pdValue);
+
+        return differencePercentage <= 0.01; // 1% 내외
+    }
 
     //예측 글 삭제
     public void deletePredict(Integer pdNo){
