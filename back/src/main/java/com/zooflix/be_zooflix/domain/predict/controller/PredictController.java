@@ -56,9 +56,16 @@ public class PredictController {
         return ResponseEntity.ok(savedPredict);
     }
 
+    @Operation(summary = "종가 업데이트")
+    @PostMapping("predict/nxtvalue")
+    public ResponseEntity<?> updateNxtValue() {
+        predictService.postNxtValue();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @Operation(summary = "예측 성공 업데이트")
     @PostMapping("predict/result")
-    public ResponseEntity<?> insertPredictResult() {
+    public ResponseEntity<?> updatePredictResult() {
         predictService.postPredictResult();
         return new ResponseEntity<>(HttpStatus.OK);
     }
