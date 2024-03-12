@@ -77,8 +77,21 @@ public class PredictService {
         return toDto(predictRepository.save(predict));
     }
 
-    //예측 글 성공여부 업데이트
+    //종가 업데이트
     @Scheduled(cron = "0 30 15 ? * MON-FRI")
+    public void postNxtValue() {
+        LocalDate today = LocalDate.now();
+        List<Predict> todayPredictions = predictRepository.findByPdDate(today);
+        for (Predict prediction : todayPredictions) {
+            int nxtValue = 5000; //파이썬에서 값받아오기
+                prediction.setNxtValue(nxtValue);
+            predictRepository.save(prediction);
+        }
+
+    }
+
+    //예측 글 성공여부 업데이트
+    @Scheduled(cron = "30 30 15 ? * MON-FRI")
     public void postPredictResult() {
         LocalDate today = LocalDate.now();
         List<Predict> todayPredictions = predictRepository.findByPdDate(today);
