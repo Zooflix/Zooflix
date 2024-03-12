@@ -21,6 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(nativeQuery = true, value = "select * from user u where u.user_no = :userNo")
     User findMyInfo(@Param("userNo") int userNo);
 
+
     UserKeyProjection findByUserNo(int userNo);
 
     //닉네임으로 user 찾기

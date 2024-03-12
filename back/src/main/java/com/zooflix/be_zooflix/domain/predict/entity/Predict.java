@@ -57,6 +57,7 @@ public class Predict {
     @Column(name = "pd_updown")
     private boolean pdUpDown; //상승or하락
 
+
     public PredictResDto toDto2(){
         PredictResDto dto = new PredictResDto();
         dto.setPdNo(this.pdNo);

@@ -35,8 +35,6 @@ public class ReportService {
             if(report.isPresent()){
                 report.get().setReportType(reportType);
                 reportRepository.save(report.get());
-            }else{
-
             }
             return predict.toDto2();
         }catch (Exception e){
