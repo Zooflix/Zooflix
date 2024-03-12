@@ -1,21 +1,14 @@
 package com.zooflix.be_zooflix.domain.myPage.controller;
 
-import com.zooflix.be_zooflix.domain.myPage.dto.MySubscribeDto;
+import com.zooflix.be_zooflix.domain.myPage.dto.response.MyStockDto;
+import com.zooflix.be_zooflix.domain.myPage.dto.response.MySubscribeDto;
 import com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto;
 import com.zooflix.be_zooflix.domain.myPage.dto.response.MyPredictionDto;
 import com.zooflix.be_zooflix.domain.myPage.service.MyPageService;
-import com.zooflix.be_zooflix.domain.predict.service.PredictService;
-import com.zooflix.be_zooflix.domain.user.entity.User;
-import com.zooflix.be_zooflix.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -50,4 +43,10 @@ public class MyPageController {
         return ResponseEntity.ok(mySubscribeList);
     }
 
+    //내가 정기 구독 중인 주식 목록(주식명,
+    @GetMapping("/mypage/stock/{userNo}")
+    public ResponseEntity<List<MyStockDto>> selectMyStockSubscribeList(HttpServletRequest request, @PathVariable int userNo) {
+        List<MyStockDto> myStockDtoList = myPageService.getMyStockList(userNo);
+        return ResponseEntity.ok(myStockDtoList);
+    }
 }

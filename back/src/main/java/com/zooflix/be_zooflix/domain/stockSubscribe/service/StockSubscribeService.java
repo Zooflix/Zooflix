@@ -41,5 +41,9 @@ public class StockSubscribeService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당하는 유저가 존재하지 않습니다"));
     }
+
+
+
+
 }
 
