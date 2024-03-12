@@ -12,10 +12,10 @@ import java.util.List;
 public interface UserSubscribeRepository extends JpaRepository<UserSubscribe, Integer> {
 
     //나를 구독한 사람들을 조회
-    @Query(nativeQuery = true, value = "select * from subscribe s where s.subscribe_no = :subscribeNo")
+    @Query(nativeQuery = true, value = "select * from user_subscribe s where s.subscribe_no = :subscribeNo")
     List<UserSubscribe> findSubscribeToMe(@Param("subscribeNo") int subscribeNo);
 
     //내가 구독한 사람들을 조회
-    @Query(nativeQuery = true, value = "select * from subscribe s where s.user_no = :userNo")
+    @Query(nativeQuery = true, value = "select * from user_subscribe s where s.user_no = :userNo")
     List<UserSubscribe> findSubscribeFromMe(@Param("userNo") int userNo);
 }

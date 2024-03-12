@@ -7,7 +7,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "user_subscribe")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

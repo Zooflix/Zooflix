@@ -26,7 +26,6 @@ public class MyPageService {
     private final PredictRepository predictRepository;
     private final UserRepository userRepository;
     private final UserSubscribeRepository userSubscribeRepository;
-
     private final StockSubscribeRepository stockSubscribeRepository;
 
     public MyPageService(PredictRepository predictRepository, UserRepository userRepository, UserSubscribeRepository userSubscribeRepository, StockSubscribeRepository stockSubscribeRepository) {
@@ -69,21 +68,26 @@ public class MyPageService {
     }
     //내 예측 글 정보담기
     public List<MyPredictionDto> getMyPredictByNo(int userNo) {
-        List<Predict> myPredict= predictRepository.findMyPredict(userNo);
+        List<Predict> myPredict= predictRepository.findMyPredictList(userNo);
+
         if(myPredict.isEmpty()){//내 예측이 존재하지 않으면
             throw new NullPointerException("예측이 존재하지 않습니다.");
         }
 
-        List<MyPredictionDto> myPredictList = new ArrayList<>(myPredict.size());
+        List<MyPredictionDto> myPredictList = new ArrayList<>();
 
-        for(int i = 0; i < myPredict.size(); i++) {
-            myPredictList.get(i).setStockName(myPredict.get(i).getStockName());
-            myPredictList.get(i).setPdValue(myPredict.get(i).getPdValue());
-            myPredictList.get(i).setPdUpDown(myPredict.get(i).isPdUpDown());
-            myPredictList.get(i).setPdDate(myPredict.get(i).getPdDate());
-            myPredictList.get(i).setPdResult(myPredict.get(i).getPdResult());
-            myPredictList.get(i).setPdContent(myPredict.get(i).getPdContent());
+        for (Predict value : myPredict) {
+            MyPredictionDto myPredictionDto = new MyPredictionDto();
+
+            myPredictionDto.setStockName(value.getStockName());
+            myPredictionDto.setPdValue(value.getPdValue());
+            myPredictionDto.setPdUpDown(value.isPdUpDown());
+            myPredictionDto.setPdDate(value.getPdDate());
+            myPredictionDto.setPdResult(value.getPdResult());
+            myPredictionDto.setPdContent(value.getPdContent());
+            myPredictList.add(myPredictionDto);
         }
+
 
         return myPredictList;
     }
