@@ -24,6 +24,7 @@ public class UserSignupDto {
                 .userAppKey(userApiKey)
                 .userSecretKey(userSecretKey)
                 .userAccount(userAccount)
+                .userTemperature(30.0)
                 .build();
     }
 }
