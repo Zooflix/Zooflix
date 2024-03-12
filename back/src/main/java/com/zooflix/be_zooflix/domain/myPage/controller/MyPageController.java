@@ -19,30 +19,27 @@ import java.util.List;
 @RestController
 public class MyPageController {
     private final MyPageService myPageService;
-    private final StockSubscribeService stockSubscribeService;
-
     public MyPageController(MyPageService myPageService, StockSubscribeService stockSubscribeService) {
         this.myPageService = myPageService;
-        this.stockSubscribeService = stockSubscribeService;
     }
 
     //내 예측 글 보기
     @GetMapping("/mypage/predict/{userNo}")
-    public ResponseEntity<List<MyPredictionDto>> selectMyPrediction(HttpServletRequest request,@PathVariable int userNo) {
+    public ResponseEntity<List<MyPredictionDto>> selectMyPrediction(@PathVariable int userNo) {
         List<MyPredictionDto> myPredict = myPageService.getMyPredictByNo(userNo);
         return ResponseEntity.ok(myPredict);
     }
 
     //내 정보 보기
     @GetMapping("/mypage/info/{userNo}")
-    public ResponseEntity<MyInfoDto> selectMyInfo(HttpServletRequest request, @PathVariable int userNo) {
+    public ResponseEntity<MyInfoDto> selectMyInfo(@PathVariable int userNo) {
         MyInfoDto myInfo = myPageService.getMyInfo(userNo);
         return ResponseEntity.ok(myInfo);
     }
 
     //내가 구독 중인 회원 목록(닉네임, 온도)
     @GetMapping("/mypage/subscribe/{userNo}")
-    public  ResponseEntity<List<MySubscribeDto>> selectMySubscribe(HttpServletRequest request, @PathVariable int userNo) {
+    public  ResponseEntity<List<MySubscribeDto>> selectMySubscribe(@PathVariable int userNo) {
         List<MySubscribeDto> mySubscribeList = myPageService.getMySubscribe(userNo);
         return ResponseEntity.ok(mySubscribeList);
     }
