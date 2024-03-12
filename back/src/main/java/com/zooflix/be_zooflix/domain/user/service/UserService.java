@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.user.service;
 
+import com.zooflix.be_zooflix.domain.user.dto.UserInfoDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
@@ -20,6 +21,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    // ID 체크
     public String postIdCheck(String userId) {
         if (userRepository.existsByUserId(userId)) {
             return "중복";
@@ -28,6 +30,7 @@ public class UserService {
         }
     }
 
+    // 닉네임 체크
     public String postNameCheck(String userName) {
         if (userRepository.existsByUserName(userName)) {
             return "중복";
@@ -36,6 +39,7 @@ public class UserService {
         }
     }
 
+    // 회원가입
     public String postSignup(UserSignupDto userSignupDto) {
         userSignupDto.setUserPw(passwordEncoder.encode(userSignupDto.getUserPw()));
         User user = userSignupDto.toEntity();
@@ -43,6 +47,7 @@ public class UserService {
         return "성공";
     }
 
+    // 로그인
     public String postLogin(UserLoginDto userLoginDto) {
         User user = userRepository.findByUserId(userLoginDto.getUserId());
         if (user == null) {
@@ -54,6 +59,7 @@ public class UserService {
 
     }
 
+    // 회원정보 수정
     public String putUpdateUser(String userId, UserUpdateDto userUpdateDto) {
         User user = userRepository.findByUserId(userId);
 
@@ -75,5 +81,9 @@ public class UserService {
         userRepository.save(user);
         
         return "회원정보 수정 완료";
+    }
+
+    public UserInfoDto getUserInfo(String userId) {
+        return new UserInfoDto();
     }
 }

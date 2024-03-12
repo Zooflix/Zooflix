@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.user.controller;
 
+import com.zooflix.be_zooflix.domain.user.dto.UserInfoDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
@@ -43,8 +44,9 @@ public class UserController {
     }
 
     @GetMapping("/info/{userId}")
-    public ResponseEntity<> selectInfo(@PathVariable String userId) {
+    public ResponseEntity<UserInfoDto> selectInfo(@PathVariable String userId) {
 
+        return ResponseEntity.ok(userService.getUserInfo(userId));
     }
 
 }
