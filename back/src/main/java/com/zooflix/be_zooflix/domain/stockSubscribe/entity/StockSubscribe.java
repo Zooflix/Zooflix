@@ -2,11 +2,13 @@ package com.zooflix.be_zooflix.domain.stockSubscribe.entity;
 
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 public class StockSubscribe {
 
     @Id
