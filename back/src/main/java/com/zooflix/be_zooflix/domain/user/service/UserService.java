@@ -78,7 +78,10 @@ public class UserService {
         return "회원정보 수정 완료";
     }
 
+    // userId로 user 정보 가져오기. (구독 수, 구독자 수 포함)
     public UserInfoDto getUserInfo(String userId) {
-        return new UserInfoDto();
+        UserInfoDto userInfoDto = userRepository.getUserSubscriptionInfoByUserNo(userId);
+        userInfoDto.setPredictPercent(10.2d);
+        return userInfoDto;
     }
 }
