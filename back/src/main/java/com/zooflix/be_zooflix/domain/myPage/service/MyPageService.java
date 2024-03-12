@@ -7,6 +7,7 @@ import com.zooflix.be_zooflix.domain.myPage.repository.MyPageRepository;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
+import com.zooflix.be_zooflix.domain.user.dto.UserNameTemperatureDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import com.zooflix.be_zooflix.domain.userSubscribe.entity.UserSubscribe;
@@ -86,10 +87,23 @@ public class MyPageService {
     }
 
     //내가 구독 중인 회원
-//    public List<MySubscribeDto> getMySubscribe(int userNo) {
-//        List<UserSubscribe> userSubscribes = userSubscribeRepository.findSubscribeFromMe(userNo);
-//
-//
-//    }
+    public List<MySubscribeDto> getMySubscribe(int userNo) {
+        List<UserSubscribe> userSubscribes = userSubscribeRepository.findSubscribeFromMe(userNo);
+        if(userSubscribes.isEmpty()) {
+            throw  new NullPointerException("현재 구독 목록이 없습니다.");
+        }
+
+        List<MySubscribeDto> mySubscribeList = new ArrayList<>(userSubscribes.size());
+
+        //mySubscribeList 추가
+        for(int i = 0; i < userSubscribes.size(); i++){
+            UserNameTemperatureDto userNameTemperature =
+                    userRepository.findByUserName(userSubscribes.get(i).getSubscribeName());
+            mySubscribeList.get(i).setSubscribeName(userNameTemperature.getUserName());
+            mySubscribeList.get(i).setSubscribeTemperature(userNameTemperature.getUserTemperature());
+        }
+
+        return mySubscribeList;
+    }
 
 }
