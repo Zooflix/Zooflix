@@ -5,6 +5,8 @@ import com.zooflix.be_zooflix.domain.myPage.dto.response.MySubscribeDto;
 import com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto;
 import com.zooflix.be_zooflix.domain.myPage.dto.response.MyPredictionDto;
 import com.zooflix.be_zooflix.domain.myPage.service.MyPageService;
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
+import com.zooflix.be_zooflix.domain.stockSubscribe.service.StockSubscribeService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +19,11 @@ import java.util.List;
 @RestController
 public class MyPageController {
     private final MyPageService myPageService;
+    private final StockSubscribeService stockSubscribeService;
 
-    public MyPageController(MyPageService myPageService) {
+    public MyPageController(MyPageService myPageService, StockSubscribeService stockSubscribeService) {
         this.myPageService = myPageService;
+        this.stockSubscribeService = stockSubscribeService;
     }
 
     //내 예측 글 보기
@@ -44,9 +48,9 @@ public class MyPageController {
     }
 
     //내가 정기 구독 중인 주식 목록(주식명,
-    @GetMapping("/mypage/stock/{userNo}")
-    public ResponseEntity<List<MyStockDto>> selectMyStockSubscribeList(HttpServletRequest request, @PathVariable int userNo) {
-        List<MyStockDto> myStockDtoList = myPageService.getMyStockList(userNo);
-        return ResponseEntity.ok(myStockDtoList);
-    }
+//    @GetMapping("/mypage/stock/{userId}")
+//    public ResponseEntity<List<MyStockDto>> selectMyStockSubscribeList(HttpServletRequest request, @PathVariable String userId) {
+//        List<StockSubscribeDto> myStockDtoList = stockSubscribeService.subscribeList(userId);
+//        return ResponseEntity.ok(myStockDtoList);
+//    }
 }

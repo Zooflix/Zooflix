@@ -16,5 +16,7 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
 
     @Query(nativeQuery = true, value = "select * from stock_subscribe s where s.user_no = :userNo")
     List<StockSubscribe> findByUser(@Param("userNo") int userNo);
+
+
 }
 
