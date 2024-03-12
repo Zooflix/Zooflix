@@ -1,7 +1,6 @@
 package com.zooflix.be_zooflix.domain.user.service;
 
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
-import com.zooflix.be_zooflix.domain.user.dto.UserNameTemperatureDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;

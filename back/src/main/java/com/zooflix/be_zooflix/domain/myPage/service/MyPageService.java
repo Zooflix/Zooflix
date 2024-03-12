@@ -8,7 +8,6 @@ import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
-import com.zooflix.be_zooflix.domain.user.dto.UserNameTemperatureDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import com.zooflix.be_zooflix.domain.userSubscribe.entity.UserSubscribe;
@@ -87,8 +86,6 @@ public class MyPageService {
             myPredictionDto.setPdContent(value.getPdContent());
             myPredictList.add(myPredictionDto);
         }
-
-
         return myPredictList;
     }
 
@@ -99,35 +96,32 @@ public class MyPageService {
             throw  new NullPointerException("현재 구독 목록이 없습니다.");
         }
 
-        List<MySubscribeDto> mySubscribeList = new ArrayList<>(userSubscribes.size());
+        List<MySubscribeDto> mySubscribeList = new ArrayList<>();
 
         //mySubscribeList 추가
-        for(int i = 0; i < userSubscribes.size(); i++){
-            UserNameTemperatureDto userNameTemperature =
-                    userRepository.findByUserName(userSubscribes.get(i).getSubscribeName());
-            mySubscribeList.get(i).setSubscribeName(userNameTemperature.getUserName());
-            mySubscribeList.get(i).setSubscribeTemperature(userNameTemperature.getUserTemperature());
+        for(UserSubscribe val : userSubscribes){
+            MySubscribeDto mySubscribe =
+                    userRepository.findByUserName(val.getSubscribeName());
+            mySubscribeList.add(mySubscribe);
         }
-
         return mySubscribeList;
     }
 
-    //내가 정기 구독 중인 주식
-    public List<MyStockDto> getMyStockList(int userNo) {
-        List<StockSubscribe> myStockList = stockSubscribeRepository.findByUser(userNo);
-
-        if(myStockList.isEmpty()) {
-            throw new NullPointerException("내 주식 목록이 없습니다.");
-        }
-
-        List<MyStockDto> myStockDtoList = new ArrayList<>(myStockList.size());
-
-        for(int i = 0; i < myStockList.size(); i++) {
-
-        }
-
-        return myStockDtoList;
-    }
-
+//    //내가 정기 구독 중인 주식
+//    public List<MyStockDto> getMyStockList(int userNo) {
+//        List<StockSubscribe> myStockList = stockSubscribeRepository.findByUser(userNo);
+//
+//        if(myStockList.isEmpty()) {
+//            throw new NullPointerException("내 주식 목록이 없습니다.");
+//        }
+//
+//        List<MyStockDto> myStockDtoList = new ArrayList<>(myStockList.size());
+//
+//        for(int i = 0; i < myStockList.size(); i++) {
+//
+//        }
+//
+//        return myStockDtoList;
+//    }
 
 }
