@@ -1,5 +1,7 @@
 package com.zooflix.be_zooflix.domain.predict.entity;
 
+import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
+import com.zooflix.be_zooflix.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @Builder
 @Getter @Setter
+@ToString
 public class Predict {
 
     @Id
@@ -23,11 +26,11 @@ public class Predict {
     @Column(name = "stock_name", nullable = false)
     private String stockName; //종목명
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_no")
-//    private User user;
-    @Column(name = "user_no")
-    private int userNo; //유저기본키
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_no")
+    private User user;
+//    @Column(name = "user_no")
+//    private int userNo; //유저기본키
 
     @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate; //글쓴날짜
@@ -52,4 +55,5 @@ public class Predict {
 
     @Column(name = "pd_updown")
     private boolean pdUpDown; //상승or하락
+
 }
