@@ -24,8 +24,13 @@ public class AddStockSubscribeRequest {
     @NotNull(message = "User Id는 필수 항목입니다.")
     String userId;
 
+    @NotNull(message = "User AppKey는 필수 항목입니다.")
     String userAppKey;
+
+    @NotNull(message = "User 시크릿키는 필수 항목입니다.")
     String userSecretKey;
+
+    @NotNull(message = "User 계좌는 필수 항목입니다.")
     String userAccount;
 }
 

@@ -28,6 +28,18 @@ public class StockSubscribeService {
     @Transactional
     public int postSubscribe(AddStockSubscribeRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
+
+        if (user.getUserAppKey() == null) {
+            user.userUpdateKey(
+                    user.getUserName(),
+                    user.getUserPw(),
+                    request.getUserAppKey(),
+                    request.getUserSecretKey(),
+                    request.getUserAccount()
+            );
+        }
+        userRepository.save(user);
+
         StockSubscribe subscribe = StockSubscribe.createStockSubscribe(
                 user,
                 request.getStockCode(),
@@ -37,8 +49,6 @@ public class StockSubscribeService {
         );
 
         subscribe = stockSubscribeRepository.save(subscribe);
-
-        //user에 appkey 저장 마이페이지 정보수정 이용
 
         return subscribe.getStockCode();
     }
