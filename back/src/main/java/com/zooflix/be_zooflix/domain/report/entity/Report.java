@@ -21,12 +21,12 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reportNo; //신고 번호
 
-    @ManyToOne
-    @Column(name = "user_no", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_no", nullable = false)
     private User userNo; //유저 기본키
 
-    @ManyToOne
-    @Column(name = "pd_no", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pd_no", nullable = false)
     private Predict pdNo; //예측 기본키
 
     @Enumerated(EnumType.STRING)
