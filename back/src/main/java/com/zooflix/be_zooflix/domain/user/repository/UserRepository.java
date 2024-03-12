@@ -1,10 +1,7 @@
 package com.zooflix.be_zooflix.domain.user.repository;
 
-<<<<<<< HEAD
-=======
 import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
 import com.zooflix.be_zooflix.domain.user.dto.UserNameTemperatureDto;
->>>>>>> b05138dfe787cd55687ddbd1372a60843add4cdf
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,14 +23,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(nativeQuery = true, value = "select * from user u where u.user_no = :userNo")
     User findMyInfo(@Param("userNo") int userNo);
 
-<<<<<<< HEAD
-    User findByUserNo(int userNo);
-=======
+//    User findByUserNo(int userNo);
     UserKeyProjection findByUserNo(int userNo);
 
     //닉네임으로 user 찾기
     @Query(nativeQuery = true, value = "select user_name, user_temperature from user u where u.user_name = :userName")
     UserNameTemperatureDto findByUserName(@Param("userName") String userName);
 
->>>>>>> b05138dfe787cd55687ddbd1372a60843add4cdf
 }
