@@ -10,9 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, Integer> , JpaSpecificationExecutor<StockSubscribe> {
+public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, Integer>, JpaSpecificationExecutor<StockSubscribe> {
 
-    // 내가 정기 구독 중인 주식 리스트
+    StockSubscribe findByStockSubscribeNo(int stockSubscribeNo);
+
     @Query(nativeQuery = true, value = "select * from stock_subscribe s where s.user_no = :userNo")
-    List<StockSubscribe> findMyStockList(@Param("userNo") int userNo);
+    List<StockSubscribe> findByUser(@Param("userNo") int userNo);
+
+
 }
+
