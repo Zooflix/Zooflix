@@ -2,6 +2,7 @@ package com.zooflix.be_zooflix.domain.user.service;
 
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
+import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,4 +54,26 @@ public class UserService {
 
     }
 
+    public String putUpdateUser(String userId, UserUpdateDto userUpdateDto) {
+        User user = userRepository.findByUserId(userId);
+
+        if (userUpdateDto.getUserAppKey() != null) {
+            user.userUpdateKey(
+                    userUpdateDto.getUserName(),
+                    userUpdateDto.getUserPw(),
+                    userUpdateDto.getUserAppKey(),
+                    userUpdateDto.getUserSecretKey(),
+                    userUpdateDto.getUserAccount()
+            );
+        } else {
+            user.userUpdate(
+                    userUpdateDto.getUserName(),
+                    userUpdateDto.getUserPw()
+            );
+        }
+
+        userRepository.save(user);
+        
+        return "회원정보 수정 완료";
+    }
 }

@@ -54,4 +54,16 @@ public class User {
     @Column
     private String userAccount;
 
+    public void userUpdate(String userName, String userPw) {
+        this.userName = userName;
+        this.userPw = userPw;
+    }
+
+    public void userUpdateKey(String userName, String userPw, String userAppKey, String userSecretKey, String userAccount) {
+        this.userName = userName;
+        this.userPw = userPw;
+        this.userAppKey = userAppKey;
+        this.userSecretKey = userSecretKey;
+        this.userAccount = userAccount;
+    }
 }

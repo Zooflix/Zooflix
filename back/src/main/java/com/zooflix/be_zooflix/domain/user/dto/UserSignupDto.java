@@ -12,7 +12,7 @@ public class UserSignupDto {
     private String userId;
     private String userPw;
     private String userName;
-    private String userApiKey;
+    private String userAppKey;
     private String userSecretKey;
     private String userAccount;
 
@@ -21,7 +21,7 @@ public class UserSignupDto {
                 .userId(userId)
                 .userPw(userPw)
                 .userName(userName)
-                .userAppKey(userApiKey)
+                .userAppKey(userAppKey)
                 .userSecretKey(userSecretKey)
                 .userAccount(userAccount)
                 .userTemperature(30.0)

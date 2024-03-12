@@ -2,6 +2,7 @@ package com.zooflix.be_zooflix.domain.user.controller;
 
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
+import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 import com.zooflix.be_zooflix.domain.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> selectLogin(@RequestBody UserLoginDto userLoginDto) {
         return ResponseEntity.ok(userService.postLogin(userLoginDto));
+    }
+
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<String> updateUser(@PathVariable String userId, UserUpdateDto userUpdateDto) {
+        return ResponseEntity.ok(userService.putUpdateUser(userId, userUpdateDto));
     }
 
 }
