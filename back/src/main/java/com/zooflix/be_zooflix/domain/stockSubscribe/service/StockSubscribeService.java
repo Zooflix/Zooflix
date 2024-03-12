@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
+import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,18 @@ public class StockSubscribeService {
     @Transactional
     public int postSubscribe(AddStockSubscribeRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
+
+        if (user.getUserAppKey() == null) {
+            user.userUpdateKey(
+                    user.getUserName(),
+                    user.getUserPw(),
+                    request.getUserAppKey(),
+                    request.getUserSecretKey(),
+                    request.getUserAccount()
+            );
+        }
+        userRepository.save(user);
+
         StockSubscribe subscribe = StockSubscribe.createStockSubscribe(
                 user,
                 request.getStockCode(),
@@ -37,8 +50,6 @@ public class StockSubscribeService {
         );
 
         subscribe = stockSubscribeRepository.save(subscribe);
-
-        //user에 appkey 저장 마이페이지 정보수정 이용
 
         return subscribe.getStockCode();
     }

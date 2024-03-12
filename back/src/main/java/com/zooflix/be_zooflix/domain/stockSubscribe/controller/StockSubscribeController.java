@@ -2,6 +2,7 @@ package com.zooflix.be_zooflix.domain.stockSubscribe.controller;
 
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
+import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +64,7 @@ public class StockSubscribeController {
      * 3.3 구독중인 주식 조회
      *
      */
-    @GetMapping("/subscribe/checkApiKey/{userNo}")
+    @GetMapping("/subscribe/checkApikey/{userNo}")
     @Operation(summary = "등록된 API key가 있는지 확인")
     public ResponseEntity<ResultResponse<UserKeyProjection>> checkUserApiKey(@PathVariable(name = "userNo") int userNo) {
         UserKeyProjection checkApiKey = service.checkApiKey(userNo);
