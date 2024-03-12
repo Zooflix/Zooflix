@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
