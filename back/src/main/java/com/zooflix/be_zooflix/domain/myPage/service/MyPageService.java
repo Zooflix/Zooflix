@@ -1,11 +1,13 @@
 package com.zooflix.be_zooflix.domain.myPage.service;
 
+import com.zooflix.be_zooflix.domain.myPage.dto.MySubscribeDto;
 import com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto;
 import com.zooflix.be_zooflix.domain.myPage.dto.response.MyPredictionDto;
 import com.zooflix.be_zooflix.domain.myPage.repository.MyPageRepository;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
+import com.zooflix.be_zooflix.domain.user.dto.UserNameTemperatureDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import com.zooflix.be_zooflix.domain.userSubscribe.entity.UserSubscribe;
@@ -33,7 +35,7 @@ public class MyPageService {
     }
 
     // 내 정보
-    public MyInfoDto getUserInfo(int userNo) {
+    public MyInfoDto getMyInfo(int userNo) {
         User user = userRepository.findMyInfo(userNo);
         if( user == null) {
             throw new NullPointerException("존재하지 않은 유저입니다.");
@@ -63,14 +65,14 @@ public class MyPageService {
 
         return myInfo;
     }
-    //my page 에서 보여줄 내 예측 글 정보담기
+    //내 예측 글 정보담기
     public List<MyPredictionDto> getMyPredictByNo(int userNo) {
         List<Predict> myPredict= predictRepository.findMyPredict(userNo);
         if(myPredict.isEmpty()){//내 예측이 존재하지 않으면
             throw new NullPointerException("예측이 존재하지 않습니다.");
         }
 
-        List<MyPredictionDto> myPredictList = new ArrayList<>();
+        List<MyPredictionDto> myPredictList = new ArrayList<>(myPredict.size());
 
         for(int i = 0; i < myPredict.size(); i++) {
             myPredictList.get(i).setStockName(myPredict.get(i).getStockName());
@@ -83,4 +85,25 @@ public class MyPageService {
 
         return myPredictList;
     }
+
+    //내가 구독 중인 회원
+    public List<MySubscribeDto> getMySubscribe(int userNo) {
+        List<UserSubscribe> userSubscribes = userSubscribeRepository.findSubscribeFromMe(userNo);
+        if(userSubscribes.isEmpty()) {
+            throw  new NullPointerException("현재 구독 목록이 없습니다.");
+        }
+
+        List<MySubscribeDto> mySubscribeList = new ArrayList<>(userSubscribes.size());
+
+        //mySubscribeList 추가
+        for(int i = 0; i < userSubscribes.size(); i++){
+            UserNameTemperatureDto userNameTemperature =
+                    userRepository.findByUserName(userSubscribes.get(i).getSubscribeName());
+            mySubscribeList.get(i).setSubscribeName(userNameTemperature.getUserName());
+            mySubscribeList.get(i).setSubscribeTemperature(userNameTemperature.getUserTemperature());
+        }
+
+        return mySubscribeList;
+    }
+
 }

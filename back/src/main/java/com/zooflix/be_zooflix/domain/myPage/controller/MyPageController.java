@@ -1,8 +1,11 @@
 package com.zooflix.be_zooflix.domain.myPage.controller;
 
+import com.zooflix.be_zooflix.domain.myPage.dto.MySubscribeDto;
+import com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto;
 import com.zooflix.be_zooflix.domain.myPage.dto.response.MyPredictionDto;
 import com.zooflix.be_zooflix.domain.myPage.service.MyPageService;
 import com.zooflix.be_zooflix.domain.predict.service.PredictService;
+import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +29,25 @@ public class MyPageController {
         this.myPageService = myPageService;
     }
 
-    @GetMapping("/mypage/{userNo}")
-    public ResponseEntity<List<MyPredictionDto>> getMyPrediction(HttpServletRequest request,@PathVariable int userNo) {
+    //내 예측 글 보기
+    @GetMapping("/mypage/predict/{userNo}")
+    public ResponseEntity<List<MyPredictionDto>> selectMyPrediction(HttpServletRequest request,@PathVariable int userNo) {
         List<MyPredictionDto> myPredict = myPageService.getMyPredictByNo(userNo);
         return ResponseEntity.ok(myPredict);
     }
 
+    //내 정보 보기
+    @GetMapping("/mypage/info/{userNo}")
+    public ResponseEntity<MyInfoDto> selectMyInfo(HttpServletRequest request, @PathVariable int userNo) {
+        MyInfoDto myInfo = myPageService.getMyInfo(userNo);
+        return ResponseEntity.ok(myInfo);
+    }
+
+    //내가 구독 중인 회원 목록(닉네임, 온도)
+    @GetMapping("/mypage/subscribe/{userNo}")
+    public  ResponseEntity<List<MySubscribeDto>> selectMySubscribe(HttpServletRequest request, @PathVariable int userNo) {
+        List<MySubscribeDto> mySubscribeList = myPageService.getMySubscribe(userNo);
+        return ResponseEntity.ok(mySubscribeList);
+    }
 
 }

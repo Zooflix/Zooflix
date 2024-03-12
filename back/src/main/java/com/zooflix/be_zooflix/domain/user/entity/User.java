@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.user.entity;
 
+import com.zooflix.be_zooflix.domain.userSubscribe.entity.UserSubscribe;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -54,4 +56,7 @@ public class User {
     @Column
     private String userAccount;
 
+//    //join 문에 활용
+//    @OneToMany(mappedBy = "user")
+//    private List<UserSubscribe> userSubscribes;
 }
