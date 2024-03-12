@@ -42,4 +42,9 @@ public class UserController {
         return ResponseEntity.ok(userService.putUpdateUser(userId, userUpdateDto));
     }
 
+    @GetMapping("/info/{userId}")
+    public ResponseEntity<> selectInfo(@PathVariable String userId) {
+
+    }
+
 }
