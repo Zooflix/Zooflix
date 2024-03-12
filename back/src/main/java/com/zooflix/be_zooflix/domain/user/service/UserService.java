@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.user.service;
 
+import com.zooflix.be_zooflix.domain.user.dto.UserInfoDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
@@ -75,5 +76,9 @@ public class UserService {
         userRepository.save(user);
         
         return "회원정보 수정 완료";
+    }
+
+    public UserInfoDto getUserInfo(String userId) {
+        return new UserInfoDto();
     }
 }
