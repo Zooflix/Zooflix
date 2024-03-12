@@ -109,25 +109,25 @@ public class MyPageService {
     }
 
     //내가 정기 구독 중인 주식
-    public List<MyStockDto> getMyStockList(int userNo) {
-        List<StockSubscribe> myStockList = stockSubscribeRepository.findMyStockList(userNo);
-
-        if(myStockList.isEmpty()) {
-            throw new NullPointerException("내 주식 목록이 없습니다.");
-        }
-
-        List<MyStockDto> myStockDtoList = new ArrayList<>(myStockList.size());
-
-        for(int i = 0; i < myStockList.size(); i++) {
-            myStockDtoList.get(i).setStockName(myStockList.get(i).getStockName());
-            myStockDtoList.get(i).setStockCount(myStockList.get(i).getStockCount());
-            myStockDtoList.get(i).setStockDate(myStockList.get(i).getStockDate());
-            myStockDtoList.get(i).setStockSubscribeCreate(myStockList.get(i).getStockSubscribeCreate());
-            myStockDtoList.get(i).setStockTotalCount(myStockList.get(i).getStockTotalCount());
-        }
-
-        return myStockDtoList;
-    }
+//    public List<MyStockDto> getMyStockList(int userNo) {
+//        List<StockSubscribe> myStockList = stockSubscribeRepository.findMyStockList(userNo);
+//
+//        if(myStockList.isEmpty()) {
+//            throw new NullPointerException("내 주식 목록이 없습니다.");
+//        }
+//
+//        List<MyStockDto> myStockDtoList = new ArrayList<>(myStockList.size());
+//
+//        for(int i = 0; i < myStockList.size(); i++) {
+//            myStockDtoList.get(i).setStockName(myStockList.get(i).getStockName());
+//            myStockDtoList.get(i).setStockCount(myStockList.get(i).getStockCount());
+//            myStockDtoList.get(i).setStockDate(myStockList.get(i).getStockDate());
+//            myStockDtoList.get(i).setStockSubscribeCreate(myStockList.get(i).getStockSubscribeCreate());
+//            myStockDtoList.get(i).setStockTotalCount(myStockList.get(i).getStockTotalCount());
+//        }
+//
+//        return myStockDtoList;
+//    }
 
 
 }
