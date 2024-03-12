@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
-import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
