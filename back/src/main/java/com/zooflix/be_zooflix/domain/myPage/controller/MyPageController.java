@@ -47,10 +47,10 @@ public class MyPageController {
         return ResponseEntity.ok(mySubscribeList);
     }
 
-    //내가 정기 구독 중인 주식 목록(주식명,
+//    //내가 정기 구독 중인 주식 목록(주식명,
 //    @GetMapping("/mypage/stock/{userId}")
 //    public ResponseEntity<List<MyStockDto>> selectMyStockSubscribeList(HttpServletRequest request, @PathVariable String userId) {
-//        List<StockSubscribeDto> myStockDtoList = stockSubscribeService.subscribeList(userId);
+//        List<MyStockDto> myStockDtoList = myPageService.getMyStockList(userId);
 //        return ResponseEntity.ok(myStockDtoList);
 //    }
 }
