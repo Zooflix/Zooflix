@@ -1,13 +1,17 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.entity;
 
 import com.zooflix.be_zooflix.domain.user.entity.User;
+import com.zooflix.be_zooflix.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
-public class StockSubscribe {
+public class StockSubscribe extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,15 +23,13 @@ public class StockSubscribe {
 
     @Column
     private int stockCount;
+
     @Column
-    private int stockDate;
+    private int stockSubscribeDay;
+
     @CreatedDate
     @Column
     private LocalDateTime stockSubscribeCreate;
-    @Column
-    private int stockTotalPrice;
-    @Column
-    private int stockTotalCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no")
@@ -38,17 +40,16 @@ public class StockSubscribe {
             int stockCode,
             String stockName,
             int stockCount,
-            int subscribeDate
+            int stockSubscribeDay
     ) {
         StockSubscribe subscribe = new StockSubscribe();
         subscribe.user = user;
         subscribe.stockCode = stockCode;
         subscribe.stockName = stockName;
         subscribe.stockCount = stockCount;
-        subscribe.stockDate = subscribeDate;
+        subscribe.stockSubscribeDay = stockSubscribeDay;
 
         return subscribe;
     }
-
 }
 

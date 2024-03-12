@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.service;
 
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.request.AddStockSubscribeRequest;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
@@ -9,19 +10,24 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class StockSubscribeService {
     private final UserRepository userRepository;
     private final StockSubscribeRepository stockSubscribeRepository;
+
     /**
-     * 3.1 피드 작성
+     * 3.1 주식 정기 구독
      *
      */
     @Transactional
     public int postSubscribe(AddStockSubscribeRequest request) {
-        User user = getUser(request.getUserNo());
+        User user = userRepository.findByUserId(request.getUserId());
         StockSubscribe subscribe = StockSubscribe.createStockSubscribe(
                 user,
                 request.getStockCode(),
@@ -30,30 +36,57 @@ public class StockSubscribeService {
                 request.getStockSubscribeDate()
         );
 
-        stockSubscribeRepository.save(subscribe);
+        subscribe = stockSubscribeRepository.save(subscribe);
 
         //user에 appkey 저장 마이페이지 정보수정 이용
-        
 
-        return request.getUserNo();
+        return subscribe.getStockCode();
     }
 
+    /**
+     * 3.2 주식 정기 구독 해지
+     *
+     */
     public int terminationSubscribe(int stockSubscribeNo){
-        StockSubscribe subscribe = getStockSubscribe(stockSubscribeNo);
+        StockSubscribe subscribe = stockSubscribeRepository.findByStockSubscribeNo(stockSubscribeNo);
         stockSubscribeRepository.delete(subscribe);
 
-        return feedId;
+        //예약주문된 내역이 있다면 주문취소하기
 
+        return stockSubscribeNo;
     }
 
-    private User getUser(int userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("해당하는 유저가 존재하지 않습니다"));
+    /**
+     * 3.3 주식 구독 목록 조회
+     *
+     */
+    public List<StockSubscribeDto> subscribeList(String userId){
+        User user = userRepository.findByUserId(userId);
+
+        List<StockSubscribe> subscribes = stockSubscribeRepository.findByUser(user.getUserNo());
+
+        if(subscribes.isEmpty()) {
+            throw new RuntimeException("주식 구독 내역이 존재하지 않습니다.");
+        }
+
+        List<StockSubscribeDto> response = subscribes.stream()
+                .map(this::convertToStockSubscribeDto)
+                .collect(Collectors.toList());;
+
+        return response;
     }
 
-    private User getStockSubscribe(int stockSubscribeNo) {
-        return stockSubscribeRepository.findById(stockSubscribeNo)
-                .orElseThrow(() -> new RuntimeException("해당하는 구독내역이 없습니다"));
+    private StockSubscribeDto convertToStockSubscribeDto(StockSubscribe stockSubscribe) {
+        StockSubscribeDto dto = new StockSubscribeDto();
+        dto.setStockSubscribeNo(stockSubscribe.getStockSubscribeNo());
+        dto.setStockCode(stockSubscribe.getStockCode());
+        dto.setStockName(stockSubscribe.getStockName());
+        dto.setStockCount(stockSubscribe.getStockCount());
+        dto.setStockSubscribeDay(stockSubscribe.getStockSubscribeDay());
+        dto.setStockSubscribeCreate(stockSubscribe.getStockSubscribeCreate());
+        dto.setUserId(stockSubscribe.getUser().getUserId());
+        return dto;
     }
+
 }
 

@@ -1,5 +1,8 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.dto;
 import lombok.*;
+
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -7,11 +10,13 @@ import lombok.*;
 @AllArgsConstructor
 
 public class StockSubscribeDto {
+    private int stockSubscribeNo;
     private int stockCode;
     private String stockName;
     private int stockCount;
-    private int stockSubscribeDate;
-    private int userNo;
+    private LocalDateTime stockSubscribeCreate;
+    private int stockSubscribeDay;
+    private String userId;
     private String userAppKey;
     private String userSecretKey;
     private String userAccount;

@@ -21,8 +21,8 @@ public class AddStockSubscribeRequest {
     @NotNull(message = "주식 구독일은 필수 항목입니다.")
     int stockSubscribeDate;
 
-    @NotNull(message = "user pk는 필수 항목입니다.")
-    int userNo;
+    @NotNull(message = "User Id는 필수 항목입니다.")
+    String userId;
 
     String userAppKey;
     String userSecretKey;

@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.controller;
 
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import com.zooflix.be_zooflix.global.result.ResultResponse;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin("*")
-
+@RequestMapping("/stock")
 public class StockSubscribeController {
     private final StockSubscribeService service;
 
@@ -26,7 +29,7 @@ public class StockSubscribeController {
      * 3.1 주식 정기 구독
      *
      */
-    @PostMapping("/stock/subscribe")
+    @PostMapping("/subscribe")
     @Operation(summary = "주식 정기 구독")
     public ResponseEntity<ResultResponse<Integer>> insertStockSubscribe(@RequestBody @Valid AddStockSubscribeRequest request) {
         int result =  service.postSubscribe(request);
@@ -37,12 +40,22 @@ public class StockSubscribeController {
      * 3.2 주식 정기 구독 취소
      *
      */
-    @DeleteMapping("/stock/subscribe/termination")
+    @DeleteMapping("/subscribe/termination/{stockSubscribeNo}")
     @Operation(summary = "주식 정기 구독 해지")
     public ResponseEntity<ResultResponse<Integer>> terminationSubscribe(@PathVariable(name = "stockSubscribeNo") int stockSubscribeNo) {
         int result =  service.terminationSubscribe(stockSubscribeNo);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
     }
 
+    /**
+     * 3.3 구독중인 주식 조회
+     *
+     */
+    @GetMapping("/subscribe/list/{userId}")
+    @Operation(summary = "구독중인 주식 목록 조회")
+    public ResponseEntity<ResultResponse<List<StockSubscribeDto>>> subscribeList(@PathVariable(name = "userId") String userId) {
+        List<StockSubscribeDto> subscribes = service.subscribeList(userId);
+        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), subscribes));
+    }
 
 }
