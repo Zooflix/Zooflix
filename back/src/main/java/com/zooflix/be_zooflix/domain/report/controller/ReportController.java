@@ -2,25 +2,24 @@ package com.zooflix.be_zooflix.domain.report.controller;
 
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
 import com.zooflix.be_zooflix.domain.report.service.ReportService;
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
+@CrossOrigin("*")
 public class ReportController {
 
     private final ReportService reportService;
 
-    public ReportController(ReportService reportService) {
-        this.reportService = reportService;
-    }
 
     @PostMapping("/predict/report/{userId}/{pdNo}")
+    @Operation(summary = "예측글 신고")
     public ResponseEntity<String> reportPd(@PathVariable("user_id")String userId, @PathVariable("pd_no")int pdNo, @RequestBody Map<String, String> payload){
         try{
             String reportReasonString = payload.get("reportReason");

@@ -3,17 +3,14 @@ package com.zooflix.be_zooflix.domain.report.entity;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Entity
+@NoArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Data
-@Entity(name = "report")
+@Getter @Setter
 public class Report {
 
     @Id
@@ -22,8 +19,8 @@ public class Report {
     private int reportNo; //신고 번호
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_no", nullable = false)
-    private User userNo; //유저 기본키
+    @JoinColumn(name = "user_id", nullable = false)
+    private User userId; //유저 기본키
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pd_no", nullable = false)
@@ -38,8 +35,6 @@ public class Report {
 
     @Column(name = "report_create")
     private LocalDateTime reportCreate; //신고날짜
-
-
 
 
 }
