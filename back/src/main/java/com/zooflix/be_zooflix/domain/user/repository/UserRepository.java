@@ -27,6 +27,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     //닉네임으로 user 찾기
     @Query(nativeQuery = true, value = "select user_name, user_temperature from user u where u.user_name = :userName")
-    UserNameTemperatureDto findByUserName(String userName);
+    UserNameTemperatureDto findByUserName(@Param("userName") String userName);
 
 }

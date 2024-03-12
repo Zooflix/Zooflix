@@ -54,13 +54,4 @@ public class UserService {
 
     }
 
-//    // 유저의 닉네임을 통해 유저 닉네임, 온도 가져오기
-//    public UserNameTemperatureDto getUserByName(String userName) {
-//        UserNameTemperatureDto userNameTemp = userRepository.findByUserName(userName);
-//        if(userNameTemp == null) {
-//            throw new NullPointerException("getUserByName : 존재하지 않는 유저 입니다.");
-//        }
-//
-//        return userNameTemp;
-//    }
 }
