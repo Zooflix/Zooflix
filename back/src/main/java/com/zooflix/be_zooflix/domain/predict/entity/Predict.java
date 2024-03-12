@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.predict.entity;
 
+import com.zooflix.be_zooflix.domain.predict.dto.PredictDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -52,4 +53,6 @@ public class Predict {
 
     @Column(name = "pd_updown")
     private boolean pdUpDown; //상승or하락
+
+
 }
