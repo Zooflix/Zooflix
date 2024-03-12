@@ -30,9 +30,9 @@ public class AlarmController {
     /*
      * 7.1 알림을 위한 SSE 연결
      * */
-    @GetMapping(value = "/alarm/subscribe/{user_id}", produces = "text/event-stream;charset=UTF-8")
+    @GetMapping(value = "/alarm/subscribe/{userId}", produces = "text/event-stream;charset=UTF-8")
     @Operation(summary = "알림을 위한 SSE 연결")
-    public SseEmitter subscribe(@PathVariable(value = "user_id") String userId, @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId){
+    public SseEmitter subscribe(@PathVariable(value = "userId") String userId, @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId){
         return alarmService.subscribe(userId, lastEventId);
     }
 
@@ -40,9 +40,9 @@ public class AlarmController {
     /*
      * 7.2 알림 전체 조회
      * */
-    @GetMapping("/alarm/{user_id}")
+    @GetMapping("/alarm/{userId}")
     @Operation(summary = "알림 전체 조회")
-    public ResponseEntity<ResultResponse<List<FindListAlarmResponse>>> alarmList(@PathVariable(value = "user_id") String userId){
+    public ResponseEntity<ResultResponse<List<FindListAlarmResponse>>> alarmList(@PathVariable(value = "userId") String userId){
         List<FindListAlarmResponse> result = alarmService.findListAlarm(userId);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
     }
@@ -50,9 +50,9 @@ public class AlarmController {
     /*
      * 7.3 알람 읽음 여부 수정
      * */
-    @PutMapping("/alarm/{alarm_no}")
+    @PutMapping("/alarm/{alarmNo}")
     @Operation(summary = "알림 읽음 여부 수정")
-    public ResponseEntity<ResultResponse<String>> markAlarmAsRead(@PathVariable(value = "alarm_no") int alarmNo){
+    public ResponseEntity<ResultResponse<String>> markAlarmAsRead(@PathVariable(value = "alarmNo") int alarmNo){
         alarmService.markAlarmAsRead(alarmNo);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, "알림이 읽음 처리 되었습니다."));
     }
