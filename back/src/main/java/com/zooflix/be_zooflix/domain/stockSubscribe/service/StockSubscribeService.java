@@ -3,6 +3,7 @@ package com.zooflix.be_zooflix.domain.stockSubscribe.service;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.request.AddStockSubscribeRequest;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
+import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,11 @@ public class StockSubscribeService {
                 .collect(Collectors.toList());;
 
         return response;
+    }
+
+    public UserKeyProjection checkApiKey(int userNo){
+        UserKeyProjection userKey = userRepository.findByUserNo(userNo);
+        return userKey;
     }
 
     private StockSubscribeDto convertToStockSubscribeDto(StockSubscribe stockSubscribe) {
