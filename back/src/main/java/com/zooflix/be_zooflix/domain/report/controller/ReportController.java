@@ -20,7 +20,7 @@ public class ReportController {
 
     @PostMapping("/predict/report/{userId}/{pdNo}")
     @Operation(summary = "예측글 신고")
-    public ResponseEntity<String> reportPd(@PathVariable("user_id")String userId, @PathVariable("pd_no")int pdNo, @RequestBody Map<String, String> payload){
+    public ResponseEntity<String> reportPd(@PathVariable("userId")String userId, @PathVariable("pdNo")int pdNo, @RequestBody Map<String, String> payload){
         try{
             String reportReasonString = payload.get("reportReason");
             PredictResDto reportPdDto = reportService.reportPredict(pdNo, reportReasonString, userId);

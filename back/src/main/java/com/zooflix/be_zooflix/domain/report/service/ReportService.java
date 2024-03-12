@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class ReportService {
 
     private final UserRepository userRepository;
@@ -31,7 +31,7 @@ public class ReportService {
 
             ReportType reportType = ReportType.valueOf(reportTypeString);
 
-            Optional<Report> report = reportRepository.findByUserAndPredict(user, predict);
+            Optional<Report> report = reportRepository.findByUserIdAndPdNo(user, predict);
             if(report.isPresent()){
                 report.get().setReportType(reportType);
                 reportRepository.save(report.get());

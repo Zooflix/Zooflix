@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Integer> {
-    Optional<Report> findByUserAndPredict(User user, Predict predict);
+    Optional<Report> findByUserIdAndPdNo(User userId, Predict predictNo);
 }
