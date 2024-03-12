@@ -54,6 +54,7 @@ public class User {
     @Column
     private String userAccount;
 
+
     public void userUpdate(String userName, String userPw) {
         this.userName = userName;
         this.userPw = userPw;
@@ -66,4 +67,9 @@ public class User {
         this.userSecretKey = userSecretKey;
         this.userAccount = userAccount;
     }
+
+//    //join 문에 활용
+//    @OneToMany(mappedBy = "user")
+//    private List<UserSubscribe> userSubscribes;
+
 }

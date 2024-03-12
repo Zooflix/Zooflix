@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.userSubscribe.entity;
 
+import com.zooflix.be_zooflix.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,13 +19,12 @@ public class UserSubscribe {
     @Column(name = "subscribe_no", nullable = false)
     private int subscribeNo;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_no", nullable = false)
-    @Column(name = "user_no", nullable = false)
-    private int userNo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_no", nullable = false)
+    private User user;
 
-    @Column(name = "subscribe_id")
-    private String subscribeId;
+    @Column(name = "subscribe_name")
+    private String subscribeName;
 
     @Column(name = "subscribe_create")
     private LocalDate subscribeCreate;
