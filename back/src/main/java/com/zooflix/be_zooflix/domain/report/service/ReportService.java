@@ -1,6 +1,6 @@
 package com.zooflix.be_zooflix.domain.report.service;
 
-import com.zooflix.be_zooflix.domain.predict.dto.PredictDto;
+import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 import com.zooflix.be_zooflix.domain.report.entity.Report;
@@ -24,7 +24,7 @@ public class ReportService {
     private final ReportRepository reportRepository;
 
     //예측글 신고하기
-    public PredictDto reportPredict(int pdNo, String reportTypeString, String userId){
+    public PredictResDto reportPredict(int pdNo, String reportTypeString, String userId){
         try{
             Predict predict = predictRepository.findById(pdNo).orElse(null);
             User user = userRepository.findByUserId(userId);
@@ -38,7 +38,7 @@ public class ReportService {
             }else{
 
             }
-//            return predict.toDto();
+            return predict.toDto2();
         }catch (Exception e){
             e.printStackTrace();
         }

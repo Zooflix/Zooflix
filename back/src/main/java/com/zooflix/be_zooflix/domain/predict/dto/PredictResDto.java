@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PredictResDto {
+    @Setter
     private int pdNo;
+
     private String stockName;
     private int userNo;
     private String userName;
@@ -19,6 +21,8 @@ public class PredictResDto {
     private LocalDateTime createDate;
     private LocalDate pdDate;
     private int pdValue;
+
+    @Setter
     private String pdContent;
     private String pdResult;
     private int preValue;
