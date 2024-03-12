@@ -1,26 +1,31 @@
 package com.zooflix.be_zooflix.domain.radio.service;
 
-import org.python.core.PyObject;
-import org.python.util.PythonInterpreter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class RadioService {
-    private static PythonInterpreter interpreter;
+    /* Main.py 경로 */
+    @Value("${python.path.main}")
+    private String pythonPathMain;
 
-    public String runPythonScript() {
-        System.setProperty("python.import.fastapi", "false");
-        interpreter = new PythonInterpreter();
+    /* Main.py 크롤링 엔드포인트 */
+    @Value("${python.endpoint.main.crawling}")
+    private String pythonEndpointMainCrawling;
 
-        // Python 스크립트 경로 설정
-        String pythonScriptPath = "C:\\venvs\\zooflix\\News.py";
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    /* 웹크롤링하는 웹사이트 url */
+    @Value("${python.news.url}")
+    private String pythonNewsUrl;
 
-        // Python 스크립트를 실행하고 반환값을 받아옴
-        interpreter.execfile(pythonScriptPath);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        PyObject result = interpreter.get("summaryList"); // Python 스크립트에서 반환한 변수명에 따라 변경
-        System.out.println(result.toString());
-        return result.toString();
+    public String callCrawlingEndpoint() {
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("webUrl", pythonNewsUrl); // 요청 바디에 크롤링사이트 url을 추가
+        String result = restTemplate.postForObject(pythonEndpointMainCrawling, requestBody, String.class);
+        return result;
     }
 }

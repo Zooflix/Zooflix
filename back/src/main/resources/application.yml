@@ -21,3 +21,15 @@ server:
 
   jwt:
     secret: malangmalangmalangmalangmalangmalang
+
+python:
+  endpoint:
+    main:
+      crawling: http://127.0.0.1:8000/radio/crawling/endpoint
+      summary: http://127.0.0.1:8000/radio/summary/endpoint
+      tts: http://127.0.0.1:8000/radio/tts/endpoint
+  path:
+    main: C:\projects\pythonProject\Main.py
+    end-price: C:\projects\pythonProject\EndPrice.py
+  news:
+    url: https://news.naver.com/section/102
