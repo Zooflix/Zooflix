@@ -29,6 +29,11 @@ public class ReportService {
             Predict predict = predictRepository.findById(pdNo).orElse(null);
             User user = userRepository.findByUserId(userId);
 
+            if (predict == null || user == null || reportTypeString == null) {
+                // 예외 처리: 필요한 값이 null인 경우
+                log.error("Null value found: predict={}, user={}, reportTypeString={}", predict, user, reportTypeString);
+                return null;
+            }
             ReportType reportType = ReportType.valueOf(reportTypeString);
 
             Optional<Report> report = reportRepository.findByUserIdAndPdNo(user, predict);
