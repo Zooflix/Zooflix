@@ -82,7 +82,7 @@ public class UserService {
         
         return "회원정보 수정 완료";
     }
-    
+
     // userId로 user 정보 가져오기. (구독 수, 구독자 수 포함)
     public UserInfoDto getUserInfo(int userNo) {
         UserInfoDto userInfoDto = userRepository.getUserSubscriptionInfoByUserNo(userNo);
@@ -97,7 +97,7 @@ public class UserService {
 
     public String putUpdateZbit(int userNo, String userZbti) {
         User user = userRepository.findMyInfo(userNo);
-        user.userUpdateZbit(userZbti);
+        user.userUpdateZbti(userZbti);
 
         userRepository.save(user);
 

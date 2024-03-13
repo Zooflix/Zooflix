@@ -48,8 +48,8 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserInfo(userNo));
     }
 
-    @PutMapping("/zbit/{userNo}/{userZbti}")
-    public ResponseEntity<String> updateZbit(@PathVariable int userNo, @PathVariable String userZbti) {
+    @PutMapping("/zbti/{userNo}/{userZbti}")
+    public ResponseEntity<String> updateZbti(@PathVariable int userNo, @PathVariable String userZbti) {
         return ResponseEntity.ok(userService.putUpdateZbit(userNo, userZbti));
     }
 

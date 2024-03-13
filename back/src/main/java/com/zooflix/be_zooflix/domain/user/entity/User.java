@@ -68,7 +68,7 @@ public class User {
         this.userAccount = userAccount;
     }
 
-    public void userUpdateZbit(String userZbti) {
+    public void userUpdateZbti(String userZbti) {
         this.userZbti = userZbti;
     }
 
