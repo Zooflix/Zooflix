@@ -20,12 +20,12 @@ public class ReportController {
     private final ReportService reportService;
 
 
-    @PostMapping("/predict/report/{userId}/{pdNo}")
+    @PostMapping("/predict/report/{userNo}/{pdNo}")
     @Operation(summary = "예측글 신고")
-    public ResponseEntity<String> reportPd(@PathVariable("userId")String userId, @PathVariable("pdNo")int pdNo, @RequestBody ReportDto reportDto){
+    public ResponseEntity<String> reportPd(@PathVariable("userNo")int userNo, @PathVariable("pdNo")int pdNo, @RequestBody ReportDto reportDto){
         try{
             String reportReasonString = reportDto.getReportReason();
-            PredictResDto reportPdDto = reportService.reportPredict(pdNo, reportReasonString, userId);
+            PredictResDto reportPdDto = reportService.reportPredict(pdNo, reportReasonString, userNo);
 
             if(reportPdDto != null){
                 return ResponseEntity.ok("게시글 성공적으로 신고되었습니다!");
