@@ -1,5 +1,10 @@
 package com.zooflix.be_zooflix.domain.user.entity;
 
+import com.zooflix.be_zooflix.domain.alarm.entity.Alarm;
+import com.zooflix.be_zooflix.domain.predict.entity.Predict;
+import com.zooflix.be_zooflix.domain.report.entity.Report;
+import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
+import com.zooflix.be_zooflix.domain.userSubscribe.entity.UserSubscribe;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +13,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -53,7 +59,6 @@ public class User {
     private String userSecretKey;
     @Column
     private String userAccount;
-
 
     public void userUpdate(String userName, String userPw) {
         this.userName = userName;
