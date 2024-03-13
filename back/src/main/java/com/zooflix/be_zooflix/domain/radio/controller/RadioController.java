@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.radio.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zooflix.be_zooflix.domain.radio.service.RadioService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class RadioController {
     private final RadioService radioService;
 
-    /* 1. 뉴스 크롤링 */
-    @PostMapping("/radio/crawling")
-    @Operation(summary = "기사 웹크롤링")
-    public ResponseEntity<String> selectRadio() {
-        String result = radioService.callCrawlingEndpoint();
-        System.out.println("result: " + result);
+    /* 라디오봇 */
+    @PostMapping("/radio")
+    @Operation(summary = "라디오봇")
+    public ResponseEntity<?> playRadio() throws JsonProcessingException {
+        String result = radioService.getRadio();
         return ResponseEntity.ok().body(result);
     }
 }
