@@ -106,6 +106,8 @@ public class UserService {
 
     public String deleteUser(int userNo) {
 
+
+
         userRepository.deleteById(userNo);
         return "성공";
     }
