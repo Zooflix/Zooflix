@@ -82,8 +82,25 @@ public class UserService {
         
         return "회원정보 수정 완료";
     }
+    
+    // userId로 user 정보 가져오기. (구독 수, 구독자 수 포함)
+    public UserInfoDto getUserInfo(int userNo) {
+        UserInfoDto userInfoDto = userRepository.getUserSubscriptionInfoByUserNo(userNo);
+        int successCount = userInfoDto.getSuccessCount();
+        int predictCount = userInfoDto.getPredictCount();
+        if (successCount != 0 && predictCount != 0) { // 소수점 둘째 자리까지만.
+            userInfoDto.setPredictPercent(Math.round(((((double) successCount / predictCount) * 100) * 100.0) / 100.0));
+        }
 
-    public UserInfoDto getUserInfo(String userId) {
-        return new UserInfoDto();
+        return userInfoDto;
+    }
+
+    public String putUpdateZbit(int userNo, String userZbti) {
+        User user = userRepository.findMyInfo(userNo);
+        user.userUpdateZbit(userZbti);
+
+        userRepository.save(user);
+
+        return "성공";
     }
 }

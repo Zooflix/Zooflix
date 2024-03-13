@@ -43,10 +43,14 @@ public class UserController {
         return ResponseEntity.ok(userService.putUpdateUser(userId, userUpdateDto));
     }
 
-    @GetMapping("/info/{userId}")
-    public ResponseEntity<UserInfoDto> selectInfo(@PathVariable String userId) {
+    @GetMapping("/info/{userNo}")
+    public ResponseEntity<UserInfoDto> selectInfo(@PathVariable int userNo) {
+        return ResponseEntity.ok(userService.getUserInfo(userNo));
+    }
 
-        return ResponseEntity.ok(userService.getUserInfo(userId));
+    @PutMapping("/zbit/{userNo}/{userZbti}")
+    public ResponseEntity<String> updateZbit(@PathVariable int userNo, @PathVariable String userZbti) {
+        return ResponseEntity.ok(userService.putUpdateZbit(userNo, userZbti));
     }
 
 }
