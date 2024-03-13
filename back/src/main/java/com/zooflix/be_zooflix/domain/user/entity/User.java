@@ -60,19 +60,6 @@ public class User {
     @Column
     private String userAccount;
 
-    @OneToMany
-    private List<Alarm> alarms;
-    @OneToMany
-    private List<Predict> predicts;
-    @OneToMany
-    private List<Report> reports;
-    @OneToMany
-    private List<StockSubscribe> stockSubscribes;
-    @OneToMany
-    private List<UserSubscribe> userSubscribes;
-
-
-
     public void userUpdate(String userName, String userPw) {
         this.userName = userName;
         this.userPw = userPw;

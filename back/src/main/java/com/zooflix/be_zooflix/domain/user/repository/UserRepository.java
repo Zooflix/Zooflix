@@ -31,7 +31,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT new com.zooflix.be_zooflix.domain.user.dto.UserInfoDto(u.userNo, u.userId, u.userName, u.predictCount, u.successCount, u.userTemperature, " +
             "(SELECT COUNT(us1.subscribeNo) FROM user_subscribe us1 WHERE us1.user.userNo = u.userNo), " +
-            "(SELECT COUNT(us2.user.userNo) FROM user_subscribe us2 WHERE us2.subscribeName = u.userName)) " +
+            "(SELECT COUNT(us2.user.userNo) FROM user_subscribe us2 WHERE us2.subscribeNo = u.userNo)) " +
             "FROM User u WHERE u.userNo = :userNo")
     UserInfoDto getUserSubscriptionInfoByUserNo(@Param("userNo") int userNo);
 
