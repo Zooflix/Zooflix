@@ -9,6 +9,7 @@ import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,7 @@ public class PredictService {
 
     //전체 예측 목록 조회
     public List<PredictResDto> getPredicts() {
-        List<Predict> predicts = predictRepository.findAll();
+        List<Predict> predicts = predictRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -48,7 +49,7 @@ public class PredictService {
 
     //종목명 검색
     public List<PredictResDto> getPredictsByStockName(String stockName) {
-        List<Predict> predicts = predictRepository.findByStockName(stockName);
+        List<Predict> predicts = predictRepository.findByStockNameOrderByCreateDateDesc(stockName);
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
