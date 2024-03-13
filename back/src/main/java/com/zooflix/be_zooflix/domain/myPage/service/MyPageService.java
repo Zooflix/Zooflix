@@ -37,6 +37,7 @@ public class MyPageService {
     // 내 정보
     public MyInfoDto getMyInfo(int userNo) {
         User user = userRepository.findMyInfo(userNo);
+        System.out.println(user.getUserName());
         if( user == null) {
             throw new NullPointerException("존재하지 않은 유저입니다.");
         }
@@ -49,9 +50,10 @@ public class MyPageService {
 
         // 나를 구독한 사람의 수
         int subscribeToMeCount = subscribeToMe.size();
-
         // 내가 구독한 사람의 수
         int subscribeFromMeCount = subscribeFromMe.size();
+        System.out.println(subscribeToMeCount);
+        System.out.println(subscribeFromMeCount);
 
         MyInfoDto myInfo = new MyInfoDto();
 
@@ -92,6 +94,7 @@ public class MyPageService {
     //내가 구독 중인 회원
     public List<MySubscribeDto> getMySubscribe(int userNo) {
         List<UserSubscribe> userSubscribes = userSubscribeRepository.findSubscribeFromMe(userNo);
+        System.out.println(userSubscribes.size());
         if(userSubscribes.isEmpty()) {
             throw  new NullPointerException("현재 구독 목록이 없습니다.");
         }
@@ -101,7 +104,7 @@ public class MyPageService {
         //mySubscribeList 추가
         for(UserSubscribe val : userSubscribes){
             MySubscribeDto mySubscribe =
-                    userRepository.findByUserName(val.getSubscribeName());
+                    userRepository.findByUserId(val.getSubscribeUserNo());
             mySubscribeList.add(mySubscribe);
         }
         return mySubscribeList;
