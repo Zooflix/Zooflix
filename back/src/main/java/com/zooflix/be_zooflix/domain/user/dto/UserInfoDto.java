@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfoDto {
+    private int userNo;
     private String userId;
     private String userName;
     private int predictCount;
@@ -19,7 +20,8 @@ public class UserInfoDto {
     private long subscribeCount;
     private long subscriberCount;
 
-    public UserInfoDto(String userId, String userName, int predictCount, int successCount, double userTemperature, long subscribeCount, long subscriberCount) {
+    public UserInfoDto(int userNo, String userId, String userName, int predictCount, int successCount, double userTemperature, long subscribeCount, long subscriberCount) {
+        this.userNo = userNo;
         this.userId = userId;
         this.userName = userName;
         this.predictCount = predictCount;

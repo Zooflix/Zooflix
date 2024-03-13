@@ -68,6 +68,10 @@ public class User {
         this.userAccount = userAccount;
     }
 
+    public void userUpdateZbit(String userZbti) {
+        this.userZbti = userZbti;
+    }
+
 //    //join 문에 활용
 //    @OneToMany(mappedBy = "user")
 //    private List<UserSubscribe> userSubscribes;

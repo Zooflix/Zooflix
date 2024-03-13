@@ -28,10 +28,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     //닉네임으로 user 찾기
     MySubscribeDto findByUserName(String userName);
 
-    @Query("SELECT new com.zooflix.be_zooflix.domain.user.dto.UserInfoDto(u.userId, u.userName, u.predictCount, u.successCount, u.userTemperature, " +
+    @Query("SELECT new com.zooflix.be_zooflix.domain.user.dto.UserInfoDto(u.userNo, u.userId, u.userName, u.predictCount, u.successCount, u.userTemperature, " +
             "(SELECT COUNT(us1.subscribeNo) FROM user_subscribe us1 WHERE us1.user.userNo = u.userNo), " +
             "(SELECT COUNT(us2.user.userNo) FROM user_subscribe us2 WHERE us2.subscribeName = u.userName)) " +
-            "FROM User u WHERE u.userId = :userId")
-    UserInfoDto getUserSubscriptionInfoByUserNo(@Param("userId") String userId);
+            "FROM User u WHERE u.userNo = :userNo")
+    UserInfoDto getUserSubscriptionInfoByUserNo(@Param("userNo") int userNo);
 
 }
