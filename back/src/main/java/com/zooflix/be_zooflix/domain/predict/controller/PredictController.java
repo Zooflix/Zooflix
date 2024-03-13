@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -76,5 +77,12 @@ public class PredictController {
         predictService.deletePredict(pdNo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/predict/getprice")
+    public int getClosingPrice(@RequestParam String stockName, @RequestParam String date) {
+        return predictService.getClosingPrice(stockName, date);
+    }
+
+
 
 }

@@ -9,14 +9,18 @@ import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,7 +88,7 @@ public class PredictService {
         LocalDate today = LocalDate.now();
         List<Predict> todayPredictions = predictRepository.findByPdDate(today);
         for (Predict prediction : todayPredictions) {
-            int nxtValue = 5000; //파이썬에서 값받아오기
+            int nxtValue = getClosingPrice(prediction.getStockName(),prediction.getPdDate().toString());
                 prediction.setNxtValue(nxtValue);
             predictRepository.save(prediction);
         }
@@ -115,7 +119,7 @@ public class PredictService {
     }
 
     //예측 글 삭제
-    public void deletePredict(Integer pdNo) {
+    public void deletePredict(int pdNo) {
         predictRepository.deleteById(pdNo);
     }
 
@@ -136,4 +140,23 @@ public class PredictService {
                 .pdUpDown(predict.isPdUpDown())
                 .build();
     }
+
+    @Value("http://127.0.0.1:8000/get_closing_price")
+    private String pythonPredictValue;
+
+    public int getClosingPrice(String stockName, String date){
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("stock_name", stockName);
+        requestBody.put("date", date);
+
+        String url = pythonPredictValue + "?stock_name=" + stockName + "&date=" + date;
+
+        // GET 요청 보내기
+        Double closingPrice = restTemplate.getForObject(url, Double.class);
+
+        System.out.println("closing price: " + closingPrice);
+        return closingPrice.intValue();
+    }
+
 }
