@@ -1,6 +1,8 @@
 package com.zooflix.be_zooflix.domain.report.controller;
 
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
+import com.zooflix.be_zooflix.domain.report.dto.ReportDto;
+import com.zooflix.be_zooflix.domain.report.entity.ReportType;
 import com.zooflix.be_zooflix.domain.report.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +22,9 @@ public class ReportController {
 
     @PostMapping("/predict/report/{userId}/{pdNo}")
     @Operation(summary = "예측글 신고")
-    public ResponseEntity<String> reportPd(@PathVariable("userId")String userId, @PathVariable("pdNo")int pdNo, @RequestBody Map<String, String> payload){
+    public ResponseEntity<String> reportPd(@PathVariable("userId")String userId, @PathVariable("pdNo")int pdNo, @RequestBody ReportDto reportDto){
         try{
-            String reportReasonString = payload.get("reportReason");
+            String reportReasonString = reportDto.getReportReason();
             PredictResDto reportPdDto = reportService.reportPredict(pdNo, reportReasonString, userId);
 
             if(reportPdDto != null){
