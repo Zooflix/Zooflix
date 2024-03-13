@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.user.service;
 
+import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.user.dto.UserInfoDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AlarmRepository alarmRepository) {
         this.userRepository = userRepository;
+        this.alarmRepository = alarmRepository;
     }
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -106,9 +109,9 @@ public class UserService {
 
     public String deleteUser(int userNo) {
 
+        alarmRepository.deleteAllByUser(userNo);
 
-
-        userRepository.deleteById(userNo);
-        return "성공";
+//        userRepository.deleteById(userNo);
+        return "알람 삭제 성공";
     }
 }
