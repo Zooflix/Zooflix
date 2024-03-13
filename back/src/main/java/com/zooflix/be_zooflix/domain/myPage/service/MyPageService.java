@@ -94,9 +94,11 @@ public class MyPageService {
     //내가 구독 중인 회원
     public List<MySubscribeDto> getMySubscribe(int userNo) {
         List<UserSubscribe> userSubscribes = userSubscribeRepository.findSubscribeFromMe(userNo);
-        System.out.println(userSubscribes.size());
+
+        System.out.println("userSubscribes : " + userSubscribes.size());
+
         if(userSubscribes.isEmpty()) {
-            throw  new NullPointerException("현재 구독 목록이 없습니다.");
+            throw new NullPointerException("현재 구독 목록이 없습니다.");
         }
 
         List<MySubscribeDto> mySubscribeList = new ArrayList<>();
