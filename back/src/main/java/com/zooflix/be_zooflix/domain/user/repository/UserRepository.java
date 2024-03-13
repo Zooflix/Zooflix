@@ -24,7 +24,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     UserKeyProjection findByUserNo(int userNo);
 
-    //닉네임으로 user 찾기
-    MySubscribeDto findByUserName(String userName);
+    //구독한 사람의 닉네임과 온도
+    @Query(nativeQuery = true, value = "select user_name, user_temperature from user u where u.user_no = :subscribeUserNo")
+    MySubscribeDto findByUserId(@Param("subscribeUserNo") int subscribeUserNo);
 
 }
