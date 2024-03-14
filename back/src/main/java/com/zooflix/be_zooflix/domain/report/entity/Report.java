@@ -19,8 +19,8 @@ public class Report {
     private int reportNo; //신고 번호
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User userId; //유저 기본키
+    @JoinColumn(name = "user_no", nullable = false)
+    private User userNo; //유저 기본키
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pd_no", nullable = false)

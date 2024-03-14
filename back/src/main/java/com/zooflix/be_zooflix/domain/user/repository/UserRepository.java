@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.user.repository;
 
+import com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto;
 import com.zooflix.be_zooflix.domain.myPage.dto.response.MySubscribeDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserInfoDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
@@ -25,12 +26,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     UserKeyProjection findByUserNo(int userNo);
 
-    //닉네임으로 user 찾기
-    MySubscribeDto findByUserName(String userName);
+    //구독한 사람의 닉네임과 온도
+    @Query("select new com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto(u.userName, u.userTemperature) from User u where u.userNo = :subscribeUserNo")
+    MyInfoDto findByUserId(@Param("subscribeUserNo") int subscribeUserNo);
 
     @Query("SELECT new com.zooflix.be_zooflix.domain.user.dto.UserInfoDto(u.userNo, u.userId, u.userName, u.predictCount, u.successCount, u.userTemperature, " +
             "(SELECT COUNT(us1.subscribeNo) FROM user_subscribe us1 WHERE us1.user.userNo = u.userNo), " +
-            "(SELECT COUNT(us2.user.userNo) FROM user_subscribe us2 WHERE us2.subscribeName = u.userName)) " +
+            "(SELECT COUNT(us2.user.userNo) FROM user_subscribe us2 WHERE us2.subscribeNo = u.userNo)) " +
             "FROM User u WHERE u.userNo = :userNo")
     UserInfoDto getUserSubscriptionInfoByUserNo(@Param("userNo") int userNo);
 

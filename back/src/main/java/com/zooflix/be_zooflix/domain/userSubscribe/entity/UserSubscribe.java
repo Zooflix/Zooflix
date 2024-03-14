@@ -23,8 +23,8 @@ public class UserSubscribe {
     @JoinColumn(name = "user_no", nullable = false)
     private User user;
 
-    @Column(name = "subscribe_name")
-    private String subscribeName;
+    @Column(name = "subscribe_user_no", nullable = false)
+    private int subscribeUserNo;
 
     @Column(name = "subscribe_create")
     private LocalDate subscribeCreate;

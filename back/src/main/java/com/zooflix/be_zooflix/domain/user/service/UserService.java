@@ -1,11 +1,16 @@
 package com.zooflix.be_zooflix.domain.user.service;
 
+import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
+import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
+import com.zooflix.be_zooflix.domain.report.repository.ReportRepository;
+import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.dto.UserInfoDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
+import com.zooflix.be_zooflix.domain.userSubscribe.repository.UserSubscribeRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,9 +19,19 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
+    private final ReportRepository reportRepository;
+    private final PredictRepository predictRepository;
+    private final StockSubscribeRepository stockSubscribeRepository;
+    private final UserSubscribeRepository userSubscribeRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AlarmRepository alarmRepository, ReportRepository reportRepository, PredictRepository predictRepository, StockSubscribeRepository stockSubscribeRepository, UserSubscribeRepository userSubscribeRepository) {
         this.userRepository = userRepository;
+        this.alarmRepository = alarmRepository;
+        this.reportRepository = reportRepository;
+        this.predictRepository = predictRepository;
+        this.stockSubscribeRepository = stockSubscribeRepository;
+        this.userSubscribeRepository = userSubscribeRepository;
     }
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -102,5 +117,15 @@ public class UserService {
         userRepository.save(user);
 
         return "성공";
+    }
+
+    public String deleteUser(int userNo) {
+        alarmRepository.deleteAllByUser(userNo);
+        reportRepository.deleteAllByUser(userNo);
+        predictRepository.deleteAllByUser(userNo);
+        stockSubscribeRepository.deleteAllByUser(userNo);
+        userSubscribeRepository.deleteAllByUser(userNo);
+        userRepository.deleteById(userNo);
+        return "회원 정보 삭제 성공";
     }
 }

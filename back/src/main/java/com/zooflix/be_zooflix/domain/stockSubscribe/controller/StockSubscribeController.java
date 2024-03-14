@@ -61,7 +61,7 @@ public class StockSubscribeController {
     }
 
     /**
-     * 3.3 구독중인 주식 조회
+     * 3.4 user api key 있는지 확인
      *
      */
     @GetMapping("/subscribe/checkApikey/{userNo}")
