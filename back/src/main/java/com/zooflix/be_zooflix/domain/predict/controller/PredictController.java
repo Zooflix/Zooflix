@@ -4,6 +4,8 @@ import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.service.PredictService;
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
+import com.zooflix.be_zooflix.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +95,17 @@ public class PredictController {
     @GetMapping("/predict/graph/{userNo}")
     public String selectCompareGraph(@PathVariable int userNo, @RequestParam String stockName) {
         return predictService.getCompareGraph(userNo, stockName);
+    }
+
+    /**
+     * 2.1 메인페이지 - 랭킹 데이터 조회
+     *
+     */
+    @GetMapping("/main/ranking")
+    @Operation(summary = "메인페이지 랭킹 데이터 조회")
+    public ResponseEntity<ResultResponse<Integer>> mainRankingData() {
+        int subscribes = predictService.mainRankingData();
+        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), subscribes));
     }
 
 }

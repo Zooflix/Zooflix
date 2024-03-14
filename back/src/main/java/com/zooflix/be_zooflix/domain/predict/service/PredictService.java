@@ -6,6 +6,7 @@ import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +115,15 @@ public class PredictService {
             predictRepository.save(prediction);
         }
 
+    }
+
+    /**
+     * 2.1 메인페이지 - 랭킹 데이터 조회
+     *
+     */
+
+    public int mainRankingData(){
+        return 1;
     }
 
     private boolean isSuccessful(Predict prediction) {
