@@ -34,7 +34,8 @@ public class UserController {
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<String> insertSignup(@RequestBody UserSignupDto userSignupDto) {
+    public ResponseEntity<String> insertSignup(UserSignupDto userSignupDto) {
+        System.out.println(userSignupDto.getUserPw());
         return ResponseEntity.ok(userService.postSignup(userSignupDto));
     }
 
