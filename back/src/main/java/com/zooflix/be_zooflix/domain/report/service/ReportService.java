@@ -24,10 +24,10 @@ public class ReportService {
     private final ReportRepository reportRepository;
 
     //예측글 신고하기
-    public PredictResDto reportPredict(int pdNo, String reportTypeString, String userId){
+    public PredictResDto reportPredict(int pdNo, String reportTypeString, int userNo){
         try{
             Predict predict = predictRepository.findById(pdNo).orElse(null);
-            User user = userRepository.findByUserId(userId);
+            User user = userRepository.findMyInfo(userNo);
 
             if (predict == null || user == null || reportTypeString == null) {
                 // 예외 처리: 필요한 값이 null인 경우
@@ -36,7 +36,7 @@ public class ReportService {
             }
             ReportType reportType = ReportType.valueOf(reportTypeString);
 
-            Optional<Report> report = reportRepository.findByUserIdAndPdNo(user, predict);
+            Optional<Report> report = reportRepository.findByUserNoAndPdNo(user, predict);
             if(report.isPresent()){
                 report.get().setReportType(reportType);
                 reportRepository.save(report.get());

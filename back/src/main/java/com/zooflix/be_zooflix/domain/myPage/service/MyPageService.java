@@ -91,21 +91,26 @@ public class MyPageService {
         return myPredictList;
     }
 
-    //내가 구독 중인 회원
+    //내가 구독 중인 회원 목록(닉네임, 온도)
     public List<MySubscribeDto> getMySubscribe(int userNo) {
-        List<UserSubscribe> userSubscribes = userSubscribeRepository.findSubscribeFromMe(userNo);
-        System.out.println(userSubscribes.size());
-        if(userSubscribes.isEmpty()) {
-            throw  new NullPointerException("현재 구독 목록이 없습니다.");
+        List<UserSubscribe> userSubscribeFromMe = userSubscribeRepository.findSubscribeFromMe(userNo);
+
+        if(userSubscribeFromMe.isEmpty()) {
+            throw new NullPointerException("현재 구독 목록이 없습니다.");
         }
 
         List<MySubscribeDto> mySubscribeList = new ArrayList<>();
 
         //mySubscribeList 추가
-        for(UserSubscribe val : userSubscribes){
-            MySubscribeDto mySubscribe =
-                    userRepository.findByUserId(val.getSubscribeUserNo());
-            mySubscribeList.add(mySubscribe);
+        for(UserSubscribe val : userSubscribeFromMe){
+            MyInfoDto myInfoDto = userRepository.findByUserId(val.getSubscribeUserNo());
+
+            MySubscribeDto mySubscribeDto = new MySubscribeDto();
+
+            mySubscribeDto.setSubscribeName(myInfoDto.getUserName());
+            mySubscribeDto.setSubscribeTemperature(myInfoDto.getUserTemperature());
+
+            mySubscribeList.add(mySubscribeDto);
         }
         return mySubscribeList;
     }
