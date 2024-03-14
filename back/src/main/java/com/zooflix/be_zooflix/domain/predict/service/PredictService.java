@@ -172,16 +172,13 @@ public class PredictService {
     }
 
     public String getGraph(String stockName) {
-        System.out.println("hi1");
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Object> requestBody = new HashMap<>();
         String date = String.valueOf(LocalDate.now());
-        System.out.println("hi2");
         // 쿼리 문자열로 요청 데이터 구성
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(pythonGraph)
                 .queryParam("stock_name", stockName)
                 .queryParam("date", date);
-        System.out.println(builder.toUriString());
         return builder.toUriString();
     }
 
