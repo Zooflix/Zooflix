@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -72,9 +73,26 @@ public class PredictController {
 
     @Operation(summary = "예측 글 삭제")
     @DeleteMapping("/predict/{pdNo}")
-    public ResponseEntity<?> deletePredict(@PathVariable Integer pdNo) {
+    public ResponseEntity<?> deletePredict(@PathVariable int pdNo) {
         predictService.deletePredict(pdNo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/predict/getprice")
+    public int selectClosingPrice(@RequestParam String stockName, @RequestParam String date) {
+        return predictService.getClosingPrice(stockName, date);
+    }
+
+    @Operation(summary = "종목 차트")
+    @GetMapping("/predict/graph")
+    public String selectGraph(@RequestParam String stockName) {
+        return predictService.getGraph(stockName);
+    }
+
+    @Operation(summary = "종목과 예측 차트 비교")
+    @GetMapping("/predict/graph/{userNo}")
+    public String selectCompareGraph(@PathVariable int userNo, @RequestParam String stockName) {
+        return predictService.getCompareGraph(userNo, stockName);
     }
 
 }
