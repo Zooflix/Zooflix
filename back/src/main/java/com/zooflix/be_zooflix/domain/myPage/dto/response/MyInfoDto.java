@@ -1,9 +1,6 @@
 package com.zooflix.be_zooflix.domain.myPage.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
@@ -17,4 +14,9 @@ public class MyInfoDto {
     private double predictionRate;         //예측 비율
     private int SubscribeFromMe;        //내가 구독한 수
     private int subscribeToMe;          //나를 구독한 수
+
+    public MyInfoDto(String userName, double userTemperature) {
+        this.userName = userName;
+        this.userTemperature = userTemperature;
+    }
 }
