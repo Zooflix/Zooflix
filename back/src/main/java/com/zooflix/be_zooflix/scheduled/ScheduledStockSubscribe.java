@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.scheduled;
 
+import ch.qos.logback.core.CoreConstants;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,33 +24,34 @@ public class ScheduledStockSubscribe {
 
     // 각 주식 구독자에 대한 작업 수행
     // 예약 주문하고 주식 구독 구매 내역 테이블에 추가
-    @Scheduled(cron = "0 30 18 * * ?")
+    @Scheduled(cron = "0 20 14 * * ?")
     public void performTask() throws IOException {
-        // 특정 시간에 데이터베이스에서 주식 구독한 사람들 리스트 가져오기ㅁㅁ
+        // 특정 시간에 데이터베이스에서 주식 구독한 사람들 리스트 가져오기
         List<StockSubscribeDto> stockSubscribers = stockSubscribeRepository.findTomorrowSubscribe();
 
-        // 가져온 주식 구독자 리스트를 이용하여 필요한 작업 수행
-
-        //필요한 것 - 계좌번호, 종목코드, 주문수량, OAUTH API ACCESS TOKEN, 발급받은 APPKEY, 앱 시크릿키,
-        for (StockSubscribeDto subscriber : stockSubscribers) {
-
-            // 주문 가능 수량 조회
-
-            String account = subscriber.getUserAccount();
-            // 국내 주식 예약 주문
-            String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/order-resv";
-            String tr_id = "CTSC0008U";
-            String data = "{\n" +
-                    "    \"CANO\":" + account.substring(0, 8) + ",\n" + // 계좌번호 앞 8자리
-                    "    \"ACNT_PRDT_CD\":" + account.substring(8) + ",\n" + // 계좌번호 뒤 2자리
-                    "    \"PDNO\":" + subscriber.getStockCode() + ",\n" +
-                    "    \"ORD_QTY\": "+ subscriber.getStockCount() + ",\n" +
-                    "    \"ORD_UNPR\": 0,\n" + // 시장가로 구매
-                    "    \"SLL_BUY_DVSN_CD\": 02,\n" + // 매수
-                    "    \"ORD_DVSN_CD\": 01,\n" + // 시장가 구매
-                    "    \"ORD_OBJT_CBLC_DVSN_CD\": 10,\n" +
-                    "}";
-            httpPostBodyConnection(url, data, tr_id, subscriber);
+        if(stockSubscribers.size() == 0){
+            System.out.println("내일 날짜에 구독한 사용자가 없습니다.");
+        }else{
+            System.out.println("내일 날짜에 구독한 주식을 예약구매 하고 있습니다.");
+            for (StockSubscribeDto subscriber : stockSubscribers) {
+                // 주문 가능 수량 조회
+                //필요한 것 - 계좌번호, 종목코드, 주문수량, OAUTH API ACCESS TOKEN, 발급받은 APPKEY, 앱 시크릿키,
+                String account = subscriber.getUserAccount();
+                // 국내 주식 예약 주문
+                String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/order-resv";
+                String tr_id = "CTSC0008U";
+                String data = "{\n" +
+                        "    \"CANO\":" + account.substring(0, 8) + ",\n" + // 계좌번호 앞 8자리
+                        "    \"ACNT_PRDT_CD\":" + account.substring(8) + ",\n" + // 계좌번호 뒤 2자리
+                        "    \"PDNO\":" + subscriber.getStockCode() + ",\n" +
+                        "    \"ORD_QTY\": "+ subscriber.getStockCount() + ",\n" +
+                        "    \"ORD_UNPR\": 0,\n" + // 시장가로 구매
+                        "    \"SLL_BUY_DVSN_CD\": 02,\n" + // 매수
+                        "    \"ORD_DVSN_CD\": 01,\n" + // 시장가 구매
+                        "    \"ORD_OBJT_CBLC_DVSN_CD\": 10,\n" +
+                        "}";
+                httpPostBodyConnection(url, data, tr_id, subscriber);
+            }
         }
     }
 
