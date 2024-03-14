@@ -26,7 +26,7 @@ public class Alarm extends BaseTimeEntity {
     private User receiverUser; //알림을 받는 사용자 -> receiver
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subscribe_id")
+    @JoinColumn(name = "subscribe_no")
     private User senderUser; //내가 구독한 사람의 id(알림을 보내는 사람) -> sender
 
     @Enumerated(EnumType.STRING)
