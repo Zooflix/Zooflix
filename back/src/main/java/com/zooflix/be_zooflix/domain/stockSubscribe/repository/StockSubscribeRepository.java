@@ -18,19 +18,16 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
     @Query(nativeQuery = true, value = "select * from stock_subscribe s where s.user_no = :userNo")
     List<StockSubscribe> findByUser(@Param("userNo") int userNo);
 
-<<<<<<< HEAD
     @Query(nativeQuery = true, value = "select * from stock_subscribe s where s.user_no = :userNo")
     List<StockSubscribe> findTomorrowSubscribe();
 
     //주식 구독 테이블에서 내일 날짜의 모든 주식 구독 내역 리스트
     // userId, 주식Code, userAppkey
-=======
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(nativeQuery = true, value = "delete from stock_subscribe s where s.user_no = :userNo")
     void deleteAllByUser(int userNo);
-
->>>>>>> feature-be/user
 
 }
 
