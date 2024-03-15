@@ -97,15 +97,6 @@ public class PredictController {
         return predictService.getCompareGraph(userNo, stockName);
     }
 
-    /**
-     * 2.1 메인페이지 - 랭킹 데이터 조회
-     *
-     */
-    @GetMapping("/main/ranking")
-    @Operation(summary = "메인페이지 랭킹 데이터 조회")
-    public ResponseEntity<ResultResponse<Integer>> mainRankingData() {
-        int subscribes = predictService.mainRankingData();
-        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), subscribes));
-    }
+
 
 }

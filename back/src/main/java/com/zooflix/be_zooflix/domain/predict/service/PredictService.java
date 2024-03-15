@@ -117,15 +117,6 @@ public class PredictService {
 
     }
 
-    /**
-     * 2.1 메인페이지 - 랭킹 데이터 조회
-     *
-     */
-
-    public int mainRankingData(){
-        return 1;
-    }
-
     private boolean isSuccessful(Predict prediction) {
         int pdValue = prediction.getPdValue();
         int nxtValue = prediction.getNxtValue();

@@ -1,7 +1,9 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.repository;
 
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockRankingDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
+import com.zooflix.be_zooflix.domain.user.dto.UserRankingDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,6 +36,11 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
     @Transactional
     @Query(nativeQuery = true, value = "delete from stock_subscribe s where s.user_no = :userNo")
     void deleteAllByUser(int userNo);
+
+    @Query(nativeQuery = true,
+            value = "select stock_code, stock_name, count(stock_no) as subscriber_no, RANK() OVER ( order by subscriber_no ) as ranking " +
+                    "from stock_subscribe group by stock_code desc limit 3")
+    List<StockRankingDto> getStockRanking();
 
 }
 
