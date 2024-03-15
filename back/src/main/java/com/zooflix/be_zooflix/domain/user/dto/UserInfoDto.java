@@ -19,4 +19,16 @@ public class UserInfoDto {
     private double userTemperature;
     private long subscribeCount;
     private long subscriberCount;
+
+    public UserInfoDto(int userNo, String userId, String userName, int predictCount, int successCount, double userTemperature, long subscribeCount, long subscriberCount) {
+        this.userNo = userNo;
+        this.userId = userId;
+        this.userName = userName;
+        this.predictCount = predictCount;
+        this.successCount = successCount;
+        this.userTemperature = userTemperature;
+        this.subscribeCount = subscribeCount;
+        this.subscriberCount = subscriberCount;
+    }
+
 }
