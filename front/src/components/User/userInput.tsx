@@ -6,4 +6,4 @@ function userInput() {
 
 export default userInput;
 
-const a = styled.div``;
+const login = styled.div``;
