@@ -29,8 +29,9 @@ public class MainService {
 
         UserRankingDto mostPredictUser = userRepository.getMostPredictUser();
         UserRankingDto mostWrongPredictUser = userRepository.getMostWrongPredictUser();
+        UserRankingDto stockCodeMostPredictUSer = stockSubscribeRepository.getStockCodeMostPredictUSer();
 
-        MainDto maindto = new MainDto(userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser);
+        MainDto maindto = new MainDto(userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
         return maindto;
     }
 }

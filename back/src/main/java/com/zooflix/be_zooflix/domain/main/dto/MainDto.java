@@ -18,4 +18,5 @@ public class MainDto {
     private List<StockRankingDto> stockRankingList;
     private UserRankingDto mostPredictUser;
     private UserRankingDto mostWrongPredictUser;
+    private UserRankingDto stockCodeMostPredictUSer;
 }

@@ -42,5 +42,10 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
                     "from stock_subscribe group by stock_code desc limit 3")
     List<StockRankingDto> getStockRanking();
 
+    @Query(nativeQuery = true,
+            value = "select stock_code, stock_name, count(stock_no) as subscriber_no, RANK() OVER ( order by subscriber_no ) as ranking " +
+                    "from stock_subscribe group by stock_code desc limit 1")
+    UserRankingDto getStockCodeMostPredictUSer();
+
 }
 
