@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-function Radiobot() {
+function Radio() {
   return <div></div>;
 }
 
-export default Radiobot;
+export default Radio;
