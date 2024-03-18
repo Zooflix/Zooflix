@@ -1,9 +1,29 @@
 import styled from "styled-components";
 
-function UserInput() {
-  return <Input></Input>;
+type InputProps = {
+  type: string;
+  placeholder: string;
+};
+
+function UserInput(props: InputProps) {
+  return (
+    <Wrapper>
+      <input type={props.type} placeholder={props.placeholder} />
+    </Wrapper>
+  );
 }
 
 export default UserInput;
 
-const Input = styled.input``;
+const Wrapper = styled.div`
+  input {
+    height: 50px;
+    width: 380px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 20px;
+    margin: 10px 0;
+    font-family: "NanumSquareRound";
+    font-weight: bold;
+  }
+`;
