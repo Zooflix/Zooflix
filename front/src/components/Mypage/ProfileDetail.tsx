@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-function Landing() {
+function ProfileDetail() {
   return <div></div>;
 }
 
-export default Landing;
+export default ProfileDetail;
