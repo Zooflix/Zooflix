@@ -3,8 +3,15 @@ import UserBackground from "./UserBackground";
 import UserInput from "./UserInput";
 import UserLoginHeader from "../../assets/img/user/UserLoginHeader.svg";
 import SubmitBtn from "../Common/SubmitBtn";
+import { Route, useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigate = useNavigate();
+
+  const handleSignupClick = () => {
+    navigate("/signup");
+  };
+
   return (
     <Wrapper>
       <UserBackground />
@@ -15,6 +22,7 @@ function LoginForm() {
           <UserInput type="password" placeholder="비밀번호를 입력하세요" />
         </InputContainer>
         <SubmitBtn text="로그인 하기" />
+        <h3 onClick={handleSignupClick}>아직 회원이 아니신가요?</h3>
       </Container>
     </Wrapper>
   );
