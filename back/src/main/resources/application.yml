@@ -38,7 +38,11 @@ python:
     url: https://naveropenapi.apigw.ntruss.com/nmt/v1/translation
     clientId: qag4d44o5y
     clientSecret: eYaYbTl9z0UJ4lBqWrut3hP8QWDmFry1Gc7PUhgx
-  clova:
+  summary:
     url: https://naveropenapi.apigw.ntruss.com/text-summary/v1/summarize
     clientId: ryaea7fblc
     clientSecret: geJm11Mo8RpgdtZobTqbM8tQk8B3LpBTkFEjzNYL
+  tts:
+    url: https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts
+    clientId:
+    clientSecret:

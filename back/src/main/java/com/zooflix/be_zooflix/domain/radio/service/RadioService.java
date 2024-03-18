@@ -37,12 +37,20 @@ public class RadioService {
     private String pythonPpgUrl;
 
     /* 요약 관련 변수 */
-    @Value("${python.clova.clientId}")
-    private String pythonClovaClientId;
-    @Value("${python.clova.clientSecret}")
-    private String pythonClovaClientSecret;
-    @Value("${python.clova.url}")
-    private String pythonClovaUrl;
+    @Value("${python.summary.clientId}")
+    private String pythonSummaryClientId;
+    @Value("${python.summary.clientSecret}")
+    private String pythonSummaryClientSecret;
+    @Value("${python.summary.url}")
+    private String pythonSummaryUrl;
+
+    /* tts 관련 변수 */
+    @Value("${python.tts.url}")
+    private String pythonTtsUrl;
+    @Value("${python.tts.clientId}")
+    private String pythonTtsClientId;
+    @Value("${python.tts.clientSecret}")
+    private String pythonTtsClientSecret;
 
 
     /*
@@ -129,9 +137,9 @@ public class RadioService {
         String summary = "";
         if (content.length()<2000) {
             requestBody = new HashMap<>();
-            requestBody.put("clientId", pythonClovaClientId);
-            requestBody.put("clientSecret", pythonClovaClientSecret);
-            requestBody.put("clovaUrl", pythonClovaUrl);
+            requestBody.put("clientId", pythonSummaryClientId);
+            requestBody.put("clientSecret", pythonSummaryClientSecret);
+            requestBody.put("clovaUrl", pythonSummaryUrl);
             requestBody.put("text", content);
             summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody, String.class);
 
@@ -149,9 +157,9 @@ public class RadioService {
                     continue;
                 if (totalSize + arr[i + 1].length() > 2000) {
                     requestBody = new HashMap<>();
-                    requestBody.put("clientId", pythonClovaClientId);
-                    requestBody.put("clientSecret", pythonClovaClientSecret);
-                    requestBody.put("clovaUrl", pythonClovaUrl);
+                    requestBody.put("clientId", pythonSummaryClientId);
+                    requestBody.put("clientSecret", pythonSummaryClientSecret);
+                    requestBody.put("clovaUrl", pythonSummaryUrl);
                     requestBody.put("text", request);
                     totalSize = 0;
                     request = "";
@@ -185,9 +193,9 @@ public class RadioService {
 //    public String callTtsEndpoint(String content) {
 //        RestTemplate restTemplate = new RestTemplate();
 //        Map<String, String> requestBody = new HashMap<>();
-//        requestBody.put("clientId", pythonVoiceClientId);
-//        requestBody.put("clientSecret", pythonVoiceClientSecret);
-//        requestBody.put("voiceUrl", pythonVoiceUrl);
+//        requestBody.put("clientId", pythonTtsClientId);
+//        requestBody.put("clientSecret", pythonTtsClientSecret);
+//        requestBody.put("ttsUrl", pythonTtsUrl);
 //        requestBody.put("text", content);
 //
 //        String result = restTemplate.postForObject(pythonEndpointNewsTts, requestBody, String.class);
