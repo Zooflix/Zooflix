@@ -25,5 +25,6 @@ const Wrapper = styled.div`
     margin: 10px 0;
     font-family: "NanumSquareRound";
     font-weight: bold;
+    padding: 0 20px;
   }
 `;
