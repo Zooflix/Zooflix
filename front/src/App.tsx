@@ -17,6 +17,7 @@ import Problem8 from "./pages/Zbti/Problem8";
 import ZbtiStart from "./pages/Zbti/ZbtiStart";
 import { AnimatePresence } from "framer-motion";
 import Loading from "./pages/Zbti/Loading";
+import Intro from "./components/Landing/Intro";
 
 function App() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function App() {
   const showHeaderandSide = () => {
     const { pathname } = location;
     return ![
+      "/",
       "/login",
       "/signup",
       "/problem1",
@@ -43,6 +45,7 @@ function App() {
         {showHeaderandSide() && <Header />}
         {showHeaderandSide() && <SideNavBar />}
         <Routes>
+          <Route path="/" element={<Intro />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/radio" element={<Radio />} />
