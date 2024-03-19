@@ -5,7 +5,7 @@ type SquareBtnProps = {
   style: React.CSSProperties;
 };
 
-function SquareBtn(props: SquareBtnProps) {
+function SquareBtn(props: SquareBtnProps): JSX.Element {
   return (
     <Content style={props.style}>{props.text}</Content>
   );
