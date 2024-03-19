@@ -51,5 +51,5 @@ const InputContainer = styled.div`
 `;
 
 const GoToRegister = styled.div`
-  font-family: "Noto Sans KR", "Noto Sans", sans-serif;
+  padding-top: 10px;
 `;

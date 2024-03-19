@@ -21,6 +21,6 @@ const IconImg = styled.img``;
 const Text = styled.div`
   text-decoration: none;
   color: white;
-  margin-top: 3px;
-  font-size: 14px;
+  margin-top: 2px;
+  font-size: 12px;
 `;
