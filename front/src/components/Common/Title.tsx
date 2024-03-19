@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { JsxElement } from "typescript";
 
 type TitleProps = {
   text: string;

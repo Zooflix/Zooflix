@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import axios from "axios";
 
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
@@ -22,7 +23,14 @@ function Radio(): JSX.Element {
   const [ playing, setPlaying ] = useState(true);
   const playBtn = () => {
     setPlaying(!playing);
-    console.log(playing);
+    // 서버에 재생 여부를 전달하는 요청
+    axios.post('/radio/translation/summary/tts', { playing: !playing })
+      .then(response => {
+        console.log('서버 응답:', response.data);
+      })
+      .catch(error => {
+        console.error('오류 발생:', error);
+      });
   }
 
   // 음향조절
@@ -31,6 +39,7 @@ function Radio(): JSX.Element {
     const newVolume = parseInt(event.target.value);
     setVolume(newVolume);
   };
+
   return (
     <Wrapper>
       <Title text="뉴스를 들려줄게요" />
