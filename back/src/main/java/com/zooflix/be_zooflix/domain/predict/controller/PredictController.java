@@ -2,6 +2,7 @@ package com.zooflix.be_zooflix.domain.predict.controller;
 
 import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
+import com.zooflix.be_zooflix.domain.predict.dto.StockHistoryDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.service.PredictService;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,11 +82,6 @@ public class PredictController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/predict/getprice")
-    public int selectClosingPrice(@RequestParam String stockName, @RequestParam String date) {
-        return predictService.getClosingPrice(stockName, date);
-    }
-
     @Operation(summary = "종목 차트")
     @GetMapping("/predict/graph")
     public String selectGraph(@RequestParam String stockName) {
@@ -97,6 +94,10 @@ public class PredictController {
         return predictService.getCompareGraph(userNo, stockName);
     }
 
-
+    @Operation(summary = "매매정보")
+    @GetMapping("/predict/stock/{userNo}")
+    public List<StockHistoryDto> selectStockHistory(@PathVariable int userNo) throws IOException {
+       return predictService.getStockHistory(userNo);
+    }
 
 }
