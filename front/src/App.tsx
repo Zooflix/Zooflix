@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
+import Mypage from "./pages/Mypage/Mypage";
 import Radio from "./pages/Radio/Radio";
 import Main from "./pages/Main/Main";
 import SideNavBar from "./components/Common/SideNavBar";
@@ -16,6 +17,7 @@ import Problem7 from "./pages/Zbti/Problem7";
 import Problem8 from "./pages/Zbti/Problem8";
 import ZbtiStart from "./pages/Zbti/ZbtiStart";
 import { AnimatePresence } from "framer-motion";
+import Loading from "./pages/Zbti/Loading";
 
 function App() {
   const location = useLocation();
@@ -46,7 +48,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/radio" element={<Radio />} />
           <Route path="/main" element={<Main />} />
-
+          <Route path="/my-page" element={<Mypage />} />
           <Route path="/zbti" element={<ZbtiStart />} />
           <Route path="/problem1" element={<Problem1 />} />
           <Route path="/problem2" element={<Problem2 />} />
@@ -56,6 +58,7 @@ function App() {
           <Route path="/problem6" element={<Problem6 />} />
           <Route path="/problem7" element={<Problem7 />} />
           <Route path="/problem8" element={<Problem8 />} />
+          <Route path="/loading" element={<Loading />} />
         </Routes>
       </AnimatePresence>
     </div>

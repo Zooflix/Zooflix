@@ -11,7 +11,7 @@ function Problem8() {
   const navigate = useNavigate();
 
   const handleAnswerClick = () => {
-    navigate("/problem2");
+    navigate("/loading");
   };
   return (
     <PageTransition>
@@ -19,7 +19,13 @@ function Problem8() {
         <ZbtiHeader />
         <Question text="이럴 리 없어. 내 주식이 모두 하락하고 있다. 당신의 선택은?" />
         <ImgContainer>
-          <img src={Icon} alt="icon" className="icon" />
+          <img
+            src={Icon}
+            alt="icon"
+            className="icon"
+            loading="lazy"
+            decoding="async"
+          />
         </ImgContainer>
         <Answer
           text="안된다면 자식한테 물려주지. 믿고 기다리자."

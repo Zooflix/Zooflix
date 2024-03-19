@@ -20,7 +20,13 @@ function Problem1() {
         <ZbtiHeader />
         <Question text="주식 투자를 시작해보려고 한다. 얼마까지 투자 가능한가?" />
         <ImgContainer>
-          <img src={Icon} alt="icon" className="icon" />
+          <img
+            src={Icon}
+            alt="icon"
+            className="icon"
+            loading="lazy"
+            decoding="async"
+          />
         </ImgContainer>
         <Answer text="마이너스 통장까지 풀베팅!" onClick={handleAnswerClick} />
         <Answer

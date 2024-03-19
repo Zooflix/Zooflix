@@ -12,7 +12,7 @@ function Problem4() {
   const navigate = useNavigate();
 
   const handleAnswerClick = () => {
-    navigate("/problem2");
+    navigate("/problem5");
   };
   return (
     <PageTransition>
@@ -20,7 +20,13 @@ function Problem4() {
         <ZbtiHeader />
         <Question text="100만원이 입금됐다. 웬걸? 어떻게 투자할 것인가?" />
         <ImgContainer>
-          <img src={Icon} alt="icon" className="icon" />
+          <img
+            src={Icon}
+            alt="icon"
+            className="icon"
+            loading="lazy"
+            decoding="async"
+          />
         </ImgContainer>
         <Answer text="10만원씩 분산투자해야지" onClick={handleAnswerClick} />
         <Answer

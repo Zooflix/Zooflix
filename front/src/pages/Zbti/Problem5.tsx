@@ -11,7 +11,7 @@ function Problem5() {
   const navigate = useNavigate();
 
   const handleAnswerClick = () => {
-    navigate("/problem2");
+    navigate("/problem6");
   };
   return (
     <PageTransition>
@@ -19,7 +19,13 @@ function Problem5() {
         <ZbtiHeader />
         <Question text="오늘 꿈에서 A기업 호재가 나왔다." />
         <ImgContainer>
-          <img src={Icon} alt="icon" className="icon" />
+          <img
+            src={Icon}
+            alt="icon"
+            className="icon"
+            loading="lazy"
+            decoding="async"
+          />
         </ImgContainer>
         <Answer
           text="무조건 사! 이건 수익률 백퍼 높아"

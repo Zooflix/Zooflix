@@ -11,7 +11,7 @@ function Problem6() {
   const navigate = useNavigate();
 
   const handleAnswerClick = () => {
-    navigate("/problem2");
+    navigate("/problem7");
   };
   return (
     <PageTransition>
@@ -19,7 +19,13 @@ function Problem6() {
         <ZbtiHeader />
         <Question text="아파트 주민회의에서 주민이 B주식은 오른다고 무조건 사라고 했다." />
         <ImgContainer>
-          <img src={Icon} alt="icon" className="icon" />
+          <img
+            src={Icon}
+            alt="icon"
+            className="icon"
+            loading="lazy"
+            decoding="async"
+          />
         </ImgContainer>
         <Answer
           text="오른다는 데는 이유가 있지. 바로 100주 매수"

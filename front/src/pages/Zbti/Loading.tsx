@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-function ProfileDetail() {
+function Loading() {
   return <div></div>;
 }
 
-export default ProfileDetail;
+export default Loading;
