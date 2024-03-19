@@ -44,5 +44,5 @@ python:
     clientSecret: geJm11Mo8RpgdtZobTqbM8tQk8B3LpBTkFEjzNYL
   tts:
     url: https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts
-    clientId:
-    clientSecret:
+    clientId: bq5zklpfji
+    clientSecret: o4ccdkYf8HjYqSnO0nKF4K5gCyhbppEH3ABxz1Lm

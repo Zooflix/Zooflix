@@ -1,9 +1,28 @@
 package com.zooflix.be_zooflix.domain.radio.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.SourceDataLine;
 import javax.xml.transform.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -65,38 +84,10 @@ public class RadioService {
         return result;
     }
 
-//    /*
-//    * 키워드 추출
-//    * */
-//    public String getKeyword() {
-//        String crawling = callCrawlingEndpoint();
-//        System.out.println(crawling);
-//        System.out.println("crawling success");
-//        String refine = crawling.replace("\",\"", "@@@@@");
-//        List<String> keywordList = new ArrayList<>();
-//        String[] arr = refine.split("@@@@@");
-//        String result = "";
-//        for(String str : arr ) {
-//            System.out.println(str);
-//            RestTemplate restTemplate = new RestTemplate();
-//            Map<String, String> requestBody = new HashMap<>();
-//            requestBody.put("content", str);
-//
-//            String keyword = restTemplate.postForObject("http://127.0.0.1:8000/radio/keyword", requestBody, String.class);
-//            keywordList.add(keyword.replace("\\n", " "));
-//
-//        }
-//        System.out.println("keywordList: "+keywordList);
-////        for(String str : summaryList) {
-////            String result = callTtsEndpoint(str);
-////            System.out.println(result);
-////        }
-//        return "success";
-//    }
 
 
     /*
-    * 번역
+    * 번역 by papago
     * */
     public String callTranslationEndpoint(String content) {
         RestTemplate restTemplate = new RestTemplate();
@@ -175,22 +166,23 @@ public class RadioService {
     }
 
 
-    /*
-     * tts by pysttx
-     * */
-    public String callTtsEndpoint(String content) {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> requestBody = new HashMap<>();
-        String result = restTemplate.postForObject(pythonEndpointNewsTts, requestBody, String.class);
-        System.out.println("tts success");
-        return result;
-    }
-
-
 //    /*
-//    * tts by clova
-//    * */
+//     * tts by pysttx
+//     * */
 //    public String callTtsEndpoint(String content) {
+//        RestTemplate restTemplate = new RestTemplate();
+//        Map<String, String> requestBody = new HashMap<>();
+//        String result = restTemplate.postForObject(pythonEndpointNewsTts, requestBody, String.class);
+//        System.out.println("tts success");
+//        return result;
+//    }
+
+
+    /*
+    * tts by clova
+    * */
+    public byte[] callTtsEndpoint() {
+//        String content = "미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후 아시아 무역의 상승폭이 확대되었고, 우크라이나의 러시아 정유소 공격에 따른 공급 차질 가능성도 가격을 뒷받침했고, 브렌트유 선물은 GMT 기준 10센트(0.12%) 오른 배럴당 84.13달러, 미국 서부텍사스산 원유(WTI)는 7센트(0.9%) 오른 배럴당 79.79달러로 두 계약 모두 미국의 수요 전망이 높아지고 지정학적 위험이 고조되면서 수요일 약 3% 상승해 4개월 만에 최고치를 기록했다.";
 //        RestTemplate restTemplate = new RestTemplate();
 //        Map<String, String> requestBody = new HashMap<>();
 //        requestBody.put("clientId", pythonTtsClientId);
@@ -200,7 +192,51 @@ public class RadioService {
 //
 //        String result = restTemplate.postForObject(pythonEndpointNewsTts, requestBody, String.class);
 //        return result;
-//    }
+        try {
+            String text = URLEncoder.encode("미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후 아시아 무역의 상승폭이 확대되었고, 우크라이나의 러시아 정유소 공격에 따른 공급 차질 가능성도 가격을 뒷받침했고, 브렌트유 선물은 GMT 기준 10센트(0.12%) 오른 배럴당 84.13달러, 미국 서부텍사스산 원유(WTI)는 7센트(0.9%) 오른 배럴당 79.79달러로 두 계약 모두 미국의 수요 전망이 높아지고 지정학적 위험이 고조되면서 수요일 약 3% 상승해 4개월 만에 최고치를 기록했다.", "UTF-8");
+            URL url = new URL(pythonTtsUrl);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", pythonTtsClientId);
+            con.setRequestProperty("X-NCP-APIGW-API-KEY", pythonTtsClientSecret);
+
+            // post request
+            String postParams = "speaker=nara&volume=5&speed=0&pitch=0&text=" + text;
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(postParams);
+            wr.flush();
+            wr.close();
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if(responseCode==200) { // 정상 호출
+                InputStream is = con.getInputStream();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    baos.write(buffer, 0, bytesRead);
+                }
+                baos.close();
+                is.close();
+                return baos.toByteArray();
+
+            } else { // 오류 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = br.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                br.close();
+                System.out.println(response.toString());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
 
 
     /*
@@ -232,4 +268,36 @@ public class RadioService {
 //        }
         return "success";
     }
+
+
+
+
+    //    /*
+//    * 키워드 추출
+//    * */
+//    public String getKeyword() {
+//        String crawling = callCrawlingEndpoint();
+//        System.out.println(crawling);
+//        System.out.println("crawling success");
+//        String refine = crawling.replace("\",\"", "@@@@@");
+//        List<String> keywordList = new ArrayList<>();
+//        String[] arr = refine.split("@@@@@");
+//        String result = "";
+//        for(String str : arr ) {
+//            System.out.println(str);
+//            RestTemplate restTemplate = new RestTemplate();
+//            Map<String, String> requestBody = new HashMap<>();
+//            requestBody.put("content", str);
+//
+//            String keyword = restTemplate.postForObject("http://127.0.0.1:8000/radio/keyword", requestBody, String.class);
+//            keywordList.add(keyword.replace("\\n", " "));
+//
+//        }
+//        System.out.println("keywordList: "+keywordList);
+////        for(String str : summaryList) {
+////            String result = callTtsEndpoint(str);
+////            System.out.println(result);
+////        }
+//        return "success";
+//    }
 }
