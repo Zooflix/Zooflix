@@ -22,6 +22,7 @@ function SideNavBar() {
   return (
     <Side>
       <img src={zlogo} alt="zlogo" className="logo" />
+      <br />
       <Menu>
         {menus.map((menu, index) => {
           return (
@@ -48,6 +49,7 @@ const Side = styled.div`
   top: 0;
   left: 0;
   height: 100%;
+  border-radius: 10px;
   background: linear-gradient(45deg, #fff, #09244a);
   display: flex;
   flex-direction: column;
@@ -69,5 +71,5 @@ const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 5px;
+  margin: 13px;
 `;
