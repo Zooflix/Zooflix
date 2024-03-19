@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import UserBackground from "./UserBackground";
 import UserInput from "./UserInput";
-import UserLoginHeader from "../../assets/img/user/UserLoginHeader.svg";
 import SubmitBtn from "../Common/SubmitBtn";
-import { Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -16,13 +15,15 @@ function LoginForm() {
     <Wrapper>
       <UserBackground />
       <Container>
-        <img src={UserLoginHeader} className="header" alt="userLogin" />
+        <h2>REGISTER</h2>
         <InputContainer>
           <UserInput type="text" placeholder="아이디를 입력하세요" />
           <UserInput type="password" placeholder="비밀번호를 입력하세요" />
         </InputContainer>
         <SubmitBtn text="로그인 하기" />
-        <h3 onClick={handleSignupClick}>아직 회원이 아니신가요?</h3>
+        <GoToRegister onClick={handleSignupClick}>
+          아직 회원이 아니신가요?
+        </GoToRegister>
       </Container>
     </Wrapper>
   );
@@ -47,4 +48,8 @@ const InputContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   margin-top: 20px;
+`;
+
+const GoToRegister = styled.div`
+  font-family: "Noto Sans KR", "Noto Sans", sans-serif;
 `;

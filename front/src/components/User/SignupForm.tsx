@@ -15,7 +15,6 @@ function SignupForm() {
     <Wrapper>
       <UserBackground />
       <Container>
-        {/* signupheader 넣기 */}
         <h2>REGISTER</h2>
         <InputContainer>
           <UserInput type="text" placeholder="아이디를 입력하세요" />
