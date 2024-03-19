@@ -1,18 +1,26 @@
 import styled from "styled-components";
 
 type BarIconProps = {
-  src: string;
-  alt: string;
+  img: string;
+  text: string;
 };
 
 function BarIcon(props: BarIconProps) {
   return (
     <div>
-      <img src="" alt="" />
+      <IconImg src={props.img} />
+      <Text>{props.text}</Text>
     </div>
   );
 }
 
 export default BarIcon;
 
-const Wrapper = styled.div``;
+const IconImg = styled.img``;
+
+const Text = styled.div`
+  text-decoration: none;
+  color: white;
+  margin-top: 3px;
+  font-size: 14px;
+`;
