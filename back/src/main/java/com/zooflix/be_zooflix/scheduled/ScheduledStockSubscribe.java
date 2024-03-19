@@ -1,6 +1,5 @@
 package com.zooflix.be_zooflix.scheduled;
 
-import ch.qos.logback.core.CoreConstants;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
 @Component
 public class ScheduledStockSubscribe {
 
@@ -22,18 +29,21 @@ public class ScheduledStockSubscribe {
         this.stockSubscribeRepository = stockSubscribeRepository;
     }
 
-    // 각 주식 구독자에 대한 작업 수행
-    // 예약 주문하고 주식 구독 구매 내역 테이블에 추가
-    @Scheduled(cron = "0 20 14 * * ?")
+    @Scheduled(cron = "0 00 20 * * ?")
     public void performTask() throws IOException {
         // 특정 시간에 데이터베이스에서 주식 구독한 사람들 리스트 가져오기
+
         List<StockSubscribeDto> stockSubscribers = stockSubscribeRepository.findTomorrowSubscribe();
 
-        if(stockSubscribers.size() == 0){
+        if (stockSubscribers.size() == 0) {
             System.out.println("내일 날짜에 구독한 사용자가 없습니다.");
-        }else{
+        } else {
             System.out.println("내일 날짜에 구독한 주식을 예약구매 하고 있습니다.");
             for (StockSubscribeDto subscriber : stockSubscribers) {
+
+                String AccessReturn = getAccessToken(subscriber);
+                System.out.println(AccessReturn);
+
                 // 주문 가능 수량 조회
                 //필요한 것 - 계좌번호, 종목코드, 주문수량, OAUTH API ACCESS TOKEN, 발급받은 APPKEY, 앱 시크릿키,
                 String account = subscriber.getUserAccount();
@@ -44,7 +54,7 @@ public class ScheduledStockSubscribe {
                         "    \"CANO\":" + account.substring(0, 8) + ",\n" + // 계좌번호 앞 8자리
                         "    \"ACNT_PRDT_CD\":" + account.substring(8) + ",\n" + // 계좌번호 뒤 2자리
                         "    \"PDNO\":" + subscriber.getStockCode() + ",\n" +
-                        "    \"ORD_QTY\": "+ subscriber.getStockCount() + ",\n" +
+                        "    \"ORD_QTY\": " + subscriber.getStockCount() + ",\n" +
                         "    \"ORD_UNPR\": 0,\n" + // 시장가로 구매
                         "    \"SLL_BUY_DVSN_CD\": 02,\n" + // 매수
                         "    \"ORD_DVSN_CD\": 01,\n" + // 시장가 구매
@@ -55,7 +65,46 @@ public class ScheduledStockSubscribe {
         }
     }
 
-    public void httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeDto subscriber) throws IOException {
+    public String getAccessToken(StockSubscribeDto subscriber) {
+        // HttpClient 인스턴스 생성
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            // API 엔드포인트 URL
+            String accessUrl = "https://openapivts.koreainvestment.com:29443/oauth2/tokenP";
+
+            // POST 요청 생성
+            HttpPost httpPost = new HttpPost(accessUrl);
+
+            // 요청 본문 데이터
+            String accessData = "{\n" +
+                    "    \"grant_type\": \"client_credentials\",\n" +
+                    "    \"appkey\": \"" + subscriber.getUserAppKey() + "\",\n" +
+                    "    \"appsecret\": \"" + subscriber.getUserSecretKey() + "\"\n" +
+                    "}";
+            StringEntity requestBody = new StringEntity(accessData);
+            httpPost.setEntity(requestBody);
+            httpPost.setHeader("Content-type", "application/json");
+
+            // HTTP 요청 보내고 응답 받기
+            try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+                // 응답 상태코드 확인
+                int statusCode = response.getStatusLine().getStatusCode();
+                System.out.println("응답 상태코드: " + statusCode);
+
+                // 응답 본문 읽기
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    String responseBody = EntityUtils.toString(entity);
+                    System.out.println("응답 본문: " + responseBody);
+                    return responseBody;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "fail";
+    }
+
+    public String httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeDto subscriber) throws IOException {
         String totalUrl = "";
         totalUrl = UrlData.trim().toString();
 
@@ -73,9 +122,9 @@ public class ScheduledStockSubscribe {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("authorization", "Bearer {TOKEN}");
-            conn.setRequestProperty("appKey", "{Client_ID}");
-            conn.setRequestProperty("appSecret", "{Client_Secret}");
+            conn.setRequestProperty("authorization", "Bearer ");
+            conn.setRequestProperty("appKey", subscriber.getUserAppKey());
+            conn.setRequestProperty("appSecret", subscriber.getUserSecretKey());
             conn.setRequestProperty("tr_id", TrId);
             conn.setDoOutput(true);
 
@@ -110,9 +159,10 @@ public class ScheduledStockSubscribe {
                     br.close();
                 }
 
-
                 //성공하면 구매 내역 테이블에 추가
                 stockSubscribeRepository.addStockPurchase();
+
+                return returnData;
 
             } catch (IOException e) {
                 throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
