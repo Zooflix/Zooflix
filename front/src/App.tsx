@@ -1,16 +1,23 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
 import Mypage from "./pages/Mypage/Mypage";
+import Radio from "./pages/Radio/Radio";
+import Main from "./pages/Main/Main";
+import SideNavBar from "./components/Common/SideNavBar";
 
 function App() {
   return (
     <div>
+      <SideNavBar />
       <Routes>
+        <Route path="/" element={<SideNavBar />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/my-page" element={<Mypage />} />
+        <Route path="/radio" element={<Radio />} />
+        <Route path="/main" element={<Main />} />
       </Routes>
     </div>
   );
