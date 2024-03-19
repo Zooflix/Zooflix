@@ -15,6 +15,7 @@ public class UserSignupDto {
     private String userAppKey;
     private String userSecretKey;
     private String userAccount;
+    private String userRole;
 
     public User toEntity() {
         return User.builder()
@@ -25,6 +26,7 @@ public class UserSignupDto {
                 .userSecretKey(userSecretKey)
                 .userAccount(userAccount)
                 .userTemperature(30.0)
+                .userRole("ROLE_ADMIN")
                 .build();
     }
 }

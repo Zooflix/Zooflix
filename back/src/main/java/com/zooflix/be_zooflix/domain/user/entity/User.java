@@ -59,6 +59,8 @@ public class User {
     private String userSecretKey;
     @Column
     private String userAccount;
+    @Column
+    private String userRole;
 
     public void userUpdate(String userName, String userPw) {
         this.userName = userName;

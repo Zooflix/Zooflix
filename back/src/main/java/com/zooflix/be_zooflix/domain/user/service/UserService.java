@@ -56,6 +56,9 @@ public class UserService {
 
     // 회원가입
     public String postSignup(UserSignupDto userSignupDto) {
+        if (userRepository.existsByUserId(userSignupDto.getUserId())) {
+            return "ID 중복";
+        }
         userSignupDto.setUserPw(passwordEncoder.encode(userSignupDto.getUserPw()));
         User user = userSignupDto.toEntity();
         userRepository.save(user);
