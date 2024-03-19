@@ -16,7 +16,6 @@ import Problem7 from "./pages/Zbti/Problem7";
 import Problem8 from "./pages/Zbti/Problem8";
 import ZbtiStart from "./pages/Zbti/ZbtiStart";
 import { AnimatePresence } from "framer-motion";
-import Intro from "./components/Landing/Intro";
 
 function App() {
   const location = useLocation();
@@ -39,14 +38,26 @@ function App() {
 
   return (
     <div>
-      <SideNavBar />
-      <Routes>
-        <Route path="/" element={<SideNavBar />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/radio" element={<Radio />} />
-        <Route path="/main" element={<Main />} />
-      </Routes>
+      <AnimatePresence>
+        {showHeaderandSide() && <Header />}
+        {showHeaderandSide() && <SideNavBar />}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/radio" element={<Radio />} />
+          <Route path="/main" element={<Main />} />
+
+          <Route path="/zbti" element={<ZbtiStart />} />
+          <Route path="/problem1" element={<Problem1 />} />
+          <Route path="/problem2" element={<Problem2 />} />
+          <Route path="/problem3" element={<Problem3 />} />
+          <Route path="/problem4" element={<Problem4 />} />
+          <Route path="/problem5" element={<Problem5 />} />
+          <Route path="/problem6" element={<Problem6 />} />
+          <Route path="/problem7" element={<Problem7 />} />
+          <Route path="/problem8" element={<Problem8 />} />
+        </Routes>
+      </AnimatePresence>
     </div>
   );
 }
