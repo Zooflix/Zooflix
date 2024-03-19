@@ -5,6 +5,8 @@ import com.zooflix.be_zooflix.domain.radio.service.RadioService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,16 +19,19 @@ public class RadioController {
     private final RadioService radioService;
 
     /* 라디오봇 */
-    @PostMapping("/radio/translation/summary")
+    @PostMapping("/radio/translation/summary/tts")
     @Operation(summary = "번역 후 요약")
-    public ResponseEntity<?> playRadio() throws JsonProcessingException {
+    public ResponseEntity<byte[]> playRadio() throws JsonProcessingException {
 //        String crawlingResult = radioService.callCrawlingEndpoint();
 //        String translationResult = radioService.callTranslationEndpoint(crawlingResult);
 //        String summaryResult = radioService.callSummaryEndpoint(translationResult);
 //        String summaryResult = radioService.callSummaryEndpoint();
-        String result = radioService.getRadio();
-        System.out.println("번역 후 요약: "+result);
-        return ResponseEntity.ok().body(result);
+        byte[] audioData = radioService.callTtsEndpoint();
+        System.out.println("번역 후 요약: ");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("audio/mpeg"))
+                .body(audioData);
     }
 
 //    /* 키워드 겟 */
