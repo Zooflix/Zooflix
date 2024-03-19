@@ -16,8 +16,8 @@ function PlayButton(props: PlayButtonProps) {
 export default PlayButton   ;
 
 const ButtonImg = styled.img`
-  width: 2.1rem;
-  height: 2.1rem;
-  margin: 0.7rem;
+  width: 50px;
+  height: 30px;
+  margin: 5px 0 20px;
   cursor: pointer;
 `;
