@@ -11,7 +11,7 @@ function Problem7() {
   const navigate = useNavigate();
 
   const handleAnswerClick = () => {
-    navigate("/problem2");
+    navigate("/problem8");
   };
   return (
     <PageTransition>
@@ -19,7 +19,13 @@ function Problem7() {
         <ZbtiHeader />
         <Question text="나의 1년 목표 수익률은?" />
         <ImgContainer>
-          <img src={Icon} alt="icon" className="icon" />
+          <img
+            src={Icon}
+            alt="icon"
+            className="icon"
+            loading="lazy"
+            decoding="async"
+          />
         </ImgContainer>
         <Answer
           text="예금 금리만 넘기는 수준이라면 만족"

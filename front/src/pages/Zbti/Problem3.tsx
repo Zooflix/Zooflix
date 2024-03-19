@@ -20,7 +20,13 @@ function Problem3() {
         <ZbtiHeader />
         <Question text="주식이 급등해서 10%의 수익을 얻는다면?" />
         <ImgContainer>
-          <img src={Icon} alt="icon" className="icon" />
+          <img
+            src={Icon}
+            alt="icon"
+            className="icon"
+            loading="lazy"
+            decoding="async"
+          />
         </ImgContainer>
         <Answer
           text="미래가 중요해.. 나는 존버할래.."

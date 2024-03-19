@@ -11,7 +11,7 @@ function Problem2() {
   const navigate = useNavigate();
 
   const handleAnswerClick = () => {
-    navigate("/problem2");
+    navigate("/problem3");
   };
 
   return (
@@ -20,7 +20,13 @@ function Problem2() {
         <ZbtiHeader />
         <Question text="내가 처음으로 보유한 주식은?" />
         <ImgContainer>
-          <img src={Icon} alt="icon" className="icon" />
+          <img
+            src={Icon}
+            alt="icon"
+            className="icon"
+            loading="lazy"
+            decoding="async"
+          />
         </ImgContainer>
         <Answer
           text="삼성전자, 테슬라와 같은 대형주"
