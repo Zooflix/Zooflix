@@ -7,9 +7,9 @@ type BarIconProps = {
 
 function BarIcon(props: BarIconProps) {
   return (
-    <Wrapper>
+    <div>
       <img src="" alt="" />
-    </Wrapper>
+    </div>
   );
 }
 
