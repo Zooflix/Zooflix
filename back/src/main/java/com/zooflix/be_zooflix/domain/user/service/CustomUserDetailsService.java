@@ -1,6 +1,7 @@
 package com.zooflix.be_zooflix.domain.user.service;
 
 import com.zooflix.be_zooflix.domain.user.dto.CustomUserDetails;
+import com.zooflix.be_zooflix.domain.user.dto.UserDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         if (user != null) {
             //UserDetails에 담아서 return하면 AutneticationManager가 검증 함
-            return new CustomUserDetails(user);
+            UserDto userDto = new UserDto();
+            userDto = userDto.toDTO(user);
+            return new CustomUserDetails(userDto);
         }
 
         return null;

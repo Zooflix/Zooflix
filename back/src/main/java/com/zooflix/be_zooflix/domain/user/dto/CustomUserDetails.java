@@ -9,11 +9,11 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+    private final UserDto userDto;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(UserDto userDto) {
 
-        this.user = user;
+        this.userDto = userDto;
     }
 
 
@@ -27,7 +27,7 @@ public class CustomUserDetails implements UserDetails {
             @Override
             public String getAuthority() {
 
-                return user.getUserRole();
+                return userDto.getUserRole();
             }
         });
 
@@ -37,13 +37,13 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public String getPassword() {
 
-        return user.getUserPw();
+        return userDto.getUserPw();
     }
 
     @Override
     public String getUsername() {
 
-        return user.getUserName();
+        return userDto.getUserName();
     }
 
     @Override
