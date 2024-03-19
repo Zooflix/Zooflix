@@ -1,16 +1,17 @@
 import { Chart, ChartData } from "chart.js";
 import styled from "styled-components";
+import DoughnutChart from "./DoughnutChart";
 
 function TemperatureWithImage() {
-    
-    interface DonutChartProps {
-        data: ChartData;
-    }
 
-    
+    const mannerTemperature = 30;
+    const Nickname = "다라란";
     return (
         <Wrapper>
-
+            <DoughnutChart/>
+            {Nickname}
+            <br/>
+            {mannerTemperature + "°C"}
         </Wrapper>
     )
 }
@@ -18,15 +19,6 @@ function TemperatureWithImage() {
 export default TemperatureWithImage;
 
 const Wrapper = styled.div`
-    display: flex;
+    display: column;
     justify-content: center;
-    height: 470px;
-`;
-
-const Temparature = styled.div`
-    text-align: center;
-`;
-
-const ImageWithNickname = styled.div`
-    flex-direction: column;
 `;
