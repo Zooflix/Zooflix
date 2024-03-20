@@ -19,6 +19,7 @@ import ZbtiStart from "./pages/Zbti/ZbtiStart";
 import { AnimatePresence } from "framer-motion";
 import Loading from "./pages/Zbti/Loading";
 import Intro from "./components/Landing/Intro";
+import styled from "styled-components";
 
 function App() {
   const location = useLocation();
@@ -41,7 +42,7 @@ function App() {
   };
 
   return (
-    <div>
+    <AppWrapper>
       <AnimatePresence>
         {showHeaderandSide() && <Header />}
         {showHeaderandSide() && <SideNavBar />}
@@ -64,8 +65,12 @@ function App() {
           <Route path="/loading" element={<Loading />} />
         </Routes>
       </AnimatePresence>
-    </div>
+    </AppWrapper>
   );
 }
 
 export default App;
+
+const AppWrapper = styled.div`
+  width: 100vw;
+`;
