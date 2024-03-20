@@ -6,7 +6,6 @@ import { useState } from "react";
 
 function SignupForm() {
   const [isChecked, setIsChecked] = useState(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleCheckboxChange = (event: any) => {
     setIsChecked(event.target.checked);
