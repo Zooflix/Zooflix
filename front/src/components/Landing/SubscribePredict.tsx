@@ -14,7 +14,7 @@ function SubscribePredict() {
         </p>
       </div>
       <div>
-        <img src={img1} />
+        <img src={img1} alt="landing1" />
       </div>
     </LandingWrapper>
   );
