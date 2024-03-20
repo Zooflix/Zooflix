@@ -6,6 +6,8 @@ import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 import com.zooflix.be_zooflix.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +37,12 @@ public class UserController {
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<String> insertSignup(UserSignupDto userSignupDto) {
-        System.out.println(userSignupDto.getUserPw());
         return ResponseEntity.ok(userService.postSignup(userSignupDto));
     }
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ResponseEntity<String> selectLogin(@RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<String> selectLogin(UserLoginDto userLoginDto) {
         return ResponseEntity.ok(userService.postLogin(userLoginDto));
     }
 
@@ -67,6 +68,11 @@ public class UserController {
     @DeleteMapping("/delete/{userNo}")
     public ResponseEntity<String> deleteUser(@PathVariable int userNo) {
         return ResponseEntity.ok(userService.deleteUser(userNo));
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+        return userService.tokenReissue(request, response);
     }
 
 }

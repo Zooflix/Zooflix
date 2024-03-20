@@ -33,8 +33,6 @@ public class User {
     @Column(unique = true)
     private String userName;
     @Column
-    private String refreshToken;
-    @Column
     private int reportCount = 0;
     @Column
     private LocalDateTime reportDate;
@@ -59,6 +57,8 @@ public class User {
     private String userSecretKey;
     @Column
     private String userAccount;
+    @Column
+    private String userRole;
 
     public void userUpdate(String userName, String userPw) {
         this.userName = userName;

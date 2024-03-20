@@ -1,67 +1,120 @@
 package com.zooflix.be_zooflix.global.config;
 
+import com.zooflix.be_zooflix.domain.user.entity.User;
+import com.zooflix.be_zooflix.global.jwt.CustomLogoutFilter;
+import com.zooflix.be_zooflix.global.jwt.JWTFilter;
+import com.zooflix.be_zooflix.global.jwt.JWTUtil;
+import com.zooflix.be_zooflix.global.jwt.LoginFilter;
+import com.zooflix.be_zooflix.global.jwt.repository.JWTRefreshRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-//@RequiredArgsConstructor
 public class SecurityConfig {
 
+    //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
+    private final JWTRefreshRepository jwtRefreshRepository;
+
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil, JWTRefreshRepository jwtRefreshRepository) {
+
+        this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
+        this.jwtRefreshRepository = jwtRefreshRepository;
+    }
+
+    //AuthenticationManager Bean 등록
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+
+        return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-                .csrf(AbstractHttpConfigurer::disable);
+                .cors((cors) -> cors
+                        .configurationSource(new CorsConfigurationSource() {
+                            @Override
+                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                                CorsConfiguration configuration = new CorsConfiguration();
+
+                                // 3000번 포트 허용
+                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                                // get post등 모든 메서드 허용
+                                configuration.setAllowedMethods(Collections.singletonList("*"));
+                                configuration.setAllowCredentials(true);
+                                configuration.setAllowedHeaders(Collections.singletonList("*"));
+                                configuration.setMaxAge(3600L);
+
+                                // 토큰을 Authorization 헤더에 보내니까 이것도 허용
+                                configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+
+                                return configuration;
+                            }
+                        }));
+
+        //csrf disable
+        http
+                .csrf((auth) -> auth.disable());
+
+        //From 로그인 방식 disable
+        http
+                .formLogin((auth) -> auth.disable());
+
+        //http basic 인증 방식 disable
+        http
+                .httpBasic((auth) -> auth.disable());
+
+        //경로별 인가 작업. /**는 모든 경로를 뜻함.
+        http
+                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/auth/signup", "/", "/auth/login", "/auth/reissue").permitAll()
+                        .requestMatchers("/**").permitAll()
+//                        .requestMatchers("/**").hasRole("ADMIN")
+                        .anyRequest().authenticated());
+
+        //JWTFilter 등록
+        http
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+
+        http
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, jwtRefreshRepository),
+                        UsernamePasswordAuthenticationFilter.class);
+        http
+                .addFilterBefore(new CustomLogoutFilter(jwtUtil, jwtRefreshRepository), LogoutFilter.class);
+
+        //세션 설정
+        http
+                .sessionManagement((session) -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
-
-//    private final JwtTokenProvider jwtTokenProvider;
-//
-//    /**
-//     * httpBasic().disable().csrf().disable(): rest api이므로 basic auth 및 csrf 보안을 사용하지 않는다는 설정
-//     * sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS): JWT를 사용하기 때문에 세션을 사용하지 않는다는 설정
-//     * antMatchers().permitAll(): 해당 API에 대해서는 모든 요청을 허가한다는 설정
-//     * antMatchers().hasRole("USER"): USER 권한이 있어야 요청할 수 있다는 설정
-//     * anyRequest().authenticated(): 이 밖에 모든 요청에 대해서 인증을 필요로 한다는 설정
-//     * addFilterBefore(new JwtAUthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class): JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행하겠다는 설정
-//     * passwordEncoder: JWT를 사용하기 위해서는 기본적으로 password encoder가 필요한데, 여기서는 Bycrypt encoder를 사용
-//     */
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .httpBasic(HttpBasicConfigurer::disable)
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(authorize ->
-//                        authorize
-//                                .requestMatchers("/actuator/**", "/swagger-ui/**", "/sign/**",
-//                                        "/api-docs/swagger-config", "/sign-in", "/sign-up").permitAll()
-//                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                )
-////                .authorizeRequests()
-////                .antMatchers("/members/login").permitAll()
-////                .antMatchers("/members/test").hasRole("USER")
-////                .anyRequest().authenticated()
-////                .and()
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
-//    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
 
 }
