@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 type SquareBtnProps = {
   text: string;
-  style: React.CSSProperties;
+  style?: React.CSSProperties;
 };
 
 function SquareBtn(props: SquareBtnProps): JSX.Element {
@@ -14,10 +14,10 @@ function SquareBtn(props: SquareBtnProps): JSX.Element {
 export default SquareBtn;
 
 const Content = styled.button`
-  width: 5.5rem;
+  width: 90px;
   border-radius: 5px;
   cursor: pointer;
-  padding: 0.3rem 0;
-  border: none;
+  padding: 7px 0;
+  border: 1px solid gray;
   font-weight: bold;
 `;

@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
+import Mypage from "./pages/Mypage/Mypage";
 import Radio from "./pages/Radio/Radio";
 import Main from "./pages/Main/Main";
 import SideNavBar from "./components/Common/SideNavBar";
@@ -50,7 +51,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/radio" element={<Radio />} />
           <Route path="/main" element={<Main />} />
-
+          <Route path="/my-page" element={<Mypage />} />
           <Route path="/zbti" element={<ZbtiStart />} />
           <Route path="/problem1" element={<Problem1 />} />
           <Route path="/problem2" element={<Problem2 />} />

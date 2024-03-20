@@ -1,23 +1,33 @@
 import styled from "styled-components";
+import { useState } from "react";
 
-type PlayButtonProps = {
+type PlayBtnProps = {
   img: string;
-  // onClick: (e: React.MouseEvent<HTMLSpanElement>) => void;
+  onClick: (e: React.MouseEvent<HTMLSpanElement>) => void;
+  disabled: boolean;
 };
 
-function PlayButton(props: PlayButtonProps) {
+function PlayBtn(props: PlayBtnProps) {
+
   return (
       <div>
-        <ButtonImg src={props.img}/> {/* onClick 이벤트 작성 필요 */}
+        <Button onClick={props.onClick} disabled={props.disabled}>
+          <ButtonImg src={props.img}/>
+        </Button>
       </div>
   );
 }
 
-export default PlayButton   ;
+export default PlayBtn   ;
 
+const Button = styled.button`
+  background-color: transparent;
+  border: none;
+  margin: 5px 0 20px;
+  outline: none;
+`;
 const ButtonImg = styled.img`
-  width: 2.1rem;
-  height: 2.1rem;
-  margin: 0.7rem;
+  width: 50px;
+  height: 30px;
   cursor: pointer;
 `;
