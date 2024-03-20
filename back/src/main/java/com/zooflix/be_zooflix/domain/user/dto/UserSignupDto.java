@@ -26,7 +26,7 @@ public class UserSignupDto {
                 .userSecretKey(userSecretKey)
                 .userAccount(userAccount)
                 .userTemperature(30.0)
-                .userRole("ROLE_ADMIN")
+                .userRole("ROLE_USER")
                 .build();
     }
 }

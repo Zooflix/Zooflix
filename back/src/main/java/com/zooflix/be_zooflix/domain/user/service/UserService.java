@@ -12,6 +12,8 @@ import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import com.zooflix.be_zooflix.domain.userSubscribe.repository.UserSubscribeRepository;
 import com.zooflix.be_zooflix.global.jwt.JWTUtil;
+import com.zooflix.be_zooflix.global.jwt.entity.JWTRefresh;
+import com.zooflix.be_zooflix.global.jwt.repository.JWTRefreshRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class UserService {
@@ -32,8 +36,9 @@ public class UserService {
     private final StockSubscribeRepository stockSubscribeRepository;
     private final UserSubscribeRepository userSubscribeRepository;
     private final JWTUtil jwtUtil;
+    private final JWTRefreshRepository jwtRefreshRepository;
 
-    public UserService(UserRepository userRepository, AlarmRepository alarmRepository, ReportRepository reportRepository, PredictRepository predictRepository, StockSubscribeRepository stockSubscribeRepository, UserSubscribeRepository userSubscribeRepository, JWTUtil jwtUtil) {
+    public UserService(UserRepository userRepository, AlarmRepository alarmRepository, ReportRepository reportRepository, PredictRepository predictRepository, StockSubscribeRepository stockSubscribeRepository, UserSubscribeRepository userSubscribeRepository, JWTUtil jwtUtil, JWTRefreshRepository jwtRefreshRepository) {
         this.userRepository = userRepository;
         this.alarmRepository = alarmRepository;
         this.reportRepository = reportRepository;
@@ -41,6 +46,7 @@ public class UserService {
         this.stockSubscribeRepository = stockSubscribeRepository;
         this.userSubscribeRepository = userSubscribeRepository;
         this.jwtUtil = jwtUtil;
+        this.jwtRefreshRepository = jwtRefreshRepository;
     }
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -177,18 +183,43 @@ public class UserService {
             return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
         }
 
+        //DB에 저장되어 있는지 확인
+        Boolean isExist = jwtRefreshRepository.existsByRefreshToken(refresh);
+        if (!isExist) {
+
+            //response body 없으면 잘못된 접근이라는 에러.
+            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+        }
+
+        int userNo = jwtUtil.getUserNo(refresh);
         String username = jwtUtil.getUsername(refresh);
         String role = jwtUtil.getRole(refresh);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", username, role, 600000L);
-        String newRefresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
+        String newAccess = jwtUtil.createJwt("access", userNo, username, role, 600000L);
+        String newRefresh = jwtUtil.createJwt("refresh", userNo, username, role, 86400000L);
+
+        //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
+        jwtRefreshRepository.deleteByRefreshToken(refresh);
+        addRefreshEntity(username, newRefresh, 86400000L);
 
         //response
         response.setHeader("access", newAccess);
         response.addCookie(createCookie("refresh", newRefresh));
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void addRefreshEntity(String userId, String refresh, Long expiredMs) {
+
+        Date date = new Date(System.currentTimeMillis() + expiredMs);
+
+        JWTRefresh jwtRefresh = new JWTRefresh();
+        jwtRefresh.setUserId(userId);
+        jwtRefresh.setRefreshToken(refresh);
+        jwtRefresh.setExpiration(date.toString());
+
+        jwtRefreshRepository.save(jwtRefresh);
     }
 
     private Cookie createCookie(String key, String value) {

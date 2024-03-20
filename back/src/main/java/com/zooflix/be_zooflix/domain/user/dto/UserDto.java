@@ -17,7 +17,6 @@ public class UserDto {
     private String userId;
     private String userPw;
     private String userName;
-    private String refreshToken;
     private int reportCount;
     private LocalDateTime reportDate;
     private int predictCount;
@@ -37,7 +36,6 @@ public class UserDto {
                 .userNo(user.getUserNo())
                 .userId(user.getUserId())
                 .userPw(user.getUserPw())
-                .refreshToken(user.getRefreshToken())
                 .reportCount(user.getReportCount())
                 .reportDate(user.getReportDate())
                 .predictCount(user.getPredictCount())

@@ -1,8 +1,7 @@
 package com.zooflix.be_zooflix.global.jwt;
 
-import com.zooflix.be_zooflix.domain.user.dto.CustomUserDetails;
+import com.zooflix.be_zooflix.global.jwt.dto.CustomUserDetails;
 import com.zooflix.be_zooflix.domain.user.dto.UserDto;
-import com.zooflix.be_zooflix.domain.user.entity.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

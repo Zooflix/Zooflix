@@ -1,5 +1,6 @@
-package com.zooflix.be_zooflix.domain.user.dto;
+package com.zooflix.be_zooflix.global.jwt.dto;
 
+import com.zooflix.be_zooflix.domain.user.dto.UserDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,11 +42,13 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
+    public String getUsername() { // 난 userId로 쓰는데 만들어져 있는 메서드들은 username 기준이라 이름만 이렇게 하고 실제 값은 id로 줘야 한다.
 
-        return userDto.getUserName();
+        return userDto.getUserId();
     }
-
+    public int getUserNo() {
+        return userDto.getUserNo();
+    }
     @Override
     public boolean isAccountNonExpired() {
 

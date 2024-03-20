@@ -1,6 +1,6 @@
-package com.zooflix.be_zooflix.domain.user.service;
+package com.zooflix.be_zooflix.global.jwt.service;
 
-import com.zooflix.be_zooflix.domain.user.dto.CustomUserDetails;
+import com.zooflix.be_zooflix.global.jwt.dto.CustomUserDetails;
 import com.zooflix.be_zooflix.domain.user.dto.UserDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;

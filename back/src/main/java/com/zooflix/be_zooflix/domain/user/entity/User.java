@@ -33,8 +33,6 @@ public class User {
     @Column(unique = true)
     private String userName;
     @Column
-    private String refreshToken;
-    @Column
     private int reportCount = 0;
     @Column
     private LocalDateTime reportDate;
