@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MyPredictionDto {
+
+    private int pdNo;               //주식 기본키
     private String stockName;       //주식 종목
     private int pdValue;            //예측 주식 가격
     private boolean pdUpDown;       //주식이 오를지 내릴지 예측 true(오른다), false(내린다)
