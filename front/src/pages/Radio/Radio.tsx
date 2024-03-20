@@ -11,34 +11,35 @@ import Title from "../../components/Common/Title";
 import PlayButton from "../../components/Radio/PlayBtn";
 import SquareBtn from "../../components/Common/SquareBtn";
 
+// 버튼 스타일
 const buttonStyleDark = {
   backgroundColor: "#1E3659",
   color: "white",
   border: "none",
 };
 
+// 재생/중단
+const [ playing, setPlaying ] = useState(true);
+const playBtn = () => {
+  setPlaying(!playing);
+  // 서버에 재생 여부를 전달하는 요청
+  axios.post('/radio/translation/summary/tts', { playing: !playing })
+    .then(response => {
+      console.log('서버 응답:', response.data);
+    })
+    .catch(error => {
+      console.error('오류 발생:', error);
+    });
+}
+
+// 음향조절
+const [volume, setVolume] = useState(50);
+const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const newVolume = parseInt(event.target.value);
+  setVolume(newVolume);
+};
 
 function Radio(): JSX.Element {
-  // 재생/중단
-  const [ playing, setPlaying ] = useState(true);
-  const playBtn = () => {
-    setPlaying(!playing);
-    // 서버에 재생 여부를 전달하는 요청
-    axios.post('/radio/translation/summary/tts', { playing: !playing })
-      .then(response => {
-        console.log('서버 응답:', response.data);
-      })
-      .catch(error => {
-        console.error('오류 발생:', error);
-      });
-  }
-
-  // 음향조절
-  const [volume, setVolume] = useState(50);
-  const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseInt(event.target.value);
-    setVolume(newVolume);
-  };
 
   return (
     <Wrapper>
