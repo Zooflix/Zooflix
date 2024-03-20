@@ -10,7 +10,6 @@ function MyPrediction({ prediction }: PredictionItemProps) {
     setIsContentVisible(!isContentVisible);
   };
 
-  //*********** 백엔드 MyPredictDto 에 pdNo 집어넣어야함***********/
   const deletePrediction = (id: Number) => {
     fetch(`/api/prediction/${id}`, {
       method: "DELETE",
@@ -36,8 +35,8 @@ function MyPrediction({ prediction }: PredictionItemProps) {
         <button>
             <img src={TrashBin} alt="trashbin" onClick={() => deletePrediction(prediction.pdNo)}/>
         </button>
+        {isContentVisible && <div>{prediction.pdContent}</div>}
       </PredictionCell>
-      {isContentVisible && <div>{prediction.pdContent}</div>}
     </Wrapper>
   );
 }

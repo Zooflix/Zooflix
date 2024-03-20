@@ -4,6 +4,7 @@ import MyInfo from "../../components/Mypage/MyInfo";
 import RouteToOtherPage from "../../components/Mypage/RouteToOtherPage";
 import MyPredictList from "../../components/Mypage/MyPredictList";
 import ContentHeader from "../../components/Mypage/ContentHeader";
+import GotoZbti from "../../assets/img/button/GotoZbti.svg"
 
 function Mypage() {
 
@@ -20,6 +21,9 @@ function Mypage() {
                 </LeftSideMyInfo>
                 <RightSideMyInfo>
                     <ContentHeader/>
+                    <GotoZbtiButton>
+                        <img src={GotoZbti} alt="GotoZbti"></img>
+                    </GotoZbtiButton>
                 </RightSideMyInfo>
             </Container>
         </Wrapper>
@@ -52,5 +56,13 @@ const RightSideMyInfo = styled.div`
     float: right;
     width: 775px;
     border : 1px solid;
+    margin: 0 auto;
+`;
+
+const GotoZbtiButton = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 695px;
     margin: 0 auto;
 `;
