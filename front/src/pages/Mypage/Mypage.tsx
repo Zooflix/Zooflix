@@ -3,6 +3,8 @@ import TemperatureWithImage from "../../components/Mypage/TemperatureWithImage";
 import MyInfo from "../../components/Mypage/MyInfo";
 import RouteToOtherPage from "../../components/Mypage/RouteToOtherPage";
 import MyPredictList from "../../components/Mypage/MyPredictList";
+import ContentHeader from "../../components/Mypage/ContentHeader";
+import GotoZbti from "../../assets/img/button/GotoZbti.svg"
 
 function Mypage() {
 
@@ -18,29 +20,10 @@ function Mypage() {
                     <RouteToOtherPage/>
                 </LeftSideMyInfo>
                 <RightSideMyInfo>
-                    <ContentHeader>
-                        <ContentHeaderTab>
-                            <ContentTabList>
-                                <ContentTabListItem>
-                                    <ContentTabListItemSpan>
-                                        <a href="내가 보여줘야 할 곳">
-                                            내가 쓴 예측 글
-                                        </a>
-                                    </ContentTabListItemSpan>
-                                </ContentTabListItem>
-                                <ContentTabListItem>
-                                    <ContentTabListItemSpan>
-                                        <a href="내가 보여줘야 할 곳">
-                                            내 구독 정보
-                                        </a>
-                                    </ContentTabListItemSpan>
-                                </ContentTabListItem>
-                            </ContentTabList>
-                        </ContentHeaderTab>
-                    </ContentHeader>
-
-                    <MyPredictList/>
-
+                    <ContentHeader/>
+                    <GotoZbtiButton>
+                        <img src={GotoZbti} alt="GotoZbti"></img>
+                    </GotoZbtiButton>
                 </RightSideMyInfo>
             </Container>
         </Wrapper>
@@ -76,47 +59,10 @@ const RightSideMyInfo = styled.div`
     margin: 0 auto;
 `;
 
-const ContentHeader = styled.div`
-    diplay: flex;
-    padding: 15px 20px;
-`;
-
-const ContentHeaderTab = styled.div`
-    -webkit-box-flex: 1;
-    flex: 1;
-    display: block;
-`;
-
-const ContentTabList = styled.ul`
+const GotoZbtiButton = styled.button`
     display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    margin-block-style: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
-`;
-
-const ContentTabListItem = styled.li`
-    position: relative;
-    display: list-item;
-    text-align: -webkit-match-parent;
-    margin: 0;
-    padding: 0;
-`;
-
-const ContentTabListItemSpan = styled.span`
-    display: inline-block;
-    // font-size: 1.6rem;
-    line-height: 23px;
-    font-weight: 800;
-    vertical-align: top;
-    color: rgba(8, 8, 8, .5);
-    -webkit-font-smoothing: antialiased;
-`;
-
-const ContentAddress = styled.a`
-    -webkit-any-link: cursor : pointer;
+    justify-content: center;
+    align-items: center;
+    width: 695px;
+    margin: 0 auto;
 `;
