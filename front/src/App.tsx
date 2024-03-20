@@ -21,6 +21,7 @@ import Loading from "./pages/Zbti/Loading";
 import Predict from "./pages/Predict/Predict";
 import PredictCreate from "./pages/Predict/PredictCreate";
 import Intro from "./components/Landing/Intro";
+import styled from "styled-components";
 
 function App() {
   const location = useLocation();
@@ -43,7 +44,7 @@ function App() {
   };
 
   return (
-    <div>
+    <AppWrapper>
       <AnimatePresence>
         {showHeaderandSide() && <Header />}
         {showHeaderandSide() && <SideNavBar />}
@@ -70,8 +71,12 @@ function App() {
           <Route path="/predict/create" element={<PredictCreate />} />
         </Routes>
       </AnimatePresence>
-    </div>
+    </AppWrapper>
   );
 }
 
 export default App;
+
+const AppWrapper = styled.div`
+  width: 100vw;
+`;
