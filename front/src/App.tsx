@@ -18,6 +18,7 @@ import Problem8 from "./pages/Zbti/Problem8";
 import ZbtiStart from "./pages/Zbti/ZbtiStart";
 import { AnimatePresence } from "framer-motion";
 import Loading from "./pages/Zbti/Loading";
+import Predict from "./pages/Predict/Predict";
 
 function App() {
   const location = useLocation();
@@ -59,6 +60,7 @@ function App() {
           <Route path="/problem7" element={<Problem7 />} />
           <Route path="/problem8" element={<Problem8 />} />
           <Route path="/loading" element={<Loading />} />
+          <Route path="/predict" element={<Predict />} />
         </Routes>
       </AnimatePresence>
     </div>
