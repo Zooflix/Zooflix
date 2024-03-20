@@ -30,10 +30,17 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-
+    border: none;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow : 1px 2px 5px rgba(0, 0, 0, 0.2);
     input {
         border: none;
         margin-left: 10px;
+        height: 38px;
+        width: 400px;
     }
-    input:focus {outline: none;}
+    input:focus {
+        outline: none;
+    }
 `;
