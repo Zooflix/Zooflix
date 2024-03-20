@@ -231,13 +231,13 @@ public class RadioService {
                     baos.write(buffer, 0, bytesRead);
                 }
                 byte[] audioData = baos.toByteArray();
-//                try {
-//                    ByteArrayInputStream bis = new ByteArrayInputStream(audioData);
-//                    Player player = new Player(bis);
-//                    player.play();
-//                } catch (JavaLayerException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    ByteArrayInputStream bis = new ByteArrayInputStream(audioData);
+                    Player player = new Player(bis);
+                    player.play();
+                } catch (JavaLayerException e) {
+                    e.printStackTrace();
+                }
                 baos.close();
                 is.close();
                 return baos.toByteArray();
