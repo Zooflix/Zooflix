@@ -15,6 +15,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  cache:
+    type: redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
 
 server:
   port: 8089
@@ -25,10 +30,9 @@ server:
 python:
   endpoint:
     news:
-      crawling: http://127.0.0.1:8000/radio/crawling/endpoint
+      crawling: http://127.0.0.1:8000//radio/crawling/translation/endpoint
       summary: http://127.0.0.1:8000/radio/summary/endpoint
       tts: http://127.0.0.1:8000/radio/tts/endpoint
-      translation: http://127.0.0.1:8000/radio/translation/endpoint
   path:
     news: C:\projects\myapi\News.py
     end-price: C:\projects\myapi\EndPrice.py
