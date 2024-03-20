@@ -4,16 +4,27 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import jakarta.persistence.Cacheable;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import lombok.RequiredArgsConstructor;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
@@ -219,11 +230,17 @@ public class RadioService {
                 while ((bytesRead = is.read(buffer)) != -1) {
                     baos.write(buffer, 0, bytesRead);
                 }
+                byte[] audioData = baos.toByteArray();
+//                try {
+//                    ByteArrayInputStream bis = new ByteArrayInputStream(audioData);
+//                    Player player = new Player(bis);
+//                    player.play();
+//                } catch (JavaLayerException e) {
+//                    e.printStackTrace();
+//                }
                 baos.close();
                 is.close();
-                System.out.println(Arrays.toString(baos.toByteArray()));
                 return baos.toByteArray();
-
             } else { // 오류 발생
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
                 String inputLine;
