@@ -6,6 +6,7 @@ import { useState } from "react";
 
 function SignupForm() {
   const [isChecked, setIsChecked] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleCheckboxChange = (event: any) => {
     setIsChecked(event.target.checked);
@@ -19,8 +20,8 @@ function SignupForm() {
         <InputContainer>
           <UserInput type="text" placeholder="아이디를 입력하세요" />
           <UserInput type="text" placeholder="닉네임을 입력하세요" />
-          <UserInput type="text" placeholder="비밀번호를 입력하세요" />
-          <UserInput type="text" placeholder="비밀번호를 다시 입력하세요" />
+          <UserInput type="password" placeholder="비밀번호를 입력하세요" />
+          <UserInput type="password" placeholder="비밀번호를 다시 입력하세요" />
           <CheckboxContainer>
             <input
               type="checkbox"
@@ -34,15 +35,15 @@ function SignupForm() {
           {isChecked && (
             <>
               <UserInput
-                type="text"
+                type="password"
                 placeholder="한국투자증권의 APP key를 입력하세요"
               />
               <UserInput
-                type="text"
+                type="password"
                 placeholder="한국투자증권의 APP Secret key를 입력하세요"
               />
               <UserInput
-                type="text"
+                type="password"
                 placeholder="한국투자증권의 계좌번호를 입력하세요(10자)"
               />
             </>
@@ -72,13 +73,16 @@ const Container = styled.div`
     color: #2a4263;
   }
   h5 {
-    color: gray;
+    font-size: 15px;
+    color: #737373;
   }
 `;
 
 const InputContainer = styled.div`
   display: flex;
   justify-content: center;
+  text-align: center;
+  align-items: center;
   flex-direction: column;
   margin-top: 20px;
 `;
@@ -90,4 +94,6 @@ const CheckboxContainer = styled.div`
 
 const Label = styled.label`
   margin-left: 5px;
+  font-size: 15px;
+  font-family: "NanumSquareRound";
 `;

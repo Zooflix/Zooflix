@@ -4,7 +4,13 @@ import background from "../../assets/background/login-background1.svg";
 function UserBackground() {
   return (
     <Wrapper>
-      <img src={background} className="back" alt="background" />
+      <img
+        src={background}
+        className="back"
+        alt="background"
+        loading="lazy"
+        decoding="async"
+      />
     </Wrapper>
   );
 }
