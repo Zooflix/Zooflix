@@ -44,15 +44,14 @@ function Radio(): JSX.Element {
   
   // tts
   const [audioSrc, setAudioSrc] = useState('');
-  const playAudio = async () => {
+  const fetchAudioData = async () => {
     try {
-      const response = await fetch('/radio/translation/summary/tts'); // 백엔드 엔드포인트로 요청을 보냅니다.
-      const audioData = await response.arrayBuffer(); // byte 배열을 받아옵니다.
-      const blob = new Blob([audioData], { type: 'audio/wav' }); // byte 배열을 Blob으로 변환합니다.
-      const url = URL.createObjectURL(blob); // Blob URL을 생성합니다.
-      setAudioSrc(url); // Blob URL을 상태에 저장합니다.
+      axios.post('/radio/translation/summary/tts')
+      .then(response => {
+        console.log(response.data);
+      })
     } catch (error) {
-      console.error('Error fetching audio:', error);
+      console.error('Error fetching audio data:', error);
     }
   };
 
@@ -60,11 +59,11 @@ function Radio(): JSX.Element {
     <Wrapper>
       <Title text="뉴스를 들려줄게요" />
       <h2>playing: { playing? "true":"false" }</h2>
+      <button onClick={fetchAudioData}>불러오기</button>
       <PlayContainer>
         <PlayButton img={Playicon} onClick={playBtn} disabled={playing}/>
         <PlayButton img={Pauseicon} onClick={playBtn} disabled={!playing}/>
       </PlayContainer>
-      <button onClick={playAudio}>Play Audio</button>
       {audioSrc && <audio controls src={audioSrc} />}
       <input 
         type="range" 
