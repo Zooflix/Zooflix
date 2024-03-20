@@ -3,6 +3,7 @@ import styled from "styled-components";
 type InputProps = {
   text: string;
   type: string;
+  placeholder: string;
   min?: string;
   max?: string;
 };
@@ -15,6 +16,7 @@ function PredictCostInput(props: InputProps) {
         type={props.type}
         min={props.min}
         max={props.max}
+        placeholder={props.placeholder}
         onChange={(e) => {
           if (props.type === "date" && (props.min || props.max)) {
             const selectedDate = new Date(e.target.value);

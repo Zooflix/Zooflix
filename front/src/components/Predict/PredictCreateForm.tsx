@@ -9,10 +9,14 @@ function PredictCreateForm() {
 
   useEffect(() => {
     const today = new Date();
+    
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     const nextMonth = new Date(today);
     nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-    const minDateString = today.toISOString().split("T")[0];
+
+    const minDateString = tomorrow.toISOString().split("T")[0];
     const maxDateString = nextMonth.toISOString().split("T")[0];
 
     setMinDate(minDateString);
@@ -21,9 +25,9 @@ function PredictCreateForm() {
 
   return (
     <Wrapper>
-      <PredictInput text="종목" type="text" />
-      <PredictInput text="예측날짜" type="date" min={minDate} max={maxDate} />
-      <PredictInput text="예측가" type="number" />
+      <PredictInput text="종목" type="text" placeholder="종목을 검색해주세요."/>
+      <PredictInput text="예측날짜" type="date" min={minDate} max={maxDate} placeholder="날짜를 선택해주세요."/>
+      <PredictInput text="예측가" type="number" placeholder="예측 가격을 입력하세요."/>
       <PredictReasonInput />
     </Wrapper>
   );

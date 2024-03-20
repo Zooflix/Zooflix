@@ -4,7 +4,7 @@ function PredictReasonInput() {
   return (
     <Wrapper>
       <label className="small-title">근거</label>
-      <textarea />
+      <textarea placeholder="근거를 입력하세요."/>
     </Wrapper>
   );
 }
