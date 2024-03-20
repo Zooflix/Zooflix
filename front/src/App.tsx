@@ -19,6 +19,7 @@ import ZbtiStart from "./pages/Zbti/ZbtiStart";
 import { AnimatePresence } from "framer-motion";
 import Loading from "./pages/Zbti/Loading";
 import Predict from "./pages/Predict/Predict";
+import PredictCreate from "./pages/Predict/PredictCreate";
 
 function App() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function App() {
           <Route path="/radio" element={<Radio />} />
           <Route path="/main" element={<Main />} />
           <Route path="/my-page" element={<Mypage />} />
+
           <Route path="/zbti" element={<ZbtiStart />} />
           <Route path="/problem1" element={<Problem1 />} />
           <Route path="/problem2" element={<Problem2 />} />
@@ -61,6 +63,8 @@ function App() {
           <Route path="/problem8" element={<Problem8 />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="/predict" element={<Predict />} />
+
+          <Route path="/predict/create" element={<PredictCreate />} />
         </Routes>
       </AnimatePresence>
     </div>
