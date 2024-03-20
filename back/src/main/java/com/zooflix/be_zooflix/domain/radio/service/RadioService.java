@@ -1,43 +1,37 @@
 package com.zooflix.be_zooflix.domain.radio.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.persistence.Cacheable;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.SourceDataLine;
 import javax.xml.transform.Result;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
+@Cacheable
 public class RadioService {
     /* News.py 엔드포인트 */
     @Value("${python.endpoint.news.crawling}")
     private String pythonEndpointNewsCrawling;
-    @Value("${python.endpoint.news.translation}")
-    private String pythonEndpointNewsTranslation;
     @Value("${python.endpoint.news.summary}")
     private String pythonEndpointNewsSummary;
     @Value("${python.endpoint.news.tts}")
@@ -72,32 +66,22 @@ public class RadioService {
     private String pythonTtsClientSecret;
 
 
+    private final RedisTemplate<String, String> redisTemplate;
+
+
+
     /*
-    * 웹크롤링
+    * 크롤링+번역
     * */
     public String callCrawlingEndpoint() {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("webUrl", pythonNewsUrl); // 요청 바디에 크롤링사이트 url을 추가
-
-        String result = restTemplate.postForObject(pythonEndpointNewsCrawling, requestBody, String.class);
-        return result;
-    }
-
-
-
-    /*
-    * 번역 by papago
-    * */
-    public String callTranslationEndpoint(String content) {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> requestBody = new HashMap<>();
         requestBody.put("clientId", pythonPpgClientId);
         requestBody.put("clientSecret", pythonPpgClientSecret);
         requestBody.put("ppgUrl", pythonPpgUrl);
-        requestBody.put("text", content);
 
-        String result = restTemplate.postForObject(pythonEndpointNewsTranslation, requestBody, String.class);
+        String result = restTemplate.postForObject(pythonEndpointNewsCrawling, requestBody, String.class);
         return result;
     }
 
@@ -120,49 +104,50 @@ public class RadioService {
     /*
      * 요약 by clova
      * */
-    public String callSummaryEndpoint(String content) {
+    public String callSummaryEndpoint(String[] content) {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody;
+        String result = "";
 
-        // 2000자 넘을 경우 나눠서 요약하기
-        String summary = "";
-        if (content.length()<2000) {
-            requestBody = new HashMap<>();
-            requestBody.put("clientId", pythonSummaryClientId);
-            requestBody.put("clientSecret", pythonSummaryClientSecret);
-            requestBody.put("clovaUrl", pythonSummaryUrl);
-            requestBody.put("text", content);
-            summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody, String.class);
+        for (String str : content) {
+            // 2000자 넘을 경우 나눠서 요약하기
+            String summary = "";
+            if (str.length() < 2000) {
+                requestBody = new HashMap<>();
+                requestBody.put("clientId", pythonSummaryClientId);
+                requestBody.put("clientSecret", pythonSummaryClientSecret);
+                requestBody.put("clovaUrl", pythonSummaryUrl);
+                requestBody.put("text", str);
+                summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody,
+                        String.class);
 
-            return summary;
-        } else {
-            String delim = "다.";
-            String[] arr = content.split(delim);
-            int totalSize = 0;
-            String request = "";
-            String result = "";
-            for (int i = 0; i < arr.length; i++) {
-                totalSize += arr[i].length();
-                request += (arr[i] + "다.");
-                if (i + 1 == arr.length)
-                    continue;
-                if (totalSize + arr[i + 1].length() > 2000) {
-                    requestBody = new HashMap<>();
-                    requestBody.put("clientId", pythonSummaryClientId);
-                    requestBody.put("clientSecret", pythonSummaryClientSecret);
-                    requestBody.put("clovaUrl", pythonSummaryUrl);
-                    requestBody.put("text", request);
-                    totalSize = 0;
-                    request = "";
-                    summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody,
-                            String.class);
+                return summary;
+            } else {
+                String delim = "다.";
+                String[] arr = str.split(delim);
+                int totalSize = 0;
+                String request = "";
+                for (int i = 0; i < arr.length; i++) {
+                    totalSize += arr[i].length();
+                    request += (arr[i] + "다.");
+                    if (i + 1 == arr.length)
+                        continue;
+                    if (totalSize + arr[i + 1].length() > 2000) {
+                        requestBody = new HashMap<>();
+                        requestBody.put("clientId", pythonSummaryClientId);
+                        requestBody.put("clientSecret", pythonSummaryClientSecret);
+                        requestBody.put("clovaUrl", pythonSummaryUrl);
+                        requestBody.put("text", request);
+                        totalSize = 0;
+                        request = "";
+                        summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody,
+                                String.class);
+                    }
+                    result += summary;
                 }
-                result += summary;
             }
-
-            return result;
         }
-
+        return result;
     }
 
 
@@ -238,36 +223,6 @@ public class RadioService {
         }
     }
 
-
-    /*
-    * 라디오봇
-    * */
-    public String getRadio() throws JsonProcessingException {
-        String crawling = callCrawlingEndpoint();
-        System.out.println(crawling);
-        System.out.println("crawling success");
-//        String translation = "목요일 미국 원유 비축량의 깜짝 감소로 수요가 증가한 후 아시아 무역의 상승폭이 확대되었고, 우크라이나의 러시아 정유소 공격에 따른 공급 차질 가능성도 가격을 뒷받침했다. 브렌트유 선물은 GMT 기준 10센트(0.12%) 오른 배럴당 84.13달러, 미국 서부텍사스산 원유(WTI)는 7센트(0.9%) 오른 배럴당 79.79달러에 거래됐다. 두 계약 모두 미국의 수요 전망이 높아지고 지정학적 위험이 고조되면서 수요일 약 3% 상승해 4개월 만에 최고치를 기록했다. 수요일 러시아 정제 시설에 대한 우크라이나 드론 공격이 이틀째 계속되어 최근 몇 달 동안 러시아 에너지 부문에 대한 가장 심각한 공격 중 하나로 로스네프트의 가장 큰 정유 공장에서 화재가 발생했다. 우크라이나는 20일 니즈니노브고로드에 있는 루코일 정유공장에 심각한 피해를 입힌 뒤 로스토프와 랴잔 지역의 정유공장에 타격을 입혔다고 러시아 관리들이 밝혔다. 랴잔에서는 드론 공격으로 로스네프트의 정유공장에서 화재가 발생했다. 상황에 정통한 두 소식통은 로이터통신에 정유공장이 2개의 1차 정유공장을 폐쇄할 수밖에 없었다고 전했다. 블라디미르 푸틴 러시아 대통령은 18일(현지시간) 서방 국가들과 가진 국영 언론과의 인터뷰에서 러시아는 기술적으로 핵전쟁에 대비할 준비가 돼 있다고 밝혔다. 미국 에너지정보청(EIA)은 여름 휴가철을 앞두고 수요가 호조를 보이는 가운데 가공량이 늘고 휘발유 재고가 줄면서 수요 측면에서 미국의 원유 비축량이 예상외로 감소했다고 19일 밝혔다. EIA는 3월 8일로 끝난 주에 원유 재고가 6주 연속 150만 배럴 감소한 4억4700만 배럴을 기록했다고 밝혔다. 휘발유 재고는 6주 연속 감소해 570만 배럴 감소한 2억3410만 배럴을 기록했다고 EIA는 밝혔다. 미국 걸프만의 자동차 연료 재고는 2022년 11월 이후 최저치로 떨어졌고, 수요 대용품인 완성차 휘발유는 하루 3만 배럴 증가해 올해 처음으로 900만 배럴 이상을 기록했다";
-        String refine = crawling.replace("\",\"", "@@@@@");
-        List<String> summaryList = new ArrayList<>();
-        String[] arr = refine.split("@@@@@");
-        for(String str : arr ) {
-
-            String translation = callTranslationEndpoint(str);
-            System.out.println(translation);
-            System.out.println("translation success");
-            String summary = callSummaryEndpoint(translation).replace("\\n", " ");
-            String result = summary.replace("\\", " ");
-            System.out.println("summary success");
-
-            summaryList.add(result.replace("\\n", " "));
-        }
-        System.out.println("summaryList: "+summaryList);
-//        for(String str : summaryList) {
-//            String result = callTtsEndpoint(str);
-//            System.out.println(result);
-//        }
-        return "success";
-    }
 
 
 
