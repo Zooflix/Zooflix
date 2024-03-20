@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 // 컴포넌트
 import Title from "../../components/Common/Title";
@@ -27,7 +28,9 @@ function Predict() {
             <LeftContainer>
                 <FirstContainer>
                     <Title text="주식 예측 하기" />
+                    <Link to="/predict/create">
                     <SquareBtn text="나도 예측하기" style={buttonStyleDark} />
+                    </Link>
                 </FirstContainer>
                 <SecondContainer>
                     <Search type="text" placeholder="종목명을 입력하세요." />

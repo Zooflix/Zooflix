@@ -20,6 +20,10 @@ import { AnimatePresence } from "framer-motion";
 import Loading from "./pages/Zbti/Loading";
 import Predict from "./pages/Predict/Predict";
 import PredictCreate from "./pages/Predict/PredictCreate";
+import Intro from "./components/Landing/Intro";
+import styled from "styled-components";
+import Hippo3d from "./components/Character/Hippo3d";
+import Unicorn3d from "./components/Character/Unicorn3d";
 
 function App() {
   const location = useLocation();
@@ -27,6 +31,7 @@ function App() {
   const showHeaderandSide = () => {
     const { pathname } = location;
     return ![
+      "/",
       "/login",
       "/signup",
       "/problem1",
@@ -41,16 +46,18 @@ function App() {
   };
 
   return (
-    <div>
+    <AppWrapper>
       <AnimatePresence>
         {showHeaderandSide() && <Header />}
         {showHeaderandSide() && <SideNavBar />}
         <Routes>
+          <Route path="/" element={<Intro />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/radio" element={<Radio />} />
           <Route path="/main" element={<Main />} />
           <Route path="/my-page" element={<Mypage />} />
+          <Route path="/3d" element={<Unicorn3d />} />
 
           <Route path="/zbti" element={<ZbtiStart />} />
           <Route path="/problem1" element={<Problem1 />} />
@@ -67,8 +74,12 @@ function App() {
           <Route path="/predict/create" element={<PredictCreate />} />
         </Routes>
       </AnimatePresence>
-    </div>
+    </AppWrapper>
   );
 }
 
 export default App;
+
+const AppWrapper = styled.div`
+  width: 100vw;
+`;

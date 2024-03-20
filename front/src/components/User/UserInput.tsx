@@ -26,5 +26,10 @@ const Wrapper = styled.div`
     font-family: "NanumSquareRound";
     font-weight: bold;
     padding: 0 20px;
+    color: #091034;
+
+    ::placeholder {
+      color: #091034;
+    }
   }
 `;
