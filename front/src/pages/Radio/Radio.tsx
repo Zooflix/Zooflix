@@ -18,28 +18,43 @@ const buttonStyleDark = {
   border: "none",
 };
 
-// 재생/중단
-const [ playing, setPlaying ] = useState(true);
-const playBtn = () => {
-  setPlaying(!playing);
-  // 서버에 재생 여부를 전달하는 요청
-  axios.post('/radio/translation/summary/tts', { playing: !playing })
-    .then(response => {
-      console.log('서버 응답:', response.data);
-    })
-    .catch(error => {
-      console.error('오류 발생:', error);
-    });
-}
 
-// 음향조절
-const [volume, setVolume] = useState(50);
-const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const newVolume = parseInt(event.target.value);
-  setVolume(newVolume);
-};
 
 function Radio(): JSX.Element {
+  // 재생/중단
+  const [ playing, setPlaying ] = useState(true);
+  const playBtn = () => {
+    setPlaying(!playing);
+    // 서버에 재생 여부를 전달하는 요청
+    axios.post('/radio/translation/summary/tts', { playing: !playing })
+      .then(response => {
+        console.log('서버 응답:', response.data);
+      })
+      .catch(error => {
+        console.error('오류 발생:', error);
+      });
+  }
+  
+  // 음향조절
+  const [volume, setVolume] = useState(50);
+  const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseInt(event.target.value);
+    setVolume(newVolume);
+  };
+  
+  // tts
+  const [audioSrc, setAudioSrc] = useState('');
+  const playAudio = async () => {
+    try {
+      const response = await fetch('/radio/translation/summary/tts'); // 백엔드 엔드포인트로 요청을 보냅니다.
+      const audioData = await response.arrayBuffer(); // byte 배열을 받아옵니다.
+      const blob = new Blob([audioData], { type: 'audio/wav' }); // byte 배열을 Blob으로 변환합니다.
+      const url = URL.createObjectURL(blob); // Blob URL을 생성합니다.
+      setAudioSrc(url); // Blob URL을 상태에 저장합니다.
+    } catch (error) {
+      console.error('Error fetching audio:', error);
+    }
+  };
 
   return (
     <Wrapper>
@@ -49,6 +64,8 @@ function Radio(): JSX.Element {
         <PlayButton img={Playicon} onClick={playBtn} disabled={playing}/>
         <PlayButton img={Pauseicon} onClick={playBtn} disabled={!playing}/>
       </PlayContainer>
+      <button onClick={playAudio}>Play Audio</button>
+      {audioSrc && <audio controls src={audioSrc} />}
       <input 
         type="range" 
         min="0" 
