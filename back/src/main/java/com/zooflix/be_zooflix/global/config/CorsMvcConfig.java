@@ -11,6 +11,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
 
         // 모든 컨트롤러 경로에 대해 3000 포트 허용.
         corsRegistry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000");
+                .allowedOrigins("*");
+//        .allowedOrigins("http://localhost:3000");
     }
 }

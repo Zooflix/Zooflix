@@ -65,7 +65,8 @@ public class SecurityConfig {
                                 CorsConfiguration configuration = new CorsConfiguration();
 
                                 // 3000번 포트 허용
-                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                                configuration.setAllowedOrigins(Collections.singletonList("*"));
+//                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                                 // get post등 모든 메서드 허용
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
                                 configuration.setAllowCredentials(true);
