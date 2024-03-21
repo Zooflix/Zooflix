@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.global.jwt.CustomLogoutFilter;
 import com.zooflix.be_zooflix.global.jwt.JWTFilter;
@@ -65,10 +66,11 @@ public class SecurityConfig {
                                 CorsConfiguration configuration = new CorsConfiguration();
 
                                 // 3000번 포트 허용
-                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                                configuration.setAllowedOrigins(Collections.singletonList("*"));
+//                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                                 // get post등 모든 메서드 허용
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
-                                configuration.setAllowCredentials(true);
+//                                configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Collections.singletonList("*"));
                                 configuration.setMaxAge(3600L);
 

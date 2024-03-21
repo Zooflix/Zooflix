@@ -1,6 +1,9 @@
 package com.zooflix.be_zooflix.global.jwt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.user.dto.UserDto;
+import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.global.jwt.dto.CustomUserDetails;
 import com.zooflix.be_zooflix.global.jwt.entity.JWTRefresh;
 import com.zooflix.be_zooflix.global.jwt.repository.JWTRefreshRepository;
@@ -15,10 +18,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 

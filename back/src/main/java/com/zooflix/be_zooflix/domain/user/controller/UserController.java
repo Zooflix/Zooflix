@@ -36,13 +36,13 @@ public class UserController {
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<String> insertSignup(UserSignupDto userSignupDto) {
+    public ResponseEntity<String> insertSignup(@RequestBody UserSignupDto userSignupDto) {
         return ResponseEntity.ok(userService.postSignup(userSignupDto));
     }
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ResponseEntity<String> selectLogin(UserLoginDto userLoginDto) {
+    public ResponseEntity<String> selectLogin(@RequestBody UserLoginDto userLoginDto) {
         return ResponseEntity.ok(userService.postLogin(userLoginDto));
     }
 
