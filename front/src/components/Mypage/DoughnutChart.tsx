@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {Chart as ChartJS, ArcElement, Tooltip} from "chart.js";
 import {Doughnut} from "react-chartjs-2";
-
 import BearImg from "../../assets/img/Zbti/BearImg.svg"
 
 ChartJS.register(ArcElement, Tooltip);
@@ -23,9 +22,6 @@ function DoughnutChart() {
   }
 
   const Options = {  };
-
-
-  const Nickname = "다라란";
 
   return (
     <ChartWrapper>

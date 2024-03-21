@@ -5,9 +5,9 @@ import RouteToOtherPage from "../../components/Mypage/RouteToOtherPage";
 import ContentHeader from "../../components/Mypage/ContentHeader";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg"
 import { useRecoilState } from "recoil";
-import { myPageInfoState } from "../../Store/RecoilState";
+import { myPageInfoState, myPagePredictListState } from "../../Store/RecoilState";
 import { useEffect } from "react";
-import { getMyPageData } from "../../apis/api/MyPage";
+import { getMyInfo, getMyPredictList } from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
 
 
@@ -18,28 +18,43 @@ function Mypage() {
     const navigate = useNavigate();
     
     const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
-
-    const accessToken = localStorage.getItem('accessToken');
+    const [myPagePredictList, setMyPagePredictList] = useRecoilState(myPagePredictListState);
+    // const accessToken = localStorage.getItem('accessToken');
+    const userNo = 2;
 
     useEffect(() => {
 
-        if(!localStorage.accessToken){
-            navigate("/main");
-            return;
-        }
+        // if(!accessToken){
+        //     navigate("/main");
+        //     return;
+        // }
 
-        // 고쳐야 할 부분 아직 정확하게 흐름 이해 못함...
-        const fetchData = async (accessToken: String) => {
+        // 임의의 인덱스값 userNo 넣음
+        const fetchData = async (userNo: Number) => {
             try {
-                const data = await getMyPageData(accessToken);
+                const data = await getMyInfo(userNo);
                 setMyPageInfo(data);
+                console.log(data);
             } catch (error) {
+                console.log("내 정보 불러오기 실패");
+                console.error(error);
+            }   
+
+            try {
+                const data = await getMyPredictList(userNo);
+                setMyPagePredictList(data);
+                console.log(data);
+            } catch (error) {
+                console.log("내 예측 목록 실패");
                 console.error(error);
             }
         }
 
-        fetchData("dsf");
-        ////////////////////////////////////////////////
+        fetchData(userNo);
+        
+
+
+
     }, []);
 
     return (

@@ -18,7 +18,7 @@ export async function selectOneUserInfo(userId: number) {
 //회원 로그인
 export async function loginUser(username: String, password: String) {
   try {    
-    const response = await axios.post(`/login`, { username, password });
+    const response = await axios.post(`/auth/login`, { username, password });
     console.log(response.data);
     return response.data.access;
   } catch (e) {

@@ -10,6 +10,8 @@ function MyPrediction({ prediction }: PredictionItemProps) {
     setIsContentVisible(!isContentVisible);
   };
 
+
+  // 미완성된 예측글 삭제 기능
   const deletePrediction = (id: Number) => {
     fetch(`/api/prediction/${id}`, {
       method: "DELETE",
