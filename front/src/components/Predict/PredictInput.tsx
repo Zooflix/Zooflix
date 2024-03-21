@@ -17,7 +17,7 @@ function PredictCostInput(props: InputProps) {
         type={props.type}
         min={props.min}
         max={props.max}
-        placeholder={props.placeholder}
+        data-placeholder={props.placeholder}
         required aria-required="true"
         onChange={(e) => {
           if (props.type === "date" && (props.min || props.max)) {
@@ -53,10 +53,11 @@ const Wrapper = styled.div`
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
     padding: 0 30px;
+    margin-right: 20px;
   }
 
   input[type='date']::before {
-    content: attr(placeholder);
+    content: attr(data-placeholder);
     width: 100%;
   }
 

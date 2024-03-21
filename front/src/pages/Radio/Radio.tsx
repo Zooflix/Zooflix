@@ -8,7 +8,7 @@ import Pauseicon from "../../assets/img/button/Pause.svg";
 
 // 컴포넌트
 import Title from "../../components/Common/Title";
-import PlayButton from "../../components/Radio/PlayBtn";
+import ImgBtn from "../../components/Common/ImgBtn";
 import SquareBtn from "../../components/Common/SquareBtn";
 import Bear3d from "../../components/Character/Bear3d";
 
@@ -18,6 +18,12 @@ const buttonStyleDark = {
   color: "white",
   border: "none",
 };
+
+const imgBtnStyle = {
+  width: "50px",
+  height: "30px",
+  margin: "5px 0 20px",
+}
 
 
 
@@ -62,8 +68,8 @@ function Radio(): JSX.Element {
       <h2>playing: { playing? "true":"false" }</h2>
       <button onClick={fetchAudioData}>불러오기</button>
       <PlayContainer>
-        <PlayButton img={Playicon} onClick={playBtn} disabled={playing}/>
-        <PlayButton img={Pauseicon} onClick={playBtn} disabled={!playing}/>
+        <ImgBtn src={Playicon} onClick={playBtn} disabled={playing} style={imgBtnStyle}/>
+        <ImgBtn src={Pauseicon} onClick={playBtn} disabled={!playing} style={imgBtnStyle}/>
       </PlayContainer>
       {audioSrc && <audio controls src={audioSrc} />}
       <input 

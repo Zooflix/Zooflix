@@ -32,6 +32,7 @@ const Wrapper = styled.div`
     border: none;
     background-color: white;
     box-shadow : 1px 2px 5px rgba(0, 0, 0, 0.2);
+    margin-right: 30px;
 
     input {
         border: none;
