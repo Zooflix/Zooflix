@@ -17,7 +17,7 @@ export default Header;
 const ImgContainer = styled.div`
   img {
     width: 150px;
-    margin-top: 30px;
+    margin: 30px 0;
   }
   display: flex;
   justify-content: center;
