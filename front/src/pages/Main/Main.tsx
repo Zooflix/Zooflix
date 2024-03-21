@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import FlowBar from "../../components/Main/FlowBar";
 
 function Main() {

@@ -42,7 +42,7 @@ export default Problem1;
 
 const Wrapper = styled.div`
   .icon {
-    width: 400px;
+    width: 300px;
   }
 `;
 
