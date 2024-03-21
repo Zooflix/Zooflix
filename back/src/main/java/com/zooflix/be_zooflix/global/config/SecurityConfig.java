@@ -69,7 +69,7 @@ public class SecurityConfig {
 //                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                                 // get post등 모든 메서드 허용
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
-                                configuration.setAllowCredentials(true);
+//                                configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Collections.singletonList("*"));
                                 configuration.setMaxAge(3600L);
 
