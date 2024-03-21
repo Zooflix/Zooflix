@@ -7,32 +7,57 @@ import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
 import { myPageInfoState } from "../../Store/RecoilState";
 import { useEffect } from "react";
+import { getMyPageData } from "../../apis/api/MyPage";
+import { useNavigate } from "react-router";
 
 function Mypage() {
   const info = "내 정보";
 
   const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
 
-  useEffect(() => {}, []);
+    const navigate = useNavigate();
 
-  return (
-    <Wrapper>
-      <Container>
-        <LeftSideMyInfo>
-          {info}
-          <TemperatureWithImage />
-          <MyInfo />
-          <RouteToOtherPage />
-        </LeftSideMyInfo>
-        <RightSideMyInfo>
-          <ContentHeader />
-          <GotoZbtiButton>
-            <img src={GotoZbti} alt="GotoZbti"></img>
-          </GotoZbtiButton>
-        </RightSideMyInfo>
-      </Container>
-    </Wrapper>
-  );
+    const accessToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+
+        if(!localStorage.accessToken){
+            navigate("/main");
+            return;
+        }
+
+        // 고쳐야 할 부분 아직 정확하게 흐름 이해 못함...
+        const fetchData = async (accessToken: String) => {
+            try {
+                const data = await getMyPageData(accessToken);
+                setMyPageInfo(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchData("dsf");
+        ////////////////////////////////////////////////
+    }, []);
+
+    return (
+        <Wrapper>
+            <Container>
+                <LeftSideMyInfo>
+                    {info}
+                    <TemperatureWithImage/>
+                    <MyInfo/>
+                    <RouteToOtherPage/>
+                </LeftSideMyInfo>
+                <RightSideMyInfo>
+                    <ContentHeader/>
+                    <GotoZbtiButton>
+                        <img src={GotoZbti} alt="GotoZbti"></img>
+                    </GotoZbtiButton>
+                </RightSideMyInfo>
+            </Container>
+        </Wrapper>
+    );
 }
 
 export default Mypage;
