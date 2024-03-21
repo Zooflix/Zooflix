@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -19,32 +20,54 @@ const buttonStyleDark = {
     width: "110px",
     height: "40px",
     borderRadius: "20px",
-    boxShadow : "1px 2px 5px rgba(0, 0, 0, 0.2)"
+    boxShadow: "1px 2px 5px rgba(0, 0, 0, 0.2)",
+};
+
+const searchInputStyle = {
+    width: "25vw",
 };
 
 function Predict() {
+    const [sorted, setSorted] = useState("date"); // 초기값은 "date"
+    const [stockName, setStockName] = useState("null"); // 초기값은 "null"
+
+    const handleSortChange = (value: React.SetStateAction<string>) => {
+        setSorted(value);
+    };
+
+    const handleSearchChange = (value: React.SetStateAction<string>) => {
+        setStockName(value);
+    };
+
     return (
         <Wrapper>
             <LeftContainer>
                 <FirstContainer>
                     <Title text="주식 예측 하기" />
                     <Link to="/predict/create">
-                    <SquareBtn text="나도 예측하기" style={buttonStyleDark} />
+                        <SquareBtn
+                            text="나도 예측하기"
+                            style={buttonStyleDark}
+                        />
                     </Link>
                 </FirstContainer>
                 <SecondContainer>
-                    <Search type="text" placeholder="종목명을 입력하세요." />
-                    <Sort />
+                    <Search
+                        type="text"
+                        placeholder="종목명을 입력하세요."
+                        onSearchChange={handleSearchChange}
+                        style={searchInputStyle}
+                    />
+                    <Sort onSortChange={handleSortChange} />
                 </SecondContainer>
 
-                    <ListHeader/>
-                    <PredictList sorted="date"/>
-
+                <ListHeader />
+                <PredictList sorted={sorted} stockName={stockName} />
             </LeftContainer>
             <RightContainer>
-                <Rank search=""/>
-                <Graph search=""/>
-                <StockHistory search=""/>
+                <Rank search="" />
+                <Graph search="" />
+                <StockHistory search="" />
             </RightContainer>
         </Wrapper>
     );
@@ -78,5 +101,3 @@ const SecondContainer = styled.div`
     align-items: center;
     justify-content: space-between;
 `;
-
-

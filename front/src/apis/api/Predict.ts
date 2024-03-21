@@ -3,29 +3,12 @@ import { axios } from "../utils/axios";
 const REST_PREDICT_API = "http://localhost:8089/predict";
 
 //전체 예측 글 조회
-export async function selectPredicts(sorted: String) {
+export async function selectPredicts(sorted: String, stockName: String) {
     try {
         const response = await axios.get(`${REST_PREDICT_API}`, {
             params: {
                 sorted: sorted,
-            },
-        });
-        console.log(response.data);
-        return response.data;
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-//종목명 검색
-export async function selectPredictsByStockName(
-    stockName: String,
-    sorted: String
-) {
-    try {
-        const response = await axios.get(`${REST_PREDICT_API}/${stockName}`, {
-            params: {
-                sorted: sorted,
+                stockName: stockName
             },
         });
         console.log(response.data);
@@ -57,10 +40,6 @@ export async function insertPredict(predictReqDto: PredictReqDto) {
 
 //예측 글 삭제
 export async function deletePredict(pdNo: Number) {
-    const isConfirmed = window.confirm('글을 삭제하시겠습니까?');
-    if(!isConfirmed){
-        return;
-    }
     try {
         const response = await axios.delete(`${REST_PREDICT_API}/${pdNo}`);
         console.log(response.data);

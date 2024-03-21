@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { selectPredicts } from "../../apis/api/Predict";
-import { selectPredictsByStockName } from "../../apis/api/Predict";
 import { deletePredict } from "../../apis/api/Predict";
 
 import Deletebtn from "../../assets/img/button/Deletebtn.svg";
@@ -16,6 +15,7 @@ interface FeedProps {
 
 type PredictProps = {
     sorted: string;
+    stockName: string;
 };
 
 function PredictList(props: PredictProps) {
@@ -23,18 +23,20 @@ function PredictList(props: PredictProps) {
     const [openItems, setOpenItems] = useState<number[]>([]);
 
     useEffect(() => {
-        // PredictList 컴포넌트가 마운트될 때 데이터를 가져옴
-        const fetchData = async () => {
-            try {
-                const result = await selectPredicts(props.sorted); // props로 전달된 sorted 값을 사용하여 데이터 가져옴
-                setData(result);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
         fetchData();
-    }, [props.sorted]);
+    }, [props.sorted, props.stockName]);
+
+    const fetchData = async () => {
+        try {
+            const result = await selectPredicts(
+                props.sorted,
+                props.stockName
+            );
+            setData(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
 
     const toggleContent = (pdNo: number) => {
         setOpenItems((prevState) => {
@@ -44,6 +46,20 @@ function PredictList(props: PredictProps) {
                 return [pdNo];
             }
         });
+    };
+
+    const handleDelete = async (pdNo: number) => {
+        const isConfirmed = window.confirm('글을 삭제하시겠습니까?');
+        if(!isConfirmed){
+            return;
+        }
+        try {
+            await deletePredict(pdNo);
+            // 삭제 후 데이터 다시 가져오기
+            fetchData();
+        } catch (error) {
+            console.log("Error deleting data:", error);
+        }
     };
 
     interface ClickProps {
@@ -97,7 +113,7 @@ function PredictList(props: PredictProps) {
                                 src={Deletebtn}
                                 alt="삭제"
                                 style={{ marginRight: "20px" }}
-                                onClick={() => deletePredict(item.pdNo)}
+                                onClick={() => handleDelete(item.pdNo)}
                             />
                             <img src={Reportbtn} alt="신고" />
                         </FeedIcon>

@@ -6,13 +6,22 @@ type SearchProps = {
     type: string;
     placeholder: string;
     style?: React.CSSProperties;
+    onSearchChange: (value: string) => void;
 };
 
 function Search(props: SearchProps) {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        props.onSearchChange(e.target.value); // 변경된 값 Predict 컴포넌트로 전달
+    };
+
     return (
         <Wrapper>
             <img src={Searchbtn} alt="search" className="Searchbtn" />
-            <input type={props.type} placeholder={props.placeholder} style={props.style}/>
+            <input
+                type={props.type}
+                placeholder={props.placeholder}
+                style={props.style}
+            />
         </Wrapper>
     );
 }
@@ -31,7 +40,7 @@ const Wrapper = styled.div`
     align-items: center;
     border: none;
     background-color: white;
-    box-shadow : 1px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
 
     input {
         border: none;

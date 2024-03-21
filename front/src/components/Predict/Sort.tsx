@@ -1,9 +1,18 @@
 import styled from "styled-components";
+import React, { useState } from "react";
 
-function Sort() {
+type SortProps = {
+    onSortChange: (value: string) => void; // 함수 props 추가
+};
+
+function Sort(props: SortProps) {
+    const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        props.onSortChange(e.target.value); // 변경된 값 Predict 컴포넌트로 전달
+    };
+
     return (
         <Wrapper>
-            <select>
+            <select onChange={handleSortChange}>
                 <option key="date" value="date">
                     최신순
                 </option>
@@ -18,7 +27,6 @@ function Sort() {
 export default Sort;
 
 const Wrapper = styled.div`
-
     select {
         height: 30px;
         width: 75px;
