@@ -14,7 +14,7 @@ function Landing1() {
         </p>
       </Margin>
       <div>
-        <img src={img1} alt="landing1" />
+        <img src={img1} alt="landing1" loading="lazy" decoding="async" />
       </div>
     </LandingWrapper>
   );
