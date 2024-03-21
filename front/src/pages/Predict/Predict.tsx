@@ -38,7 +38,7 @@ function Predict() {
                 </SecondContainer>
 
                     <ListHeader/>
-                    <PredictList />
+                    <PredictList sorted="date"/>
 
             </LeftContainer>
             <RightContainer>

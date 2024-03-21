@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   padding: 20px 10px;
 
   textarea {
-    width: 650px;
+    width: 700px;
     height: 200px;
     border: none;
     resize: none;
@@ -25,10 +25,13 @@ const Wrapper = styled.div`
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
     padding-left: 30px;
+    padding-top: 10px;
+    margin-right: 30px;
   }
 
   .small-title {
+    width: 70px;
     font-weight: bold;
-    padding: 5px 30px;
+    padding: 10px 30px;
   }
 `;
