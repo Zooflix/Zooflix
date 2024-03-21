@@ -2,13 +2,22 @@ import styled from "styled-components";
 import TemperatureWithImage from "../../components/Mypage/TemperatureWithImage";
 import MyInfo from "../../components/Mypage/MyInfo";
 import RouteToOtherPage from "../../components/Mypage/RouteToOtherPage";
-import MyPredictList from "../../components/Mypage/MyPredictList";
 import ContentHeader from "../../components/Mypage/ContentHeader";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg"
+import { useRecoilState } from "recoil";
+import { myPageInfoState } from "../../Store/RecoilState";
+import { useEffect } from "react";
+
 
 function Mypage() {
 
     const info = '내 정보';
+
+    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+
+    useEffect(() => {
+        
+    }, []);
 
     return (
         <Wrapper>
