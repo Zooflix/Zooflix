@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
@@ -18,6 +18,7 @@ function Bear3d(): JSX.Element {
       1,
       5000
     );
+
     camera.position.z = 1000;
 
     const light1 = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
@@ -32,6 +33,8 @@ function Bear3d(): JSX.Element {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     const controls = new OrbitControls(camera, renderer.domElement);
+    //사용자가 화면을 만지지 못하게 조절
+    controls.enabled = false;
 
     const fbxLoader = new FBXLoader();
     fbxLoader.load("/character/Bear.fbx", (object) => {

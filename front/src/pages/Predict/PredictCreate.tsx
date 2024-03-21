@@ -1,11 +1,16 @@
 import styled from "styled-components";
+
+// 컴포넌트
+import Title from "../../components/Common/Title";
 import PredictCreateForm from "../../components/Predict/PredictCreateForm";
 
 function PredictCreate() {
   return (
     <Wrapper>
-      <h3 className="title">나도 예측하기</h3>
-      <PredictCreateForm />
+      {/* <Container> */}
+        <Title text="나도 예측하기" />
+        <PredictCreateForm />
+      {/* </Container> */}
     </Wrapper>
   );
 }
@@ -13,8 +18,13 @@ function PredictCreate() {
 export default PredictCreate;
 
 const Wrapper = styled.div`
-  .title {
-    margin-left: 300px;
-    font-weight: bolder;
-  }
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`

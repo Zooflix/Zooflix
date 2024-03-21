@@ -1,15 +1,37 @@
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 
 function FlowBar() {
+  const [isAnimationComplete, setAnimationComplete] = useState(false);
+
+  useEffect(() => {
+    const handleAnimationEnd = () => {
+      setAnimationComplete(true);
+    };
+
+    const trackElement = document.querySelector(".track");
+    if (trackElement) {
+      trackElement.addEventListener("animationiteration", handleAnimationEnd);
+
+      return () => {
+        trackElement.removeEventListener(
+          "animationiteration",
+          handleAnimationEnd
+        );
+      };
+    }
+  }, []);
+
   return (
     <Wrapper>
       <ScrollText>
-        <Track>
-          <p>코스피</p>
-          <p>코스닥</p>
-          <p>코스피</p>
-          <p>코스피</p>
-          <p>코스피</p>
+        {/* 여기 한투 api나 지수 정보 불러오기 */}
+        <Track className={isAnimationComplete ? "track" : ""}>
+          <p>코스피 2642.36 (-9.93)</p>
+          <p>코스닥 2642.36 (-9.93)</p>
+          <p>코스피 2642.36 (-9.93)</p>
+          <p>코스피 2642.36 (-9.93)</p>
+          <p>코스피 2642.36 (-9.93)</p>
         </Track>
       </ScrollText>
     </Wrapper>
@@ -27,19 +49,30 @@ const Wrapper = styled.div`
       left: -400px;
     }
   }
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 `;
 const ScrollText = styled.div`
-  width: 100%;
+  width: 1200px;
+  height: 40px;
   overflow: hidden;
+  border: none;
+  background-color: white;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 const Track = styled.div`
   display: flex;
   position: relative;
-  width: 2800px;
+  width: 1200px;
   animation: scroll-animation 5s linear infinite;
 
   p {
-    width: 400px;
-    font-size: 36px;
+    width: 600px;
+    font-size: 14px;
   }
 `;
