@@ -22,7 +22,6 @@ import Predict from "./pages/Predict/Predict";
 import PredictCreate from "./pages/Predict/PredictCreate";
 import Intro from "./components/Landing/Intro";
 import styled from "styled-components";
-import Hippo3d from "./components/Character/Hippo3d";
 import Unicorn3d from "./components/Character/Unicorn3d";
 
 function App() {

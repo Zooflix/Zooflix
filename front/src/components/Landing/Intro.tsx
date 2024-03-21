@@ -68,14 +68,32 @@ function Intro() {
     <>
       <LandingPage>
         <div>
-          <img src={Zooflix} alt="Zooflix" width="55%" />
+          <img
+            src={Zooflix}
+            alt="Zooflix"
+            width="55%"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div>
-          <img src={Characters} alt="characters" width="100%" />
+          <img
+            src={Characters}
+            alt="characters"
+            width="100%"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <Margin>주식 구독 서비스를 제공합니다.</Margin>
         <Margin>
-          <img src={below} alt="below" width="60px" />
+          <img
+            src={below}
+            alt="below"
+            width="60px"
+            loading="lazy"
+            decoding="async"
+          />
         </Margin>
       </LandingPage>
 

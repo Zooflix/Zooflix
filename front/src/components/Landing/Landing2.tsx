@@ -6,7 +6,7 @@ function Landing2() {
   return (
     <LandingWrapper>
       <div>
-        <img src={landing2} alt="landing1" />
+        <img src={landing2} alt="landing1" loading="lazy" decoding="async" />
       </div>
       <Margin>
         <h1>주식 정기 구독</h1>
