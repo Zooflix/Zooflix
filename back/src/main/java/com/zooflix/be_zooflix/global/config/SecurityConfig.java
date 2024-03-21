@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.global.jwt.CustomLogoutFilter;
 import com.zooflix.be_zooflix.global.jwt.JWTFilter;
