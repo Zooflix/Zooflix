@@ -13,3 +13,18 @@ export const myPageInfoState = atom({
     subscribeFromMe: 0,
   }
 });
+
+// my page / 내가 쓴 예측 글 목록
+export const myPagePredictListState = atom({
+  key: 'myPagePredictList',
+  default: [],
+});
+
+// interface MyPredictionDto {
+//   stockName: string;
+//   pdValue: number;
+//   pdUpDown: boolean;
+//   pdDate: Date;
+//   pdResult: string;
+//   pdContent: string;
+// }

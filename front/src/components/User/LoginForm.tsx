@@ -19,8 +19,11 @@ function LoginForm() {
     const handleLogin = async () => {
         try {
             const aceessToken = await loginUser(username, password);
+            console.log(aceessToken);
             localStorage.setItem("accessToken", aceessToken);
-            navigate("/main");
+            if(aceessToken != null) {
+                navigate("/main");
+            }
         } catch (e) {
             console.error(e);
         }

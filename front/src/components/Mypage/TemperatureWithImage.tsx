@@ -1,17 +1,18 @@
-import { Chart, ChartData } from "chart.js";
 import styled from "styled-components";
 import DoughnutChart from "./DoughnutChart";
+import { useRecoilState } from "recoil";
+import { myPageInfoState } from "../../Store/RecoilState";
 
 function TemperatureWithImage() {
 
-    const mannerTemperature = 30;
-    const Nickname = "다라란";
+    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+
     return (
         <Wrapper>
             <DoughnutChart/>
-            {Nickname}
+            {myPageInfo.userName}
             <br/>
-            {mannerTemperature + "°C"}
+            {myPageInfo.userTemperature + "°C"}
         </Wrapper>
     )
 }
