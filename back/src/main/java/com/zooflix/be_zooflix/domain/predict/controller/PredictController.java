@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class PredictController {
 
     private final PredictService predictService;
@@ -31,24 +32,17 @@ public class PredictController {
 
     @Operation(summary = "전체 예측 글 조회")
     @GetMapping("/predict")
-    public ResponseEntity<?> selectPredicts(@RequestParam String sorted) {
-        if (!sorted.equals("userTem")) {
+    public ResponseEntity<?> selectPredicts(@RequestParam String sorted,@RequestParam String stockName) {
+        if (!sorted.equals("userTem")&&stockName.equals("null")) { //기본(종목x 정렬x)
             List<PredictResDto> predicts = predictService.getPredicts();
             return ResponseEntity.ok(predicts);
-        } else {
+        } else if(stockName.equals("null")) { //(종목x 정렬o)
             List<PredictResDto> predicts = predictService.getSortedPredicts();
             return ResponseEntity.ok(predicts);
-        }
-    }
-
-
-    @Operation(summary = "종목명 검색")
-    @GetMapping("/predict/{stockName}")
-    public ResponseEntity<?> selectPredictsByStockName(@PathVariable String stockName,@RequestParam String sorted) {
-        if (!sorted.equals("userTem")) {
+        } else if(!sorted.equals("userTem")){ //(종목o 정렬x)
             List<PredictResDto> selectedPredicts = predictService.getPredictsByStockName(stockName);
             return ResponseEntity.ok(selectedPredicts);
-        } else {
+        } else { //(종목o 정렬o)
             List<PredictResDto> selectedPredicts = predictService.getSortedPredictsByStockName(stockName);
             return ResponseEntity.ok(selectedPredicts);
         }

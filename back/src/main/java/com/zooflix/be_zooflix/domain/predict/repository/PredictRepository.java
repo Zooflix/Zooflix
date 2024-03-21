@@ -18,11 +18,26 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
     @Query(nativeQuery = true, value = "select * from predict p where p.user_no = :userNo")
     List<Predict> findMyPredictList(@Param("userNo") int userNo);
     @Query(nativeQuery = true
-            , value = "SELECT p.* FROM predict p INNER JOIN user u ON p.user_no = u.user_no ORDER BY CASE WHEN p.pd_result IS NULL THEN 0 ELSE 1 END, p.pd_date ASC, u.user_temperature DESC;")
+            , value = "SELECT p.*\n" +
+            "FROM predict p\n" +
+            "INNER JOIN user u ON p.user_no = u.user_no\n" +
+            "ORDER BY\n" +
+            "  CASE WHEN p.pd_result IS NULL THEN 0 ELSE 1 END,\n" +
+            "  CASE WHEN p.pd_result IS NULL THEN p.pd_date END ASC,\n" +
+            "  CASE WHEN p.pd_result IS NOT NULL THEN p.pd_date END DESC,\n" +
+            "  u.user_temperature DESC;")
     List<Predict> findByAllOrderByUserTem();
 
     @Query(nativeQuery = true
-            , value = "SELECT p.* FROM predict p INNER JOIN user u ON p.user_no = u.user_no WHERE p.stock_name = :stockName ORDER BY CASE WHEN p.pd_result IS NULL THEN 0 ELSE 1 END, p.pd_date ASC, u.user_temperature DESC;")
+            , value = "SELECT p.*\n" +
+            "FROM predict p\n" +
+            "INNER JOIN user u ON p.user_no = u.user_no\n" +
+            "WHERE p.stock_name = :stockName\n" +
+            "ORDER BY\n" +
+            "  CASE WHEN p.pd_result IS NULL THEN 0 ELSE 1 END,\n" +
+            "  CASE WHEN p.pd_result IS NULL THEN p.pd_date END ASC,\n" +
+            "  CASE WHEN p.pd_result IS NOT NULL THEN p.pd_date END DESC,\n" +
+            "  u.user_temperature DESC;")
     List<Predict> findByStockNameOrderByUserTem(String stockName);
 
     @Query(nativeQuery = true, value = "SELECT pd_date from predict where user_no= :userNo AND pd_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) and pd_date <= CURRENT_DATE();")
