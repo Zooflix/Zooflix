@@ -10,7 +10,7 @@ function MyPredictList() {
   return (
     <Wrapper>
       <div>
-        {myPagePredictList.map((predict, index) => (
+        {myPagePredictList && myPagePredictList.map((predict, index) => (
           <MyPrediction key={index} prediction={predict} />
         ))}
       </div>
@@ -24,7 +24,3 @@ const Wrapper = styled.div`
   margin: 20px;
 `;
 
-const Predicctlist = styled.div`
-    display: flex;
-    justify-content: space-between;
-`;

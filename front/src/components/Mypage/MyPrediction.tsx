@@ -2,6 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import TrashBin from "../../assets/img/button/TrashBin.svg"
 
+type FeedProps = {
+    pdUpDown: boolean;
+    pdResult: string;
+}
 
 function MyPrediction({ prediction }: PredictionItemProps) {
   const [isContentVisible, setIsContentVisible] = useState(false);
