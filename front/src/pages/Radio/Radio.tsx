@@ -10,6 +10,7 @@ import Pauseicon from "../../assets/img/button/Pause.svg";
 import Title from "../../components/Common/Title";
 import PlayButton from "../../components/Radio/PlayBtn";
 import SquareBtn from "../../components/Common/SquareBtn";
+import Bear3d from "../../components/Character/Bear3d";
 
 // 버튼 스타일
 const buttonStyleDark = {
@@ -74,6 +75,7 @@ function Radio(): JSX.Element {
         step="1"
       />
       <span>Volume: {volume}</span>
+      <Bear3d/>
       <SquareBtn text="자막 보기" style={buttonStyleDark} />
     </Wrapper>
   );

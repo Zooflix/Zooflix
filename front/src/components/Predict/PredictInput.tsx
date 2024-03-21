@@ -9,6 +9,7 @@ type InputProps = {
 };
 
 function PredictCostInput(props: InputProps) {
+
   return (
     <Wrapper>
       <label className="small-title">{props.text}</label>
@@ -17,6 +18,7 @@ function PredictCostInput(props: InputProps) {
         min={props.min}
         max={props.max}
         placeholder={props.placeholder}
+        required aria-required="true"
         onChange={(e) => {
           if (props.type === "date" && (props.min || props.max)) {
             const selectedDate = new Date(e.target.value);
@@ -31,7 +33,7 @@ function PredictCostInput(props: InputProps) {
             }
           }
         }}
-      />
+        />
     </Wrapper>
   );
 }
@@ -50,11 +52,24 @@ const Wrapper = styled.div`
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
-    padding-left: 30px;
+    padding: 0 30px;
+  }
+
+  input[type='date']::before {
+    content: attr(placeholder);
+    width: 100%;
+  }
+
+  input[type='date']:focus::before,
+  input[type='date']:valid::before {
+    display: none;
   }
 
   .small-title {
+    width: 70px;
     font-weight: bold;
     padding: 5px 30px;
+    display: flex;
+    align-items: center;
   }
 `;
