@@ -22,8 +22,6 @@ import Predict from "./pages/Predict/Predict";
 import PredictCreate from "./pages/Predict/PredictCreate";
 import Intro from "./components/Landing/Intro";
 import styled from "styled-components";
-import Unicorn3d from "./components/Character/Unicorn3d";
-import Bear3d from "./components/Character/Bear3d";
 
 function App() {
   const location = useLocation();
@@ -57,7 +55,6 @@ function App() {
           <Route path="/radio" element={<Radio />} />
           <Route path="/main" element={<Main />} />
           <Route path="/my-page" element={<Mypage />} />
-          <Route path="/3d" element={<Bear3d />} />
 
           <Route path="/zbti" element={<ZbtiStart />} />
           <Route path="/problem1" element={<Problem1 />} />

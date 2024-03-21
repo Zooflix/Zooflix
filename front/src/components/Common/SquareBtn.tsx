@@ -7,13 +7,13 @@ type SquareBtnProps = {
 
 function SquareBtn(props: SquareBtnProps): JSX.Element {
   return (
-    <Content style={props.style}>{props.text}</Content>
+    <Button style={props.style}>{props.text}</Button>
   );
 };
 
 export default SquareBtn;
 
-const Content = styled.button`
+const Button = styled.button`
   width: 90px;
   border-radius: 5px;
   cursor: pointer;
