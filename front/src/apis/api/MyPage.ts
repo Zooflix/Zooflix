@@ -16,7 +16,7 @@ export const getMyPageData = async (accessToken: String) => {
         if(!accessToken) {
             throw new Error("Access token is not set");
         }
-        const response = await axios.get(`${REST_MYPAGE_API}/info/${userNo}`);
+        const response = await axios.get(`${REST_MYPAGE_API}/info/${accessToken}`);
         return response.data;
     } catch (error) {
         console.error(error);

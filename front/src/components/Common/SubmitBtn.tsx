@@ -4,6 +4,8 @@ type SubmitBtnProps = {
   text: string;
 };
 
+
+
 function SubmitBtn(props: SubmitBtnProps) {
   return <Button>{props.text}</Button>;
 }

@@ -12,3 +12,15 @@ export async function selectOneUserInfo(userId: number) {
     console.log(e);
   }
 }
+
+
+//회원 로그인
+export async function loginUser(username: String, password: String) {
+  try {
+    const response = await axios.post(`/login`, { username, password });
+    console.log(response.data);
+    return response.data.access;
+  } catch (e) {
+    console.log(e);
+  }
+}
