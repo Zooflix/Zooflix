@@ -40,12 +40,8 @@ const Wrapper = styled.div`
     align-items: center;
     border: none;
     background-color: white;
-<<<<<<< HEAD
-    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-=======
     box-shadow : 1px 2px 5px rgba(0, 0, 0, 0.2);
     margin-right: 30px;
->>>>>>> 34ca727a62904bec0da07958d21724730a4d15de
 
     input {
         border: none;

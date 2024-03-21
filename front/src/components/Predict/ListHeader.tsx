@@ -4,7 +4,7 @@ function ListHeader() {
     const header = ["종목명", "작성자", "예측날짜", "예측가"];
     return (
         <Wrapper>
-            {header.map((item, index) => (
+            {header && header.map((item, index) => (
                 <div style={{ width: "100px" }}key={index}>{item}</div>
             ))}
         </Wrapper>

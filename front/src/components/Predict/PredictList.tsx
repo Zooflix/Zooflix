@@ -8,7 +8,7 @@ import Reportbtn from "../../assets/img/button/Reportbtn.svg";
 import Feedbtn from "../../assets/img/button/Feedbtn.svg";
 import FeedOpenbtn from "../../assets/img/button/FeedOpenbtn.svg";
 
-interface FeedProps {
+type FeedProps = {
     pdUpDown: boolean;
     pdResult: string;
 }
@@ -74,7 +74,7 @@ function PredictList(props: PredictProps) {
 
     return (
         <Wrapper>
-            {data.map((item) => (
+            {data && data.map((item) => (
                 <Feed
                     key={item.pdNo}
                     pdUpDown={item.pdUpDown}

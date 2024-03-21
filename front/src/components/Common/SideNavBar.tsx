@@ -15,7 +15,7 @@ function SideNavBar() {
     { name: "홈", path: "/main", icon: Home },
     { name: "주식", path: "/main", icon: Stock },
     { name: "예측", path: "/predict", icon: Mypage },
-    { name: "마이", path: "/main", icon: Predict },
+    { name: "마이", path: "/my-page", icon: Predict },
     { name: "라디오", path: "/radio", icon: Radio },
   ];
 
