@@ -5,7 +5,7 @@ import RouteToOtherPage from "../../components/Mypage/RouteToOtherPage";
 import ContentHeader from "../../components/Mypage/ContentHeader";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg"
 import { useRecoilState } from "recoil";
-import { myPageInfoState } from "../../components/Atom/RecoilState";
+import { myPageInfoState } from "../../Store/RecoilState";
 import { useEffect } from "react";
 
 
