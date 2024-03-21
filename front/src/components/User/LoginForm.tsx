@@ -18,14 +18,13 @@ function LoginForm() {
 
     const handleLogin = async () => {
         try {
-          const aceessToken = await loginUser(username, password);
-          localStorage.setItem('accessToken', aceessToken);
-          navigate("/main");
+            const aceessToken = await loginUser(username, password);
+            localStorage.setItem("accessToken", aceessToken);
+            navigate("/main");
         } catch (e) {
-          console.error(e);
+            console.error(e);
         }
-      };
-
+    };
 
     return (
         <Wrapper>
