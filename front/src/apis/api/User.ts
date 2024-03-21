@@ -1,3 +1,4 @@
+import { REACT_APP_HOME_URL } from "../constants";
 import { axios } from "../utils/axios";
 
 const REST_USER_API = `/user`;
@@ -16,11 +17,11 @@ export async function selectOneUserInfo(userId: number) {
 
 //회원 로그인
 export async function loginUser(username: String, password: String) {
-  try {
+  try {    
     const response = await axios.post(`/login`, { username, password });
     console.log(response.data);
     return response.data.access;
   } catch (e) {
     console.log(e);
-  }
+  } 
 }
