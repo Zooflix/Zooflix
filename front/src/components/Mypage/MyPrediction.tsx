@@ -11,7 +11,7 @@ function MyPrediction({ prediction }: PredictionItemProps) {
   };
 
 
-  // 미완성된 예측글 삭제 기능
+  // 미완성된 예측글 삭제
   const deletePrediction = (id: Number) => {
     fetch(`/api/prediction/${id}`, {
       method: "DELETE",
@@ -29,17 +29,16 @@ function MyPrediction({ prediction }: PredictionItemProps) {
   }
 
   return (
-    <Wrapper>
-      <PredictionCell style={{ backgroundColor: prediction.pdUpDown ? 'red' : 'blue' }} onClick={toggleContentVisibility}>
-        <div>{prediction.stockName}</div>
-        <div>{prediction.pdValue} {prediction.pdUpDown ? '↑' : '↓'}</div>
-        <div>{prediction.pdDate} {prediction.pdResult}</div>
-        <button>
-            <img src={TrashBin} alt="trashbin" onClick={() => deletePrediction(prediction.pdNo)}/>
-        </button>
-        {isContentVisible && <div>{prediction.pdContent}</div>}
-      </PredictionCell>
-    </Wrapper>
+    
+    <PredictionCell style={{ backgroundColor: prediction.pdUpDown ? 'red' : 'blue' }} onClick={toggleContentVisibility}>
+      <div>{prediction.stockName}</div>
+      <div>{prediction.pdValue} {prediction.pdUpDown ? '↑' : '▼'}</div>
+      <div>{prediction.pdDate} {prediction.pdResult}</div>
+      <button>
+          <img src={TrashBin} alt="trashbin" onClick={() => deletePrediction(prediction.pdNo)}/>
+      </button>
+      {isContentVisible && <div>{prediction.pdContent}</div>}
+    </PredictionCell>
   );
 }
 
@@ -59,14 +58,15 @@ interface PredictionItemProps {
   prediction: Prediction;
 }
 
-const Wrapper = styled.div`
-  margin: 20px;
-`;
+// const Wrapper = styled.div`
+//   margin: 20px;
+// `;
 
 const PredictionCell = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
+  margin: 20px;   //Wrapper 없애고 넣어보기
   padding: 10px;
   gap: 10px;
   button {
