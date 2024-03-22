@@ -169,6 +169,7 @@ const ButtonDiv = styled.div`
     padding: 15px 50px;
     font-weight: bold;
     margin: 10px;
+    cursor: pointer;
   }
 
   text-align: center;
