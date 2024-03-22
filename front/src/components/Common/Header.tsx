@@ -4,11 +4,9 @@ import Logo from "../../assets/img/Logo.svg";
 
 function Header() {
   return (
-    <div>
-      <ImgContainer>
-        <img src={Logo} alt="logo" />
-      </ImgContainer>
-    </div>
+    <ImgContainer>
+      <img src={Logo} alt="logo" />
+    </ImgContainer>
   );
 }
 
@@ -22,4 +20,5 @@ const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 10px;
 `;
