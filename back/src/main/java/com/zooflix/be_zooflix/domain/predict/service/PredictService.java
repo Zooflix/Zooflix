@@ -40,6 +40,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -114,9 +115,9 @@ public class PredictService {
         //나를 구독한 사람들을 조회
         List<UserSubscribe> subscribers = userSubscribeRepository.findSubscribeToMe(dto.getUserNo());
 
-        String content = userRepository.findMyInfo(dto.getUserNo()).getUserName() +"님의 새로운 예측 글이 작성되었습니다.";
+        String content = userRepository.findMyInfo(dto.getUserNo()).getUserName() + "님의 새로운 예측 글이 작성되었습니다.";
         // 그 사람들에게 알림 send
-        for(UserSubscribe subscriber : subscribers){
+        for (UserSubscribe subscriber : subscribers) {
             User subscriberUser = subscriber.getUser();
             alarmService.send(subscriberUser, content, AlarmTypeStatus.WRITE);
         }
@@ -131,9 +132,7 @@ public class PredictService {
         List<Predict> todayPredictions = predictRepository.findByPdDate(today);
         for (Predict prediction : todayPredictions) {
             int nxtValue = getClosingPrice(prediction.getStockName(), prediction.getPdDate().toString());
-            System.out.println(prediction.getNxtValue());
             prediction.setNxtValue(nxtValue);
-            System.out.println(prediction.getNxtValue());
             predictRepository.save(prediction);
         }
 
@@ -227,8 +226,8 @@ public class PredictService {
         Map<String, Object> requestBody = new HashMap<>();
 
         String date = String.valueOf(LocalDate.now());
-        List<String> dateList = predictRepository.findPdDateByUserNo(userNo);
-        List<String> valueList = predictRepository.findPdValueByUserNo(userNo);
+        List<String> dateList = predictRepository.findPdDateByUserNo(userNo, stockName);
+        List<String> valueList = predictRepository.findPdValueByUserNo(userNo, stockName);
         List<Float> valueListF = new ArrayList<>();
         for (String valueString : valueList) {
             Float value = Float.parseFloat(valueString);
@@ -250,6 +249,23 @@ public class PredictService {
 
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
         UserKeyProjection userInfo = userRepository.findByUserNo(userNo);
+        List<StockHistoryDto> historyDtoList = new ArrayList<>();
+        if (userInfo.getUserAppKey() == null || userInfo.getUserSecretKey() == null || userInfo.getUserAccount() == null) {
+            return historyDtoList;
+        }
+
+        //액세스토큰 확인
+        String TOKEN = "";
+        if (userInfo.getUserToken() != null) {
+            Duration duration = Duration.between(LocalDateTime.now(), userInfo.getUserTokenDate());
+            if (duration.toHours() < 24) {
+                TOKEN = userInfo.getUserToken();
+            } else {
+                TOKEN = getAccessToken(userNo);
+            }
+        } else {
+            TOKEN = getAccessToken(userNo);
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate today = LocalDate.now();
         String formattedDate = today.format(formatter);
@@ -273,13 +289,13 @@ public class PredictService {
 
         StringBuffer sb = new StringBuffer();
         String returnData = "";
-        List<StockHistoryDto> historyDtoList = new ArrayList<>();
+
         try {
             url = new URL(urlData);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Authorization", "Bearer " + getAccessToken(userInfo));
+            conn.setRequestProperty("Authorization", "Bearer " + TOKEN);
             conn.setRequestProperty("appkey", userInfo.getUserAppKey());
             conn.setRequestProperty("appsecret", userInfo.getUserSecretKey());
             conn.setRequestProperty("tr_id", "TTTC8001R");
@@ -304,11 +320,15 @@ public class PredictService {
                 if (output1Node.isArray()) {
                     // 각 요소에 대해 반복하면서 출력
                     for (JsonNode element : output1Node) {
-//                        System.out.println("output1 요소:");
-//                        System.out.println(element.toPrettyString());
+                        String type = "";
+                        if (element.get("sll_buy_dvsn_cd").asText().equals("01")) {
+                            type = "매도";
+                        } else {
+                            type = "매수";
+                        }
                         StockHistoryDto dto = StockHistoryDto.builder()
                                 .stockDate(element.get("ord_dt").asText())
-                                .stockType(element.get("sll_buy_dvsn_cd").asText())
+                                .stockType(type)
                                 .stockName(element.get("prdt_name").asText())
                                 .stockNum(element.get("ord_qty").asText())
                                 .stockCost(element.get("avg_prvs").asText())
@@ -316,8 +336,6 @@ public class PredictService {
 
                         historyDtoList.add(dto);
                     }
-                } else {
-                    System.out.println("output1 키에 해당하는 값이 배열이 아닙니다.");
                 }
                 if (br != null) {
                     br.close();
@@ -329,7 +347,8 @@ public class PredictService {
         return historyDtoList;
     }
 
-    public String getAccessToken(UserKeyProjection userInfo) {
+    public String getAccessToken(int userNo) {
+        User userInfo = userRepository.findMyInfo(userNo);
         // HttpClient 인스턴스 생성
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // API 엔드포인트 URL
@@ -359,7 +378,8 @@ public class PredictService {
                     String responseBody = EntityUtils.toString(entity);
                     ObjectMapper objectMapper = new ObjectMapper();
                     JsonNode jsonNode = objectMapper.readTree(responseBody);
-
+                    userInfo.userUpdateToken(jsonNode.get("access_token").asText(), LocalDateTime.now());
+                    userRepository.save(userInfo);
                     return jsonNode.get("access_token").asText();
                 }
             }
