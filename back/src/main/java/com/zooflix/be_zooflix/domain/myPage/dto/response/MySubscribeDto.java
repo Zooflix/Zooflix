@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class MySubscribeDto {
     private String subscribeName;       //구독한 사람의 닉네임
     private double subscribeTemperature;   //구독한 사람의 온도
-
 }

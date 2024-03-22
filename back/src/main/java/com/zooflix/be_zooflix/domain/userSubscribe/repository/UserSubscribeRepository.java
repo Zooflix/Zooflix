@@ -17,8 +17,13 @@ public interface UserSubscribeRepository extends JpaRepository<UserSubscribe, In
     @Query(nativeQuery = true, value = "select * from user_subscribe s where s.subscribe_no = :subscribeNo")
     List<UserSubscribe> findSubscribeToMe(@Param("subscribeNo") int subscribeNo);
 
-    //내가 구독한 사람들을 조회
-    @Query(nativeQuery = true, value = "select * from user_subscribe s where s.user_no = :userNo")
+    //내가 구독한 사람들을 조회(유저 온도 DESC)
+    @Query(nativeQuery = true,
+            value = "select s.*\n" +
+                    "from user_subscribe s\n" +
+                    "inner join user u ON u.user_no = s.subscribe_user_no\n" +
+                    "where s.user_no = :userNo\n" +
+                    "ORDER BY u.user_temperature desc;")
     List<UserSubscribe> findSubscribeFromMe(@Param("userNo") int userNo);
 
     @Modifying(clearAutomatically = true)

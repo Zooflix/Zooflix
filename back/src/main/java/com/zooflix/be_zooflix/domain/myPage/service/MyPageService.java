@@ -102,10 +102,10 @@ public class MyPageService {
 
         List<MySubscribeDto> mySubscribeList = new ArrayList<>();
 
-        //mySubscribeList 추가
+        List<MyInfoDto> myInfoList = new ArrayList<>(); //유저 목록을 모아서 온도로 내림차순하기 위해 필요
+
         for(UserSubscribe val : userSubscribeFromMe){
             MyInfoDto myInfoDto = userRepository.findByUserId(val.getSubscribeUserNo());
-
             MySubscribeDto mySubscribeDto = new MySubscribeDto();
 
             mySubscribeDto.setSubscribeName(myInfoDto.getUserName());

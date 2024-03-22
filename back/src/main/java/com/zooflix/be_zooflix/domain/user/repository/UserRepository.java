@@ -33,6 +33,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("select new com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto(u.userName, u.userTemperature) from User u where u.userNo = :subscribeUserNo")
     MyInfoDto findByUserId(@Param("subscribeUserNo") int subscribeUserNo);
 
+    //구독한 사람 목록을 온도로 내림차순 정렬
+    @Query("select new com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto(u.userName, u.userTemperature) from User u  order by u.userTemperature")
+    List<MyInfoDto> findAllByTemperature();
+
     @Query(nativeQuery = true, value = "select user_no, user_name, predict_count, success_count, fail_count, user_temperature, user_zbti, success_streak from user u order by user_temperature desc limit 3")
     List<UserRankingDto> getUserRanking();
     @Query(nativeQuery = true, value = "select user_no, user_name, predict_count, success_count, fail_count, user_temperature, user_zbti, success_streak from user u order by success_count desc limit 1")

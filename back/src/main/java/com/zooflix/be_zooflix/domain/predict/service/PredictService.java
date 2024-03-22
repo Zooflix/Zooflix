@@ -59,7 +59,7 @@ public class PredictService {
     }
 
     //전체 예측 목록 조회
-    public List<PredictResDto> getPredicts() {
+    public List<PredictResDto>  getPredicts() {
         List<Predict> predicts = predictRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
         return predicts.stream()
                 .map(this::toDto)
