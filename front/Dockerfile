@@ -1,4 +1,4 @@
-FROM node:20.11.1-alpine
+FROM node:20.11.1-alpine as builder
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
