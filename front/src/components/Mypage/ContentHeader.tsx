@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MyPredictList from "./MyPredictList";
 import MySubscriptions from "./MySubscription";
+import MySubscribeList from "./MySubscribeList";
 
 interface ContentHeaderProps {}
 
@@ -36,9 +37,9 @@ function ContentHeader(props: ContentHeaderProps) {
                     </ContentTabList>
                 </ContentHeaderTab>
             </ContentTabHeader>
-            {/* 여기에 선택된 탭에 따른 화면을 동적으로 렌더링 */}
+            
             {selectedTab === "my-predictions" && <MyPredictList />}
-            {selectedTab === "my-subscriptions" && <MySubscriptions />}
+            {selectedTab === "my-subscriptions" && <MySubscribeList />}
         </Wrapper>
     );
 }

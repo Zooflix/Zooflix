@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import DoughnutChart from "./DoughnutChart";
 import { useRecoilState } from "recoil";
-import { myPageInfoState } from "../../Store/RecoilState";
+import { myPageInfoState } from "../../Store/MyPageState";
 
 function TemperatureWithImage() {
 

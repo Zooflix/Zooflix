@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { myPageInfoState } from "../../Store/RecoilState";
+import { myPageInfoState } from "../../Store/MyPageState";
 
 function MyInfo() {
     const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);

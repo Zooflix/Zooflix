@@ -7,6 +7,20 @@ type FeedProps = {
     pdResult: string;
 }
 
+interface Prediction {
+  pdNo: number;
+  stockName: string;
+  pdValue: number;
+  pdUpDown: boolean;
+  pdDate: string;
+  pdResult: string;
+  pdContent: string;
+}
+
+interface PredictionItemProps {
+  prediction: Prediction;
+}
+
 function MyPrediction({ prediction }: PredictionItemProps) {
   const [isContentVisible, setIsContentVisible] = useState(false);
 
@@ -17,7 +31,7 @@ function MyPrediction({ prediction }: PredictionItemProps) {
 
   // 미완성된 예측글 삭제
   const deletePrediction = (id: Number) => {
-    fetch(`/api/prediction/${id}`, {
+    fetch(`/predict/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -48,19 +62,7 @@ function MyPrediction({ prediction }: PredictionItemProps) {
 
 export default MyPrediction;
 
-interface Prediction {
-  pdNo: number;
-  stockName: string;
-  pdValue: number;
-  pdUpDown: boolean;
-  pdDate: string;
-  pdResult: string;
-  pdContent: string;
-}
 
-interface PredictionItemProps {
-  prediction: Prediction;
-}
 
 // const Wrapper = styled.div`
 //   margin: 20px;
