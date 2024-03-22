@@ -30,6 +30,8 @@ public class UserDto {
     private String userSecretKey;
     private String userAccount;
     private String userRole;
+    private String userToken;
+    private LocalDateTime userTokenDate;
 
     public UserDto toDTO(User user) {
         return UserDto.builder()
@@ -49,6 +51,8 @@ public class UserDto {
                 .userSecretKey(user.getUserSecretKey())
                 .userAccount(user.getUserAccount())
                 .userRole(user.getUserRole())
+                .userToken(user.getUserToken())
+                .userTokenDate(user.getUserTokenDate())
                 .build();
     }
 }
