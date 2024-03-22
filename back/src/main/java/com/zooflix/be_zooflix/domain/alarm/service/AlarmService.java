@@ -221,8 +221,9 @@ public class AlarmService {
         List<FindListAlarmResponse> alarmResponseList = new ArrayList<>();
 
         for(Alarm alarm : alarmList){
+            System.out.println(alarm.getAlarmNo());
             if (alarm.getSenderUser() != null) { // 발신자가 null이 아닌 경우에만 처리
-                System.out.println("alarm.getAlarmNo() = " + alarm.getAlarmNo());
+                System.out.println("alarm.getSenderUser() = " + alarm.getSenderUser().getUserId());
 
             FindListAlarmResponse build = FindListAlarmResponse.builder()
                     .senederId(alarm.getSenderUser().getUserNo())
