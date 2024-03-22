@@ -48,15 +48,19 @@ const Side = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   border-radius: 10px;
   background: linear-gradient(45deg, #fff, #09244a);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 20px;
-  width: 100px;
+  padding-top: 10vh;
+  width: 6vw;
+  min-width: 90px;
+  img {
+    margin-top: 10px;
+  }
 `;
 
 const Menu = styled.div`
