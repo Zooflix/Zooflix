@@ -12,6 +12,7 @@ import Rank from "../../components/Predict/Rank";
 import Graph from "../../components/Predict/Graph";
 import StockHistory from "../../components/Predict/StockHistory";
 import ListHeader from "../../components/Predict/ListHeader";
+import Page from "../../components/Predict/Page";
 
 const buttonStyleDark = {
     backgroundColor: "#1E3659",
@@ -30,7 +31,7 @@ const searchInputStyle = {
 function Predict() {
     const [sorted, setSorted] = useState("date"); // 초기값은 "date"
     const [stockName, setStockName] = useState("null"); // 초기값은 "null"
-
+    
     const handleSortChange = (value: React.SetStateAction<string>) => {
         setSorted(value);
     };
@@ -66,9 +67,10 @@ function Predict() {
             </LeftContainer>
             <RightContainer>
                 <Rank search="" />
-                <Graph search="" />
-                <StockHistory search="" />
+                <Graph/>
+                <StockHistory/>
             </RightContainer>
+            <Page sorted={sorted} stockName={stockName}/>
         </Wrapper>
     );
 }
