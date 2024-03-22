@@ -11,9 +11,20 @@ import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import com.zooflix.be_zooflix.domain.userSubscribe.repository.UserSubscribeRepository;
+import com.zooflix.be_zooflix.global.jwt.JWTUtil;
+import com.zooflix.be_zooflix.global.jwt.entity.JWTRefresh;
+import com.zooflix.be_zooflix.global.jwt.repository.JWTRefreshRepository;
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class UserService {
@@ -24,14 +35,18 @@ public class UserService {
     private final PredictRepository predictRepository;
     private final StockSubscribeRepository stockSubscribeRepository;
     private final UserSubscribeRepository userSubscribeRepository;
+    private final JWTUtil jwtUtil;
+    private final JWTRefreshRepository jwtRefreshRepository;
 
-    public UserService(UserRepository userRepository, AlarmRepository alarmRepository, ReportRepository reportRepository, PredictRepository predictRepository, StockSubscribeRepository stockSubscribeRepository, UserSubscribeRepository userSubscribeRepository) {
+    public UserService(UserRepository userRepository, AlarmRepository alarmRepository, ReportRepository reportRepository, PredictRepository predictRepository, StockSubscribeRepository stockSubscribeRepository, UserSubscribeRepository userSubscribeRepository, JWTUtil jwtUtil, JWTRefreshRepository jwtRefreshRepository) {
         this.userRepository = userRepository;
         this.alarmRepository = alarmRepository;
         this.reportRepository = reportRepository;
         this.predictRepository = predictRepository;
         this.stockSubscribeRepository = stockSubscribeRepository;
         this.userSubscribeRepository = userSubscribeRepository;
+        this.jwtUtil = jwtUtil;
+        this.jwtRefreshRepository = jwtRefreshRepository;
     }
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -56,6 +71,9 @@ public class UserService {
 
     // 회원가입
     public String postSignup(UserSignupDto userSignupDto) {
+        if (userRepository.existsByUserId(userSignupDto.getUserId())) {
+            return "ID 중복";
+        }
         userSignupDto.setUserPw(passwordEncoder.encode(userSignupDto.getUserPw()));
         User user = userSignupDto.toEntity();
         userRepository.save(user);
@@ -127,5 +145,91 @@ public class UserService {
         userSubscribeRepository.deleteAllByUser(userNo);
         userRepository.deleteById(userNo);
         return "회원 정보 삭제 성공";
+    }
+
+    public ResponseEntity<?> tokenReissue(HttpServletRequest request, HttpServletResponse response) {
+        //get refresh token
+        String refresh = null;
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+
+            if (cookie.getName().equals("refresh")) {
+
+                refresh = cookie.getValue();
+            }
+        }
+
+        if (refresh == null) {
+
+            //response status code 프론트와의 협의..
+            return new ResponseEntity<>("refresh token null", HttpStatus.BAD_REQUEST);
+        }
+
+        //expired check
+        try {
+            jwtUtil.isExpired(refresh);
+        } catch (ExpiredJwtException e) { // 리프레쉬 만료 되면 예외가 터짐.
+
+            //response status code
+            return new ResponseEntity<>("refresh token expired", HttpStatus.BAD_REQUEST);
+        }
+
+        // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
+        String category = jwtUtil.getCategory(refresh);
+
+        if (!category.equals("refresh")) {
+
+            //response status code
+            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+        }
+
+        //DB에 저장되어 있는지 확인
+        Boolean isExist = jwtRefreshRepository.existsByRefreshToken(refresh);
+        if (!isExist) {
+
+            //response body 없으면 잘못된 접근이라는 에러.
+            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+        }
+
+        int userNo = jwtUtil.getUserNo(refresh);
+        String username = jwtUtil.getUsername(refresh);
+        String role = jwtUtil.getRole(refresh);
+
+        //make new JWT
+        String newAccess = jwtUtil.createJwt("access", userNo, username, role, 600000L);
+        String newRefresh = jwtUtil.createJwt("refresh", userNo, username, role, 86400000L);
+
+        //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
+        jwtRefreshRepository.deleteByRefreshToken(refresh);
+        addRefreshEntity(username, newRefresh, 86400000L);
+
+        //response
+        response.setHeader("access", newAccess);
+        response.addCookie(createCookie("refresh", newRefresh));
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void addRefreshEntity(String userId, String refresh, Long expiredMs) {
+
+        Date date = new Date(System.currentTimeMillis() + expiredMs);
+
+        JWTRefresh jwtRefresh = new JWTRefresh();
+        jwtRefresh.setUserId(userId);
+        jwtRefresh.setRefreshToken(refresh);
+        jwtRefresh.setExpiration(date.toString());
+
+        jwtRefreshRepository.save(jwtRefresh);
+    }
+
+    private Cookie createCookie(String key, String value) {
+
+        Cookie cookie = new Cookie(key, value); // 키랑 value로 쿠키 생성.
+        cookie.setMaxAge(24*60*60);
+        //cookie.setSecure(true); // https 통신 진행할 경우 추가
+        //cookie.setPath("/"); // 쿠키 적용 범위도 설정 가능
+        cookie.setHttpOnly(true); // 이걸로 자바 스크립트로 쿠키 접근 못하게 막기.
+
+        return cookie;
     }
 }

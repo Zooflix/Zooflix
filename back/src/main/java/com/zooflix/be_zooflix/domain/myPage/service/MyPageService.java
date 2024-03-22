@@ -80,6 +80,7 @@ public class MyPageService {
         for (Predict value : myPredict) {
             MyPredictionDto myPredictionDto = new MyPredictionDto();
 
+            myPredictionDto.setPdNo(value.getPdNo());
             myPredictionDto.setStockName(value.getStockName());
             myPredictionDto.setPdValue(value.getPdValue());
             myPredictionDto.setPdUpDown(value.isPdUpDown());
