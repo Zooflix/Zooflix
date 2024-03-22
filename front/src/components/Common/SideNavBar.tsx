@@ -13,7 +13,7 @@ import Radio from "../../assets/img/SidebarIcon/Radio.svg";
 function SideNavBar() {
   const menus = [
     { name: "홈", path: "/main", icon: Home },
-    { name: "주식", path: "/main", icon: Stock },
+    { name: "주식", path: "/stocksub", icon: Stock },
     { name: "예측", path: "/predict", icon: Mypage },
     { name: "마이", path: "/my-page", icon: Predict },
     { name: "라디오", path: "/radio", icon: Radio },
