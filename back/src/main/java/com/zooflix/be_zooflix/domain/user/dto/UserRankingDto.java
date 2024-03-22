@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class UserRankingDto {
     private int userNo;
-    private String userId;
     private String userName;
     private int predictCount;
     private int successCount;
@@ -17,5 +16,4 @@ public class UserRankingDto {
     private int userTemperature;
     private String userZbti;
     private int successStreak;
-
 }

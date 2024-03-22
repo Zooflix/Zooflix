@@ -34,11 +34,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     MyInfoDto findByUserId(@Param("subscribeUserNo") int subscribeUserNo);
 
     @Query(nativeQuery = true, value = "select user_no, user_name, predict_count, success_count, fail_count, user_temperature, user_zbti, success_streak from user u order by user_temperature desc limit 3")
-    List<UserRankingDto> getUserRanking();
+    List<Object[]> getUserRanking();
     @Query(nativeQuery = true, value = "select user_no, user_name, predict_count, success_count, fail_count, user_temperature, user_zbti, success_streak from user u order by success_count desc limit 1")
-    UserRankingDto getMostPredictUser();
+    Object[] getMostPredictUser();
     @Query(nativeQuery = true, value = "select user_no, user_name, predict_count, success_count, fail_count, user_temperature, user_zbti, success_streak from user u order by fail_count desc limit 1")
-    UserRankingDto getMostWrongPredictUser();
+    Object[] getMostWrongPredictUser();
 
     @Query("SELECT new com.zooflix.be_zooflix.domain.user.dto.UserInfoDto(u.userNo, u.userId, u.userName, u.predictCount, u.successCount, u.userTemperature, " +
             "(SELECT COUNT(us1.subscribeNo) FROM user_subscribe us1 WHERE us1.user.userNo = u.userNo), " +
