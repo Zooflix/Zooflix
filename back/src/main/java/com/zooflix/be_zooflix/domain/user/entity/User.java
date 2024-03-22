@@ -59,7 +59,7 @@ public class User {
     private String userAccount;
     @Column
     private String userRole;
-    @Column
+    @Column(length = 1000)
     private String userToken;
     @Column
     private LocalDateTime userTokenDate;
