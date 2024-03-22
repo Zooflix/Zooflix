@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
     List<Alarm> findByReceiverUserOrderByCreatedAtDesc(User receiverUser);
+    List<Alarm> findByAlarmList();
 
     @Modifying(clearAutomatically = true)
     @Transactional

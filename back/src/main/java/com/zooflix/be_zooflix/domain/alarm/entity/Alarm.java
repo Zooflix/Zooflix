@@ -52,4 +52,5 @@ public class Alarm extends BaseTimeEntity {
         this.isRead = isRead;
     }
 
+
 }

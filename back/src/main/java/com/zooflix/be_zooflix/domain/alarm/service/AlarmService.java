@@ -5,6 +5,7 @@ import com.zooflix.be_zooflix.domain.alarm.entity.Alarm;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
 import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.repository.EmitterRepository;
+import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -175,6 +176,7 @@ public class AlarmService {
     }
 
 
+
     //알림비우기
     public FindListAlarmResponse deleteAlarm() {
         try{
@@ -219,7 +221,9 @@ public class AlarmService {
         List<FindListAlarmResponse> alarmResponseList = new ArrayList<>();
 
         for(Alarm alarm : alarmList){
-            System.out.println("alarm.getAlarmNo() = " + alarm.getAlarmNo());
+            System.out.println(alarm.getAlarmNo());
+            if (alarm.getSenderUser() != null) { // 발신자가 null이 아닌 경우에만 처리
+                System.out.println("alarm.getSenderUser() = " + alarm.getSenderUser().getUserId());
 
             FindListAlarmResponse build = FindListAlarmResponse.builder()
                     .senederId(alarm.getSenderUser().getUserNo())
@@ -229,8 +233,11 @@ public class AlarmService {
                     .isRead(false)
                     .build();
 
-            alarmResponseList.add(build);
+                alarmResponseList.add(build);
+            }
         }
+
+        System.out.println("alarm리스트" + alarmResponseList.size());
         return alarmResponseList;
 
     }
