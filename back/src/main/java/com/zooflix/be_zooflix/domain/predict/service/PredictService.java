@@ -2,6 +2,8 @@ package com.zooflix.be_zooflix.domain.predict.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
+import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
 
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
@@ -13,6 +15,8 @@ import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
+import com.zooflix.be_zooflix.domain.userSubscribe.entity.UserSubscribe;
+import com.zooflix.be_zooflix.domain.userSubscribe.repository.UserSubscribeRepository;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -51,11 +55,15 @@ public class PredictService {
 
     private final PredictRepository predictRepository;
     private final UserRepository userRepository;
+    private final AlarmService alarmService;
+    private final UserSubscribeRepository userSubscribeRepository;
 
     @Autowired
-    public PredictService(PredictRepository predictRepository, UserRepository userRepository) {
+    public PredictService(PredictRepository predictRepository, UserRepository userRepository, AlarmService alarmService, UserSubscribeRepository userSubscribeRepository) {
         this.predictRepository = predictRepository;
         this.userRepository = userRepository;
+        this.alarmService = alarmService;
+        this.userSubscribeRepository = userSubscribeRepository;
     }
 
     //전체 예측 목록 조회
@@ -101,6 +109,18 @@ public class PredictService {
                 .preValue(dto.getPreValue())
                 .pdUpDown(dto.isPdUpDown())
                 .build();
+
+
+        //나를 구독한 사람들을 조회
+        List<UserSubscribe> subscribers = userSubscribeRepository.findSubscribeToMe(dto.getUserNo());
+
+        String content = userRepository.findMyInfo(dto.getUserNo()).getUserName() +"님의 새로운 예측 글이 작성되었습니다.";
+        // 그 사람들에게 알림 send
+        for(UserSubscribe subscriber : subscribers){
+            User subscriberUser = subscriber.getUser();
+            alarmService.send(subscriberUser, content, AlarmTypeStatus.WRITE);
+        }
+
         return toDto(predictRepository.save(predict));
     }
 
@@ -127,8 +147,10 @@ public class PredictService {
         for (Predict prediction : todayPredictions) {
             if (isSuccessful(prediction)) {
                 prediction.setPdResult("성공");
+                alarmService.send(prediction.getUser(), "예측이 성공했습니다", AlarmTypeStatus.RESULT);
             } else {
                 prediction.setPdResult("실패");
+                alarmService.send(prediction.getUser(), "예측이 실패했습니다.", AlarmTypeStatus.RESULT);
             }
             predictRepository.save(prediction);
         }

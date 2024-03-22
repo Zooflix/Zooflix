@@ -1,8 +1,12 @@
 package com.zooflix.be_zooflix.scheduled;
 
 import ch.qos.logback.core.CoreConstants;
+import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
+import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
+import com.zooflix.be_zooflix.domain.user.entity.User;
+import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,16 +14,21 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.*;
 
 @Component
 public class ScheduledStockSubscribe {
 
     private final StockSubscribeRepository stockSubscribeRepository;
+    private final AlarmService alarmService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ScheduledStockSubscribe(StockSubscribeRepository stockSubscribeRepository) {
+    public ScheduledStockSubscribe(StockSubscribeRepository stockSubscribeRepository, AlarmService alarmService, UserRepository userRepository) {
         this.stockSubscribeRepository = stockSubscribeRepository;
+        this.alarmService = alarmService;
+        this.userRepository = userRepository;
     }
 
     // 각 주식 구독자에 대한 작업 수행
@@ -54,6 +63,24 @@ public class ScheduledStockSubscribe {
             }
         }
     }
+
+    // 전날에 구독한 사용자들에게 알림 보내기 (저녁 8시)
+    @Scheduled(cron = "0 0 20 * * ?")
+    public void sendNotificationToSubscribers(){
+
+        // 내일 설정
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        int day = tomorrow.getDayOfMonth();
+
+        //내일 구독한 사용자들 찾기
+        List<StockSubscribeDto> subscribers = stockSubscribeRepository.findSubscribersForDay(day);
+
+        for(StockSubscribeDto subscriber : subscribers){
+            User stockSubscriber = userRepository.findByUserId(subscriber.getUserId());
+            alarmService.send(stockSubscriber, "내일은 "+ subscriber.getStockName() + "주식을 정기 구독한 날입니다.", AlarmTypeStatus.TOMORROW);
+        }
+    }
+
 
     public void httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeDto subscriber) throws IOException {
         String totalUrl = "";
