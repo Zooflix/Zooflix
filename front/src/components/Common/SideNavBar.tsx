@@ -15,7 +15,7 @@ function SideNavBar() {
     { name: "홈", path: "/main", icon: Home },
     { name: "주식", path: "/main", icon: Stock },
     { name: "예측", path: "/predict", icon: Mypage },
-    { name: "마이", path: "/main", icon: Predict },
+    { name: "마이", path: "/my-page", icon: Predict },
     { name: "라디오", path: "/radio", icon: Radio },
   ];
 
@@ -48,15 +48,19 @@ const Side = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   border-radius: 10px;
   background: linear-gradient(45deg, #fff, #09244a);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 40px;
-  width: 100px;
+  padding-top: 10vh;
+  width: 6vw;
+  min-width: 90px;
+  img {
+    margin-top: 10px;
+  }
 `;
 
 const Menu = styled.div`
