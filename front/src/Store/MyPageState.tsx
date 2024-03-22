@@ -20,6 +20,11 @@ export const myPagePredictListState = atom({
   default: [],
 });
 
+export const myPageSubscribeListState = atom({
+  key: 'myPageSubscribeList',
+  default: [],
+});
+
 // interface MyPredictionDto {
 //   stockName: string;
 //   pdValue: number;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import MyPrediction from "./MyPrediction";
 import { useRecoilState } from "recoil";
-import { myPagePredictListState } from "../../Store/RecoilState";
+import { myPagePredictListState } from "../../Store/MyPageState";
 
 function MyPredictList() {
 
