@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.repository;
 
+import com.zooflix.be_zooflix.domain.main.dto.UserRankingKeyProjection;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockRankingDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
@@ -38,21 +39,30 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
     void deleteAllByUser(int userNo);
 
     @Query(nativeQuery = true,
-            value = "select stock_code, stock_name, count(stock_no) as subscriber_no, RANK() OVER ( order by subscriber_no ) as ranking " +
-                    "from stock_subscribe group by stock_code desc limit 3")
-    List<Object[]> getStockRanking();
+            value = "SELECT stock_code, stock_name, count(stock_subscribe_no) as subscriber_no " +
+                    "FROM stock_subscribe " +
+                    "GROUP BY stock_code, stock_name " +
+                    "ORDER BY subscriber_no desc " +
+                    "LIMIT 3")
+    List<StockRankingDto> getStockRanking();
 
     @Query(nativeQuery = true,
-            value = "select u.user_no, u.user_name, u.predict_count, u.success_count, u.fail_count, u.user_temperature, u.user_zbti, u.success_streak" +
-                    "from user u join (select * from predict p1 join (select count(*) c, stock_name from predict group by stock_name order by c desc limit 1) p2 where p1.stock_name = p2.stockname) p" +
-                    "where p.user_no = u.user_no " +
-                    "and pd_result = '성공' " +
-                    "group by user_name " +
-                    "order by cnt desc " +
-                    "limit 1;")
-    Object[] getStockCodeMostPredictUSer();
-
-
+            value = "SELECT " +
+                    "u.user_no AS userNo, " +
+                    "u.user_name AS userName, " +
+                    "u.predict_count AS predictCount, " +
+                    "u.success_count AS successCount, " +
+                    "u.fail_count AS failCount, " +
+                    "u.user_temperature AS userTemperature, " +
+                    "u.user_zbti AS userZbti, " +
+                    "u.success_streak AS successStreak " +
+                    "FROM user u " +
+                    "JOIN (SELECT user_no, COUNT(*) c FROM predict WHERE pd_result = '성공' GROUP BY stock_name, user_no ORDER BY c DESC LIMIT 1) p " +
+                    "ON u.user_no = p.user_no " +
+                    "GROUP BY u.user_no, u.user_name, u.predict_count, u.success_count, u.fail_count, u.user_temperature, u.user_zbti, u.success_streak " +
+                    "ORDER BY COUNT(*) DESC " +
+                    "LIMIT 1")
+    UserRankingKeyProjection getStockCodeMostPredictUSer();
 
 
 
