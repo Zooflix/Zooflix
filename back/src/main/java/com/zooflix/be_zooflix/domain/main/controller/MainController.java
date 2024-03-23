@@ -29,6 +29,7 @@ public class MainController {
     @Operation(summary = "메인페이지 랭킹 데이터 조회")
     public ResponseEntity<ResultResponse<MainDto>> mainRankingData() {
         MainDto mainData = mainService.mainRankingData();
+
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), mainData));
     }
 }
