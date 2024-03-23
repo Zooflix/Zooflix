@@ -22,7 +22,7 @@ export const getMyPredictList = async (userNo: Number) => {
     }
 };
 
-// 내가 구독한 사람 목록 가져오기(닉네임, 온도)
+// 내가 구독한 사람 목록 가져오기(유저 구독 인덱스, 닉네임, 온도)
 export const getMySubscribeList = async (userNo: Number) => {
     try {
         const response = await axios.get(`${REST_MYPAGE_API}/subscribe/${userNo}`);
@@ -31,3 +31,15 @@ export const getMySubscribeList = async (userNo: Number) => {
         console.error(error);
     }
 };
+
+// 유저 구독 취소
+export const deleteMySubscribe = async (subscribeNo: Number) => {
+    try {
+        const response = await axios.delete(`${REST_MYPAGE_API}/subscribe/delete/${subscribeNo}`);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log(error);        
+    }
+}
+

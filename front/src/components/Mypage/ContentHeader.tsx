@@ -7,10 +7,10 @@ import MySubscribeList from "./MySubscribeList";
 interface ContentHeaderProps {}
 
 function ContentHeader(props: ContentHeaderProps) {
-    const [selectedTab, setSelectedTab] = useState<string>("my-predictions"); // 선택된 탭 상태 추가
+    const [selectedTab, setSelectedTab] = useState<string>("my-predictions");
 
     const handleTabClick = (tabName: string) => {
-        setSelectedTab(tabName); // 클릭된 탭의 이름을 상태로 설정
+        setSelectedTab(tabName);
     };
 
     return (
@@ -20,16 +20,16 @@ function ContentHeader(props: ContentHeaderProps) {
                     <ContentTabList>
                         <ContentTabListItem>
                             <ContentTabListItemSpan
-                                onClick={() => handleTabClick("my-predictions")} // 클릭 이벤트 처리
-                                selected={selectedTab === "my-predictions"} // 선택된 탭 여부에 따라 스타일 적용
+                                onClick={() => handleTabClick("my-predictions")}
+                                selected={selectedTab === "my-predictions"}
                             >
                                 내가 쓴 예측 글
                             </ContentTabListItemSpan>
                         </ContentTabListItem>
                         <ContentTabListItem>
                             <ContentTabListItemSpan
-                                onClick={() => handleTabClick("my-subscriptions")} // 클릭 이벤트 처리
-                                selected={selectedTab === "my-subscriptions"} // 선택된 탭 여부에 따라 스타일 적용
+                                onClick={() => handleTabClick("my-subscriptions")}
+                                selected={selectedTab === "my-subscriptions"}
                             >
                                 내 구독 정보
                             </ContentTabListItemSpan>
