@@ -23,6 +23,7 @@ import PredictCreate from "./pages/Predict/PredictCreate";
 import Intro from "./components/Landing/Intro";
 import styled from "styled-components";
 import SubscribeStock from "./pages/SubscribeStock/SubscribeStock";
+import UpdateMyInfo from "./components/Mypage/UpdateMyInfo";
 
 function App() {
   const location = useLocation();
@@ -56,7 +57,9 @@ function App() {
           <Route path="/radio" element={<Radio />} />
           <Route path="/main" element={<Main />} />
           <Route path="/stocksub" element={<SubscribeStock />} />
+
           <Route path="/my-page" element={<Mypage />} />
+          <Route path="/my-page/update" element={<UpdateMyInfo />} />
 
           <Route path="/zbti" element={<ZbtiStart />} />
           <Route path="/problem1" element={<Problem1 />} />
