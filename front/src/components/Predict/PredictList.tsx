@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 
-import { selectPredicts } from "../../apis/api/Predict";
 import { deletePredict } from "../../apis/api/Predict";
 import { selectUserNoState } from "../../Store/PredictState";
 import { selectStockNameState } from "../../Store/PredictState";
@@ -19,30 +18,23 @@ type FeedProps = {
 };
 
 type PredictProps = {
-    sorted: string;
-    stockName: string;
+    currentPage: any[];
 };
 
 function PredictList(props: PredictProps) {
-    const [data, setData] = useState<any[]>([]);
     const [openItems, setOpenItems] = useState<number[]>([]);
     const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
-    const [selectStockName, setSelectStockName] = useRecoilState(selectStockNameState);
-    const [selectUserName, setSelectUserName] = useRecoilState(selectUserNameState);
-    useEffect(() => {
-        fetchData();
-    }, [props.sorted, props.stockName]);
+    const [selectStockName, setSelectStockName] =
+        useRecoilState(selectStockNameState);
+    const [selectUserName, setSelectUserName] =
+        useRecoilState(selectUserNameState);
 
-    const fetchData = async () => {
-        try {
-            const result = await selectPredicts(props.sorted, props.stockName);
-            setData(result);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
-
-    const toggleContent = (pdNo: number, userNo: number, stockName: string, userName: string) => {
+    const toggleContent = (
+        pdNo: number,
+        userNo: number,
+        stockName: string,
+        userName: string
+    ) => {
         setSelectUserNo(userNo);
         setSelectStockName(stockName);
         setSelectUserName(userName);
@@ -63,12 +55,14 @@ function PredictList(props: PredictProps) {
         }
         try {
             await deletePredict(pdNo);
-            // 삭제 후 데이터 다시 가져오기
-            fetchData();
         } catch (error) {
             console.log("Error deleting data:", error);
         }
     };
+
+    useEffect(() => {
+        setOpenItems([]);
+    }, [props.currentPage]);
 
     interface ClickProps {
         isOpen: boolean;
@@ -82,8 +76,8 @@ function PredictList(props: PredictProps) {
 
     return (
         <Wrapper>
-            {data &&
-                data.map((item) => (
+            {props.currentPage &&
+                props.currentPage.map((item) => (
                     <Feed
                         key={item.pdNo}
                         pdUpDown={item.pdUpDown}

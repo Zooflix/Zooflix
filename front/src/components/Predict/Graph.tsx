@@ -35,7 +35,10 @@ function Graph() {
     } else {
         return (
             <Wrapper>
-                <Title><b>{selectStockName}</b>와 <b>{selectUserName}</b>님의 예측 비교</Title>
+                <Title>
+                    <b>{selectStockName}</b>와 <b>{selectUserName}</b>님의 예측
+                    비교
+                </Title>
                 <Container>
                     {graphImage ? (
                         <img src={graphImage} alt="Graph" />
