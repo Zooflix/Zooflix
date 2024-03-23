@@ -7,14 +7,19 @@ type BarIconProps = {
 
 function BarIcon(props: BarIconProps) {
   return (
-    <div>
+    <MenuWrapper>
       <IconImg src={props.img} />
       <Text>{props.text}</Text>
-    </div>
+    </MenuWrapper>
   );
 }
 
 export default BarIcon;
+
+const MenuWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+`;
 
 const IconImg = styled.img``;
 
@@ -22,5 +27,5 @@ const Text = styled.div`
   text-decoration: none;
   color: white;
   margin-top: 2px;
-  font-size: 12px;
+  font-size: 10px;
 `;

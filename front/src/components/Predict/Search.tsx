@@ -32,7 +32,6 @@ const Wrapper = styled.div`
     border: solid 1px;
     border-radius: 15px;
     margin: 10px 0;
-    font-family: "NanumSquareRound";
     font-weight: bold;
     padding: 0 20px;
     display: flex;

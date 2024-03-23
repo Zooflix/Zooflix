@@ -5,7 +5,6 @@ import PageTransition from "../../components/Zbti/PageTransition";
 import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
 import Question from "../../components/Zbti/Question";
 import Icon from "../../assets/img/ZbtiIcon/question1.svg";
-import Icon1 from "../../assets/img/ZbtiIcon/1.png";
 import Answer from "../../components/Zbti/Answer";
 
 function Problem1() {
@@ -28,7 +27,6 @@ function Problem1() {
             loading="lazy"
             decoding="async"
           />
-          {/* <img src={Icon1} alt="icon1" /> */}
         </ImgContainer>
         <Answer text="마이너스 통장까지 풀베팅!" onClick={handleAnswerClick} />
         <Answer
