@@ -1,9 +1,18 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import styled from "styled-components";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 
-function Bear3d(): JSX.Element {
+interface Props {
+  name: string;
+  scale?: number; // 캐릭터의 크기를 조절하는 props
+  action?: string;
+}
+//캐릭터 name
+//Bear, Cow, Fox, Hippo, Lion, Monkey, Pig, Rabbit, Rhino, Sloth, Unicon, Zebra
+
+function Character3d({ name, scale = 1, action = "jump" }: Props): JSX.Element {
   const canvasRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,14 +42,14 @@ function Bear3d(): JSX.Element {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     const controls = new OrbitControls(camera, renderer.domElement);
-    //사용자가 화면을 만지지 못하게 조절
+    // 사용자가 화면을 만지지 못하게 조절
     controls.enabled = false;
 
     const fbxLoader = new FBXLoader();
-    fbxLoader.load("/character/Bear.fbx", (object) => {
-      //텍스처 추가
+    fbxLoader.load(`/character/${name}.fbx`, (object) => {
+      // 텍스처 추가
       const textureLoader = new THREE.TextureLoader();
-      textureLoader.load("/character/Bear_BaseColor.png", (texture) => {
+      textureLoader.load(`/character/${name}_BaseColor.png`, (texture) => {
         const material = new THREE.MeshBasicMaterial({ map: texture });
 
         object.traverse((child) => {
@@ -49,22 +58,26 @@ function Bear3d(): JSX.Element {
           }
         });
 
+        // 캐릭터의 크기 조절
+        object.scale.set(scale, scale, scale);
+
         // 씬에 모델 추가
         scene.add(object);
 
-        let jumpDirection = 1;
+        let jumpDirection = 1.5;
         let jumpHeight = 0;
 
         // 모델이 로드된 후에 렌더링
         const animate = () => {
-          jumpHeight += 0.1 * jumpDirection;
-          if (jumpHeight >= 10 || jumpHeight <= 0) {
-            jumpDirection *= -1;
+          if (action === "jump") {
+            jumpHeight += 0.1 * jumpDirection;
+            if (jumpHeight >= 7 || jumpHeight <= 0) {
+              jumpDirection *= -1;
+            }
+            object.position.y = jumpHeight;
+          } else if (action === "turn") {
+            object.rotation.y += 0.01;
           }
-          object.position.y = jumpHeight;
-
-          //아래는 빙글빙글 도는 애니메이션
-          // object.rotation.y += 0.01;
           renderer.render(scene, camera);
           requestAnimationFrame(animate);
         };
@@ -82,9 +95,9 @@ function Bear3d(): JSX.Element {
         canvasRef.current.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [name, scale, action]);
 
   return <div ref={canvasRef} />;
 }
 
-export default Bear3d;
+export default Character3d;

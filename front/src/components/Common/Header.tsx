@@ -14,11 +14,10 @@ export default Header;
 
 const ImgContainer = styled.div`
   img {
-    width: 150px;
-    margin: 30px 0;
+    width: 130px;
+    margin-top: 15px;
   }
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
 `;
