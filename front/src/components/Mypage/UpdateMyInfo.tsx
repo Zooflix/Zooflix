@@ -18,7 +18,12 @@ function UpdateMyInfo() {
       <h2>UPDATE</h2>
       <InputContainer>
         {/* 로그인유저의 이름 들어가기 */}
-        <UserInput type="text" style={InputStyle} />
+        <UserInput
+          type="text"
+          style={InputStyle}
+          placeholder="다라란"
+          readonly
+        />
         <UserInput
           type="password"
           placeholder="현재 비밀번호를 입력하세요"

@@ -84,4 +84,5 @@ export default App;
 
 const AppWrapper = styled.div`
   width: 100vw;
+  // font-family: "SUITE-Regular";
 `;
