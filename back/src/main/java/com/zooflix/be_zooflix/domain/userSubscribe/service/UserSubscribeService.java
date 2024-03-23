@@ -46,7 +46,7 @@ public class UserSubscribeService {
     }
 
     //유저 구독 취소
-    public void deleteUserSubscribe(int subscribeNo) {
+    public void deleteUserSubscribe(int subscribeNo){
         userSubscribeRepository.deleteById(subscribeNo);
     }
 

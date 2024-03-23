@@ -40,7 +40,7 @@ public class MyPageController {
         return ResponseEntity.ok(myInfo);
     }
 
-    @Operation(summary = "내가 구독 중인 회원 목록(닉네임, 온도)")
+    @Operation(summary = "내가 구독 중인 회원 목록(구독인덱스, 닉네임, 온도)")
     @GetMapping("/my-page/subscribe/{userNo}")
     public  ResponseEntity<List<MySubscribeDto>> selectMySubscribe(@PathVariable int userNo) {
         List<MySubscribeDto> mySubscribeList = myPageService.getMySubscribe(userNo);

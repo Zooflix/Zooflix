@@ -29,7 +29,7 @@ public class UserSubscribeController {
     }
 
     @Operation(summary = "유저 구독 취소")
-    @DeleteMapping("/user-subscribe/{subscribeNo}")
+    @DeleteMapping("/my-page/subscribe/delete/{subscribeNo}")
     public ResponseEntity<?> deleteUserSubscribe(@PathVariable int subscribeNo) {
         userSubscribeService.deleteUserSubscribe(subscribeNo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
