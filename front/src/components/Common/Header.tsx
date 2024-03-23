@@ -29,7 +29,7 @@ export default Header;
 const Container = styled.div`
   .logo {
     width: 150px;
-    margin: 30px 490px;
+    margin: 30px 500px;
   }
   display: flex;
   justify-content: center;
