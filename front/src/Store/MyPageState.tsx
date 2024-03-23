@@ -20,11 +20,17 @@ export const myPagePredictListState = atom({
   default: [],
 });
 
-export const myPageSubscribeListState = atom({
+export interface Subscription {
+  subscribeNo: number;
+  subscribeName: string;
+  subscribeTemperature: number;
+}
+
+// my page / 내가 구독한 사람 목록
+export const myPageSubscribeListState = atom<Subscription[]>({
   key: 'myPageSubscribeList',
   default: [],
 });
-
 // interface MyPredictionDto {
 //   stockName: string;
 //   pdValue: number;
