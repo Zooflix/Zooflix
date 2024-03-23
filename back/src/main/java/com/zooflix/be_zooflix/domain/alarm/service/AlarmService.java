@@ -1,10 +1,12 @@
 package com.zooflix.be_zooflix.domain.alarm.service;
 
+import com.zooflix.be_zooflix.domain.alarm.dto.response.FindListAlarmKeyProjectionResponse;
 import com.zooflix.be_zooflix.domain.alarm.dto.response.FindListAlarmResponse;
 import com.zooflix.be_zooflix.domain.alarm.entity.Alarm;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
 import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.repository.EmitterRepository;
+import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -175,6 +177,7 @@ public class AlarmService {
     }
 
 
+
     //알림비우기
     public FindListAlarmResponse deleteAlarm() {
         try{
@@ -208,29 +211,12 @@ public class AlarmService {
     }
 
     //receiver에게 온 모든 알림 목록 보여주기
-    public List<FindListAlarmResponse> findListAlarm(String userId) {
+    public List<FindListAlarmKeyProjectionResponse> findListAlarm(String userId) {
         // 유저존재하는지 확인
         User receiverUser = validUser(userId);
 
-        //저장되어있던 알림 조회
-        List<Alarm> alarmList = alarmRepository.findByReceiverUserOrderByCreatedAtDesc(receiverUser);
+        List<FindListAlarmKeyProjectionResponse> alarmResponseList = alarmRepository.findAlarmsByUserIdWithSubscribeName(userId);
 
-        //alarm에서 FindListAlarmResponse로 convert
-        List<FindListAlarmResponse> alarmResponseList = new ArrayList<>();
-
-        for(Alarm alarm : alarmList){
-            System.out.println("alarm.getAlarmNo() = " + alarm.getAlarmNo());
-
-            FindListAlarmResponse build = FindListAlarmResponse.builder()
-                    .senederId(alarm.getSenderUser().getUserNo())
-                    .nickname(alarm.getSenderUser().getUserName())
-                    .createdAt(alarm.getCreatedAt())
-                    .type(alarm.getAlarmType())
-                    .isRead(false)
-                    .build();
-
-            alarmResponseList.add(build);
-        }
         return alarmResponseList;
 
     }

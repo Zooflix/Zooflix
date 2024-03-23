@@ -59,6 +59,10 @@ public class User {
     private String userAccount;
     @Column
     private String userRole;
+    @Column(length = 1000)
+    private String userToken;
+    @Column
+    private LocalDateTime userTokenDate;
 
     public void userUpdate(String userName, String userPw) {
         this.userName = userName;
@@ -71,6 +75,11 @@ public class User {
         this.userAppKey = userAppKey;
         this.userSecretKey = userSecretKey;
         this.userAccount = userAccount;
+    }
+
+    public void userUpdateToken(String userToken, LocalDateTime userTokenDate) {
+        this.userToken = userToken;
+        this.userTokenDate = userTokenDate;
     }
 
     public void userUpdateZbti(String userZbti) {

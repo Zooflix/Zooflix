@@ -1,5 +1,7 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.service;
 
+import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
+import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.request.AddStockSubscribeRequest;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class StockSubscribeService {
     private final UserRepository userRepository;
     private final StockSubscribeRepository stockSubscribeRepository;
+    private final AlarmService alarmService;
 
     /**
      * 3.1 주식 정기 구독
@@ -49,6 +52,10 @@ public class StockSubscribeService {
         );
 
         subscribe = stockSubscribeRepository.save(subscribe);
+
+        //매매일 전날에 알림을 보내는 메서드
+//        String content = "내일은 " + subscribe.getStockName() + " 주식을 정기 구독한 날입니다!";
+//        alarmService.send(user, content, AlarmTypeStatus.TOMORROW);
 
         return subscribe.getStockCode();
     }

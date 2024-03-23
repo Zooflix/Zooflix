@@ -23,14 +23,15 @@ public class MainService {
      *
      */
 
-    public MainDto mainRankingData(){
-        List<UserRankingDto> userRankingList = userRepository.getUserRanking();
-        List<StockRankingDto> stockRankingList = stockSubscribeRepository.getStockRanking();
+        public MainDto mainRankingData(){
+            List<UserRankingDto> userRankingList = userRepository.getUserRanking();
+            List<StockRankingDto> stockRankingList = stockSubscribeRepository.getStockRanking();
 
-        UserRankingDto mostPredictUser = userRepository.getMostPredictUser();
-        UserRankingDto mostWrongPredictUser = userRepository.getMostWrongPredictUser();
+            UserRankingDto mostPredictUser = userRepository.getMostPredictUser();
+            UserRankingDto mostWrongPredictUser = userRepository.getMostWrongPredictUser();
+            UserRankingDto stockCodeMostPredictUSer = stockSubscribeRepository.getStockCodeMostPredictUSer();
 
-        MainDto maindto = new MainDto(userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser);
+            MainDto maindto = new MainDto(userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
         return maindto;
     }
 }

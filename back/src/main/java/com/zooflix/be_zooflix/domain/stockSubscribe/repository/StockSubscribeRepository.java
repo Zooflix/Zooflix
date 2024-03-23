@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -41,6 +42,19 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
             value = "select stock_code, stock_name, count(stock_no) as subscriber_no, RANK() OVER ( order by subscriber_no ) as ranking " +
                     "from stock_subscribe group by stock_code desc limit 3")
     List<StockRankingDto> getStockRanking();
+
+    @Query(nativeQuery = true,
+            value = "select u.user_no, u.user_name, u.predict_count, u.success_count, u.fail_count, u.user_temperature, u.user_zbti, u.success_streak, count(*) as cnt " +
+                    "from user u join (select * from predict p1 join (select count(*) c, stock_name from predict group by stock_name order by cnt desc limit 1) p2 where p1.stock_name = p2.stockname) p" +
+                    "where p.user_no = u.user_no " +
+                    "and pd_result = '성공' " +
+                    "group by user_name " +
+                    "order by cnt desc " +
+                    "limit 1;")
+    UserRankingDto getStockCodeMostPredictUSer();
+
+    @Query(nativeQuery = true, value = "SELECT * FROM stock_subscribe where stock_subscribe_day = :day")
+    List<StockSubscribeDto> findSubscribersForDay(@Param("day") int day);
 
 }
 
