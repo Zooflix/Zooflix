@@ -30,47 +30,58 @@ const searchInputStyle = {
 
 function Predict() {
     const [sorted, setSorted] = useState("date"); // 초기값은 "date"
-    const [stockName, setStockName] = useState("null"); // 초기값은 "null"
-    
     const handleSortChange = (value: React.SetStateAction<string>) => {
         setSorted(value);
     };
 
+    const [stockName, setStockName] = useState("null"); // 초기값은 "null"
     const handleSearchChange = (value: React.SetStateAction<string>) => {
         setStockName(value);
     };
 
+    const [currentPage, setCurrentPage] = useState<any[]>([]);
+    const handleCurrentPageChange = (value: React.SetStateAction<any[]>) => {
+        setCurrentPage(value);
+    };
+
     return (
         <Wrapper>
-            <LeftContainer>
-                <FirstContainer>
-                    <Title text="주식 예측 하기" />
-                    <Link to="/predict/create">
-                        <SquareBtn
-                            text="나도 예측하기"
-                            style={buttonStyleDark}
+            <UpperContainer>
+                <LeftContainer>
+                    <FirstContainer>
+                        <Title text="주식 예측 하기" />
+                        <Link to="/predict/create">
+                            <SquareBtn
+                                text="나도 예측하기"
+                                style={buttonStyleDark}
+                            />
+                        </Link>
+                    </FirstContainer>
+                    <SecondContainer>
+                        <Search
+                            type="text"
+                            placeholder="종목명을 입력하세요."
+                            onSearchChange={handleSearchChange}
+                            style={searchInputStyle}
                         />
-                    </Link>
-                </FirstContainer>
-                <SecondContainer>
-                    <Search
-                        type="text"
-                        placeholder="종목명을 입력하세요."
-                        onSearchChange={handleSearchChange}
-                        style={searchInputStyle}
-                    />
-                    <Sort onSortChange={handleSortChange} />
-                </SecondContainer>
-
-                <ListHeader />
-                <PredictList sorted={sorted} stockName={stockName} />
-            </LeftContainer>
-            <RightContainer>
-                <Rank search="" />
-                <Graph/>
-                <StockHistory/>
-            </RightContainer>
-            <Page sorted={sorted} stockName={stockName}/>
+                        <Sort onSortChange={handleSortChange} />
+                    </SecondContainer>
+                    <ListHeader />
+                    <PredictList currentPage={currentPage} />
+                </LeftContainer>
+                <RightContainer>
+                    <Rank search="" />
+                    <Graph />
+                    <StockHistory />
+                </RightContainer>
+            </UpperContainer>
+            <LowerContainer>
+                <Page
+                    sorted={sorted}
+                    stockName={stockName}
+                    onCurrentPageChange={handleCurrentPageChange}
+                />
+            </LowerContainer>
         </Wrapper>
     );
 }
@@ -78,8 +89,17 @@ function Predict() {
 export default Predict;
 
 const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const UpperContainer = styled.div`
     padding-left: 200px;
     display: flex;
+`;
+const LowerContainer = styled.div`
+    display: flex;
+    justify-content: center;
 `;
 
 const LeftContainer = styled.div`
