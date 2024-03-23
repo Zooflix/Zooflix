@@ -203,10 +203,8 @@ public class PredictService {
 
         String url = pythonPredictValue + "?stock_name=" + stockName + "&date=" + date;
 
-        // GET 요청 보내기
         Double closingPrice = restTemplate.getForObject(url, Double.class);
 
-        System.out.println("closing price: " + closingPrice);
         return closingPrice.intValue();
     }
 
@@ -249,6 +247,8 @@ public class PredictService {
 
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
         UserKeyProjection userInfo = userRepository.findByUserNo(userNo);
+        System.out.println(userInfo.toString());
+        System.out.println(userInfo.getUserAppKey());
         List<StockHistoryDto> historyDtoList = new ArrayList<>();
         if (userInfo.getUserAppKey() == null || userInfo.getUserSecretKey() == null || userInfo.getUserAccount() == null) {
             return historyDtoList;
@@ -259,7 +259,7 @@ public class PredictService {
         if (userInfo.getUserToken() != null) {
             Duration duration = Duration.between(LocalDateTime.now(), userInfo.getUserTokenDate());
             if (duration.toHours() < 24) {
-                TOKEN = userInfo.getUserToken();
+                TOKEN = getAccessToken(userNo);
             } else {
                 TOKEN = getAccessToken(userNo);
             }
@@ -273,7 +273,6 @@ public class PredictService {
         String formattedAgoDate = thirtyDaysAgo.format(formatter);
         String baseUrl = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/inquire-daily-ccld";
 
-        // Building query parameters
         String queryParameters = String.format("?CANO=%s&ACNT_PRDT_CD=%s&INQR_STRT_DT=%s&INQR_END_DT=%s&SLL_BUY_DVSN_CD=00&INQR_DVSN=00&PDNO=&CCLD_DVSN=01&ORD_GNO_BRNO=&ODNO=&INQR_DVSN_3=01&INQR_DVSN_1=&CTX_AREA_FK100=&CTX_AREA_NK100=",
                 userInfo.getUserAccount().substring(0, 8),
                 userInfo.getUserAccount().substring(8),
