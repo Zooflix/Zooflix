@@ -247,8 +247,6 @@ public class PredictService {
 
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
         UserKeyProjection userInfo = userRepository.findByUserNo(userNo);
-        System.out.println(userInfo.toString());
-        System.out.println(userInfo.getUserAppKey());
         List<StockHistoryDto> historyDtoList = new ArrayList<>();
         if (userInfo.getUserAppKey() == null || userInfo.getUserSecretKey() == null || userInfo.getUserAccount() == null) {
             return historyDtoList;
@@ -256,15 +254,15 @@ public class PredictService {
 
         //액세스토큰 확인
         String TOKEN = "";
-        if (userInfo.getUserToken() != null) {
+        if (userInfo.getUserToken() != null) { //토큰이 있다면
             Duration duration = Duration.between(LocalDateTime.now(), userInfo.getUserTokenDate());
             if (duration.toHours() < 24) {
-                TOKEN = getAccessToken(userNo);
+                TOKEN = userInfo.getUserToken(); //24시간 이내면 저장된 토큰 가져오기
             } else {
-                TOKEN = getAccessToken(userNo);
+                TOKEN = getAccessToken(userNo); //24시간이 지났다면 새로 발급
             }
         } else {
-            TOKEN = getAccessToken(userNo);
+            TOKEN = getAccessToken(userNo); //토큰이 없다면 새로 발급;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate today = LocalDate.now();
