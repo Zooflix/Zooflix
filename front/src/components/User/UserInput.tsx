@@ -5,6 +5,7 @@ type InputProps = {
   type: string;
   placeholder?: string;
   style?: React.CSSProperties;
+  readonly?: boolean;
 };
 
 function UserInput(props: InputProps) {
@@ -14,6 +15,7 @@ function UserInput(props: InputProps) {
         type={props.type}
         placeholder={props.placeholder}
         style={props.style}
+        readOnly={props.readonly}
       />
     </Wrapper>
   );
