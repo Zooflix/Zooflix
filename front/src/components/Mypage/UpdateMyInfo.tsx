@@ -75,7 +75,7 @@ function UpdateMyInfo() {
           </>
         )}
       </InputContainer>
-      <SubmitBtns text="수정 완료" />
+      <SubmitBtn text="수정 완료" />
     </Wrapper>
   );
 }
