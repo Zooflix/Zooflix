@@ -29,7 +29,6 @@ function Mypage() {
 
   const navigate = useNavigate();
 
-<<<<<<< HEAD
     // const accessToken = localStorage.getItem('accessToken');
     const userNo = 2;
 
@@ -89,48 +88,6 @@ function Mypage() {
             </Container>
         </Wrapper>
     );
-=======
-  const accessToken = localStorage.getItem("accessToken");
-
-  useEffect(() => {
-    // if(!localStorage.accessToken){
-    //     navigate("/main");
-    //     return;
-    // }
-
-    // 고쳐야 할 부분 아직 정확하게 흐름 이해 못함...
-    const fetchData = async (accessToken: String) => {
-      try {
-        const data = await getMyPageData(accessToken);
-        setMyPageInfo(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData("dsf");
-    ////////////////////////////////////////////////
-  }, []);
-
-  return (
-    <Wrapper>
-      <Container>
-        <LeftSideMyInfo>
-          {info}
-          <TemperatureWithImage />
-          <MyInfo />
-          <RouteToOtherPage />
-        </LeftSideMyInfo>
-        <RightSideMyInfo>
-          <ContentHeader />
-          <GotoZbtiButton>
-            <img src={GotoZbti} alt="GotoZbti"></img>
-          </GotoZbtiButton>
-        </RightSideMyInfo>
-      </Container>
-    </Wrapper>
-  );
->>>>>>> cf581e5d1f69715f4012a7c445e72d5f6f932086
 }
 
 export default Mypage;
