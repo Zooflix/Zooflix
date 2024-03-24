@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React from "react";
 
 type SortProps = {
     onSortChange: (value: string) => void; // 함수 props 추가
@@ -29,7 +29,7 @@ export default Sort;
 const Wrapper = styled.div`
     select {
         height: 30px;
-        width: 75px;
+        width: 80px;
         border: none;
         box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
         border-radius: 10px;

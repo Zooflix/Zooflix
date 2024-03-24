@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { selectStockHistory } from "../../apis/api/Predict";
 import { selectUserNoState } from "../../Store/PredictState";
 import { selectUserNameState } from "../../Store/PredictState";
-import { color } from "framer-motion";
 
 function StockHistory() {
     const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
@@ -34,10 +33,12 @@ function StockHistory() {
     ) {
         return (
             <Wrapper>
-                <Title><b>{selectUserName}</b>님의 최근 매매내역</Title>
+                <Title>
+                    <b>{selectUserName}</b>님의 최근 매매내역
+                </Title>
                 <NoContainer>
                     <Content style={{ color: "black" }}>
-                    <b>{selectUserName}</b>님은 매매 정보가 없어요 !
+                        <b>{selectUserName}</b>님은 매매 정보가 없어요 !
                     </Content>
                 </NoContainer>
             </Wrapper>
@@ -45,7 +46,9 @@ function StockHistory() {
     } else {
         return (
             <Wrapper>
-                <Title><b>{selectUserName}</b>님의 최근 매매내역</Title>
+                <Title>
+                    <b>{selectUserName}</b>님의 최근 매매내역
+                </Title>
                 <Container>
                     <Histories>
                         {stockHistoryList.map((item, index) => (
@@ -93,7 +96,7 @@ const NoContainer = styled.div`
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     width: 70%;
-    height: 180px;
+    height: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,7 +107,7 @@ const Container = styled.div`
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     width: 70%;
-    height: 180px;
+    height: 140px;
     display: flex;
     margin-top: 10px;
 `;
