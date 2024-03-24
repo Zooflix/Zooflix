@@ -7,13 +7,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.radio.service.RadioService;
 import io.swagger.v3.oas.annotations.Operation;
+import java.io.ByteArrayInputStream;
 import java.util.List;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -39,18 +43,20 @@ public class RadioController {
 //                .body(audioData);
 //    }
 
-    @PostMapping("/radio/translation/summary/tts")
+    @PostMapping("/radio")
     @Operation(summary = "번역 후 요약")
-    public ResponseEntity<String> playRadio() throws JsonProcessingException {
+    public ResponseEntity<byte[]> playRadio() throws JsonProcessingException {
 //        String crawlingResult = radioService.callCrawlingEndpoint();
 //        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
-        radioService.callTtsEndpoint();
-        System.out.println("번역 success");
+        byte[] audio = radioService.callTtsEndpoint();
+//        System.out.println(crawlingResult);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("audio/mpeg"))
-                .body("success");
+                .body(audio);
     }
+
+
 
 //    /* 키워드 겟 */
 //    @PostMapping("/radio/getKeyword")

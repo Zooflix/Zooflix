@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -78,6 +79,7 @@ public class RadioService {
 
 
     private final RedisTemplate<String, String> redisTemplate;
+
 
 
 
@@ -206,7 +208,7 @@ public class RadioService {
 //        String result = restTemplate.postForObject(pythonEndpointNewsTts, requestBody, String.class);
 //        return result;
         try {
-            String text = URLEncoder.encode("미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후 아시아 무역의 상승폭이 확대되었고, 우크라이나의 러시아 정유소 공격에 따른 공급 차질 가능성도 가격을 뒷받침했고, 브렌트유 선물은 GMT 기준 10센트(0.12%) 오른 배럴당 84.13달러, 미국 서부텍사스산 원유(WTI)는 7센트(0.9%) 오른 배럴당 79.79달러로 두 계약 모두 미국의 수요 전망이 높아지고 지정학적 위험이 고조되면서 수요일 약 3% 상승해 4개월 만에 최고치를 기록했다.", "UTF-8");
+            String text = URLEncoder.encode("미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후 아시아 무역의 상승폭이 확대되었고", "UTF-8");
             URL url = new URL(pythonTtsUrl);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
@@ -231,16 +233,16 @@ public class RadioService {
                     baos.write(buffer, 0, bytesRead);
                 }
                 byte[] audioData = baos.toByteArray();
-                try {
-                    ByteArrayInputStream bis = new ByteArrayInputStream(audioData);
-                    Player player = new Player(bis);
-                    player.play();
-                } catch (JavaLayerException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    ByteArrayInputStream bis = new ByteArrayInputStream(audioData);
+//                    Player player = new Player(bis);
+//                    player.play();
+//                } catch (JavaLayerException e) {
+//                    e.printStackTrace();
+//                }
                 baos.close();
                 is.close();
-                return baos.toByteArray();
+                return audioData;
             } else { // 오류 발생
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
                 String inputLine;
@@ -257,10 +259,6 @@ public class RadioService {
             return null;
         }
     }
-
-
-
-
 
     //    /*
 //    * 키워드 추출
