@@ -136,13 +136,22 @@ function ZustraRank() {
             return (
               <UserDiv key={index}>
                 <img src={rankArr[index]} height="50px" />
-                <Character3d
-                  name={item.userZbti}
-                  characterScale={0.45}
-                  canvasWidth={70}
-                  canvasHeight={80}
-                  action="turn"
-                />
+                {index === 0 ? (
+                  <Character3d
+                    name={item.userZbti}
+                    characterScale={0.45}
+                    canvasWidth={70}
+                    canvasHeight={80}
+                  />
+                ) : (
+                  <Character3d
+                    name={item.userZbti}
+                    characterScale={0.45}
+                    canvasWidth={70}
+                    canvasHeight={80}
+                    action="turn"
+                  />
+                )}
                 <Margin>
                   <div>
                     <Name>{item.userName}</Name>
@@ -163,6 +172,7 @@ function ZustraRank() {
                     {item.userTemperature} °C
                   </InnerGraph>
                 </Graph>
+                <Button>더보기</Button>
               </UserDiv>
             );
           })}
@@ -254,4 +264,11 @@ const InnerGraph = styled.div<InnerGraphProps>`
 
 const Margin = styled.div`
   margin-left: 20px;
+`;
+
+const Button = styled.div`
+  margin-left: 30px;
+  font-size: 12px;
+  color: gray;
+  cursor: pointer;
 `;
