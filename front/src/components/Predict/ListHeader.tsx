@@ -6,7 +6,7 @@ function ListHeader() {
         <Wrapper>
             {header &&
                 header.map((item, index) => (
-                    <div style={{ width: "100px" }} key={index}>
+                    <div key={index}>
                         {item}
                     </div>
                 ))}
@@ -18,10 +18,11 @@ export default ListHeader;
 
 const Wrapper = styled.div`
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     margin-top: 15px;
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid lightgray;
-    padding-right: 30px;
+    padding-right: 110px;
+    padding-left: 20px;
 `;

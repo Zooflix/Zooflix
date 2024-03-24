@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 
+import { stockSearch } from "../../apis/api/Predict";
 import Searchbtn from "../../assets/img/button/Searchbtn.svg";
 
 type SearchProps = {
@@ -10,25 +12,82 @@ type SearchProps = {
 };
 
 function Search(props: SearchProps) {
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        props.onSearchChange(e.target.value); // 변경된 값 Predict 컴포넌트로 전달
+    const [keyword, setKeyword] = useState<string>("");
+    const [keyItems, setKeyItems] = useState<string[]>([]);
+    const [searchResultVisible, setSearchResultVisible] = useState<boolean>(false);
+    const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
+        setKeyword(e.currentTarget.value);
+        setSearchResultVisible(true);
+    };
+
+    useEffect(() => {
+        const debounce = setTimeout(() => {
+            if (keyword) fetchData();
+        }, 200);
+        return () => {
+            clearTimeout(debounce);
+        };
+    }, [keyword]);
+
+    const handleSearchChange = (value: string) => {
+        props.onSearchChange(value);
+        setKeyword(value)
+        setSearchResultVisible(false);
+    };
+
+    const fetchData = async () => {
+        try {
+            const result = await stockSearch(keyword);
+            setKeyItems(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     };
 
     return (
         <Wrapper>
-            <img src={Searchbtn} alt="search" className="Searchbtn" />
-            <input
-                type={props.type}
-                placeholder={props.placeholder}
-                style={props.style}
-            />
+            <SearchInput>
+                <img src={Searchbtn} alt="search" className="Searchbtn" />
+                <input
+                    type={props.type}
+                    placeholder={props.placeholder}
+                    style={props.style}
+                    value={keyword}
+                    onChange={onChangeData}
+                />
+            </SearchInput>
+            <SearchResult keyword={keyword} isVisible={searchResultVisible}>
+                <EmptyResult list={keyItems}>검색 결과가 없습니다.</EmptyResult>
+                {keyword &&
+                    keyItems &&
+                    keyItems.map((item) => (
+                        <SelectOne key={item}>
+                            <div onClick={() => handleSearchChange(item)}>
+                                {item}
+                            </div>
+                        </SelectOne>
+                    ))}
+            </SearchResult>
         </Wrapper>
     );
 }
 
 export default Search;
 
+interface SearchResultProps {
+    keyword: string;
+    isVisible: boolean;
+}
+
+interface SearchListProps {
+    list: string[];
+}
+
 const Wrapper = styled.div`
+    position: relative;
+`;
+
+const SearchInput = styled.div`
     border: solid 1px;
     border-radius: 15px;
     margin: 10px 0;
@@ -39,8 +98,9 @@ const Wrapper = styled.div`
     align-items: center;
     border: none;
     background-color: white;
-    box-shadow : 1px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     margin-right: 30px;
+    position: relative;
 
     input {
         border: none;
@@ -51,4 +111,42 @@ const Wrapper = styled.div`
     input:focus {
         outline: none;
     }
+`;
+
+const SearchResult = styled.div<SearchResultProps>`
+    display: ${(props) =>
+        props.keyword && props.isVisible ? "block" : "none"};
+    position: absolute;
+    top: 90%;
+    left: 50px;
+    width: 70%;
+    height: 200px;
+    overflow-y: scroll;
+    z-index: 0;
+    background-color: white;
+    border: solid 1px white;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+`;
+
+const SelectOne = styled.div`
+    div {
+        padding-left: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    :hover {
+        cursor: pointer;
+        color: white;
+        background-color: #03045e;
+    }
+`;
+
+const EmptyResult = styled.div<SearchListProps>`
+    display: ${(props) => (props.list.length > 0 ? "none" : "block")};
+    text-align: center;
+    margin: 60px;
+    position: relative;
+    z-index: 1;
+    color: gray;
 `;

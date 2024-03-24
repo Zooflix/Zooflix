@@ -92,3 +92,19 @@ export async function selectStockHistory(userNo: Number) {
         console.log(e);
     }
 }
+
+//매매정보
+export async function stockSearch(stockName: String) {
+    try {
+        const response = await axios.get(`${REST_PREDICT_API}/stock/search`,
+        {
+            params: {
+                stockName: stockName,
+            },
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
