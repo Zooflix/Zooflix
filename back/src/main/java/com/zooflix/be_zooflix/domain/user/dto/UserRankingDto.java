@@ -9,13 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 public class UserRankingDto {
     private int userNo;
-    private String userId;
     private String userName;
     private int predictCount;
     private int successCount;
     private int failCount;
-    private int userTemperature;
+    private double userTemperature;
     private String userZbti;
     private int successStreak;
-
 }
