@@ -23,6 +23,9 @@ function Character3d({
 }: Props): JSX.Element {
   const canvasRef = useRef<HTMLDivElement>(null);
 
+  if (name === "Rabbit") {
+    characterScale -= 0.05;
+  }
   useEffect(() => {
     if (!canvasRef.current) return;
 
