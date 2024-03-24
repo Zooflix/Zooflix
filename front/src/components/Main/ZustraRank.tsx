@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Character3d from "../Character/Character3d";
 import styled from "styled-components";
+import first from "../../assets/img/rank/first.svg";
+import second from "../../assets/img/rank/second.svg";
+import third from "../../assets/img/rank/third.svg";
 
 function ZustraRank() {
+  const rankArr = [first, second, third];
   const [mainData, setMainData] = useState({
     zustraRank: [
       {
@@ -110,7 +114,14 @@ function ZustraRank() {
           {mainData.zustraRank.map((item, index) => {
             return (
               <UserDiv key={index}>
-                <p>{index + 1}</p>
+                <img src={rankArr[index]} height="60px" />
+                <Character3d
+                  name="Bear"
+                  characterScale={0.5}
+                  canvasWidth={50}
+                  canvasHeight={60}
+                  action="turn"
+                />
                 <div>
                   <div>
                     <Name>{item.userName}</Name>
