@@ -94,4 +94,10 @@ public class PredictController {
        return predictService.getStockHistory(userNo);
     }
 
+    @Operation(summary = "종목검색")
+    @GetMapping("/predict/stock/search")
+    public List<String> selectStockSearch(@RequestParam String stockName) {
+      return predictService.getStockSearch(stockName);
+    }
+
 }

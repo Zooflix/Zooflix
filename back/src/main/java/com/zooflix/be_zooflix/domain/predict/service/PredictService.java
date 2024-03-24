@@ -26,6 +26,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -195,6 +196,9 @@ public class PredictService {
     @Value("http://127.0.0.1:8000/compare_graph")
     private String pythonCompareGraph;
 
+    @Value("http://127.0.0.1:8000/get_stock_search")
+    private String pythonStockSearch;
+
     public int getClosingPrice(String stockName, String date) {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody = new HashMap<>();
@@ -209,8 +213,6 @@ public class PredictService {
     }
 
     public String getGraph(String stockName) {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, Object> requestBody = new HashMap<>();
         String date = String.valueOf(LocalDate.now());
         // 쿼리 문자열로 요청 데이터 구성
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(pythonGraph)
@@ -220,9 +222,6 @@ public class PredictService {
     }
 
     public String getCompareGraph(int userNo, String stockName) {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, Object> requestBody = new HashMap<>();
-
         String date = String.valueOf(LocalDate.now());
         List<String> dateList = predictRepository.findPdDateByUserNo(userNo, stockName);
         List<String> valueList = predictRepository.findPdValueByUserNo(userNo, stockName);
@@ -232,17 +231,24 @@ public class PredictService {
             valueListF.add(value);
         }
 
-        // 쿼리 문자열로 요청 데이터 구성
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(pythonCompareGraph)
                 .queryParam("stock_name", stockName)
                 .queryParam("date", date)
                 .queryParam("predict_dates", dateList)
                 .queryParam("predict_costs", valueListF);
-//        // GET 요청으로 데이터 전송 및 응답 받기
-//        ResponseEntity<byte[]> response = restTemplate.exchange(
-//                builder.toUriString(), HttpMethod.GET, new HttpEntity<>(headers), byte[].class);
-//        byte[] imageBytes = response.getBody();
         return builder.toUriString();
+    }
+
+    public List<String> getStockSearch(String stockName){
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("stock_name", stockName);
+
+        String url = pythonStockSearch + "?stock_name=" + stockName;
+
+        List<String> list = restTemplate.getForObject(url, List.class);
+
+        return list;
     }
 
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
