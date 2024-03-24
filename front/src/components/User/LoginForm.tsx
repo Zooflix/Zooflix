@@ -5,22 +5,22 @@ import SubmitBtn from "../Common/SubmitBtn";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../apis/api/User";
 import { useState } from "react";
-import UserBack from "./UserBack";
+import { useRecoilState } from "recoil";
+import { userIdState, userPwState } from "../../Store/UserState";
 
 function LoginForm() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+    const [userId, setUserId] = useRecoilState(userIdState);
+    const [userPw, setUserPw] = useRecoilState(userPwState);
 
   const handleSignupClick = () => {
     navigate("/signup");
   };
 
-<<<<<<< HEAD
     const handleLogin = async () => {
         try {
-            const aceessToken = await loginUser(username, password);
+            const aceessToken = await loginUser(userId, userPw);
             console.log(aceessToken);
             localStorage.setItem("accessToken", aceessToken);
             if(aceessToken != null) {
@@ -30,45 +30,33 @@ function LoginForm() {
             console.error(e);
         }
     };
-=======
-  const handleLogin = async () => {
-    try {
-      const aceessToken = await loginUser(username, password);
-      localStorage.setItem("accessToken", aceessToken);
-      navigate("/main");
-    } catch (e) {
-      console.error(e);
-    }
-  };
->>>>>>> cf581e5d1f69715f4012a7c445e72d5f6f932086
 
-  return (
-    <Wrapper>
-      {/* <UserBackground /> */}
-      <UserBack />
-      <Container>
-        <h2>REGISTER</h2>
-        <InputContainer>
-          <input
-            type="text"
-            placeholder="아이디를 입력하세요"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="비밀번호를 입력하세요"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </InputContainer>
-        <button onClick={handleLogin}>로그인 하기</button>
-        <GoToRegister onClick={handleSignupClick}>
-          아직 회원이 아니신가요?
-        </GoToRegister>
-      </Container>
-    </Wrapper>
-  );
+    return (
+        <Wrapper>
+            <UserBackground />
+            <Container>
+                <h2>REGISTER</h2>
+                <InputContainer>
+                    <input
+                        type="text"
+                        placeholder="아이디를 입력하세요"
+                        value={userId}
+                        onChange={(e) => setUserId(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="비밀번호를 입력하세요"
+                        value={userPw}
+                        onChange={(e) => setUserPw(e.target.value)}
+                    />
+                </InputContainer>
+                <button onClick={handleLogin}>로그인 하기</button>
+                <GoToRegister onClick={handleSignupClick}>
+                    아직 회원이 아니신가요?
+                </GoToRegister>
+            </Container>
+        </Wrapper>
+    );
 }
 
 export default LoginForm;

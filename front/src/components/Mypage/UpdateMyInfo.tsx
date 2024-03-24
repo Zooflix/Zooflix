@@ -2,12 +2,18 @@ import styled from "styled-components";
 import UserInput from "../User/UserInput";
 import { useState } from "react";
 import SubmitBtn from "../Common/SubmitBtn";
+import { useRecoilState } from "recoil";
+import { userIdState, userPwState } from "../../Store/UserState";
 
 const InputStyle = {
   backgroundColor: "#D7F1FF",
 };
 
 function UpdateMyInfo() {
+
+  const [userId, setUserId] = useRecoilState(userIdState);
+  const [userPw, setUserPw] = useRecoilState(userPwState);
+
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = (event: any) => {
@@ -21,7 +27,7 @@ function UpdateMyInfo() {
         <UserInput
           type="text"
           style={InputStyle}
-          placeholder="다라란"
+          placeholder={userId}
           readonly
         />
         <UserInput
@@ -69,7 +75,7 @@ function UpdateMyInfo() {
           </>
         )}
       </InputContainer>
-      <SubmitBtn text="수정 완료" />
+      <SubmitBtns text="수정 완료" />
     </Wrapper>
   );
 }
