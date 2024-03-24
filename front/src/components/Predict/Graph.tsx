@@ -1,11 +1,29 @@
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { useState, useEffect } from "react";
 
-type GraphProps = {
-    search: string;
-};
+import { selectCompareGraph } from "../../apis/api/Predict";
+import { selectUserNoState } from "../../Store/PredictState";
+import { selectStockNameState } from "../../Store/PredictState";
+import { selectUserNameState } from "../../Store/PredictState";
 
-function Graph(props: GraphProps) {
-    if (props.search === "") {
+function Graph() {
+    const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
+    const [selectStockName, setSelectStockName] =
+        useRecoilState(selectStockNameState);
+    const [selectUserName, setSelectUserName] =
+        useRecoilState(selectUserNameState);
+    const [graphImage, setGraphImage] = useState<string>("");
+
+    useEffect(() => {
+        selectCompareGraph(selectUserNo, selectStockName).then(
+            (imageUrl: string) => {
+                setGraphImage(imageUrl);
+            }
+        );
+    }, [selectUserNo, selectStockName]);
+
+    if (!selectUserNo) {
         return (
             <Wrapper>
                 <Title>차트 비교</Title>
@@ -17,9 +35,16 @@ function Graph(props: GraphProps) {
     } else {
         return (
             <Wrapper>
-                <Title>차트 비교</Title>
+                <Title>
+                    <b>{selectStockName}</b>와 <b>{selectUserName}</b>님의 예측
+                    비교
+                </Title>
                 <Container>
-                    <Content></Content>
+                    {graphImage ? (
+                        <img src={graphImage} alt="Graph" />
+                    ) : (
+                        <Content>Loading...</Content>
+                    )}
                 </Container>
             </Wrapper>
         );
@@ -35,12 +60,17 @@ const Container = styled.div`
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     width: 70%;
-    height: 200px;
+    height: 270px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
     margin-bottom: 20px;
+    img {
+        width: 95%;
+        height: 95%;
+        border-radius: 30px;
+    }
 `;
 
 const Content = styled.div`
@@ -49,7 +79,4 @@ const Content = styled.div`
     text-align: center;
     color: gray;
 `;
-const Title = styled.div`
-
-`;
-
+const Title = styled.div``;

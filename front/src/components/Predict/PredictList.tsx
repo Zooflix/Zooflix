@@ -1,7 +1,11 @@
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
-import { selectPredicts } from "../../apis/api/Predict";
+
 import { deletePredict } from "../../apis/api/Predict";
+import { selectUserNoState } from "../../Store/PredictState";
+import { selectStockNameState } from "../../Store/PredictState";
+import { selectUserNameState } from "../../Store/PredictState";
 
 import Deletebtn from "../../assets/img/button/Deletebtn.svg";
 import Reportbtn from "../../assets/img/button/Reportbtn.svg";
@@ -11,34 +15,30 @@ import FeedOpenbtn from "../../assets/img/button/FeedOpenbtn.svg";
 type FeedProps = {
     pdUpDown: boolean;
     pdResult: string;
-}
+};
 
 type PredictProps = {
-    sorted: string;
-    stockName: string;
+    currentPage: any[];
 };
 
 function PredictList(props: PredictProps) {
-    const [data, setData] = useState<any[]>([]);
     const [openItems, setOpenItems] = useState<number[]>([]);
+    const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
+    const [selectStockName, setSelectStockName] =
+        useRecoilState(selectStockNameState);
+    const [selectUserName, setSelectUserName] =
+        useRecoilState(selectUserNameState);
 
-    useEffect(() => {
-        fetchData();
-    }, [props.sorted, props.stockName]);
+    const toggleContent = (
+        pdNo: number,
+        userNo: number,
+        stockName: string,
+        userName: string
+    ) => {
+        setSelectUserNo(userNo);
+        setSelectStockName(stockName);
+        setSelectUserName(userName);
 
-    const fetchData = async () => {
-        try {
-            const result = await selectPredicts(
-                props.sorted,
-                props.stockName
-            );
-            setData(result);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
-
-    const toggleContent = (pdNo: number) => {
         setOpenItems((prevState) => {
             if (prevState.includes(pdNo)) {
                 return prevState.filter((item) => item !== pdNo);
@@ -49,18 +49,20 @@ function PredictList(props: PredictProps) {
     };
 
     const handleDelete = async (pdNo: number) => {
-        const isConfirmed = window.confirm('글을 삭제하시겠습니까?');
-        if(!isConfirmed){
+        const isConfirmed = window.confirm("글을 삭제하시겠습니까?");
+        if (!isConfirmed) {
             return;
         }
         try {
             await deletePredict(pdNo);
-            // 삭제 후 데이터 다시 가져오기
-            fetchData();
         } catch (error) {
             console.log("Error deleting data:", error);
         }
     };
+
+    useEffect(() => {
+        setOpenItems([]);
+    }, [props.currentPage]);
 
     interface ClickProps {
         isOpen: boolean;
@@ -74,52 +76,62 @@ function PredictList(props: PredictProps) {
 
     return (
         <Wrapper>
-            {data && data.map((item) => (
-                <Feed
-                    key={item.pdNo}
-                    pdUpDown={item.pdUpDown}
-                    pdResult={item.pdResult}
-                >
-                    <Noncllick>
-                        <p style={{ width: "100px" }}>{item.stockName}</p>
-                        <p style={{ width: "100px" }}>{item.userName}</p>
-                        <p style={{ width: "100px" }}>{item.pdDate}</p>
-                        <p style={{ width: "100px" }}>
-                            {item.pdValue}
-                            <span
-                                style={{
-                                    color: item.pdUpDown ? "red" : "blue",
-                                    marginLeft: "5px",
-                                }}
-                            >
-                                {item.pdUpDown ? "▲" : "▼"}
-                            </span>
-                        </p>
-                        <button onClick={() => toggleContent(item.pdNo)}>
-                            <img
-                                src={
-                                    openItems.includes(item.pdNo)
-                                        ? FeedOpenbtn
-                                        : Feedbtn
+            {props.currentPage &&
+                props.currentPage.map((item) => (
+                    <Feed
+                        key={item.pdNo}
+                        pdUpDown={item.pdUpDown}
+                        pdResult={item.pdResult}
+                    >
+                        <Noncllick>
+                            <p style={{ width: "100px" }}>{item.stockName}</p>
+                            <p style={{ width: "100px" }}>{item.userName}</p>
+                            <p style={{ width: "100px" }}>{item.pdDate}</p>
+                            <p style={{ width: "100px" }}>
+                                {item.pdValue}
+                                <span
+                                    style={{
+                                        color: item.pdUpDown ? "red" : "blue",
+                                        marginLeft: "5px",
+                                    }}
+                                >
+                                    {item.pdUpDown ? "▲" : "▼"}
+                                </span>
+                            </p>
+                            <button
+                                onClick={() =>
+                                    toggleContent(
+                                        item.pdNo,
+                                        item.userNo,
+                                        item.stockName,
+                                        item.userName
+                                    )
                                 }
-                                alt="Feed Button"
-                            />
-                        </button>
-                    </Noncllick>
-                    <Click isOpen={openItems.includes(item.pdNo)}>
-                        {item.pdContent}
-                        <FeedIcon>
-                            <img
-                                src={Deletebtn}
-                                alt="삭제"
-                                style={{ marginRight: "20px" }}
-                                onClick={() => handleDelete(item.pdNo)}
-                            />
-                            <img src={Reportbtn} alt="신고" />
-                        </FeedIcon>
-                    </Click>
-                </Feed>
-            ))}
+                            >
+                                <img
+                                    src={
+                                        openItems.includes(item.pdNo)
+                                            ? FeedOpenbtn
+                                            : Feedbtn
+                                    }
+                                    alt="Feed Button"
+                                />
+                            </button>
+                        </Noncllick>
+                        <Click isOpen={openItems.includes(item.pdNo)}>
+                            <Content>{item.pdContent}</Content>
+                            <FeedIcon>
+                                <img
+                                    src={Deletebtn}
+                                    alt="삭제"
+                                    style={{ marginRight: "20px" }}
+                                    onClick={() => handleDelete(item.pdNo)}
+                                />
+                                <img src={Reportbtn} alt="신고" />
+                            </FeedIcon>
+                        </Click>
+                    </Feed>
+                ))}
         </Wrapper>
     );
 }
@@ -128,6 +140,7 @@ export default PredictList;
 const Wrapper = styled.div``;
 
 const Feed = styled.div<FeedProps>`
+    width: 45vw;
     border-radius: 15px;
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
@@ -165,7 +178,12 @@ const FeedIcon = styled.div`
     display: flex;
     justify-content: flex-end;
     padding-right: 10px;
-    img{
-      cursor: pointer;
+    margin-top: 20px;
+    img {
+        cursor: pointer;
     }
+`;
+
+const Content = styled.div`
+    overflow: hidden;
 `;
