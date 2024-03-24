@@ -16,12 +16,12 @@ export async function selectOneUserInfo(userId: number) {
 
 
 //회원 로그인
-export async function loginUser(username: String, password: String) {
+export async function loginUser(userId: String, userPw: String) {
   try {    
-    const response = await axios.post(`/auth/login`, { username, password });
-    console.log(response.data);
-    return response.data.access;
-  } catch (e) {
+    const response = await axios.post(`/login`, { userId, userPw });
+    console.log(response.headers['access']);
+    return response.headers['access'];
+  } catch (e) { 
     console.log(e);
   } 
 }
