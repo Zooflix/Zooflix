@@ -6,13 +6,21 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 
 interface Props {
   name: string;
-  scale?: number; // 캐릭터의 크기를 조절하는 props
+  characterScale?: number; // 캐릭터의 크기를 조절하는 props
+  canvasWidth?: number; // 컴포넌트 크기
+  canvasHeight?: number;
   action?: string;
 }
 //캐릭터 name
 //Bear, Cow, Fox, Hippo, Lion, Monkey, Pig, Rabbit, Rhino, Sloth, Unicon, Zebra
 
-function Character3d({ name, scale = 1, action = "jump" }: Props): JSX.Element {
+function Character3d({
+  name,
+  characterScale = 1,
+  canvasWidth = 100,
+  canvasHeight = 100,
+  action = "jump",
+}: Props): JSX.Element {
   const canvasRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,8 +30,8 @@ function Character3d({ name, scale = 1, action = "jump" }: Props): JSX.Element {
     scene.background = new THREE.Color();
 
     const camera = new THREE.PerspectiveCamera(
-      5,
-      window.innerWidth / window.innerHeight,
+      4,
+      canvasWidth / canvasHeight,
       1,
       5000
     );
@@ -39,7 +47,7 @@ function Character3d({ name, scale = 1, action = "jump" }: Props): JSX.Element {
     scene.add(light2);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(canvasWidth, canvasHeight);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     // 사용자가 화면을 만지지 못하게 조절
@@ -59,7 +67,7 @@ function Character3d({ name, scale = 1, action = "jump" }: Props): JSX.Element {
         });
 
         // 캐릭터의 크기 조절
-        object.scale.set(scale, scale, scale);
+        object.scale.set(characterScale, characterScale, characterScale);
 
         // 씬에 모델 추가
         scene.add(object);
@@ -74,14 +82,15 @@ function Character3d({ name, scale = 1, action = "jump" }: Props): JSX.Element {
             if (jumpHeight >= 7 || jumpHeight <= 0) {
               jumpDirection *= -1;
             }
-            object.position.y = jumpHeight;
+            object.position.y = jumpHeight - canvasHeight / 3;
           } else if (action === "turn") {
             object.rotation.y += 0.01;
+            object.position.y = 1 - canvasHeight / 3;
+            // object.position.x = 1 + canvasWidth / 2;
           }
           renderer.render(scene, camera);
           requestAnimationFrame(animate);
         };
-
         animate();
       });
     });
@@ -95,7 +104,7 @@ function Character3d({ name, scale = 1, action = "jump" }: Props): JSX.Element {
         canvasRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [name, scale, action]);
+  }, [name, characterScale, action]);
 
   return <div ref={canvasRef} />;
 }
