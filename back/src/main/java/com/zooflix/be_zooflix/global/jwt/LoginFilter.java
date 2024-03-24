@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.user.dto.UserDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
+import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.global.jwt.dto.CustomUserDetails;
 import com.zooflix.be_zooflix.global.jwt.entity.JWTRefresh;
 import com.zooflix.be_zooflix.global.jwt.repository.JWTRefreshRepository;
@@ -44,10 +45,27 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        String contentType = request.getContentType();
+        String userId = "";
+        String userPw = "";
+        if (contentType.equals("application/json")) {
+            ObjectMapper om = new ObjectMapper();
+            try {
+                User user = om.readValue(request.getInputStream(), User.class);
+                if (user != null) {
+                    userId = user.getUserId();
+                    userPw = user.getUserPw();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            //클라이언트 요청에서 username, password 추출
+            userId = obtainUsername(request);
+            userPw = obtainPassword(request);
+        }
 
-        //클라이언트 요청에서 username, password 추출
-        String userId = obtainUsername(request);
-        String userPw = obtainPassword(request);
 
         //스프링 시큐리티에서 username과 password를 검증하기 위해서는 token에 담아야 함
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userId, userPw, null);

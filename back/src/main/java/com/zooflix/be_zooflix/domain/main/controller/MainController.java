@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin("*")
-@RequestMapping("/stock")
+@RequestMapping("/main")
 public class MainController {
     private final MainService mainService;
 
@@ -25,10 +25,11 @@ public class MainController {
      * 2.1 메인페이지 - 랭킹 데이터 조회
      *
      */
-    @GetMapping("/main/ranking")
+    @GetMapping("/ranking")
     @Operation(summary = "메인페이지 랭킹 데이터 조회")
     public ResponseEntity<ResultResponse<MainDto>> mainRankingData() {
         MainDto mainData = mainService.mainRankingData();
+
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), mainData));
     }
 }

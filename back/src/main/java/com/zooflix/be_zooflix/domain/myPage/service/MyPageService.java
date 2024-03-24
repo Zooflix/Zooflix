@@ -92,7 +92,7 @@ public class MyPageService {
         return myPredictList;
     }
 
-    //내가 구독 중인 회원 목록(닉네임, 온도)
+    //내가 구독 중인 회원 목록(구독 인덱스, 닉네임, 온도)
     public List<MySubscribeDto> getMySubscribe(int userNo) {
         List<UserSubscribe> userSubscribeFromMe = userSubscribeRepository.findSubscribeFromMe(userNo);
 
@@ -102,12 +102,13 @@ public class MyPageService {
 
         List<MySubscribeDto> mySubscribeList = new ArrayList<>();
 
-        //mySubscribeList 추가
+        List<MyInfoDto> myInfoList = new ArrayList<>(); //유저 목록을 모아서 온도로 내림차순하기 위해 필요
+
         for(UserSubscribe val : userSubscribeFromMe){
             MyInfoDto myInfoDto = userRepository.findByUserId(val.getSubscribeUserNo());
-
             MySubscribeDto mySubscribeDto = new MySubscribeDto();
 
+            mySubscribeDto.setSubscribeNo(val.getSubscribeNo());
             mySubscribeDto.setSubscribeName(myInfoDto.getUserName());
             mySubscribeDto.setSubscribeTemperature(myInfoDto.getUserTemperature());
 

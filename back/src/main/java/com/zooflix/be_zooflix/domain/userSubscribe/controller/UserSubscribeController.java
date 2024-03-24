@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class UserSubscribeController {
 
@@ -27,9 +29,10 @@ public class UserSubscribeController {
     }
 
     @Operation(summary = "유저 구독 취소")
-    @DeleteMapping("/user-subscribe/{subscribeNo}")
-    public ResponseEntity<?> deleteUserSubscribe(@PathVariable int subscribeNo){
+    @DeleteMapping("/my-page/subscribe/delete/{subscribeNo}")
+    public ResponseEntity<?> deleteUserSubscribe(@PathVariable int subscribeNo) {
         userSubscribeService.deleteUserSubscribe(subscribeNo);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

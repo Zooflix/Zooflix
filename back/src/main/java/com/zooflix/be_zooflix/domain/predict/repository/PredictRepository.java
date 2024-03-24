@@ -40,11 +40,11 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
             "  u.user_temperature DESC;")
     List<Predict> findByStockNameOrderByUserTem(String stockName);
 
-    @Query(nativeQuery = true, value = "SELECT pd_date from predict where user_no= :userNo AND pd_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) and pd_date <= CURRENT_DATE();")
-    List<String> findPdDateByUserNo(int userNo);
+    @Query(nativeQuery = true, value = "SELECT pd_date from predict where user_no= :userNo AND stock_name = :stockName AND pd_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) and pd_date <= CURRENT_DATE();")
+    List<String> findPdDateByUserNo(int userNo, String stockName);
 
-    @Query(nativeQuery = true, value = "SELECT pd_value from predict where user_no= :userNo AND pd_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) and pd_date <= CURRENT_DATE();")
-    List<String> findPdValueByUserNo(int userNo);
+    @Query(nativeQuery = true, value = "SELECT pd_value from predict where user_no= :userNo AND stock_name = :stockName AND pd_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) and pd_date <= CURRENT_DATE();")
+    List<String> findPdValueByUserNo(int userNo, String stockName);
 
     @Modifying(clearAutomatically = true)
     @Transactional

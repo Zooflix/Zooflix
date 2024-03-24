@@ -1,4 +1,5 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.dto;
+import com.zooflix.be_zooflix.domain.user.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,5 +21,6 @@ public class StockSubscribeDto {
     private String userAppKey;
     private String userSecretKey;
     private String userAccount;
+
 }
 

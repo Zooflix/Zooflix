@@ -13,7 +13,7 @@ public class UserRankingDto {
     private int predictCount;
     private int successCount;
     private int failCount;
-    private int userTemperature;
+    private double userTemperature;
     private String userZbti;
     private int successStreak;
 }

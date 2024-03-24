@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.alarm.controller;
 
+import com.zooflix.be_zooflix.domain.alarm.dto.response.FindListAlarmKeyProjectionResponse;
 import com.zooflix.be_zooflix.domain.alarm.dto.response.FindListAlarmResponse;
 import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
@@ -42,8 +43,8 @@ public class AlarmController {
      * */
     @GetMapping("/alarm/{userId}")
     @Operation(summary = "알림 전체 조회")
-    public ResponseEntity<ResultResponse<List<FindListAlarmResponse>>> alarmList(@PathVariable(value = "userId") String userId){
-        List<FindListAlarmResponse> result = alarmService.findListAlarm(userId);
+    public ResponseEntity<ResultResponse<List<FindListAlarmKeyProjectionResponse>>> alarmList(@PathVariable(value = "userId") String userId) {
+        List<FindListAlarmKeyProjectionResponse> result = alarmService.findListAlarm(userId);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
     }
 

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -39,14 +40,14 @@ public class MyPageController {
         return ResponseEntity.ok(myInfo);
     }
 
-    @Operation(summary = "내가 구독 중인 회원 목록(닉네임, 온도)")
+    @Operation(summary = "내가 구독 중인 회원 목록(구독인덱스, 닉네임, 온도)")
     @GetMapping("/my-page/subscribe/{userNo}")
     public  ResponseEntity<List<MySubscribeDto>> selectMySubscribe(@PathVariable int userNo) {
         List<MySubscribeDto> mySubscribeList = myPageService.getMySubscribe(userNo);
         return ResponseEntity.ok(mySubscribeList);
     }
 
-//    //내가 정기 구독 중인 주식 목록(주식명,
+    //    //내가 정기 구독 중인 주식 목록(주식명,
 //    @GetMapping("/mypage/stock/{userId}")
 //    public ResponseEntity<List<MyStockDto>> selectMyStockSubscribeList(HttpServletRequest request, @PathVariable String userId) {
 //        List<MyStockDto> myStockDtoList = myPageService.getMyStockList(userId);
