@@ -3,7 +3,8 @@
 import sys
 import requests
 # sys.path.append("c:\program files\python\lib\site-packages") # pip install 경로
-
+import math
+import time
 import datetime
 import io
 from typing import List
@@ -33,49 +34,46 @@ import asyncio
 
 warnings.filterwarnings('ignore')
 
+# json으로 넘어오는 requestbody 속성을 받기 위함
+class Item(BaseModel):
+    text: str
+
 app = FastAPI()
 
+if platform.system() == 'Windows':
+    plt.rc('font', family='Malgun Gothic')
+elif platform.system() == 'Darwin':
+    plt.rc('font', family='AppleGothic')
+else:
+    plt.rc('font', family='NanumGothic')
 
-@app.get("/get_stock_search/")
-async def get_stock_search(stock_name: str = Query(...),):
 
-    #stock_name을 stock_code로 변환시켜주기
+#
+# 전체목록 가져오기
+#
+@app.get("/get_stock_list/")
+async def get_stock_list():
     df_list = fdr.StockListing('KRX')
-    df_filter = df_list[df_list['Name'].str.contains(stock_name)]
-
-    stock_search = df_filter['Name'].tolist()
-
-    return stock_search
+    df_filter = df_list[['Code', 'Name']]
+    return df_filter.to_dict(orient='records')
 
 #
 # 현재 가격
 #
 @app.get("/get_now_price/")
-async def get_now_price(stock_name: str = Query(...),):
-
-    # stock_name을 stock_code로 변환
-    df_list = fdr.StockListing('KRX')
-    df_filter = df_list.loc[df_list['Name'] == stock_name]
-    stock_code = df_filter['Code'].values[0]
+async def get_now_price(stock_code):
     now_price = fdr.DataReader(stock_code)
     result = now_price.tail(1)['Close'].values[0]
-    print(result)
     return float(result)
 
 #
 # 그날 종가 return
 #
 @app.get("/get_closing_price/")
-async def get_closing_price(stock_name: str = Query(..., description="종목이름 (e.g., '삼성전자')"),
+async def get_closing_price(stock_code,
                             date: datetime.date = Query(..., description="date (YYYY-MM-DD)")):
 
-    #stock_name을 stock_code로 변환시켜주기
-    df_list=fdr.StockListing('KRX')
-    df_filter = df_list.loc[df_list['Name']==stock_name]
-    stock_code = df_filter['Code'].values[0]
-
-
-    # FinanceDataReader를 사용하여 주식 데이터 불러오기
+  # FinanceDataReader를 사용하여 주식 데이터 불러오기
     df = fdr.DataReader(stock_code, date)
 
     # '종가' 열의 마지막 값을 가져와서 리턴
@@ -85,20 +83,14 @@ async def get_closing_price(stock_name: str = Query(..., description="종목이�
 
     return closing_price
 
-
 #
 # 비교 x 그래프
 #
 @app.get("/generate_stock_graph/")
-async def generate_stock_graph(stock_name: str = Query(..., description="종목이름 (e.g., '삼성전자')"),
+async def generate_stock_graph(stock_code, stock_name: str = Query(..., description="종목이름 (e.g., '삼성전자')"),
                                date: datetime.date = Query(..., description="date (YYYY-MM-DD)")):
     # 입력된 날짜로부터 30일 전 날짜 계산
     thirty_days_ago = date - datetime.timedelta(days=30)
-
-    # stock_name을 stock_code로 변환
-    df_list = fdr.StockListing('KRX')
-    df_filter = df_list.loc[df_list['Name'] == stock_name]
-    stock_code = df_filter['Code'].values[0]
 
     # 30일 전 날짜부터 입력받은 날짜까지의 주가 데이터 가져오기
     df = fdr.DataReader(stock_code, thirty_days_ago, date)
@@ -130,15 +122,10 @@ async def generate_stock_graph(stock_name: str = Query(..., description="종목�
 #
 # 비교 o 그래프
 #
-async def generate_chart(stock_name, date, predict_dates, predict_costs):
+async def generate_chart(stock_code, stock_name, date, predict_dates, predict_costs):
 
     # 입력된 날짜로부터 30일 전 날짜 계산
     thirty_days_ago = date - datetime.timedelta(days=30)
-
-    # stock_name을 stock_code로 변환
-    df_list = fdr.StockListing('KRX')
-    df_filter = df_list.loc[df_list['Name'] == stock_name]
-    stock_code = df_filter['Code'].values[0]
 
     # 30일 전 날짜부터 입력받은 날짜까지의 주가 데이터 가져오기
     df = fdr.DataReader(stock_code, thirty_days_ago, date)
@@ -175,11 +162,11 @@ async def generate_chart(stock_name, date, predict_dates, predict_costs):
 # 사용자를 눌렀을 때 : 기업 기본 그래프 + 사용자의 예측 그래프
 # 입력값 (스프링) : 종목, 예측정보 (예측 날짜, 예측 가격)
 @app.get("/compare_graph/")
-async def compare_graph(stock_name: str = Query(..., description="종목이름 (e.g., '삼성전자')"),
+async def compare_graph(stock_code, stock_name: str = Query(..., description="종목이름 (e.g., '삼성전자')"),
                         date: datetime.date = Query(..., description="날짜 (YYYY-MM-DD)"),
                         predict_dates: List[datetime.date] = Query(..., description="예측날짜 배열 (YYYY-MM-DD)"),
                         predict_costs: List[float] = Query(..., description="예측가격 배열 (e.g., '70000')")):
-    img_buffer = await generate_chart(stock_name, date, predict_dates, predict_costs)
+    img_buffer = await generate_chart(stock_code, stock_name, date, predict_dates, predict_costs)
     return StreamingResponse(io.BytesIO(img_buffer.getvalue()), media_type="image/png")
 
 
