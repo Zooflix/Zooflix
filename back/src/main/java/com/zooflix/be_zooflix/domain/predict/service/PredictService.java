@@ -9,8 +9,10 @@ import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
 import com.zooflix.be_zooflix.domain.predict.dto.StockHistoryDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
+import com.zooflix.be_zooflix.domain.predict.entity.StockList;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
 
+import com.zooflix.be_zooflix.domain.predict.repository.StockListRepository;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
 import com.zooflix.be_zooflix.domain.user.entity.User;
@@ -45,10 +47,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,13 +58,16 @@ public class PredictService {
     private final UserRepository userRepository;
     private final AlarmService alarmService;
     private final UserSubscribeRepository userSubscribeRepository;
+    private final StockListRepository stockListRepository;
+
 
     @Autowired
-    public PredictService(PredictRepository predictRepository, UserRepository userRepository, AlarmService alarmService, UserSubscribeRepository userSubscribeRepository) {
+    public PredictService(PredictRepository predictRepository, UserRepository userRepository, AlarmService alarmService, UserSubscribeRepository userSubscribeRepository, StockListRepository stockListRepository) {
         this.predictRepository = predictRepository;
         this.userRepository = userRepository;
         this.alarmService = alarmService;
         this.userSubscribeRepository = userSubscribeRepository;
+        this.stockListRepository = stockListRepository;
     }
 
     //전체 예측 목록 조회
@@ -204,11 +206,8 @@ public class PredictService {
 
     public int getClosingPrice(String stockName, String date) {
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("stock_name", stockName);
-        requestBody.put("date", String.valueOf(LocalDate.now()));
-
-        String url = pythonPredictValue + "?stock_name=" + stockName + "&date=" + date;
+        String code = stockListRepository.findStockCode(stockName);
+        String url = pythonPredictValue + "?stock_code=" + code + "&date=" + date;
 
         Double closingPrice = restTemplate.getForObject(url, Double.class);
 
@@ -217,8 +216,10 @@ public class PredictService {
 
     public String getGraph(String stockName) {
         String date = String.valueOf(LocalDate.now());
+        String code = stockListRepository.findStockCode(stockName);
         // 쿼리 문자열로 요청 데이터 구성
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(pythonGraph)
+                .queryParam("stock_code", code)
                 .queryParam("stock_name", stockName)
                 .queryParam("date", date);
         return builder.toUriString();
@@ -233,8 +234,9 @@ public class PredictService {
             Float value = Float.parseFloat(valueString);
             valueListF.add(value);
         }
-
+        String code = stockListRepository.findStockCode(stockName);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(pythonCompareGraph)
+                .queryParam("stock_code", code)
                 .queryParam("stock_name", stockName)
                 .queryParam("date", date)
                 .queryParam("predict_dates", dateList)
@@ -243,24 +245,14 @@ public class PredictService {
     }
 
     public List<String> getStockSearch(String stockName) {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("stock_name", stockName);
-
-        String url = pythonStockSearch + "?stock_name=" + stockName;
-
-        List<String> list = restTemplate.getForObject(url, List.class);
-
+        List<String> list = stockListRepository.findStockListByStockName(stockName);
         return list;
     }
 
     public Float getNowPrice(String stockName) {
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("stock_name", stockName);
-
-        String url = pythonNowPrice + "?stock_name=" + stockName;
-
+        String code = stockListRepository.findStockCode(stockName);
+        String url = pythonNowPrice + "?stock_code=" + code;
         Float result = restTemplate.getForObject(url, Float.class);
 
         return result;
@@ -401,6 +393,28 @@ public class PredictService {
             e.printStackTrace();
         }
         return "fail";
+    }
+
+    @Value("http://127.0.0.1:8000/get_stock_list")
+    private String pythonStockList;
+
+    public void getStockList() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        String url =  pythonStockList;
+
+        ResponseEntity<List> responseEntity = restTemplate.getForEntity(url, List.class);
+        List<LinkedHashMap<String, String>> list = responseEntity.getBody();
+        for (LinkedHashMap<String, String> stockMap : list){
+            String stockName = stockMap.get("Name");
+            String stockCode = stockMap.get("Code");
+
+            // 변환된 데이터를 사용하여 StockList 객체 생성 및 저장
+            StockList stockList = new StockList();
+            stockList.setStockCode(stockCode);
+            stockList.setStockName(stockName);
+            stockListRepository.save(stockList);
+        }
     }
 
 }

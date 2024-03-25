@@ -106,4 +106,11 @@ public class PredictController {
         return predictService.getNowPrice(stockName);
     }
 
+
+    @Operation(summary = "주식목록 전체 저장")
+    @GetMapping("/stock/list")
+    public void saveStockList() {
+    predictService.getStockList();
+    }
+
 }
