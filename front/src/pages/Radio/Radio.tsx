@@ -10,10 +10,9 @@ import Pauseicon from "../../assets/img/button/Pause.svg";
 // 컴포넌트
 import Title from "../../components/Common/Title";
 import ImgBtn from "../../components/Common/ImgBtn";
+import Character3d from "../../components/Character/Character3d";
 import SquareBtn from "../../components/Common/SquareBtn";
-import { log } from "console";
 import { isPausedState } from "../../Store/RadioState";
-import { JsxElement } from "typescript";
 
 // 버튼 스타일
 const buttonStyleDark = {
@@ -33,7 +32,7 @@ function Player() {
   const audioEl = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    // ttsMaker();
+    ttsMaker();
   }, []);
 
   useEffect(()=>{
@@ -64,6 +63,7 @@ function Player() {
         <ImgBtn src={Playicon} onClick={clickBtn} disabled={isPaused? false:true} style={imgBtnStyle}></ImgBtn>
         <ImgBtn src={Pauseicon} onClick={clickBtn} disabled={isPaused? true:false} style={imgBtnStyle}></ImgBtn>
       </PlayContainer>
+      <Character3d name="Cow" characterScale={1} canvasWidth={700} canvasHeight={400} />
       <SquareBtn text="자막보기" style={buttonStyleDark} />
     </Wrapper>
   )
