@@ -1,7 +1,4 @@
-import { Routes } from "react-router-dom";
 import { axios } from "../utils/axios";
-
-const REST_ALARM_API = `/alarm`;
 
 // 알람을 위한 SSE 연결
 // /alarm/subscribe/{userNo}
