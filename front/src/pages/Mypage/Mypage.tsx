@@ -25,9 +25,11 @@ function Mypage() {
     const [myPagePredictList, setMyPagePredictList] = useRecoilState(
         myPagePredictListState
     );
-    const [myPageSubscribeList, setMyPageSubscribeList] = useRecoilState(myPageSubscribeListState);
+    const [myPageSubscribeList, setMyPageSubscribeList] = useRecoilState(
+        myPageSubscribeListState
+    );
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
     // const accessToken = localStorage.getItem('accessToken');
     const userNo = 2;
@@ -108,15 +110,23 @@ const LeftSideMyInfo = styled.div`
     width: 420px;
     height: 785px;
     text-align: center;
-    border: 1px solid;
     margin: 0 auto;
+
+    background: #ffffff;
+    border: 0.77908px solid #e7e7e7;
+    box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
+    border-radius: 10.9071px;
 `;
 
 const RightSideMyInfo = styled.div`
     float: right;
     width: 775px;
-    border: 1px solid;
+    height: 660px;
     margin: 0 auto;
+    background: #ffffff;
+    border: 0.77908px solid #e7e7e7;
+    box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
+    border-radius: 10.9071px;
 `;
 
 const GotoZbtiButton = styled.button`
@@ -125,4 +135,8 @@ const GotoZbtiButton = styled.button`
     align-items: center;
     width: 695px;
     margin: 0 auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
 `;

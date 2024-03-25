@@ -2,16 +2,25 @@ import styled from "styled-components";
 import {Chart as ChartJS, ArcElement, Tooltip} from "chart.js";
 import {Doughnut} from "react-chartjs-2";
 import BearImg from "../../assets/img/Zbti/BearImg.svg"
+import { useRecoilState } from "recoil";
+import { myPageInfoState } from "../../Store/MyPageState";
 
 ChartJS.register(ArcElement, Tooltip);
 
 function DoughnutChart() {
+
+  const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+
+  // const chartColor = "linear-gradient(#e66465, #9198e5)";
+
   const Data = {
+     
     datasets: [
       {
-        data: [30, 70],
-        backgroundColor: ["#FF6384", "#36A2EB"],
-        borderColor: ["#FF6384", "#36A2EB"],
+        data: [myPageInfo.userTemperature, 100 - myPageInfo.userTemperature],
+        backgroundColor: ["#FF6384", "#7AD3FF"],
+        // borderColor: ["#FF6384", "#7AD3FF"],
+        borderRadius: 10,
         circumference: 270,
         rotation: 225,
         cutout: '80%',  //두께 조절

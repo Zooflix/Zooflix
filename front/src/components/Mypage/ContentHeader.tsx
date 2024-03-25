@@ -44,10 +44,11 @@ function ContentHeader(props: ContentHeaderProps) {
     );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    margin-bottom: 30px;
+`;
 const ContentTabHeader = styled.div`
     display: flex;
-    padding: 15px 20px;
 `;
 const ContentHeaderTab = styled.nav`
     flex: 1;
@@ -56,8 +57,6 @@ const ContentHeaderTab = styled.nav`
 const ContentTabList = styled.ul`
     display: flex;
     list-style: none;
-    margin: 0;
-    padding: 0;
     margin-block-style: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;
