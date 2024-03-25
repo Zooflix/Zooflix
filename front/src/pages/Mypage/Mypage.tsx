@@ -66,7 +66,10 @@ function Mypage() {
             try {
                 const data = await getMySubscribeList(userNo);
                 setMyPageSubscribeList(data);
-            } catch (error) {}
+            } catch (error) {
+                console.log("내가 구독한 사람 목록 불러오기 실패");
+                console.error(error);
+            }
         };
 
         fetchData(userNo);
