@@ -3,10 +3,22 @@ import styled from "styled-components";
 type SquareBtnProps = {
   text: string;
   style?: React.CSSProperties;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 function SquareBtn(props: SquareBtnProps): JSX.Element {
-  return <Button style={props.style}>{props.text}</Button>;
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (props.onClick) {
+      props.onClick(e);
+    }
+  };
+
+  return (
+    <Button style={props.style} onClick={handleClick}>
+      {" "}
+      {props.text}
+    </Button>
+  );
 }
 
 export default SquareBtn;

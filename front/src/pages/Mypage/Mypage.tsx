@@ -26,7 +26,7 @@ function Mypage() {
     // }
 
     // 고쳐야 할 부분 아직 정확하게 흐름 이해 못함...
-    const fetchData = async (accessToken: String) => {
+    const fetchData = async (accessToken: string) => {
       try {
         const data = await getMyPageData(accessToken);
         setMyPageInfo(data);

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 
 import SearchInput from "./SearchInput";
 import PasswordInput from "./PasswordInput";
@@ -8,9 +9,16 @@ import GetIssued from "./GetIssued";
 import SubscribeDateInput from "./SubscribeDateInput";
 import ImgBtn from "../Common/ImgBtn";
 
+import SubscribeDetailModal from "./SubscribeDetailModal";
+
 import Informationbtn from "../../assets/img/button/Informationbtn.svg";
 
 function SubscribeForm() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <Wrapper>
       <InputContainer>
@@ -33,7 +41,11 @@ function SubscribeForm() {
       </InputContainer>
       <GetIssued />
       <ButtonContainer>
-        <SquareBtn text="구독하기" />
+        <SquareBtn text="구독하기" onClick={openModal} />
+        <SubscribeDetailModal
+          isModalOpen={isModalOpen}
+          closeModal={closeModal}
+        />
       </ButtonContainer>
     </Wrapper>
   );
