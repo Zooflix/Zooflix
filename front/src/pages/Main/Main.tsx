@@ -6,6 +6,7 @@ import MoreRank from "../../components/Main/MoreRank";
 import StockRank from "../../components/Main/StockRank";
 import Character3d from "../../components/Character/Character3d";
 import zooflix from "../../assets/img/Zooflix.svg";
+import { Link } from "react-router-dom";
 
 function Main() {
   const [mainData, setMainData] = useState({
@@ -104,12 +105,14 @@ function Main() {
           topStock={mainData.topStockUser}
         />
         <SubscribeDiv>
-          <Bubble>
-            <div>
-              <img src={zooflix} width="140px" />
-            </div>
-            <div>주식 구독하러가기</div>
-          </Bubble>
+          <Link to="/stocksub">
+            <Bubble>
+              <div>
+                <img src={zooflix} width="140px" />
+              </div>
+              <div>주식 구독하러가기</div>
+            </Bubble>
+          </Link>
           <Character3d
             name="Bear"
             characterScale={0.53}
@@ -154,6 +157,7 @@ const Bubble = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  text-decoration-line: none;
 
   &:after {
     content: "";
