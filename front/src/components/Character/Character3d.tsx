@@ -85,10 +85,10 @@ function Character3d({
             if (jumpHeight >= 7 || jumpHeight <= 0) {
               jumpDirection *= -1;
             }
-            object.position.y = jumpHeight - canvasHeight / 3;
+            object.position.y = jumpHeight - canvasHeight / 6;
           } else if (action === "turn") {
             object.rotation.y += 0.01;
-            object.position.y = 1 - canvasHeight / 3;
+            object.position.y = 1 - canvasHeight / 6;
             // object.position.x = 1 + canvasWidth / 2;
           }
           renderer.render(scene, camera);

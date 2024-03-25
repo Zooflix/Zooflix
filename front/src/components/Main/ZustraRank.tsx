@@ -58,16 +58,16 @@ function ZustraRank({ rankData }: Props) {
                 {index === 0 ? (
                   <Character3d
                     name={item.userZbti}
-                    characterScale={0.45}
-                    canvasWidth={70}
-                    canvasHeight={80}
+                    characterScale={0.35}
+                    canvasWidth={80}
+                    canvasHeight={100}
                   />
                 ) : (
                   <Character3d
                     name={item.userZbti}
-                    characterScale={0.45}
-                    canvasWidth={70}
-                    canvasHeight={80}
+                    characterScale={0.35}
+                    canvasWidth={80}
+                    canvasHeight={100}
                     action="turn"
                   />
                 )}
@@ -113,6 +113,7 @@ export default ZustraRank;
 const RankWrapper = styled.div`
   margin-left: 6vw;
   padding: 10px;
+  width: 65%;
 `;
 
 const RankHeader = styled.div`
@@ -126,7 +127,6 @@ const RankDiv = styled.div`
   border: 1px solid rgba(109, 125, 147, 0.15);
   box-shadow: 4px 4px 20px -10px rgba(0, 0, 0, 0.3);
   border-radius: 12px;
-  width: 65%;
   padding: 10px;
 `;
 
