@@ -5,6 +5,7 @@ import { useState } from "react";
 import MoreRank from "../../components/Main/MoreRank";
 import StockRank from "../../components/Main/StockRank";
 import Character3d from "../../components/Character/Character3d";
+import zooflix from "../../assets/img/Zooflix.svg";
 
 function Main() {
   const [mainData, setMainData] = useState({
@@ -103,11 +104,16 @@ function Main() {
           topStock={mainData.topStockUser}
         />
         <SubscribeDiv>
-          <Bubble>주식 구독하러가기</Bubble>
+          <Bubble>
+            <div>
+              <img src={zooflix} width="140px" />
+            </div>
+            <div>주식 구독하러가기</div>
+          </Bubble>
           <Character3d
             name="Bear"
-            characterScale={0.55}
-            canvasHeight={220}
+            characterScale={0.53}
+            canvasHeight={200}
             canvasWidth={160}
           />
         </SubscribeDiv>
@@ -136,14 +142,18 @@ const BelowDiv = styled.div`
 const Bubble = styled.div`
   position: relative;
   background: #092d5d;
-  border-radius: 30px;
+  border-radius: 40px;
   color: white;
   padding: 20px 30px;
   height: 100px;
   font-weight: bold;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   cursor: pointer;
-  margin: 30px 30px 10px 10px;
+  margin: 20px 0 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
   &:after {
     content: "";
