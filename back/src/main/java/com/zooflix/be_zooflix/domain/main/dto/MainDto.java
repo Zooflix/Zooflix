@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MainDto {
-    private List<UserRankingKeyProjection> userRankList;
-    private List<StockRankingDto> stockRankingList;
-    private UserRankingKeyProjection mostPredictUser;
-    private UserRankingKeyProjection mostWrongPredictUser;
-    private UserRankingKeyProjection stockCodeMostPredictUSer;
+    private List<UserRankingKeyProjection> zustraRank;
+    private List<StockRankingProjection> stockRank;
+    private UserRankingKeyProjection topStreakUser;
+    private UserRankingKeyProjection topFailUser;
+    private UserRankingKeyProjection topStockUser;
 }
