@@ -114,7 +114,7 @@ function Main() {
             name="Bear"
             characterScale={0.53}
             canvasHeight={200}
-            canvasWidth={160}
+            canvasWidth={200}
           />
         </SubscribeDiv>
       </BelowDiv>
