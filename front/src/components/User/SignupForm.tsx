@@ -3,6 +3,7 @@ import UserBackground from "./UserBackground";
 import UserInput from "./UserInput";
 import SubmitBtn from "../Common/SubmitBtn";
 import { useState } from "react";
+import UserBack from "./UserBack";
 
 function SignupForm() {
   const [isChecked, setIsChecked] = useState(false);
@@ -13,7 +14,7 @@ function SignupForm() {
 
   return (
     <Wrapper>
-      <UserBackground />
+      <UserBack />
       <Container>
         <h2>REGISTER</h2>
         <InputContainer>
@@ -65,7 +66,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  position: relative;
   z-index: 1;
   padding: 150px;
   h2 {
@@ -75,6 +75,12 @@ const Container = styled.div`
     font-size: 15px;
     color: #737373;
   }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  padding: 300px;
 `;
 
 const InputContainer = styled.div`
