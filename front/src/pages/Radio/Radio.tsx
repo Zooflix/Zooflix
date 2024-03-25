@@ -55,6 +55,10 @@ function Player() {
     }
   } 
 
+  const subtitle = () => {
+
+  }
+
   return (
     <Wrapper>
       <Title text="뉴스를 들려줄게요" />
@@ -63,7 +67,7 @@ function Player() {
         <ImgBtn src={Playicon} onClick={clickBtn} disabled={isPaused? false:true} style={imgBtnStyle}></ImgBtn>
         <ImgBtn src={Pauseicon} onClick={clickBtn} disabled={isPaused? true:false} style={imgBtnStyle}></ImgBtn>
       </PlayContainer>
-      <Character3d name="Cow" characterScale={1} canvasWidth={700} canvasHeight={400} />
+      <Character3d name="Bear" characterScale={0.53} canvasWidth={400} canvasHeight={200} />
       <SquareBtn text="자막보기" style={buttonStyleDark} />
     </Wrapper>
   )
