@@ -1,7 +1,4 @@
 import styled from "styled-components";
-import UserBackground from "./UserBackground";
-import UserInput from "./UserInput";
-import SubmitBtn from "../Common/SubmitBtn";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../apis/api/User";
 import { useState } from "react";
@@ -33,7 +30,7 @@ function LoginForm() {
 
     return (
         <Wrapper>
-            <UserBackground />
+            {/* <UserBackground /> */}
             <Container>
                 <h2>REGISTER</h2>
                 <InputContainer>
@@ -112,4 +109,7 @@ const InputContainer = styled.div`
 
 const GoToRegister = styled.div`
   padding-top: 10px;
+  &:hover {
+    color: #fff;
+  }
 `;
