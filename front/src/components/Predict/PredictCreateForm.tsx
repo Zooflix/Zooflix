@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 
 // 이미지
-import Refreshbtn from "../../assets/img/button/Refreshbtn.svg"
-import Informationbtn from "../../assets/img/button/Informationbtn.svg"
+import Refreshbtn from "../../assets/img/button/Refreshbtn.svg";
+import Informationbtn from "../../assets/img/button/Informationbtn.svg";
 
 // 컴포넌트
 import Search from "./Search";
@@ -14,28 +14,27 @@ import SquareBtn from "../../components/Common/SquareBtn";
 
 // 스타일
 const searchInputStyle = {
-    width: "283px",
+  width: "283px",
 };
-
 
 const refreshStyle = {
   marginLeft: "3px",
   marginRight: "7px",
   backgroundColor: "transparent",
   border: "none",
-}
+};
 
 const informationStyle = {
   backgroundColor: "transparent",
   border: "none",
-}
+};
 
 const buttonStyle = {
   backgroundColor: "white",
   color: "black",
   border: "none",
-  boxShadow : "1px 2px 5px rgba(0, 0, 0, 0.2)"
-}
+  boxShadow: "1px 2px 5px rgba(0, 0, 0, 0.2)",
+};
 
 function PredictCreateForm() {
   const [currentTime, setCurrentTime] = useState<string>("");
@@ -43,50 +42,66 @@ function PredictCreateForm() {
   const [maxDate, setMaxDate] = useState<string>("");
   const [stockName, setStockName] = useState("null"); // 초기값은 "null"
 
-    const handleSearchChange = (value: React.SetStateAction<string>) => {
-        setStockName(value);
-    };
-    useEffect(() => {
-        const today = new Date();
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const nextMonth = new Date(today);
-        nextMonth.setMonth(nextMonth.getMonth() + 1);
+  const handleSearchChange = (value: React.SetStateAction<string>) => {
+    setStockName(value);
+  };
+  useEffect(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const nextMonth = new Date(today);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-        const minDateString = tomorrow.toISOString().split("T")[0];
-        const maxDateString = nextMonth.toISOString().split("T")[0];
+    const minDateString = tomorrow.toISOString().split("T")[0];
+    const maxDateString = nextMonth.toISOString().split("T")[0];
 
-        setMinDate(minDateString);
-        setMaxDate(maxDateString);
-        
-        const formattedCurrentTime = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일 ${today.getHours()}시 ${today.getMinutes()}분`;
-        setCurrentTime(formattedCurrentTime);
-    }, []);
+    setMinDate(minDateString);
+    setMaxDate(maxDateString);
 
+    const formattedCurrentTime = `${today.getFullYear()}년 ${
+      today.getMonth() + 1
+    }월 ${today.getDate()}일 ${today.getHours()}시 ${today.getMinutes()}분`;
+    setCurrentTime(formattedCurrentTime);
+  }, []);
 
   return (
     <Wrapper>
       <InputContainer>
         <SearchContainer>
           <label className="small-title">종목</label>
-          <Search type="text" placeholder="종목을 검색해주세요." style={searchInputStyle} onSearchChange={handleSearchChange}/>
+          <Search
+            type="text"
+            placeholder="종목을 검색해주세요."
+            style={searchInputStyle}
+            onSearchChange={handleSearchChange}
+          />
           <span>
             <span className="highlighter">{currentTime}</span> 기준 <br />
             삼성전자의 현재가는
             <span className="highlighter"> 73400원</span>입니다.
           </span>
-          <ImgBtn src={Refreshbtn} style={refreshStyle}/>
+          <ImgBtn src={Refreshbtn} style={refreshStyle} />
           <ImgBtn src={Informationbtn} style={informationStyle} />
         </SearchContainer>
-        <PredictInput text="예측날짜" type="date" min={minDate} max={maxDate} placeholder="날짜를 선택해주세요."/>
+        <PredictInput
+          text="예측날짜"
+          type="date"
+          min={minDate}
+          max={maxDate}
+          placeholder="날짜를 선택해주세요."
+        />
         <PriceContainer>
-          <PredictInput text="예측가" type="number" placeholder="예측 가격을 입력하세요." />
+          <PredictInput
+            text="예측가"
+            type="number"
+            placeholder="예측 가격을 입력하세요."
+          />
           <span>상승한다고 예측합니다.</span>
         </PriceContainer>
         <PredictReasonInput />
       </InputContainer>
       <BtnContainer>
-        <SquareBtn text="예측하기" style={buttonStyle}/>
+        <SquareBtn text="예측하기" style={buttonStyle} />
       </BtnContainer>
     </Wrapper>
   );
@@ -102,8 +117,7 @@ const Wrapper = styled.div`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
 `;
 
-const InputContainer = styled.div`
-`;
+const InputContainer = styled.div``;
 
 const SearchContainer = styled.div`
   display: flex;

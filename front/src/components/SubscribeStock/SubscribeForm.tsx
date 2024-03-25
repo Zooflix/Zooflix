@@ -3,6 +3,12 @@ import styled from "styled-components";
 import SearchInput from "./SearchInput";
 import PasswordInput from "./PasswordInput";
 import SquareBtn from "../Common/SquareBtn";
+import QuantityInput from "./QuantityInput";
+import GetIssued from "./GetIssued";
+import SubscribeDateInput from "./SubscribeDateInput";
+import ImgBtn from "../Common/ImgBtn";
+
+import Informationbtn from "../../assets/img/button/Informationbtn.svg";
 
 function SubscribeForm() {
   return (
@@ -13,17 +19,19 @@ function SubscribeForm() {
           text="계좌번호"
           placeholder="한국투자증권 계좌번호를 입력하세요"
         />
-        {/* 구독일인풋 */}
+        <SubscribeDateInput text="구독일" placeholder="구독일" />
         <PasswordInput
           text="APP 키"
           placeholder="한국투자증권 APP 키를 입력하세요"
         />
-        {/* 수량인풋 */}
+        <QuantityInput text="수량" />
+        <ImgBtn src={Informationbtn} />
         <PasswordInput
           text="APP 시크릿 키"
           placeholder="한국투자증권 APP 시크릿 키를 입력하세요"
         />
       </InputContainer>
+      <GetIssued />
       <ButtonContainer>
         <SquareBtn text="구독하기" />
       </ButtonContainer>
@@ -39,15 +47,17 @@ const Wrapper = styled.div`
   border-radius: 30px;
   background-color: white;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 30px;
+  padding: 30px 30px 10px 30px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 `;
 
 const InputContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 `;
