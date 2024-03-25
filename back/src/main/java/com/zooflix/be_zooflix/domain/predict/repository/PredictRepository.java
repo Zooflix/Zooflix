@@ -15,7 +15,7 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
     List<Predict> findByStockNameOrderByCreateDateDesc(String stockName);
     List<Predict> findByPdDate(LocalDate pdDate);
 
-    @Query(nativeQuery = true, value = "select * from predict p where p.user_no = :userNo")
+    @Query(nativeQuery = true, value = "select * from predict p where p.user_no = :userNo order by pd_date DESC")
     List<Predict> findMyPredictList(@Param("userNo") int userNo);
     @Query(nativeQuery = true
             , value = "SELECT p.*\n" +
