@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import TrashBin from "../../assets/img/button/TrashBin.svg";
+import { deletePredict } from "../../apis/api/Predict";
 
 type FeedProps = {
     pdUpDown: boolean;
@@ -12,38 +13,37 @@ interface Prediction {
     stockName: string;
     pdValue: number;
     pdUpDown: boolean;
-    pdDate: string;
+    pdDate: String;
     pdResult: string;
     pdContent: string;
 }
 
 interface PredictionItemProps {
     prediction: Prediction;
+    onDelete: (pdNo: Number) => void;
 }
 
-function MyPrediction({ prediction }: PredictionItemProps) {
+function MyPrediction({ prediction, onDelete }: PredictionItemProps) {
     const [isContentVisible, setIsContentVisible] = useState(false);
 
     const toggleContentVisibility = () => {
         setIsContentVisible(!isContentVisible);
     };
 
-    // 미완성된 예측글 삭제
-    const deletePrediction = (id: Number) => {
-        fetch(`/predict/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => res.json())
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    const deleteMyPredict = (predictNo: number) => {
+        // const isConfirmed = window.confirm("글을 삭제하시겠습니까?");
+        // if (!isConfirmed) {
+        //     return;
+        // }
+        try {
+            deletePredict(predictNo);
+            onDelete(predictNo);
+        } catch (error) {
+            console.log("deletePredict error : " + error);
+        }
     };
+
+
 
     return (
         <PredictionCell
@@ -64,13 +64,18 @@ function MyPrediction({ prediction }: PredictionItemProps) {
                 </span>
             </p>
             <p>
-                {prediction.pdDate} {prediction.pdResult}
+                {prediction.pdDate} 
+                <span style={{
+                    
+                }}>
+                    {prediction.pdResult}
+                </span>
             </p>
             <button>
                 <img
                     src={TrashBin}
                     alt="trashbin"
-                    onClick={() => deletePrediction(prediction.pdNo)}
+                    onClick={() => deleteMyPredict(prediction.pdNo)}
                 />
             </button>
             {isContentVisible && <div className="content">{prediction.pdContent}</div>}

@@ -8,12 +8,24 @@ function MyPredictList() {
         myPagePredictListState
     );
 
+    const deletePredict = (pdNo: number) => {
+        setMyPagePredictList(
+            myPagePredictList.filter(
+                (predict) => predict.pdNo !== pdNo
+            )
+        );
+    };
+
     return (
         <Wrapper>
             <List>
                 {myPagePredictList &&
-                    myPagePredictList.map((predict, index) => (
-                        <MyPrediction key={index} prediction={predict} />
+                    myPagePredictList.map((predict) => (
+                        <MyPrediction 
+                            key={predict.pdNo} 
+                            prediction={predict}
+                            onDelete={() => deletePredict(predict.pdNo)}
+                        />
                     ))}
             </List>
         </Wrapper>
