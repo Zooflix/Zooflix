@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,9 +24,11 @@ public class UserSignupDto {
                 .userId(userId)
                 .userPw(userPw)
                 .userName(userName)
+                .userCreate(LocalDateTime.now())
                 .userAppKey(userAppKey)
                 .userSecretKey(userSecretKey)
                 .userAccount(userAccount)
+                .userZbti("Bear")
                 .userTemperature(30.0)
                 .userRole("ROLE_USER")
                 .build();
