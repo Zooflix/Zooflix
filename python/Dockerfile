@@ -1,4 +1,4 @@
-FROM python:3.10.5-slim
+FROM python:3.12.2
 
 WORKDIR /src
 
@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir --upgrade -r /src/requirements.txt
 
 COPY src/* /src/
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "News:app", "--host", "0.0.0.0", "--port", "8000"]

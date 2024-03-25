@@ -10,6 +10,5 @@ import lombok.*;
 public class StockRankingDto {
     private int stockCode;
     private String stockName;
-    private int subscriberNum;
-    private int ranking;
+    private int subscriberCnt;
 }

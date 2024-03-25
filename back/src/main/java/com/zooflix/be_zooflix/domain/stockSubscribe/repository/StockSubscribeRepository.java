@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.stockSubscribe.repository;
 
+import com.zooflix.be_zooflix.domain.main.dto.StockRankingProjection;
 import com.zooflix.be_zooflix.domain.main.dto.UserRankingKeyProjection;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockRankingDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
@@ -40,12 +41,12 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
     void deleteAllByUser(int userNo);
 
     @Query(nativeQuery = true,
-            value = "SELECT stock_code, stock_name, count(stock_subscribe_no) as subscriber_no " +
+            value = "SELECT stock_code as stockCode, stock_name as stockName, count(stock_subscribe_no) as subscriberCnt " +
                     "FROM stock_subscribe " +
                     "GROUP BY stock_code, stock_name " +
-                    "ORDER BY subscriber_no desc " +
+                    "ORDER BY subscriberCnt desc " +
                     "LIMIT 3")
-    List<StockRankingDto> getStockRanking();
+    List<StockRankingProjection> getStockRanking();
 
     @Query(nativeQuery = true, value = "SELECT " +
                     "u.user_no AS userNo, " +
