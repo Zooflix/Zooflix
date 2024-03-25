@@ -15,7 +15,17 @@ export const myPageInfoState = atom({
 });
 
 // my page / 내가 쓴 예측 글 목록
-export const myPagePredictListState = atom({
+export interface myPredict {
+  pdNo: number;
+  stockName: string;
+  pdValue: number;
+  pdUpDown: boolean;
+  pdDate: String;
+  pdResult: string;
+  pdContent: string;
+} 
+
+export const myPagePredictListState = atom<myPredict[]>({
   key: 'myPagePredictList',
   default: [],
 });
