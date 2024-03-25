@@ -55,9 +55,9 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
           <Title>최다 연속 예측 성공</Title>
           <Character3d
             name={topStreakUser.userZbti}
-            characterScale={0.45}
+            characterScale={0.35}
             canvasWidth={70}
-            canvasHeight={70}
+            canvasHeight={85}
             action="turn"
           />
           <UserName>{topStreakUser.userName}</UserName>
@@ -73,9 +73,9 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
           <Title>최다 예측 실패</Title>
           <Character3d
             name={topFailUser.userZbti}
-            characterScale={0.45}
+            characterScale={0.35}
             canvasWidth={70}
-            canvasHeight={70}
+            canvasHeight={80}
             action="turn"
           />
           <UserName>{topFailUser.userName}</UserName>
@@ -89,9 +89,9 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
           <Title>삼성전자 1위 예측자</Title>
           <Character3d
             name={topStock.userZbti}
-            characterScale={0.45}
+            characterScale={0.4}
             canvasWidth={70}
-            canvasHeight={70}
+            canvasHeight={80}
             action="turn"
           />
           <UserName>{topStock.userName}</UserName>

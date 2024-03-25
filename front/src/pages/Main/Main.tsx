@@ -3,6 +3,8 @@ import FlowBar from "../../components/Main/FlowBar";
 import ZustraRank from "../../components/Main/ZustraRank";
 import { useState } from "react";
 import MoreRank from "../../components/Main/MoreRank";
+import StockRank from "../../components/Main/StockRank";
+import Character3d from "../../components/Character/Character3d";
 
 function Main() {
   const [mainData, setMainData] = useState({
@@ -58,7 +60,7 @@ function Main() {
       userZbti: "Lion",
       successStreak: 1,
     },
-    topStock: {
+    topStockUser: {
       userNo: 1,
       userName: "혜진",
       predictCount: 3,
@@ -68,36 +70,21 @@ function Main() {
       userZbti: "Monkey",
       successStreak: 1,
     },
-    todayStock: [
+    stockRank: [
       {
-        userNo: 1,
-        userName: "ssafy",
-        predictCount: 1,
-        successCount: 1,
-        failCount: 1,
-        userTemperature: 1,
-        userZbti: "ibnf",
-        successStreak: 1,
+        stockCode: 12345,
+        StockName: "삼성전자",
+        subscriberCnt: 98,
       },
       {
-        userNo: 1,
-        userName: "ssafy",
-        predictCount: 1,
-        successCount: 1,
-        failCount: 1,
-        userTemperature: 1,
-        userZbti: "ibnf",
-        successStreak: 1,
+        stockCode: 23456,
+        StockName: "SK하이닉스",
+        subscriberCnt: 88,
       },
       {
-        userNo: 1,
-        userName: "ssafy",
-        predictCount: 1,
-        successCount: 1,
-        failCount: 1,
-        userTemperature: 1,
-        userZbti: "ibnf",
-        successStreak: 1,
+        stockCode: 98765,
+        StockName: "LG에너지솔루션",
+        subscriberCnt: 56,
       },
     ],
   });
@@ -105,12 +92,26 @@ function Main() {
   return (
     <MainWrapper>
       <FlowBar />
-      <ZustraRank rankData={mainData.zustraRank} />
-      <MoreRank
-        topFailUser={mainData.topFailUser}
-        topStreakUser={mainData.topStreakUser}
-        topStock={mainData.topStock}
-      />
+      <Rank>
+        <ZustraRank rankData={mainData.zustraRank} />
+        <StockRank stockRank={mainData.stockRank} />
+      </Rank>
+      <BelowDiv>
+        <MoreRank
+          topFailUser={mainData.topFailUser}
+          topStreakUser={mainData.topStreakUser}
+          topStock={mainData.topStockUser}
+        />
+        <SubscribeDiv>
+          <Bubble>주식 구독하러가기</Bubble>
+          <Character3d
+            name="Bear"
+            characterScale={0.55}
+            canvasHeight={220}
+            canvasWidth={160}
+          />
+        </SubscribeDiv>
+      </BelowDiv>
     </MainWrapper>
   );
 }
@@ -119,4 +120,47 @@ export default Main;
 
 const MainWrapper = styled.div`
   padding-left: 25px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Rank = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`;
+
+const BelowDiv = styled.div`
+  display: flex;
+`;
+
+const Bubble = styled.div`
+  position: relative;
+  background: #092d5d;
+  border-radius: 30px;
+  color: white;
+  padding: 20px 30px;
+  height: 100px;
+  font-weight: bold;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
+  margin: 30px 30px 10px 10px;
+
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 30px solid transparent;
+    border-left-color: #092d5d;
+    border-right: 0;
+    border-top: 0;
+    margin-top: -12px;
+    margin-right: -20px;
+  }
+`;
+
+const SubscribeDiv = styled.div`
+  display: flex;
 `;
