@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.radio.service.RadioService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.io.ByteArrayInputStream;
+import java.util.Arrays;
 import java.util.List;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
@@ -49,10 +50,10 @@ public class RadioController {
 //        String crawlingResult = radioService.callCrawlingEndpoint();
 //        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
         byte[] audio = radioService.callTtsEndpoint();
-//        System.out.println(crawlingResult);
+        System.out.println(Arrays.toString(audio));
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("audio/mpeg"))
+//                .contentType(MediaType.valueOf("audio/mpeg"))
                 .body(audio);
     }
 

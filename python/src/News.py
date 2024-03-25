@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import requests
-# sys.path.append("c:\\venvs\\myapi\\lib\\site-packages") # pip install 경로
+# sys.path.append("c:\program files\python\lib\site-packages") # pip install 경로
 
 from fastapi import FastAPI, Request, Query
 from requests import get

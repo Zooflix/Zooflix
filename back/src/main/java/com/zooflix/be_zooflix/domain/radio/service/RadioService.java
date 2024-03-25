@@ -208,7 +208,7 @@ public class RadioService {
 //        String result = restTemplate.postForObject(pythonEndpointNewsTts, requestBody, String.class);
 //        return result;
         try {
-            String text = URLEncoder.encode("미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후 아시아 무역의 상승폭이 확대되었고", "UTF-8");
+            String text = URLEncoder.encode("미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후", "UTF-8");
             URL url = new URL(pythonTtsUrl);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
