@@ -100,4 +100,10 @@ public class PredictController {
       return predictService.getStockSearch(stockName);
     }
 
+    @Operation(summary = "현재가격")
+    @GetMapping("/predict/prevalue")
+    public Float selectNowPrice(@RequestParam String stockName) {
+        return predictService.getNowPrice(stockName);
+    }
+
 }

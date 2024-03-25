@@ -69,7 +69,7 @@ public class PredictService {
     }
 
     //전체 예측 목록 조회
-    public List<PredictResDto>  getPredicts() {
+    public List<PredictResDto> getPredicts() {
         List<Predict> predicts = predictRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
         return predicts.stream()
                 .map(this::toDto)
@@ -199,6 +199,9 @@ public class PredictService {
     @Value("http://127.0.0.1:8000/get_stock_search")
     private String pythonStockSearch;
 
+    @Value("http://127.0.0.1:8000/get_now_price")
+    private String pythonNowPrice;
+
     public int getClosingPrice(String stockName, String date) {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody = new HashMap<>();
@@ -239,7 +242,7 @@ public class PredictService {
         return builder.toUriString();
     }
 
-    public List<String> getStockSearch(String stockName){
+    public List<String> getStockSearch(String stockName) {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("stock_name", stockName);
@@ -249,6 +252,18 @@ public class PredictService {
         List<String> list = restTemplate.getForObject(url, List.class);
 
         return list;
+    }
+
+    public Float getNowPrice(String stockName) {
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("stock_name", stockName);
+
+        String url = pythonNowPrice + "?stock_name=" + stockName;
+
+        Float result = restTemplate.getForObject(url, Float.class);
+
+        return result;
     }
 
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
@@ -261,7 +276,7 @@ public class PredictService {
         //액세스토큰 확인
         String TOKEN = "";
         if (userInfo.getUserToken() != null) { //토큰이 있다면
-            Duration duration = Duration.between(LocalDateTime.now(), userInfo.getUserTokenDate());
+            Duration duration = Duration.between(userInfo.getUserTokenDate(), LocalDateTime.now());
             if (duration.toHours() < 24) {
                 TOKEN = userInfo.getUserToken(); //24시간 이내면 저장된 토큰 가져오기
             } else {
@@ -293,60 +308,56 @@ public class PredictService {
         StringBuffer sb = new StringBuffer();
         String returnData = "";
 
+        url = new URL(urlData);
+        conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("Authorization", "Bearer " + TOKEN);
+        conn.setRequestProperty("appkey", userInfo.getUserAppKey());
+        conn.setRequestProperty("appsecret", userInfo.getUserSecretKey());
+        conn.setRequestProperty("tr_id", "TTTC8001R");
+
+        conn.connect();
+
+        br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
         try {
-            url = new URL(urlData);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Authorization", "Bearer " + TOKEN);
-            conn.setRequestProperty("appkey", userInfo.getUserAppKey());
-            conn.setRequestProperty("appsecret", userInfo.getUserSecretKey());
-            conn.setRequestProperty("tr_id", "TTTC8001R");
-
-            conn.connect();
-
-            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-        } catch (IOException e) {
-            br = new BufferedReader(new InputStreamReader(conn.getErrorStream(), "UTF-8"));
-        } finally {
-            try {
-                sb = new StringBuffer();
-                while ((responseData = br.readLine()) != null) {
-                    sb.append(responseData);
-                }
-                returnData = sb.toString();
-                String responseCode = String.valueOf(conn.getResponseCode());
-
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode rootNode = mapper.readTree(returnData);
-                JsonNode output1Node = rootNode.get("output1");
-                if (output1Node.isArray()) {
-                    // 각 요소에 대해 반복하면서 출력
-                    for (JsonNode element : output1Node) {
-                        String type = "";
-                        if (element.get("sll_buy_dvsn_cd").asText().equals("01")) {
-                            type = "매도";
-                        } else {
-                            type = "매수";
-                        }
-                        StockHistoryDto dto = StockHistoryDto.builder()
-                                .stockDate(element.get("ord_dt").asText())
-                                .stockType(type)
-                                .stockName(element.get("prdt_name").asText())
-                                .stockNum(element.get("ord_qty").asText())
-                                .stockCost(element.get("avg_prvs").asText())
-                                .build();
-
-                        historyDtoList.add(dto);
-                    }
-                }
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
+            sb = new StringBuffer();
+            while ((responseData = br.readLine()) != null) {
+                sb.append(responseData);
             }
+            returnData = sb.toString();
+            String responseCode = String.valueOf(conn.getResponseCode());
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(returnData);
+            JsonNode output1Node = rootNode.get("output1");
+            if (output1Node.isArray() && !output1Node.isNull()) {
+                // 각 요소에 대해 반복하면서 출력
+                for (JsonNode element : output1Node) {
+                    String type = "";
+                    if (element.get("sll_buy_dvsn_cd").asText().equals("01")) {
+                        type = "매도";
+                    } else {
+                        type = "매수";
+                    }
+                    StockHistoryDto dto = StockHistoryDto.builder()
+                            .stockDate(element.get("ord_dt").asText())
+                            .stockType(type)
+                            .stockName(element.get("prdt_name").asText())
+                            .stockNum(element.get("ord_qty").asText())
+                            .stockCost(element.get("avg_prvs").asText())
+                            .build();
+
+                    historyDtoList.add(dto);
+                }
+            }
+            if (br != null) {
+                br.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
+
         return historyDtoList;
     }
 

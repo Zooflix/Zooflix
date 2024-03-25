@@ -1,9 +1,15 @@
+
 # -*- coding: utf-8 -*-
 import sys
 import requests
 # sys.path.append("c:\program files\python\lib\site-packages") # pip install 경로
 
-from fastapi import FastAPI, Request, Query
+import datetime
+import io
+from typing import List
+
+from fastapi import FastAPI,Request, Query
+import requests
 from requests import get
 from bs4 import BeautifulSoup
 from transformers import PreTrainedTokenizerFast, BartForConditionalGeneration
@@ -23,31 +29,15 @@ from starlette.responses import StreamingResponse
 import asyncio
 
 from starlette.responses import StreamingResponse
+import asyncio
 
-import warnings
 warnings.filterwarnings('ignore')
-
-# json으로 넘어오는 requestbody 속성을 받기 위함
-class Item(BaseModel):
-    text: str
 
 app = FastAPI()
 
-if platform.system() == 'Windows':
-    plt.rc('font', family='Malgun Gothic')
-elif platform.system() == 'Darwin':
-    plt.rc('font', family='AppleGothic')
-else:
-    plt.rc('font', family='NanumGothic')
 
-
-
-
-#
-# search
-#
 @app.get("/get_stock_search/")
-async def get_closing_price(stock_name: str = Query(...),):
+async def get_stock_search(stock_name: str = Query(...),):
 
     #stock_name을 stock_code로 변환시켜주기
     df_list = fdr.StockListing('KRX')
@@ -57,6 +47,20 @@ async def get_closing_price(stock_name: str = Query(...),):
 
     return stock_search
 
+#
+# 현재 가격
+#
+@app.get("/get_now_price/")
+async def get_now_price(stock_name: str = Query(...),):
+
+    # stock_name을 stock_code로 변환
+    df_list = fdr.StockListing('KRX')
+    df_filter = df_list.loc[df_list['Name'] == stock_name]
+    stock_code = df_filter['Code'].values[0]
+    now_price = fdr.DataReader(stock_code)
+    result = now_price.tail(1)['Close'].values[0]
+    print(result)
+    return float(result)
 
 #
 # 그날 종가 return
@@ -177,7 +181,6 @@ async def compare_graph(stock_name: str = Query(..., description="종목이름 (
                         predict_costs: List[float] = Query(..., description="예측가격 배열 (e.g., '70000')")):
     img_buffer = await generate_chart(stock_name, date, predict_dates, predict_costs)
     return StreamingResponse(io.BytesIO(img_buffer.getvalue()), media_type="image/png")
-
 
 
 
@@ -358,6 +361,4 @@ async def summary(request: Request):
 #     engine.say(text)
 #     engine.runAndWait()
 #     return "success"
-
-
 
