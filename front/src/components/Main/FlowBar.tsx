@@ -51,7 +51,6 @@ const Wrapper = styled.div`
   }
   display: flex;
   justify-content: center;
-  margin-top: 10px;
 `;
 const ScrollText = styled.div`
   width: 1200px;

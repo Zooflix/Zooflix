@@ -1,23 +1,23 @@
+import { diffProps } from "@react-three/fiber/dist/declarations/src/core/utils";
 import styled from "styled-components";
 
 interface InputProps {
+  placeholder?: string;
   text: string;
-  placeholder: string;
 }
 
-function SubscribeDateInput(props: InputProps) {
+function QuantityInput(props: InputProps) {
   return (
     <Wrapper>
       <label>{props.text}</label>
       <InputContainer>
-        매월 <input type="number" placeholder={props.placeholder} />
-        일에 구독을 신청합니다.
+        <input type="number" placeholder={props.placeholder} /> 주
       </InputContainer>
     </Wrapper>
   );
 }
 
-export default SubscribeDateInput;
+export default QuantityInput;
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,7 +42,6 @@ const InputContainer = styled.div`
   background-color: white;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   margin-right: 30px;
-  font-size: 13px;
 
   input {
     border: none;

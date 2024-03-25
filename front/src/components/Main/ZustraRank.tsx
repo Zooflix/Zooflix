@@ -16,7 +16,11 @@ interface InnerGraphProps
   width: number;
 }
 
-function ZustraRank() {
+interface Props {
+  rankData: any[];
+}
+
+function ZustraRank({ rankData }: Props) {
   const rankArr = [first, second, third];
   const color = [
     "linear-gradient(90deg, rgba(255, 124, 124, 0.95) 0%, rgba(255, 161, 108, 0.95) 36%, rgba(255, 172, 74, 0.95) 54.5%, rgba(255, 190, 89, 0.95) 69.5%, rgba(255, 225, 120, 0.95) 100%)",
@@ -28,130 +32,46 @@ function ZustraRank() {
   zbti.set("Monkey", "재간둥이 원숭이");
   zbti.set("Pig", "저금왕 돼지");
   zbti.set("Rabbit", "팔랑귀 토끼");
-  const [mainData, setMainData] = useState({
-    zustraRank: [
-      {
-        userNo: 1,
-        userName: "수민",
-        predictCount: 2,
-        successCount: 1,
-        failCount: 1,
-        userTemperature: 78,
-        userZbti: "Lion",
-        successStreak: 1,
-      },
-      {
-        userNo: 1,
-        userName: "혜진",
-        predictCount: 3,
-        successCount: 1,
-        failCount: 2,
-        userTemperature: 68,
-        userZbti: "Monkey",
-        successStreak: 1,
-      },
-      {
-        userNo: 1,
-        userName: "성주",
-        predictCount: 10,
-        successCount: 3,
-        failCount: 7,
-        userTemperature: 62,
-        userZbti: "Rabbit",
-        successStreak: 1,
-      },
-    ],
-    topFailUser: {
-      userNo: 1,
-      userName: "ssafy",
-      predictCount: 1,
-      successCount: 1,
-      failCount: 1,
-      userTemperature: 1,
-      userZbti: "ibnf",
-      successStreak: 1,
-    },
-    topStreakUser: {
-      userNo: 1,
-      userName: "ssafy",
-      predictCount: 1,
-      successCount: 1,
-      failCount: 1,
-      userTemperature: 1,
-      userZbti: "ibnf",
-      successStreak: 1,
-    },
-    topStock: {
-      userNo: 1,
-      userName: "ssafy",
-      predictCount: 1,
-      successCount: 1,
-      failCount: 1,
-      userTemperature: 1,
-      userZbti: "ibnf",
-      successStreak: 1,
-    },
-    todayStock: [
-      {
-        userNo: 1,
-        userName: "ssafy",
-        predictCount: 1,
-        successCount: 1,
-        failCount: 1,
-        userTemperature: 1,
-        userZbti: "ibnf",
-        successStreak: 1,
-      },
-      {
-        userNo: 1,
-        userName: "ssafy",
-        predictCount: 1,
-        successCount: 1,
-        failCount: 1,
-        userTemperature: 1,
-        userZbti: "ibnf",
-        successStreak: 1,
-      },
-      {
-        userNo: 1,
-        userName: "ssafy",
-        predictCount: 1,
-        successCount: 1,
-        failCount: 1,
-        userTemperature: 1,
-        userZbti: "ibnf",
-        successStreak: 1,
-      },
-    ],
-  });
+
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   useEffect(() => {});
+
+  function moreBtnClick(index: number) {
+    if (expandedIndex === index) {
+      setExpandedIndex(null); // 이미 확장된 경우 접기
+    } else {
+      setExpandedIndex(index); // 그 외의 경우 확장
+    }
+  }
 
   return (
     <RankWrapper>
       <RankHeader>주스트라다무스 랭킹</RankHeader>
-      {mainData.zustraRank ? (
+      {rankData ? (
         <RankDiv>
-          {mainData.zustraRank.map((item, index) => {
+          {rankData.map((item, index) => {
+            const isExpanded = expandedIndex === index;
             return (
-              <UserDiv key={index}>
+              <UserDiv key={index} expanded={isExpanded}>
                 <img src={rankArr[index]} height="50px" />
                 {index === 0 ? (
                   <Character3d
                     name={item.userZbti}
-                    characterScale={0.45}
-                    canvasWidth={70}
-                    canvasHeight={80}
+                    characterScale={0.35}
+                    canvasWidth={80}
+                    canvasHeight={100}
                   />
                 ) : (
                   <Character3d
                     name={item.userZbti}
-                    characterScale={0.45}
-                    canvasWidth={70}
-                    canvasHeight={80}
+                    characterScale={0.35}
+                    canvasWidth={80}
+                    canvasHeight={100}
                     action="turn"
                   />
                 )}
+
                 <Margin>
                   <div>
                     <Name>{item.userName}</Name>
@@ -172,7 +92,11 @@ function ZustraRank() {
                     {item.userTemperature} °C
                   </InnerGraph>
                 </Graph>
-                <Button>더보기</Button>
+                {!isExpanded ? (
+                  <Button onClick={() => moreBtnClick(index)}>더보기</Button>
+                ) : (
+                  <Button onClick={() => moreBtnClick(index)}>접기</Button>
+                )}
               </UserDiv>
             );
           })}
@@ -189,6 +113,7 @@ export default ZustraRank;
 const RankWrapper = styled.div`
   margin-left: 6vw;
   padding: 10px;
+  width: 65%;
 `;
 
 const RankHeader = styled.div`
@@ -202,11 +127,10 @@ const RankDiv = styled.div`
   border: 1px solid rgba(109, 125, 147, 0.15);
   box-shadow: 4px 4px 20px -10px rgba(0, 0, 0, 0.3);
   border-radius: 12px;
-  width: 65%;
   padding: 10px;
 `;
 
-const UserDiv = styled.div`
+const UserDiv = styled.div<{ expanded: boolean }>`
   border: 1px solid rgba(109, 125, 147, 0.15);
   box-shadow: 4px 4px 20px -10px rgba(0, 0, 0, 0.3);
   border-radius: 12px;
@@ -214,9 +138,12 @@ const UserDiv = styled.div`
   padding: 20px 15px;
   display: flex;
   align-items: center;
+  position: relative; /* UserDiv 내부의 Button 위치 조정을 위해 필요 */
   img {
     margin-right: 10px;
   }
+  ${(props) =>
+    props.expanded && "height: 200px;"}/* 확장된 경우 UserDiv의 높이 조정 */
 `;
 
 const Name = styled.span`

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 
 // 컴포넌트
-import Informationbtn from '../../assets/img/button/Informationbtn.svg';
+import Informationbtn from "../../assets/img/button/Informationbtn.svg";
 
 type ImgBtnProps = {
   src: string;
@@ -21,31 +21,33 @@ function ImgBtn(props: ImgBtnProps) {
   };
 
   return (
-      <Wrapper>
-        <Button
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onClick={props.onClick}
-          disabled={props.disabled}
-        >
-          <ButtonImg src={props.src} style={props.style}/>
-          {props.src === Informationbtn && isHovered && (
-              <Information>
-                해당 가격을 기준으로<br/>
-                예측글이 등록됩니다.<br/>
-                가격을 업데이트 하려면<br/>
-                새로고침을 눌러주세요.
-              </Information>
-          )}
-        </Button>
-      </Wrapper>
+    <Wrapper>
+      <Button
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={props.onClick}
+        disabled={props.disabled}
+      >
+        <ButtonImg src={props.src} style={props.style} />
+        {props.src === Informationbtn && isHovered && (
+          <Information>
+            해당 가격을 기준으로
+            <br />
+            예측글이 등록됩니다.
+            <br />
+            가격을 업데이트 하려면
+            <br />
+            새로고침을 눌러주세요.
+          </Information>
+        )}
+      </Button>
+    </Wrapper>
   );
 }
 
 export default ImgBtn;
 
-const Wrapper = styled.div`
-`
+const Wrapper = styled.div``;
 
 const Button = styled.button`
   background-color: transparent;
@@ -58,8 +60,7 @@ const Button = styled.button`
     display: block; /* hover 시에만 정보창을 표시합니다. */
   }
 `;
-const ButtonImg = styled.img`
-`;
+const ButtonImg = styled.img``;
 
 const Information = styled.div`
   display: none; /* 기본적으로는 숨깁니다. */
@@ -73,6 +74,6 @@ const Information = styled.div`
   padding: 7px;
   width: 170px;
   border-radius: 0 15px 15px 15px;
-  color: #4B4B4B;
+  color: #4b4b4b;
   font-weight: bold;
 `;

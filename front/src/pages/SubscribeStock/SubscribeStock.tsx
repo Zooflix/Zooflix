@@ -14,6 +14,7 @@ function SubscribeStock() {
       <SubscribeContainer>
         <Title text="행복한 원숭이 님이 구독 중인 주식 목록" />
       </SubscribeContainer>
+      <SubscribeStockList />
     </Wrapper>
   );
 }

@@ -97,7 +97,9 @@ h4,
 h5,
 h6,
 input,
+input::placeholder,
 label,
+button,
 textarea,
 select {
   font-family: "NanumSquareRound";
