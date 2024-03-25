@@ -46,15 +46,15 @@ public class RadioController {
 
     @PostMapping("/radio")
     @Operation(summary = "번역 후 요약")
-    public ResponseEntity<byte[]> playRadio() throws JsonProcessingException {
-//        String crawlingResult = radioService.callCrawlingEndpoint();
+    public ResponseEntity<String> playRadio() throws JsonProcessingException {
+        String crawlingResult = radioService.callCrawlingEndpoint();
 //        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
-        byte[] audio = radioService.callTtsEndpoint();
-        System.out.println(Arrays.toString(audio));
+//        byte[] audio = radioService.callTtsEndpoint();
+//        System.out.println(Arrays.toString(audio));
         return ResponseEntity
                 .status(HttpStatus.OK)
 //                .contentType(MediaType.valueOf("audio/mpeg"))
-                .body(audio);
+                .body(crawlingResult);
     }
 
 
