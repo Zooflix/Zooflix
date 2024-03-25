@@ -3,7 +3,7 @@ import sys
 import requests
 # sys.path.append("c:\\venvs\\myapi\\lib\\site-packages") # pip install 경로
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Query
 from requests import get
 from bs4 import BeautifulSoup
 from transformers import PreTrainedTokenizerFast, BartForConditionalGeneration
@@ -11,6 +11,10 @@ import pyttsx3
 from pydantic import BaseModel
 import json
 import urllib.request
+import FinanceDataReader as fdr
+
+import warnings
+warnings.filterwarnings('ignore')
 
 # json으로 넘어오는 requestbody 속성을 받기 위함
 class Item(BaseModel):
@@ -18,6 +22,24 @@ class Item(BaseModel):
 
 app = FastAPI()
 
+
+
+
+
+
+#
+# search
+#
+@app.get("/get_stock_search/")
+async def get_closing_price(stock_name: str = Query(...),):
+
+    #stock_name을 stock_code로 변환시켜주기
+    df_list = fdr.StockListing('KRX')
+    df_filter = df_list[df_list['Name'].str.contains(stock_name)]
+
+    stock_search = df_filter['Name'].tolist()
+
+    return stock_search
 
 
 
