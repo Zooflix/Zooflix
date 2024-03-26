@@ -16,4 +16,5 @@ public class UserRankingDto {
     private double userTemperature;
     private String userZbti;
     private int successStreak;
+    private int cnt;
 }

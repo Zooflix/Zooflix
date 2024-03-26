@@ -56,8 +56,8 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
                     "u.fail_count AS failCount, " +
                     "u.user_temperature AS userTemperature, " +
                     "u.user_zbti AS userZbti, " +
-                    "u.success_streak AS successStreak " +
-                    "count(*) AS count " +
+                    "u.success_streak AS successStreak, " +
+                    "count(*) AS cnt " +
                     "FROM user u " +
                     "JOIN (SELECT user_no, COUNT(*) c FROM predict WHERE pd_result = '성공' GROUP BY stock_name, user_no ORDER BY c DESC LIMIT 1) p " +
                     "ON u.user_no = p.user_no " +

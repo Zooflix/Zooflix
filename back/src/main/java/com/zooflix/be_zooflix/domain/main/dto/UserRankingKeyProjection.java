@@ -9,4 +9,5 @@ public interface UserRankingKeyProjection {
     double getUserTemperature();
     String getUserZbti();
     int getSuccessStreak();
+    int getCnt();
 }
