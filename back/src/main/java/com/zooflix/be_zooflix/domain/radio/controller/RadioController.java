@@ -1,10 +1,7 @@
 package com.zooflix.be_zooflix.domain.radio.controller;
 
-import static org.springframework.data.redis.connection.ReactiveStreamCommands.AddStreamRecord.body;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.radio.service.RadioService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.io.ByteArrayInputStream;
@@ -43,14 +40,22 @@ public class RadioController {
 //                .status(HttpStatus.OK)
 //                .contentType(MediaType.valueOf("audio/mpeg"))
 //                .body(audioData);
+
 //    }
+
+    @GetMapping(value="/subtitle")
+    @Operation(summary = "자막")
+    public ResponseEntity<List<String>> getSubtitle() {
+        String crawlingResult = radioService.callCrawlingEndpoint();
+        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
+        return ResponseEntity.ok().body(summaryResult);
+    }
 
     @GetMapping(value = "/radio", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @Operation(summary = "번역 후 요약")
-    public ResponseEntity<byte[]> playRadio() throws JsonProcessingException {
-//        String crawlingResult = radioService.callCrawlingEndpoint();
-//        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
-        byte[] audio = radioService.callTtsEndpoint();
+    public ResponseEntity<byte[]> playRadio(List<String> summary) throws JsonProcessingException {
+        byte[] audio = radioService.callTtsEndpoint(summary);
+
         System.out.println("success");
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -5,9 +5,6 @@ import requests
 # sys.path.append("c:\program files\python\lib\site-packages") # pip install 경로
 import math
 import time
-import datetime
-import io
-from typing import List
 
 from fastapi import FastAPI,Request, Query
 import requests
