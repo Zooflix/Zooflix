@@ -2,6 +2,8 @@ package com.zooflix.be_zooflix.domain.radio.service;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.zooflix.be_zooflix.domain.radio.entity.Radio;
+import com.zooflix.be_zooflix.domain.radio.repository.RadioRepository;
 import jakarta.persistence.Cacheable;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -10,14 +12,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -66,6 +68,7 @@ public class RadioService {
 
 
     private final RedisTemplate<String, String> redisTemplate;
+    private final RadioRepository radioRepository;
 
 
 
@@ -73,6 +76,7 @@ public class RadioService {
     /*
     * 크롤링+번역
     * */
+    @Scheduled(fixedDelay = 1000*60*60) // 1시간마다 크롤링
     public String callCrawlingEndpoint() {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody = new HashMap<>();
@@ -86,36 +90,10 @@ public class RadioService {
     }
 
 
-//    /*
-//     * 요약 by kobart
-//     * */
-//    public List<String> callSummaryEndpoint(String content) {
-//        // JSONParser로 JSONObject로 변환
-//        JsonParser parser = new JsonParser();
-//        JsonObject jsonObject = parser.parse(content).getAsJsonObject();
-//        // JSON 객체의 값 읽어서 출력하기
-//        JsonArray context = jsonObject.getAsJsonArray("translationData");
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        Map<String, String> requestBody = new HashMap<>();
-//        List<String> result = new ArrayList<>();
-//        String summary = "";
-//
-//        for(JsonElement element : context) {
-//            String str = element.getAsString();
-//            requestBody.put("text", str);
-//            summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody, String.class);
-//            result.add(summary);
-//        }
-//
-//        return result;
-//    }
-
-
     /*
      * 요약 by clova
      * */
-    public List<String> callSummaryEndpoint(String content) {
+    public void callSummaryEndpoint(String content) {
         // JSONParser로 JSONObject로 변환
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(content).getAsJsonObject();
@@ -124,7 +102,6 @@ public class RadioService {
 
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody;
-        List<String> result = new ArrayList<>();
 
         for (JsonElement element : context) {
             String str = element.getAsString();
@@ -138,7 +115,13 @@ public class RadioService {
                 requestBody.put("text", str);
                 summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody, String.class);
 
-                result.add(summary);
+                LocalDateTime current = LocalDateTime.now();
+                Radio radio = Radio.builder()
+                        .newsContent(summary)
+                        .newsSaveTime(current)
+                        .build();
+
+                radioRepository.save(radio);
             } else {
                 String delim = "다.";
                 String[] arr = str.split(delim);
@@ -160,32 +143,30 @@ public class RadioService {
                         summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody,
                                 String.class);
                     }
-                    result.add(summary);
+                    LocalDateTime current = LocalDateTime.now();
+                    Radio radio = Radio.builder()
+                            .newsContent(summary)
+                            .newsSaveTime(current)
+                            .build();
+
+                    radioRepository.save(radio);
                 }
             }
         }
-        return result;
     }
-
-
-//    /*
-//     * tts by pysttx
-//     * */
-//    public String callTtsEndpoint(String content) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        Map<String, String> requestBody = new HashMap<>();
-//        String result = restTemplate.postForObject(pythonEndpointNewsTts, requestBody, String.class);
-//        System.out.println("tts success");
-//        return result;
-//    }
 
 
     /*
     * tts by clova
     * */
-    public byte[] callTtsEndpoint(List<String> content) {
+    public byte[] callTtsEndpoint() {
         try {
-            String text = URLEncoder.encode("미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후", "UTF-8");
+            List<Radio> newsList = radioRepository.findAll();
+            String text = "";
+            for(Radio radio:newsList) {
+                text += radio.getNewsContent();
+            }
+//            String text = URLEncoder.encode("미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후", "UTF-8");
             URL url = new URL(pythonTtsUrl);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
@@ -229,6 +210,8 @@ public class RadioService {
             return null;
         }
     }
+
+
 
     //    /*
 //    * 키워드 추출

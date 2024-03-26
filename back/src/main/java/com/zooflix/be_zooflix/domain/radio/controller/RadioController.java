@@ -26,42 +26,33 @@ public class RadioController {
 
     private final RadioService radioService;
 
-    /* 라디오봇 */
-//    @PostMapping("/radio/translation/summary/tts")
-//    @Operation(summary = "번역 후 요약")
-//    public ResponseEntity<byte[]> playRadio() throws JsonProcessingException {
-////        String crawlingResult = radioService.callCrawlingEndpoint();
-////        String translationResult = radioService.callTranslationEndpoint(crawlingResult);
-////        String summaryResult = radioService.callSummaryEndpoint(translationResult);
-////        String summaryResult = radioService.callSummaryEndpoint();
-//        byte[] audioData = radioService.callTtsEndpoint();
-//        System.out.println("번역 후 요약: ");
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .contentType(MediaType.valueOf("audio/mpeg"))
-//                .body(audioData);
-
-//    }
-
-    @GetMapping(value="/subtitle")
-    @Operation(summary = "자막")
-    public ResponseEntity<List<String>> getSubtitle() {
-        String crawlingResult = radioService.callCrawlingEndpoint();
-        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
-        return ResponseEntity.ok().body(summaryResult);
+    @GetMapping(value = "/radio/summary")
+    @Operation(summary = "크롤링-번역-요약")
+    public ResponseEntity<Void> insertRadio() {
+        String crawlingData = radioService.callCrawlingEndpoint();
+        radioService.callSummaryEndpoint(crawlingData);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/radio", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @Operation(summary = "번역 후 요약")
-    public ResponseEntity<byte[]> playRadio(List<String> summary) throws JsonProcessingException {
-        byte[] audio = radioService.callTtsEndpoint(summary);
-
+    @GetMapping(value = "/radio/tts", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @Operation(summary = "tts")
+    public ResponseEntity<byte[]> playRadio() {
+        byte[] audio = radioService.callTtsEndpoint();
         System.out.println("success");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("audio/mpeg"))
                 .body(audio);
     }
+
+
+    //    @GetMapping(value="/radio/subtitle")
+//    @Operation(summary = "자막")
+//    public ResponseEntity<List<String>> getSubtitle() {
+//        String crawlingResult = radioService.callCrawlingEndpoint();
+//        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
+//        return ResponseEntity.ok().body(summaryResult);
+//    }
 
 
 
