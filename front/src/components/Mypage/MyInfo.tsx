@@ -1,12 +1,28 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { myPageInfoState } from "../../Store/MyPageState";
+import { myPageInfoState, myPagePredictListState } from "../../Store/MyPageState";
 
 function MyInfo() {
     const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+    const [myPagePredictList, setMyPagePredictList] = useRecoilState(
+        myPagePredictListState
+    );
 
-    useEffect(() => {}, []);
+    let successCnt = 0; //성공 횟수
+    
+    myPagePredictList.forEach(item => {
+        if (item.pdResult === "성공") {
+            successCnt += 1;
+        }
+    });
+
+    // 소수점 둘째 짜리까지 성공 비율 -> rate
+    let rateOfPredict = Math.round(successCnt / myPagePredictList.length); 
+    let rate = Math.round(rateOfPredict * 100) / 100;
+
+
+    console.log("MyInfo : " + rate);
 
     return (
         <Wrapper>
@@ -18,9 +34,9 @@ function MyInfo() {
                 <div>구독자</div>
             </LeftsideQuestion>
             <RightSideAnswer>
-                <div>{myPageInfo.predictCount}</div>
-                <div>{myPageInfo.successCount}</div>
-                <div>{myPageInfo.predictionRate}</div>
+                <div>{myPagePredictList.length}</div>
+                <div>{successCnt}</div>
+                <div>{rate}</div>
                 <div>{myPageInfo.subscribeFromMe}</div>
                 <div>{myPageInfo.subscribeToMe}</div>
             </RightSideAnswer>
@@ -36,15 +52,15 @@ const Wrapper = styled.div`
 `;
 
 const LeftsideQuestion = styled.div`
-  float: left,
-  width: 50%;
+  float: left;
+  width: 80%;
   margin: 30px 70px;
   text-align: left;
 `;
 
 const RightSideAnswer = styled.div`
-  float: right,
-  width: 50%;
+  float: right;
+  width: 20%;
   margin: 30px 70px;
   text-align: right;
 `;
