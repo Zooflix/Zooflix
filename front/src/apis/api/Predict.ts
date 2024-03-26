@@ -90,17 +90,34 @@ export async function selectStockHistory(userNo: number) {
   }
 }
 
-//매매정보
-export async function stockSearch(stockName: string) {
-  try {
-    const response = await axios.get(`${REST_PREDICT_API}/stock/search`, {
-      params: {
-        stockName: stockName,
-      },
-    });
-    console.log(response.data);
-    return response.data;
-  } catch (e) {
-    console.log(e);
-  }
+//종목검색
+export async function stockSearch(stockName: String) {
+    try {
+        const response = await axios.get(`${REST_PREDICT_API}/stock/search`,
+        {
+            params: {
+                stockName: stockName,
+            },
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+//현재 가격 조회
+export async function selectNowPrice(stockName: String) {
+    try {
+        const response = await axios.get(`${REST_PREDICT_API}/prevalue`,
+        {
+            params: {
+                stockName: stockName,
+            },
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
 }

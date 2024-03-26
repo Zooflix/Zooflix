@@ -18,5 +18,6 @@ export default PredictCreate;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding-left: 200px;
+  padding-bottom: 50px;
 `;

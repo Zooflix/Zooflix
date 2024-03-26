@@ -92,6 +92,12 @@ function PredictList(props: PredictProps) {
             pdResult={item.pdResult}
           >
             <Noncllick>
+              {/* 모달 */}
+              <UserDetailModal
+                isModalOpen={isModalOpen}
+                closeModal={closeModal}
+                userName={item.userName}
+              />
               <p style={{ width: "100px" }}>{item.stockName}</p>
               <p
                 style={{ width: "100px" }}
@@ -99,12 +105,7 @@ function PredictList(props: PredictProps) {
               >
                 {item.userName}
               </p>
-              {/* 모달 */}
-              <UserDetailModal
-                isModalOpen={isModalOpen}
-                closeModal={closeModal}
-                userName={item.userName}
-              />
+
               <p style={{ width: "100px" }}>{item.pdDate}</p>
               <p style={{ width: "100px" }}>
                 {item.pdValue}
@@ -134,6 +135,7 @@ function PredictList(props: PredictProps) {
                 />
               </button>
             </Noncllick>
+
             <Click isOpen={openItems.includes(item.pdNo)}>
               <Content>{item.pdContent}</Content>
               <FeedIcon>

@@ -107,7 +107,7 @@ function Character3d({
         canvasRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [name, characterScale, action]);
+  }, [name, characterScale, action, canvasWidth, canvasHeight]);
 
   return <div ref={canvasRef} />;
 }
