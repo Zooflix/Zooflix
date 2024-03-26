@@ -5,6 +5,8 @@ import alarmbtn from "../../assets/img/button/Alarmbtn.svg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import AlarmModal from "../Alarm/AlarmModal";
+import { logoutUser } from "../../apis/api/User";
+import { loginCheck } from "../User/IsLoginCheck";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,9 +20,18 @@ function Header() {
         <img src={Logo} alt="logo" className="logo" />
       </ImgContainer>
       <LoginContainer>
-        <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-          <div>로그인</div>
-        </Link>
+        {
+          loginCheck()? (
+            <div onClick={ logoutUser } style={{ textDecoration: "none", color: "black" }}>
+              <div>로그아웃</div>
+            </div>
+          ) : (
+            <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+              <div>로그인</div>
+            </Link>
+          )
+        }
+        
         {/* 누르면 모달 */}
         <CircleContainer>
           <Circle onClick={openModal}>
