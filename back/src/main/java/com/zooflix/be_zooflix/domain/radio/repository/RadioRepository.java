@@ -6,7 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RadioRepository  extends JpaRepository<Radio, Integer> {
 
-    // 기사 본문 가져오기
-    List<Radio> findAll();
-
 }

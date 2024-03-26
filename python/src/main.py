@@ -211,7 +211,7 @@ async def crawling(url):
                         for oneContent in contentList:
                             content_texts += oneContent.text+ " "
                         descriptionList.append(content_texts)
-                        if len(descriptionList) == 2:
+                        if len(descriptionList) == 15:
                             return descriptionList
                 else:
                     errMsg = "newsDetailPage is not found"
