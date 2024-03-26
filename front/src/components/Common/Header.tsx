@@ -36,9 +36,10 @@ function Header() {
 export default Header;
 
 const Container = styled.div`
+  margin-left: 6vw;
   .logo {
     width: 150px;
-    margin: 0 550px;
+    margin: 0 500px;
   }
   display: flex;
   justify-content: center;
