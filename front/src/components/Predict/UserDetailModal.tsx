@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Modal from "@mui/material/Modal";
+import SquareBtn from "../Common/SquareBtn";
 
 interface ModalProps {
   isModalOpen: boolean;
@@ -18,7 +19,11 @@ function UserDetailModal({ userName, isModalOpen, closeModal }: ModalProps) {
   return (
     <StyledModal open={isModalOpen} onClose={closeModal}>
       <Container>
-        <h2>{userName}님의 예측정보입니다.</h2>
+        <span>{userName}님의 예측정보입니다.</span>
+        <ButtonContainer className="btn-container">
+          <SubscribeButton type="button">구독하기</SubscribeButton>
+          <SquareBtn text="글 보러가기" />
+        </ButtonContainer>
       </Container>
     </StyledModal>
   );
@@ -32,4 +37,28 @@ const Container = styled.div`
   background-color: white;
   border: none;
   border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  span {
+    font-weight: bolder;
+    font-size: 23px;
+  }
+`;
+
+const ButtonContainer = styled.div``;
+const SubscribeButton = styled.button`
+  background-color: #f84646;
+  width: 90px;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 7px 0;
+  border: none;
+  color: white;
+  &:hover {
+    background-color: white;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+    color: #f84646;
+    font-weight: bold;
+  }
 `;
