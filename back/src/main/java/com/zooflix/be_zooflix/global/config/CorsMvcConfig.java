@@ -11,7 +11,12 @@ public class CorsMvcConfig implements WebMvcConfigurer {
 
         // 모든 컨트롤러 경로에 대해 3000 포트 허용.
         corsRegistry.addMapping("/**")
-                .allowedOrigins("*");
-//        .allowedOrigins("http://localhost:3000");
+//                .allowedOrigins("*")
+                .allowedMethods("*")
+        .allowedOrigins("http://localhost:3000", "https://zooflix.duckdns.org")
+                .allowCredentials(true)
+                .exposedHeaders("access")
+                .maxAge(3600L);
+
     }
 }

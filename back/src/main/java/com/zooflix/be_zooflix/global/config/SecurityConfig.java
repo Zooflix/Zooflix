@@ -58,28 +58,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-                .cors((cors) -> cors
-                        .configurationSource(new CorsConfigurationSource() {
-                            @Override
-                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                                CorsConfiguration configuration = new CorsConfiguration();
-
-                                // 3000번 포트 허용
-                                configuration.setAllowedOrigins(Collections.singletonList("*"));
-//                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                                // get post등 모든 메서드 허용
-                                configuration.setAllowedMethods(Collections.singletonList("*"));
-//                                configuration.setAllowCredentials(true);
-                                configuration.setAllowedHeaders(Collections.singletonList("*"));
-                                configuration.setMaxAge(3600L);
-
-                                // 토큰을 Authorization 헤더에 보내니까 이것도 허용
-                                configuration.setExposedHeaders(Collections.singletonList("Authorization"));
-
-                                return configuration;
-                            }
-                        }));
+//        http
+//                .cors((cors) -> cors
+//                        .configurationSource(new CorsConfigurationSource() {
+//                            @Override
+//                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+//                                CorsConfiguration configuration = new CorsConfiguration();
+//
+//                                // 3000번 포트 허용
+//                                configuration.setAllowedOrigins(Collections.singletonList("*"));
+////                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+//                                // get post등 모든 메서드 허용
+//                                configuration.setAllowedMethods(Collections.singletonList("*"));
+////                                configuration.setAllowCredentials(true);
+//                                configuration.setAllowedHeaders(Collections.singletonList("*"));
+//                                configuration.setMaxAge(3600L);
+//
+//                                // 토큰을 Authorization 헤더에 보내니까 이것도 허용
+//                                configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+//
+//                                return configuration;
+//                            }
+//                        }));
 
         //csrf disable
         http
