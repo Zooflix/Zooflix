@@ -14,6 +14,7 @@ import com.zooflix.be_zooflix.domain.userSubscribe.repository.UserSubscribeRepos
 import com.zooflix.be_zooflix.global.jwt.JWTUtil;
 import com.zooflix.be_zooflix.global.jwt.entity.JWTRefresh;
 import com.zooflix.be_zooflix.global.jwt.repository.JWTRefreshRepository;
+import com.zooflix.be_zooflix.global.securityAlgo.AesUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,8 +38,9 @@ public class UserService {
     private final UserSubscribeRepository userSubscribeRepository;
     private final JWTUtil jwtUtil;
     private final JWTRefreshRepository jwtRefreshRepository;
+    private final AesUtils aesUtils;
 
-    public UserService(UserRepository userRepository, AlarmRepository alarmRepository, ReportRepository reportRepository, PredictRepository predictRepository, StockSubscribeRepository stockSubscribeRepository, UserSubscribeRepository userSubscribeRepository, JWTUtil jwtUtil, JWTRefreshRepository jwtRefreshRepository) {
+    public UserService(UserRepository userRepository, AlarmRepository alarmRepository, ReportRepository reportRepository, PredictRepository predictRepository, StockSubscribeRepository stockSubscribeRepository, UserSubscribeRepository userSubscribeRepository, JWTUtil jwtUtil, JWTRefreshRepository jwtRefreshRepository, AesUtils aesUtils) {
         this.userRepository = userRepository;
         this.alarmRepository = alarmRepository;
         this.reportRepository = reportRepository;
@@ -47,6 +49,7 @@ public class UserService {
         this.userSubscribeRepository = userSubscribeRepository;
         this.jwtUtil = jwtUtil;
         this.jwtRefreshRepository = jwtRefreshRepository;
+        this.aesUtils = aesUtils;
     }
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -75,6 +78,17 @@ public class UserService {
             return "ID 중복";
         }
         userSignupDto.setUserPw(passwordEncoder.encode(userSignupDto.getUserPw()));
+        // 회원가입에서 받은 암호화된 데이터를 db에 넘길 때 새로 암호화 하는 과정.
+        if (userSignupDto.getUserAppKey() != null) { 
+            userSignupDto.setUserAppKey(aesUtils.APItoDB(userSignupDto.getUserAppKey()));
+        }
+        if (userSignupDto.getUserSecretKey() != null) {
+            userSignupDto.setUserSecretKey(aesUtils.APItoDB(userSignupDto.getUserSecretKey()));
+        }
+        if (userSignupDto.getUserAccount() != null) {
+            userSignupDto.setUserAccount(aesUtils.APItoDB(userSignupDto.getUserAccount()));
+        }
+
         User user = userSignupDto.toEntity();
         userRepository.save(user);
         return "성공";
@@ -100,9 +114,9 @@ public class UserService {
             user.userUpdateKey(
                     userUpdateDto.getUserName(),
                     userUpdateDto.getUserPw(),
-                    userUpdateDto.getUserAppKey(),
-                    userUpdateDto.getUserSecretKey(),
-                    userUpdateDto.getUserAccount()
+                    aesUtils.APItoDB(userUpdateDto.getUserAppKey()),
+                    aesUtils.APItoDB(userUpdateDto.getUserSecretKey()),
+                    aesUtils.APItoDB(userUpdateDto.getUserAccount())
             );
         } else {
             user.userUpdate(
@@ -147,6 +161,7 @@ public class UserService {
         return "회원 정보 삭제 성공";
     }
 
+    // 새로운 토큰 발급
     public ResponseEntity<?> tokenReissue(HttpServletRequest request, HttpServletResponse response) {
         //get refresh token
         String refresh = null;

@@ -21,9 +21,16 @@ import java.security.NoSuchAlgorithmException;
 public class AesUtils {
 
     @Value("${security.db.aes.private-key}")
-    private String privateKey;
+    private String DBPrivateKey;
 
-    public String aesCBCEncode(String data) {
+    @Value("${security.api.aes.private-key}")
+    private String APIPrivateKey;
+
+    public String aesCBCEncode(String data, String type) {
+        String privateKey = "";
+        if (type.equals("db")) privateKey = DBPrivateKey;
+        else if (type.equals("api")) privateKey = APIPrivateKey;
+        else return "암호화 타입 설정 실패";
 
         try {
             SecretKeySpec secretKeySpec = new SecretKeySpec(privateKey.getBytes("UTF-8"), "AES");
@@ -44,7 +51,13 @@ public class AesUtils {
 
     }
 
-    public String aesCBCDecode(String encodeData) {
+    public String aesCBCDecode(String encodeData, String type) {
+
+        String privateKey = "";
+        if (type.equals("db")) privateKey = DBPrivateKey;
+        else if (type.equals("api")) privateKey = APIPrivateKey;
+        else return "암호화 타입 설정 실패";
+
         try {
             SecretKeySpec secretKeySpec = new SecretKeySpec(privateKey.getBytes("UTF-8"), "AES");
             IvParameterSpec IV = new IvParameterSpec(privateKey.substring(0, 16).getBytes());
@@ -62,5 +75,13 @@ public class AesUtils {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public String APItoDB(String data) {
+        return aesCBCEncode(aesCBCDecode(data, "api"), "db");
+    }
+
+    public String DBtoAPI(String data) {
+        return aesCBCEncode(aesCBCDecode(data, "db"), "api");
     }
 }

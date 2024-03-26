@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 @Component
 public class RsaUtils {
-    static final int KEY_SIZE = 2048;c
+    static final int KEY_SIZE = 2048;
 
     public HashMap<String, String> createKeypairAsString() {
         HashMap<String, String> stringKeypair = new HashMap<>();

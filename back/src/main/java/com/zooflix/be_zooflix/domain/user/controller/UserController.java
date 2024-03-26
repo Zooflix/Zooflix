@@ -70,6 +70,7 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUser(userNo));
     }
 
+    @Operation(summary = "토큰 재발급")
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         return userService.tokenReissue(request, response);
