@@ -79,7 +79,7 @@ public class UserService {
         }
         userSignupDto.setUserPw(passwordEncoder.encode(userSignupDto.getUserPw()));
         // 회원가입에서 받은 암호화된 데이터를 db에 넘길 때 새로 암호화 하는 과정.
-        if (userSignupDto.getUserAppKey() != null) { 
+        if (userSignupDto.getUserAppKey() != null) {
             userSignupDto.setUserAppKey(aesUtils.APItoDB(userSignupDto.getUserAppKey()));
         }
         if (userSignupDto.getUserSecretKey() != null) {
