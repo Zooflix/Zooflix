@@ -36,7 +36,7 @@ function Graph() {
         return (
             <Wrapper>
                 <Title>
-                    <b>{selectStockName}</b>와 <b>{selectUserName}</b>님의 예측
+                    <b>{selectUserName}</b>님의 예측과 <b>{selectStockName} </b>
                     비교
                 </Title>
                 <Container>
