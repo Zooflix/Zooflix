@@ -60,7 +60,7 @@ function Main() {
       failCount: 1,
       userTemperature: 78,
       userZbti: "Lion",
-      successStreak: 1,
+      successStreak: 5,
     },
     topStockUser: {
       userNo: 1,
