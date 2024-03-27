@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import Logo from "../../assets/img/Logo.svg";
 import alarmbtn from "../../assets/img/button/Alarmbtn.svg";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AlarmModal from "../Alarm/AlarmModal";
 import { logoutUser } from "../../apis/api/User";
 import { loginCheck } from "../User/IsLoginCheck";
@@ -19,6 +19,13 @@ function Header() {
     logoutUser(); // 로그아웃 요청
     setIsLogin(false); // 로그인 상태 업데이트
   };
+
+  const [access, setAccess] = useState(localStorage.getItem('access') || '');
+
+  useEffect(() => {
+    const storedAccess = localStorage.getItem('access');
+    setAccess(storedAccess || '');
+  }, []);
 
   return (
     <Container>
