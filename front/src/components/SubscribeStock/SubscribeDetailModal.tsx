@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Modal from "@mui/material/Modal";
 import SquareBtn from "../Common/SquareBtn";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
+import { useState } from "react";
 
 interface ModalProps {
   isModalOpen: boolean;
@@ -14,6 +16,22 @@ const StyledModal = styled(Modal)`
 `;
 
 function SubscribeDetailModal({ isModalOpen, closeModal }: ModalProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleSubscribeAlert = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   return (
     <StyledModal open={isModalOpen} onClose={closeModal}>
       <Container>
@@ -48,8 +66,19 @@ function SubscribeDetailModal({ isModalOpen, closeModal }: ModalProps) {
           확인하였습니다.
         </CheckboxContainer>
         <ButtonContainer>
-          <SquareBtn text="구독하기" />
+          {/* 구독하기 버튼 누르면 알럿창 */}
+          <SquareBtn text="구독하기" onClick={handleSubscribeAlert} />
         </ButtonContainer>
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert severity="success">
+            주식 구독이 성공적으로 이루어졌습니다.
+          </Alert>
+        </Snackbar>
       </Container>
     </StyledModal>
   );
