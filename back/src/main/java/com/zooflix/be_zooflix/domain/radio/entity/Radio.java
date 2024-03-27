@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +26,7 @@ public class Radio {
     @Column(name = "news_no", nullable = false)
     private int newsNo;
 
-    @Column(name = "news_content", nullable = false)
+    @Column(name = "news_content", nullable = false, length = 50000)
     private String newsContent; // 기사 요약 내용
 
     @Column(name = "news_save_time", nullable = false)

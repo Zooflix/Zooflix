@@ -211,6 +211,7 @@ async def crawling(url):
                         for oneContent in contentList:
                             content_texts += oneContent.text+ " "
                         descriptionList.append(content_texts)
+
                         if len(descriptionList) == 7:
                             return descriptionList
                 else:
