@@ -88,6 +88,10 @@ function PredictCreateForm() {
             alert("종목명을 선택해 주세요.");
             return;
         }
+        if(nowPrice*0.95 < predictPrice && predictPrice < nowPrice*1.05){
+            alert("현재가와 5% 이상 차이나도록 값을 입력하세요.")
+            return;
+        }
         const predict = {
             stockName: stockName,
             userNo: 14,
@@ -161,7 +165,7 @@ function PredictCreateForm() {
         <Wrapper>
             <InputContainer>
                 <SearchContainer>
-                    <label className="small-title">종목</label>
+                    <label className="small-title">예측 종목</label>
                     <Search
                         type="text"
                         placeholder="종목을 검색해주세요."
@@ -195,7 +199,7 @@ function PredictCreateForm() {
                     )}
                 </SearchContainer>
                 <PredictInput
-                    text="예측날짜"
+                    text="예측 날짜"
                     type="date"
                     min={minDate}
                     max={maxDate}
@@ -209,7 +213,11 @@ function PredictCreateForm() {
                         placeholder="예측 가격을 입력하세요."
                         onPriceChange = {handlePriceChange}
                     />
-                    <span>{upDown}한다고 예측합니다.</span>
+                    {stockName && predictPrice >0 && (
+                        <>
+                    <span><b style={{color: upDown==="상승"? "#930E0E": "#310E93"}}>{upDown}</b> 한다고 예측합니다.</span>
+                    </>
+                    )}
                 </PriceContainer>
                 <PredictReasonInput onReasonChange = {handleReasonChange}/>
             </InputContainer>
@@ -223,11 +231,12 @@ function PredictCreateForm() {
 export default PredictCreateForm;
 
 const Wrapper = styled.div`
-    width: 80vw;
+    width: 70vw;
     border: none;
     border-radius: 30px;
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 20px 40px;
 `;
 
 const InputContainer = styled.div``;
@@ -271,5 +280,5 @@ const PriceContainer = styled.div`
 const BtnContainer = styled.div`
     display: flex;
     justify-content: center;
-    margin: 40px 0 20px 0;
+    margin: 20px 0 20px 0;
 `;

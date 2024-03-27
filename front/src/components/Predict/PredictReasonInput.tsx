@@ -28,15 +28,14 @@ const Wrapper = styled.div`
   padding: 20px 10px;
 
   textarea {
-    width: 700px;
-    height: 200px;
+    width: 45vw;
+    height: 10vw;
     border: none;
     resize: none;
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
-    padding-left: 30px;
-    padding-top: 10px;
+    padding: 30px;
     margin-right: 30px;
   }
 
