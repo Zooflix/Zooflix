@@ -35,10 +35,10 @@ function Player() {
     ttsMaker();
     setIsPaused(true);
   }, []);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     console.log(isPaused);
-  }, [isPaused])
+  }, [isPaused]);
 
   // audio 요소의 재생 완료 이벤트 처리
   useEffect(() => {
@@ -64,7 +64,7 @@ function Player() {
       }
       audioEl.current.src = url;
     }
-  }
+  };
 
   const clickBtn = () => {
     setIsPaused(!isPaused);
@@ -73,23 +73,44 @@ function Player() {
     } else {
       audioEl.current?.play();
     }
-  } 
+  };
 
   return (
     <Wrapper>
       <Title text="뉴스를 들려줄게요" />
       <PlayContainer>
-        <audio ref={audioEl}/>
-        <ImgBtn src={Playicon} onClick={clickBtn} disabled={isPaused? false:true} style={imgBtnStyle}></ImgBtn>
-        <ImgBtn src={Pauseicon} onClick={clickBtn} disabled={isPaused? true:false} style={imgBtnStyle}></ImgBtn>
+        <audio ref={audioEl} />
+        <ImgBtn
+          src={Playicon}
+          onClick={clickBtn}
+          disabled={isPaused ? false : true}
+          style={imgBtnStyle}
+        ></ImgBtn>
+        <ImgBtn
+          src={Pauseicon}
+          onClick={clickBtn}
+          disabled={isPaused ? true : false}
+          style={imgBtnStyle}
+        ></ImgBtn>
       </PlayContainer>
-      <Character3d name="Bear" characterScale={1} canvasWidth={500} canvasHeight={500} />
+      <Character3d
+        name="Bear"
+        characterScale={1}
+        canvasWidth={500}
+        canvasHeight={500}
+      />
+      <Character3d
+        name="Bear"
+        characterScale={0.58}
+        canvasWidth={400}
+        canvasHeight={440}
+        toBelow={35}
+        action="turn"
+      />
       <SquareBtn text="자막보기" style={buttonStyleDark} />
     </Wrapper>
-  )
+  );
 }
-
-
 
 export default Player;
 
