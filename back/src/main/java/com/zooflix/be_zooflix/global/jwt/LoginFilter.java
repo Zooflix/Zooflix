@@ -97,7 +97,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //응답 설정
         response.setHeader("access", access); // 응답 헤더에 access 넣어줌.
-        response.addCookie(createCookie("refresh", refresh)); // 응답 쿠키에 refresh 넣어줌
+        Cookie cookie = new Cookie("refresh", refresh);
+        cookie.setPath("/");
+        response.addCookie(cookie); // 응답 쿠키에 refresh 넣어줌
         response.setStatus(HttpStatus.OK.value()); // 응답 선택 코드. 200
 
     }
