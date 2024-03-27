@@ -95,12 +95,6 @@ function Player() {
       </PlayContainer>
       <Character3d
         name="Bear"
-        characterScale={1}
-        canvasWidth={500}
-        canvasHeight={500}
-      />
-      <Character3d
-        name="Bear"
         characterScale={0.58}
         canvasWidth={400}
         canvasHeight={440}
