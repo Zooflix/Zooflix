@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import UserBackground from "./UserBackground";
 import UserInput from "./UserInput";
 import SubmitBtn from "../Common/SubmitBtn";
 import { useState } from "react";
 import UserBack from "./UserBack";
+import BackBtn from "../Common/BackBtn";
 
 function SignupForm() {
   const [isChecked, setIsChecked] = useState(false);
@@ -16,6 +16,9 @@ function SignupForm() {
     <Wrapper>
       <UserBack />
       <Container>
+        <BtnWrapper>
+          <BackBtn link="/login" className="backbtn" />
+        </BtnWrapper>
         <h2>REGISTER</h2>
         <InputContainer>
           <UserInput type="text" placeholder="아이디를 입력하세요" />
@@ -101,4 +104,8 @@ const Label = styled.label`
   margin-left: 5px;
   font-size: 15px;
   font-family: "NanumSquareRound";
+`;
+
+const BtnWrapper = styled.div`
+  display: flex;
 `;

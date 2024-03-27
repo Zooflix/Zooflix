@@ -5,12 +5,13 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userIdState, userPwState } from "../../Store/UserState";
 import UserBack from "./UserBack";
+import BackBtn from "../Common/BackBtn";
 
 function LoginForm() {
   const navigate = useNavigate();
 
-    const [userId, setUserId] = useRecoilState(userIdState);
-    const [userPw, setUserPw] = useRecoilState(userPwState);
+  const [userId, setUserId] = useRecoilState(userIdState);
+  const [userPw, setUserPw] = useRecoilState(userPwState);
 
   const handleSignupClick = () => {
     navigate("/signup");
@@ -20,12 +21,10 @@ function LoginForm() {
     try {
       const result = await loginUser(userId, userPw);
       if (result == 200) {
-        navigate("/main");  
-      }
-      else {
+        navigate("/main");
+      } else {
         alert("아이디나 비밀번호를 확인해주세요.");
       }
-      
     } catch (e) {
       console.error(e);
     }
@@ -36,6 +35,7 @@ function LoginForm() {
       {/* <UserBackground /> */}
       <UserBack />
       <Container>
+        <BackBtn link="/main" className="backbtn" />
         <h2>LOG IN</h2>
         <InputContainer>
           <input
@@ -65,6 +65,10 @@ export default LoginForm;
 const Wrapper = styled.div``;
 
 const Container = styled.div`
+  .backbtn {
+    top: 10px;
+    left: 10px;
+  }
   input {
     height: 50px;
     width: 380px;
