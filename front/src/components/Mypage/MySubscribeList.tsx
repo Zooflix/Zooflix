@@ -3,7 +3,7 @@ import styled from "styled-components";
 import MySubscription from "./MySubscription";
 import { useRecoilState } from "recoil";
 import { myPageSubscribeListState } from "../../Store/MyPageState";
-import SubscribeStockList from "../../components/Mypage/SubscribeStockList";
+import CardList from "./CardList";
 
 function MySubscribeList() {
     const [myPageSubscribeList, setMyPageSubScribeList] = useRecoilState(
@@ -24,7 +24,7 @@ function MySubscribeList() {
                 <LeftSide>
                     내가 정기 구독 중인 주식
                     <CardSection>
-                        <SubscribeStockList></SubscribeStockList>
+                        <CardList/>
                     </CardSection>
                 </LeftSide>
                 <RightSide>
@@ -76,15 +76,6 @@ const LeftSide = styled.div`
 const CardSection = styled.div`
     width: 190px;
     margin: 20px;
-`;
-
-const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 20px 0;
-    border-radius: 4px;
-    border: 1px solid;
 `;
 
 const RightSide = styled.div`

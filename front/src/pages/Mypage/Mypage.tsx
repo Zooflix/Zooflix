@@ -75,13 +75,20 @@ function Mypage() {
                 console.log("내가 구독한 사람 목록 불러오기 실패");
                 console.error(error);
             }
+        };
+
+        fetchData(userNo);
+    }, []);
+
+    useEffect(() => {
+
+        // 임의의 인덱스값 userNo 넣음
+        const fetchData = async (userId: String) => {
 
             //내 주식 구독 목록
             try {
                 const data = await getMyStockList(userId);
                 setMyStockList(data);
-                console.log(data);
-                console.log(myStockList.length);
                 // console.log(data.length);
             } catch (error) {
                 console.log("내 주식 구독 목록 불러오기 실패");
@@ -89,7 +96,7 @@ function Mypage() {
             }
         };
 
-        fetchData(userNo);
+        fetchData(userId);
     }, []);
 
     return (
