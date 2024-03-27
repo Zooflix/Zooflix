@@ -211,7 +211,7 @@ async def crawling(url):
                         for oneContent in contentList:
                             content_texts += oneContent.text+ " "
                         descriptionList.append(content_texts)
-                        if len(descriptionList) == 2:
+                        if len(descriptionList) == 7:
                             return descriptionList
                 else:
                     errMsg = "newsDetailPage is not found"
@@ -314,7 +314,7 @@ async def summary(request: Request):
             "language": "ko",
             "model": "news",
             "tone": 2,
-            "summaryCount": 3
+            "summaryCount": 2
         }
     }
     headers = {
@@ -327,7 +327,8 @@ async def summary(request: Request):
     # JSON 문자열을 파이썬 객체로 변환
     responseJson = response.json()
     if (response.status_code == 200):
-        return responseJson["summary"]
+        result = responseJson["summary"].replace("\n", " ")
+        return result
     else:
         print("Error Code:" + str(responseJson)+" summary is failed")
 

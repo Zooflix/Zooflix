@@ -2,17 +2,15 @@ package com.zooflix.be_zooflix.domain.radio.service;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.zooflix.be_zooflix.domain.radio.entity.Radio;
-import com.zooflix.be_zooflix.domain.radio.repository.RadioRepository;
-import jakarta.persistence.Cacheable;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDateTime;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import com.google.gson.JsonParser;
@@ -28,7 +26,6 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-@Cacheable
 public class RadioService {
     /* News.py 엔드포인트 */
     @Value("${python.endpoint.news.crawling}")
@@ -68,15 +65,12 @@ public class RadioService {
 
 
     private final RedisTemplate<String, String> redisTemplate;
-    private final RadioRepository radioRepository;
-
 
 
 
     /*
-    * 크롤링+번역
-    * */
-    @Scheduled(fixedDelay = 1000*60*60) // 1시간마다 크롤링
+     * 크롤링+번역
+     * */
     public String callCrawlingEndpoint() {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody = new HashMap<>();
@@ -93,16 +87,34 @@ public class RadioService {
     /*
      * 요약 by clova
      * */
-    public void callSummaryEndpoint(String content) {
-        // JSONParser로 JSONObject로 변환
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(content).getAsJsonObject();
-        // JSON 객체의 값 읽어서 출력하기
-        JsonArray context = jsonObject.getAsJsonArray("translationData");
+    @Scheduled(cron = "0 0 0/1 * * *")
+    public void postNews() {
+        /* 1. 캐싱된 데이터 확인 */
+        List<String> cachedDataList = redisTemplate.opsForList().range("cachedNews", 0, -1);
+        if (cachedDataList != null && !cachedDataList.isEmpty()) {
+            System.out.println("캐시된 데이터 사용 "+cachedDataList);
+            return; // 캐시된 데이터가 있으면 새로운 데이터를 가져오지 않고 종료
+        }
 
+        /* 2. 크롤링+번역 */
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> requestBody;
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("webUrl", pythonNewsUrl); // 요청 바디에 크롤링사이트 url을 추가
+        requestBody.put("clientId", pythonPpgClientId);
+        requestBody.put("clientSecret", pythonPpgClientSecret);
+        requestBody.put("ppgUrl", pythonPpgUrl);
 
+        String result = restTemplate.postForObject(pythonEndpointNewsCrawling, requestBody, String.class);
+        System.out.println("크롤링+번역 완료");
+
+        /* 3. 요약 */
+        List<String> summaries = new ArrayList<>(); // 요약 리스트
+
+        JsonParser parser = new JsonParser(); // JSONParser로 JSONObject로 변환
+        JsonObject jsonObject = parser.parse(result).getAsJsonObject();
+        JsonArray context = jsonObject.getAsJsonArray("translationData"); // JSON 객체의 값 읽어서 출력하기
+
+        restTemplate = new RestTemplate();
         for (JsonElement element : context) {
             String str = element.getAsString();
             // 2000자 넘을 경우 나눠서 요약하기
@@ -115,13 +127,7 @@ public class RadioService {
                 requestBody.put("text", str);
                 summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody, String.class);
 
-                LocalDateTime current = LocalDateTime.now();
-                Radio radio = Radio.builder()
-                        .newsContent(summary)
-                        .newsSaveTime(current)
-                        .build();
-
-                radioRepository.save(radio);
+                summaries.add(summary);
             } else {
                 String delim = "다.";
                 String[] arr = str.split(delim);
@@ -140,49 +146,47 @@ public class RadioService {
                         requestBody.put("text", request);
                         totalSize = 0;
                         request = "";
-                        summary = restTemplate.postForObject(pythonEndpointNewsSummary, requestBody,
-                                String.class);
+                        summary += restTemplate.postForObject(pythonEndpointNewsSummary, requestBody, String.class);
                     }
-                    LocalDateTime current = LocalDateTime.now();
-                    Radio radio = Radio.builder()
-                            .newsContent(summary)
-                            .newsSaveTime(current)
-                            .build();
 
-                    radioRepository.save(radio);
+                    summaries.add(summary);
                 }
             }
         }
+        /* 4. 데이터 캐싱 */
+        if (!summaries.isEmpty()) {
+            redisTemplate.opsForList().rightPushAll("cachedNews", summaries);
+            redisTemplate.expire("cachedNews", Duration.ofDays(1));
+        }
+        System.out.println("요약 캐싱 완료");
     }
 
-
     /*
-    * tts by clova
-    * */
+     * tts by clova
+     * */
     public byte[] callTtsEndpoint() {
         try {
-            List<Radio> newsList = radioRepository.findAll();
+            List<String> cachedDataList = redisTemplate.opsForList().range("cachedNews", 0, -1);
             String text = "";
-            for(Radio radio:newsList) {
-                text += radio.getNewsContent();
+            for(String str:cachedDataList) {
+                text += str;
             }
-//            String text = URLEncoder.encode("미국일 원유 비축량의 깜짝 감소로 수요가 증가한 후", "UTF-8");
+            System.out.println("cachedNews: "+text);
+            String encodeText = URLEncoder.encode(text, StandardCharsets.UTF_8.toString());
             URL url = new URL(pythonTtsUrl);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", pythonTtsClientId);
             con.setRequestProperty("X-NCP-APIGW-API-KEY", pythonTtsClientSecret);
-
-            // post request
-            String postParams = "speaker=nara&volume=5&speed=0&pitch=0&text=" + text;
             con.setDoOutput(true);
+
+            String postParams = "speaker=vgoeun&volume=4&speed=0&pitch=0&text=" + encodeText;
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
             wr.writeBytes(postParams);
             wr.flush();
             wr.close();
             int responseCode = con.getResponseCode();
-            BufferedReader br;
-            if(responseCode==200) { // 정상 호출
+            if (responseCode == 200) { // 정상 호출
                 InputStream is = con.getInputStream();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 byte[] buffer = new byte[1024];
@@ -190,23 +194,15 @@ public class RadioService {
                 while ((bytesRead = is.read(buffer)) != -1) {
                     baos.write(buffer, 0, bytesRead);
                 }
-                byte[] audioData = baos.toByteArray();
-                baos.close();
                 is.close();
-                return audioData;
+                System.out.println("tts 완료");
+                return baos.toByteArray();
             } else { // 오류 발생
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                while ((inputLine = br.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                br.close();
-                System.out.println(response.toString());
+                System.out.println("tts 오류");
                 return null;
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             return null;
         }
     }
