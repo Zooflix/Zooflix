@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class PredictController {
 
     private final PredictService predictService;
