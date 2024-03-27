@@ -44,6 +44,32 @@ elif platform.system() == 'Darwin':
 else:
     plt.rc('font', family='NanumGothic')
 
+#
+# 주요 지표 추출 (혜진 + 수민)
+#
+@app.get("/get_indices/")
+async def get_indices():
+    today = datetime.now().strftime('%Y-%m-%d')
+
+    kospi_data = fdr.DataReader('KS11', today, today)
+    kosdaq_data = fdr.DataReader('KQ11', today, today)
+    dau_data = fdr.DataReader('DJI', today, today)
+    # nasdaq_data = fdr.DataReader('IXIC', today, today)
+    # us500_data = fdr.DataReader('US500', today, today)
+    # kospi50_data = fdr.DataReader('KS50', today, today)
+    # kospi100_data = fdr.DataReader('KS100', today, today)
+    usd_krw_data = fdr.DataReader('USD/KRW', today, today)
+
+    kospi_index = kospi_data.iloc[0]['Close']
+    kosdaq_index = kosdaq_data.iloc[0]['Close']
+    dau_index = dau_data.iloc[0]['Close']
+    # nasdaq_index = nasdaq_data.iloc[0]['Close']
+    # us500_index = us500_data.iloc[0]['Close']
+    # kospi50_index = kospi50_data.iloc[0]['Close']
+    # kospi100_index = kospi100_data.iloc[0]['Close']
+    usd_krw_rate = usd_krw_data.iloc[0]['Close']
+
+    return [kospi_index, kosdaq_index, usd_krw_rate]
 
 #
 # 전체목록 가져오기
@@ -94,17 +120,15 @@ async def generate_stock_graph(stock_code, stock_name: str = Query(..., descript
 
     # 주가 그래프 그리기
     plt.figure(figsize=(10, 6))
-    plt.plot(df.index, df['Close'], label=f'{stock_name} Stock Price', color='blue')
-    plt.title(f'{stock_name} 주가')
+    plt.plot(df.index, df['Close'], label=f'{stock_name} 주가', color='r')
 
+    plt.title(f'최근 한 달 간의 {stock_name} 주가', fontsize=16, fontweight='bold')
     # x축 눈금 설정
     x_ticks = pd.date_range(start=thirty_days_ago, end=date, freq='D')
-    plt.xticks(x_ticks, rotation=45)
+    plt.xticks(x_ticks, x_ticks.strftime('%d'))
 
-    plt.xlabel("날짜")
-    plt.ylabel('주가')
     plt.legend()
-    plt.grid(True)
+    plt.grid(False)
     plt.tight_layout()
 
     # 그래프 이미지를 메모리에 저장
@@ -119,7 +143,7 @@ async def generate_stock_graph(stock_code, stock_name: str = Query(..., descript
 #
 # 비교 o 그래프
 #
-async def generate_chart(stock_code, stock_name, date, predict_dates, predict_costs):
+async def generate_chart(stock_code, stock_name, date, predict_dates, predict_costs, predict_results):
 
     # 입력된 날짜로부터 30일 전 날짜 계산
     thirty_days_ago = date - datetime.timedelta(days=30)
@@ -129,21 +153,29 @@ async def generate_chart(stock_code, stock_name, date, predict_dates, predict_co
 
     # 주가 그래프 그리기
     plt.figure(figsize=(10, 6))
-    plt.plot(df.index, df['Close'], label=f'{stock_name} Stock Price', color='blue')
+    plt.plot(df.index, df['Close'], label=f'{stock_name} 주가', color='r')
+    plt.plot(predict_dates, predict_costs, label=f'예측 히스토리', ls=':', marker='D', c='limegreen', linewidth=2, markersize=8)
 
-    # 예측 그래프 그리기
-    for i, predict_date in enumerate(predict_dates):
-        plt.scatter(predict_date, predict_costs[i], color='red', label=f'예측값 {i + 1}')
-
-    plt.title(f'{stock_name} 주가')
+    plt.title(f'최근 한 달 간의 {stock_name} 주가', fontsize=16, fontweight='bold')
     # x축 눈금 설정
     x_ticks = pd.date_range(start=thirty_days_ago, end=date, freq='D')
-    plt.xticks(x_ticks, rotation=45)
+    plt.xticks(x_ticks, x_ticks.strftime('%d'))
 
-    plt.xlabel("날짜")
-    plt.ylabel('주가')
+    for date, cost, result in zip(predict_dates, predict_costs, predict_results):
+        # 결과에 따라 텍스트 색상 설정
+        if result == "성공":
+            text_color = 'red'
+        else:
+            text_color = 'blue'
+
+        # 텍스트 추가
+        plt.text(date - datetime.timedelta(days=1), cost, result, fontsize=15, color=text_color, ha='right',
+                 va='center')
+
+    # plt.xlabel("날짜")
+    # plt.ylabel('주가')
     plt.legend()
-    plt.grid(True)
+    plt.grid(False)
     plt.tight_layout()
 
     # 그래프 이미지를 메모리에 저장
@@ -162,8 +194,9 @@ async def generate_chart(stock_code, stock_name, date, predict_dates, predict_co
 async def compare_graph(stock_code, stock_name: str = Query(..., description="종목이름 (e.g., '삼성전자')"),
                         date: datetime.date = Query(..., description="날짜 (YYYY-MM-DD)"),
                         predict_dates: List[datetime.date] = Query(..., description="예측날짜 배열 (YYYY-MM-DD)"),
-                        predict_costs: List[float] = Query(..., description="예측가격 배열 (e.g., '70000')")):
-    img_buffer = await generate_chart(stock_code, stock_name, date, predict_dates, predict_costs)
+                        predict_costs: List[float] = Query(..., description="예측가격 배열 (e.g., '70000')"),
+                        predict_results: List[str] = Query(..., description="예측결과 배열 (e.g., '성공')")):
+    img_buffer = await generate_chart(stock_code, stock_name, date, predict_dates, predict_costs, predict_results)
     return StreamingResponse(io.BytesIO(img_buffer.getvalue()), media_type="image/png")
 
 
@@ -211,7 +244,7 @@ async def crawling(url):
                         for oneContent in contentList:
                             content_texts += oneContent.text+ " "
                         descriptionList.append(content_texts)
-                        if len(descriptionList) == 2:
+                        if len(descriptionList) == 7:
                             return descriptionList
                 else:
                     errMsg = "newsDetailPage is not found"
@@ -314,7 +347,7 @@ async def summary(request: Request):
             "language": "ko",
             "model": "news",
             "tone": 2,
-            "summaryCount": 3
+            "summaryCount": 2
         }
     }
     headers = {
@@ -327,7 +360,8 @@ async def summary(request: Request):
     # JSON 문자열을 파이썬 객체로 변환
     responseJson = response.json()
     if (response.status_code == 200):
-        return responseJson["summary"]
+        result = responseJson["summary"].replace("\n", " ")
+        return result
     else:
         print("Error Code:" + str(responseJson)+" summary is failed")
 

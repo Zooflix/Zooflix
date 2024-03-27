@@ -229,6 +229,7 @@ public class PredictService {
         String date = String.valueOf(LocalDate.now());
         List<String> dateList = predictRepository.findPdDateByUserNo(userNo, stockName);
         List<String> valueList = predictRepository.findPdValueByUserNo(userNo, stockName);
+        List<String> resultList = predictRepository.findPdResultByUserNo(userNo, stockName);
         List<Float> valueListF = new ArrayList<>();
         for (String valueString : valueList) {
             Float value = Float.parseFloat(valueString);
@@ -240,7 +241,8 @@ public class PredictService {
                 .queryParam("stock_name", stockName)
                 .queryParam("date", date)
                 .queryParam("predict_dates", dateList)
-                .queryParam("predict_costs", valueListF);
+                .queryParam("predict_costs", valueListF)
+                .queryParam("predict_results", resultList);
         return builder.toUriString();
     }
 

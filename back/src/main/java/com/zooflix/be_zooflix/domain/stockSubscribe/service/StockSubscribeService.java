@@ -48,7 +48,7 @@ public class StockSubscribeService {
                 request.getStockCode(),
                 request.getStockName(),
                 request.getStockCount(),
-                request.getStockSubscribeDate()
+                request.getStockSubscribeDay()
         );
 
         subscribe = stockSubscribeRepository.save(subscribe);

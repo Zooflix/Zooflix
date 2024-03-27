@@ -1,67 +1,52 @@
 package com.zooflix.be_zooflix.domain.radio.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zooflix.be_zooflix.domain.radio.service.RadioService;
 import io.swagger.v3.oas.annotations.Operation;
-import java.io.ByteArrayInputStream;
-import java.util.Arrays;
-import java.util.List;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class RadioController {
 
     private final RadioService radioService;
 
-    /* 라디오봇 */
-//    @PostMapping("/radio/translation/summary/tts")
-//    @Operation(summary = "번역 후 요약")
-//    public ResponseEntity<byte[]> playRadio() throws JsonProcessingException {
-////        String crawlingResult = radioService.callCrawlingEndpoint();
-////        String translationResult = radioService.callTranslationEndpoint(crawlingResult);
-////        String summaryResult = radioService.callSummaryEndpoint(translationResult);
-////        String summaryResult = radioService.callSummaryEndpoint();
-//        byte[] audioData = radioService.callTtsEndpoint();
-//        System.out.println("번역 후 요약: ");
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .contentType(MediaType.valueOf("audio/mpeg"))
-//                .body(audioData);
-
-//    }
-
-    @GetMapping(value="/subtitle")
-    @Operation(summary = "자막")
-    public ResponseEntity<List<String>> getSubtitle() {
-        String crawlingResult = radioService.callCrawlingEndpoint();
-        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
-        return ResponseEntity.ok().body(summaryResult);
+    @GetMapping(value = "/radio/summary")
+    @Operation(summary = "크롤링-번역-요약-레디스")
+    public ResponseEntity<Void> insertNews() {
+        radioService.postNews();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/radio", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @Operation(summary = "번역 후 요약")
-    public ResponseEntity<byte[]> playRadio(List<String> summary) throws JsonProcessingException {
-        byte[] audio = radioService.callTtsEndpoint(summary);
-
+    @GetMapping(value = "/radio/tts", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @Operation(summary = "tts")
+    public ResponseEntity<byte[]> playRadio() {
+        byte[] audio = radioService.callTtsEndpoint();
         System.out.println("success");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("audio/mpeg"))
                 .body(audio);
     }
+
+
+    //    @GetMapping(value="/radio/subtitle")
+//    @Operation(summary = "자막")
+//    public ResponseEntity<List<String>> getSubtitle() {
+//        String crawlingResult = radioService.callCrawlingEndpoint();
+//        List<String> summaryResult = radioService.callSummaryEndpoint(crawlingResult);
+//        return ResponseEntity.ok().body(summaryResult);
+//    }
 
 
 
