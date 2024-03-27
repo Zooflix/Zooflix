@@ -7,9 +7,14 @@ import com.zooflix.be_zooflix.domain.myPage.dto.response.MyPredictionDto;
 import com.zooflix.be_zooflix.domain.myPage.service.MyPageService;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.service.StockSubscribeService;
+import com.zooflix.be_zooflix.domain.user.dto.UserDto;
+import com.zooflix.be_zooflix.global.jwt.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +32,15 @@ public class MyPageController {
 
     @Operation(summary = "내 예측 글 보기")
     @GetMapping("/my-page/predict/{userNo}")
-    public ResponseEntity<List<MyPredictionDto>> selectMyPrediction(@PathVariable int userNo) {
+    public ResponseEntity<List<MyPredictionDto>> selectMyPrediction(@PathVariable int userNo, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        if(customUserDetails == null) {
+            System.out.println("null!");
+        }
+        else {
+            System.out.println(customUserDetails.getUsername());
+            System.out.println(customUserDetails.getUserNo());
+        }
         List<MyPredictionDto> myPredict = myPageService.getMyPredictByNo(userNo);
         return ResponseEntity.ok(myPredict);
     }

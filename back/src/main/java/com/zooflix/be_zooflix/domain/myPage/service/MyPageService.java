@@ -37,7 +37,6 @@ public class MyPageService {
     // 내 정보
     public MyInfoDto getMyInfo(int userNo) {
         User user = userRepository.findMyInfo(userNo);
-        System.out.println(user.getUserName());
         if( user == null) {
             throw new NullPointerException("존재하지 않은 유저입니다.");
         }
@@ -52,8 +51,6 @@ public class MyPageService {
         int subscribeToMeCount = subscribeToMe.size();
         // 내가 구독한 사람의 수
         int subscribeFromMeCount = subscribeFromMe.size();
-        System.out.println(subscribeToMeCount);
-        System.out.println(subscribeFromMeCount);
 
         MyInfoDto myInfo = new MyInfoDto();
 
