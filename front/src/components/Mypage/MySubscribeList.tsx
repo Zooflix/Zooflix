@@ -64,7 +64,17 @@ function MySubscribeList() {
 
 export default MySubscribeList;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    margin: 10px;
+    background: #ffffff;
+    border: 0.917219px solid #e7e7e7;
+    box-shadow: 3.1002px 3.1002px 15.4918px -7.7505px rgba(0, 0, 0, 0.4);
+    border-radius: 12.8411px;
+    overflow: auto;
+    max-height: 580px;
+    scrollbar-color: #a5a5a5;
+    scrollbar-width: thin;
+`;
 
 const Container = styled.div`
     display: flex;
