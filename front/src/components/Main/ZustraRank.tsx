@@ -5,7 +5,7 @@ import React, {
   useState,
 } from "react";
 import Character3d from "../Character/Character3d";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import first from "../../assets/img/rank/first.svg";
 import second from "../../assets/img/rank/second.svg";
 import third from "../../assets/img/rank/third.svg";
@@ -54,48 +54,72 @@ function ZustraRank({ rankData }: Props) {
             const isExpanded = expandedIndex === index;
             return (
               <UserDiv key={index} expanded={isExpanded}>
-                <img src={rankArr[index]} height="50px" />
-                {index === 0 ? (
-                  <Character3d
-                    name={item.userZbti}
-                    characterScale={0.35}
-                    canvasWidth={80}
-                    canvasHeight={100}
-                  />
-                ) : (
-                  <Character3d
-                    name={item.userZbti}
-                    characterScale={0.35}
-                    canvasWidth={80}
-                    canvasHeight={100}
-                    action="turn"
-                  />
-                )}
+                <UserRank>
+                  <img src={rankArr[index]} height="50px" />
+                  {index === 0 ? (
+                    <Character3d
+                      name={item.userZbti}
+                      characterScale={0.35}
+                      canvasWidth={80}
+                      canvasHeight={100}
+                    />
+                  ) : (
+                    <Character3d
+                      name={item.userZbti}
+                      characterScale={0.35}
+                      canvasWidth={80}
+                      canvasHeight={100}
+                      action="turn"
+                    />
+                  )}
 
-                <Margin>
-                  <div>
-                    <Name>{item.userName}</Name>
-                    <SmallText>
-                      {Math.round(
-                        (item.successCount / item.predictCount) * 100
-                      )}
-                      % 예측 성공률
-                    </SmallText>
-                  </div>
-                  <Zbti>{zbti.get(item.userZbti)} 유형</Zbti>
-                </Margin>
-                <Graph>
-                  <InnerGraph
-                    color={color[index]}
-                    width={item.userTemperature * 4}
-                  >
-                    {item.userTemperature} °C
-                  </InnerGraph>
-                </Graph>
-                {!isExpanded ? (
-                  <Button onClick={() => moreBtnClick(index)}>더보기</Button>
-                ) : (
-                  <Button onClick={() => moreBtnClick(index)}>접기</Button>
+                  <Margin>
+                    <div>
+                      <Name>{item.userName}</Name>
+                      <SmallText>
+                        {Math.round(
+                          (item.successCount / item.predictCount) * 100
+                        )}
+                        % 예측 성공률
+                      </SmallText>
+                    </div>
+                    <Zbti>{zbti.get(item.userZbti)} 유형</Zbti>
+                  </Margin>
+                  <Graph>
+                    <InnerGraph
+                      color={color[index]}
+                      width={item.userTemperature * 4}
+                    >
+                      {item.userTemperature} °C
+                    </InnerGraph>
+                  </Graph>
+                  {!isExpanded ? (
+                    <ToggleButton onClick={() => moreBtnClick(index)}>
+                      더보기
+                    </ToggleButton>
+                  ) : (
+                    <ToggleButton onClick={() => moreBtnClick(index)}>
+                      접기
+                    </ToggleButton>
+                  )}
+                </UserRank>
+                {isExpanded && (
+                  <InfoDiv expanded={isExpanded}>
+                    <div>
+                      <div>총 예측횟수</div>
+                      <div>예측 성공 횟수 </div>
+                      <div>예측 실패 횟수</div>
+                    </div>
+                    <div>
+                      <Num>{item.predictCount}</Num>
+                      <Num>{item.successCount}</Num>
+                      <Num>{item.failCount}</Num>
+                    </div>
+                    <ButtonDiv>
+                      <Button>프로필 가기</Button>
+                      <Button>구독하기</Button>
+                    </ButtonDiv>
+                  </InfoDiv>
                 )}
               </UserDiv>
             );
@@ -136,8 +160,6 @@ const UserDiv = styled.div<{ expanded: boolean }>`
   border-radius: 12px;
   margin: 10px;
   padding: 20px 15px;
-  display: flex;
-  align-items: center;
   position: relative; /* UserDiv 내부의 Button 위치 조정을 위해 필요 */
   img {
     margin-right: 10px;
@@ -193,9 +215,79 @@ const Margin = styled.div`
   margin-left: 20px;
 `;
 
-const Button = styled.div`
+const ToggleButton = styled.div`
   margin-left: 30px;
   font-size: 12px;
   color: gray;
   cursor: pointer;
+`;
+
+const Button = styled.div`
+  margin-right: 30px;
+  font-size: 12px;
+  color: black;
+  width: 80px;
+  height: 25px;
+  cursor: pointer;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  padding: 10px 30px;
+  font-weight: bold;
+  text-align: center;
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const UserRank = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+`;
+
+const InfoDiv = styled.div<{ expanded: boolean }>`
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  line-height: 27px;
+  animation: ${({ expanded }) =>
+    expanded
+      ? css`
+          ${fadeIn} 0.5s forwards
+        `
+      : css`
+          ${fadeOut} 0.5s forwards
+        `};
+`;
+const Num = styled.div`
+  font-weight: bold;
+  font-size: 12px;
+  color: #0099e8;
 `;

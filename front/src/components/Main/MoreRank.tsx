@@ -18,6 +18,7 @@ interface Props {
     userTemperature: number;
     userZbti: string;
     successStreak: number;
+    cnt: number;
   };
   topStreakUser: {
     userNo: number;
@@ -28,6 +29,7 @@ interface Props {
     userTemperature: number;
     userZbti: string;
     successStreak: number;
+    cnt: number;
   };
   topStock: {
     userNo: number;
@@ -38,6 +40,7 @@ interface Props {
     userTemperature: number;
     userZbti: string;
     successStreak: number;
+    cnt: number;
   };
 }
 
@@ -95,6 +98,7 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
             action="turn"
           />
           <UserName>{topStock.userName}</UserName>
+          <PredictCount>예측 {topFailUser.cnt}회 성공</PredictCount>
         </UserDiv>
       ) : (
         <div>Loading...</div>
