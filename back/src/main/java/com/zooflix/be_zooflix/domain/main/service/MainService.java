@@ -8,6 +8,7 @@ import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRep
 import com.zooflix.be_zooflix.domain.user.dto.UserRankingDto;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +19,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class MainService {
-        private final UserRepository userRepository;
-        private final StockSubscribeRepository stockSubscribeRepository;
+            private final UserRepository userRepository;
+            private final StockSubscribeRepository stockSubscribeRepository;
 
-    /**
-     * 2.1 메인페이지 - 랭킹 데이터 조회
-     *
-     */
+            @Value("http://127.0.0.1:8000/get_indices")
+            private String indices;
 
-        public MainDto mainRankingData(){
+
+            /**
+             * 2.1 메인페이지 - 랭킹 데이터 조회
+             *
+             */
+
+            public MainDto mainRankingData(){
             List<UserRankingKeyProjection> userRankingList = userRepository.getUserRanking();
             UserRankingKeyProjection mostPredictUser = userRepository.getMostPredictUser();
             UserRankingKeyProjection mostWrongPredictUser = userRepository.getMostWrongPredictUser();
