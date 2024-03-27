@@ -125,7 +125,7 @@ function Main() {
           <Link to="/stocksub">
             <Bubble>
               <div>
-                <img src={zooflix} width="140px" />
+                <img src={zooflix} width="140px" alt="zooflix" />
               </div>
               <div>주식 구독하러가기</div>
             </Bubble>
