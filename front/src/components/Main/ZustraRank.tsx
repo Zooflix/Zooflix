@@ -58,14 +58,14 @@ function ZustraRank({ rankData }: Props) {
                   <img src={rankArr[index]} height="50px" />
                   {index === 0 ? (
                     <Character3d
-                      name={item.userZbti}
+                      name={item.userZbti || "Bear"}
                       characterScale={0.35}
                       canvasWidth={80}
                       canvasHeight={100}
                     />
                   ) : (
                     <Character3d
-                      name={item.userZbti}
+                      name={item.userZbti || "Bear"}
                       characterScale={0.35}
                       canvasWidth={80}
                       canvasHeight={100}

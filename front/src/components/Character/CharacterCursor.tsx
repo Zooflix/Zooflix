@@ -1,6 +1,5 @@
 // CharacterCursor.tsx
 import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
@@ -49,7 +48,7 @@ function CharacterCursor({
     light2.position.set(0, 1, 0);
     scene.add(light2);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(canvasWidth, canvasHeight);
 
     const controls = new OrbitControls(camera, renderer.domElement);

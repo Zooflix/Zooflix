@@ -28,7 +28,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <div class="sample_cursor"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -39,30 +38,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script>
-      let mouseCursor = document.querySelector(".sample_cursor");
-      //window 객체에 scroll & mouse 이벤트를 추가하고 cursor함수 실행되도록 함
-
-      const canvasRef = document.createElement("div");
-      const character = new Character3d({
-        name: "Rabbit", // 캐릭터 이름 설정
-        characterScale: 0.1, // 캐릭터 크기 설정
-        canvasWidth: window.innerWidth, // 캔버스 너비
-        canvasHeight: window.innerHeight, // 캔버스 높이
-        action: "jump", // 액션 설정 (예: 'jump', 'turn')
-      });
-
-      canvasRef.appendChild(character);
-      document.body.appendChild(canvasRef);
-
-      window.addEventListener("scroll", cursor);
-      window.addEventListener("mousemove", cursor);
-
-      //커스텀 커서의 left값과 top값을 커서의 XY좌표값과 일치시킴
-      function cursor(e) {
-        mouseCursor.style.left = e.pageX + "px";
-        mouseCursor.style.top = e.pageY - scrollY + "px";
-      }
-    </script>
   </body>
 </html>
