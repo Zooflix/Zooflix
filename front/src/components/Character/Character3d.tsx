@@ -10,6 +10,7 @@ interface Props {
   canvasWidth?: number; // 컴포넌트 크기
   canvasHeight?: number;
   action?: string;
+  toBelow?: number;
 }
 //캐릭터 name
 //Bear, Cow, Fox, Hippo, Lion, Monkey, Pig, Rabbit, Rhino, Sloth, Unicon, Zebra
@@ -20,6 +21,7 @@ function Character3d({
   canvasWidth = 100,
   canvasHeight = 100,
   action = "jump",
+  toBelow = canvasHeight / 6,
 }: Props): JSX.Element {
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -85,10 +87,10 @@ function Character3d({
             if (jumpHeight >= 7 || jumpHeight <= 0) {
               jumpDirection *= -1;
             }
-            object.position.y = jumpHeight - canvasHeight / 6;
+            object.position.y = jumpHeight - toBelow;
           } else if (action === "turn") {
             object.rotation.y += 0.01;
-            object.position.y = 1 - canvasHeight / 6;
+            object.position.y = 1 - toBelow;
             // object.position.x = 1 + canvasWidth / 2;
           }
           renderer.render(scene, camera);

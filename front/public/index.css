@@ -125,7 +125,3 @@ body {
 .box::-webkit-scrollbar {
   display: none;
 }
-
-.sample_cursor {
-  background-color: transparent !important; /* 배경색을 투명하게 설정 */
-}
