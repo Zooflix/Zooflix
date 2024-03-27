@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../apis/api/User";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userIdState, userPwState } from "../../Store/UserState";
 import UserBack from "./UserBack";
@@ -11,10 +11,17 @@ function LoginForm() {
 
     const [userId, setUserId] = useRecoilState(userIdState);
     const [userPw, setUserPw] = useRecoilState(userPwState);
+    
+    const [access, setAccess] = useState(localStorage.getItem('access') || '');
 
   const handleSignupClick = () => {
     navigate("/signup");
   };
+
+  useEffect(() => {
+    const storedAccess = localStorage.getItem('access');
+    setAccess(storedAccess || '');
+  }, []);
 
   const handleLogin = async () => {
     try {

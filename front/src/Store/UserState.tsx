@@ -11,3 +11,13 @@ export const userPwState = atom({
     key: 'userPwState',
     default: '',
 });
+// accessToken
+export const userAccessTokenState = atom({
+  key: 'userAccessTokenState',
+  default: '',
+});
+// 유저 no
+export const userNoState = atom({
+  key: 'userNoState',
+  default: 0,
+});
