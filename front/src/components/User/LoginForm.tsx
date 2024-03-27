@@ -2,13 +2,15 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../apis/api/User";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { userIdState, userPwState } from "../../Store/UserState";
 import UserBack from "./UserBack";
 
 function LoginForm() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+    const [userId, setUserId] = useRecoilState(userIdState);
+    const [userPw, setUserPw] = useRecoilState(userPwState);
 
   const handleSignupClick = () => {
     navigate("/signup");
@@ -16,9 +18,14 @@ function LoginForm() {
 
   const handleLogin = async () => {
     try {
-      const aceessToken = await loginUser(username, password);
-      localStorage.setItem("accessToken", aceessToken);
-      navigate("/main");
+      const result = await loginUser(userId, userPw);
+      if (result == 200) {
+        navigate("/main");  
+      }
+      else {
+        alert("아이디나 비밀번호를 확인해주세요.");
+      }
+      
     } catch (e) {
       console.error(e);
     }
@@ -34,14 +41,14 @@ function LoginForm() {
           <input
             type="text"
             placeholder="아이디를 입력하세요"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
           />
           <input
             type="password"
             placeholder="비밀번호를 입력하세요"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={userPw}
+            onChange={(e) => setUserPw(e.target.value)}
           />
         </InputContainer>
         <button onClick={handleLogin}>로그인 하기</button>

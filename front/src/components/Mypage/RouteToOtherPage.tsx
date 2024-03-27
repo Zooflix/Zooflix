@@ -13,16 +13,16 @@ function RouteToOtherPage() {
     }
 
     function handleClickToUpdateUser() {
-        navigate("/user-update/{userNo}");
+        navigate("/my-page/update");
     }
 
     return (
         <Wrapper>
             <Container>
-                <GoToPortfolio onClick={handleClickToPortfolio}>
+                <GoToPortfolio onClick={()=> handleClickToPortfolio()}>
                     내 포트폴리오 확인하기
                 </GoToPortfolio>
-                <GoToUpdateUser onClick={handleClickToUpdateUser}>
+                <GoToUpdateUser onClick={() => handleClickToUpdateUser()}>
                     수정
                 </GoToUpdateUser>
             </Container>

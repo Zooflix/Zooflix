@@ -1,21 +1,10 @@
-import React, {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  useEffect,
-  useState,
-} from "react";
-import Character3d from "../Character/Character3d";
 import styled from "styled-components";
 import first from "../../assets/img/rank/first.svg";
 import second from "../../assets/img/rank/second.svg";
 import third from "../../assets/img/rank/third.svg";
 
 interface Props {
-  stockRank: {
-    stockCode: number;
-    StockName: String;
-    subscriberCnt: number;
-  }[];
+  stockRank: any[];
 }
 
 function StockRank({ stockRank }: Props) {

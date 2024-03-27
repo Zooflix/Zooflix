@@ -1,44 +1,10 @@
-import React, {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  useEffect,
-  useState,
-} from "react";
 import Character3d from "../Character/Character3d";
 import styled from "styled-components";
-import first from "../../assets/img/rank/first.svg";
 
 interface Props {
-  topFailUser: {
-    userNo: number;
-    userName: string;
-    predictCount: number;
-    successCount: number;
-    failCount: number;
-    userTemperature: number;
-    userZbti: string;
-    successStreak: number;
-  };
-  topStreakUser: {
-    userNo: number;
-    userName: string;
-    predictCount: number;
-    successCount: number;
-    failCount: number;
-    userTemperature: number;
-    userZbti: string;
-    successStreak: number;
-  };
-  topStock: {
-    userNo: number;
-    userName: string;
-    predictCount: number;
-    successCount: number;
-    failCount: number;
-    userTemperature: number;
-    userZbti: string;
-    successStreak: number;
-  };
+  topFailUser: any;
+  topStreakUser: any;
+  topStock: any;
 }
 
 function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
@@ -47,6 +13,7 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
   zbti.set("Monkey", "재간둥이 원숭이");
   zbti.set("Pig", "저금왕 돼지");
   zbti.set("Rabbit", "팔랑귀 토끼");
+  zbti.set("Bear", "검사 결과 없음");
 
   return (
     <RankWrapper>
@@ -54,7 +21,7 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
         <UserDiv>
           <Title>최다 연속 예측 성공</Title>
           <Character3d
-            name={topStreakUser.userZbti}
+            name={topStreakUser.userZbti || "Bear"}
             characterScale={0.35}
             canvasWidth={70}
             canvasHeight={85}
@@ -72,7 +39,7 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
         <UserDiv>
           <Title>최다 예측 실패</Title>
           <Character3d
-            name={topFailUser.userZbti}
+            name={topFailUser.userZbti || "Bear"}
             characterScale={0.35}
             canvasWidth={70}
             canvasHeight={80}
@@ -88,13 +55,14 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
         <UserDiv>
           <Title>삼성전자 1위 예측자</Title>
           <Character3d
-            name={topStock.userZbti}
+            name={topStock.userZbti || "Bear"}
             characterScale={0.4}
             canvasWidth={70}
             canvasHeight={80}
             action="turn"
           />
           <UserName>{topStock.userName}</UserName>
+          <PredictCount>예측 {topFailUser.cnt}회 성공</PredictCount>
         </UserDiv>
       ) : (
         <div>Loading...</div>

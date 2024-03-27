@@ -5,93 +5,158 @@ import RouteToOtherPage from "../../components/Mypage/RouteToOtherPage";
 import ContentHeader from "../../components/Mypage/ContentHeader";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
-import { myPageInfoState } from "../../Store/RecoilState";
+import {
+    myPageInfoState,
+    myPagePredictListState,
+    myPageSubscribeListState,
+} from "../../Store/MyPageState";
 import { useEffect } from "react";
-import { getMyPageData } from "../../apis/api/MyPage";
+import {
+    getMyInfo,
+    getMyPredictList,
+    getMyStockList,
+    getMySubscribeList,
+} from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
+import { stockSubListState } from "../../Store/StockSubscribeState";
 
 function Mypage() {
-  const info = "내 정보";
+    const info = "내 정보";
 
-  const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+    const [myPagePredictList, setMyPagePredictList] = useRecoilState(
+        myPagePredictListState
+    );
+    const [myPageSubscribeList, setMyPageSubscribeList] = useRecoilState(
+        myPageSubscribeListState
+    );
 
-  const navigate = useNavigate();
+    const [myStockList, setMyStockList] = useRecoilState(stockSubListState);
 
-  const accessToken = localStorage.getItem("accessToken");
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    // if(!localStorage.accessToken){
-    //     navigate("/main");
-    //     return;
-    // }
+    // const accessToken = localStorage.getItem('accessToken');
+    const userNo = 2;
+    const userId = "ssafy1";
 
-    // 고쳐야 할 부분 아직 정확하게 흐름 이해 못함...
-    const fetchData = async (accessToken: string) => {
-      try {
-        const data = await getMyPageData(accessToken);
-        setMyPageInfo(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    useEffect(() => {
+        // if(!accessToken){
+        //     navigate("/main");
+        //     return;
+        // }
 
-    fetchData("dsf");
-    ////////////////////////////////////////////////
-  }, []);
+        // 임의의 인덱스값 userNo 넣음
+        const fetchData = async (userNo: Number) => {
+            //내 정보
+            try {
+                const data = await getMyInfo(userNo);
+                setMyPageInfo(data);
+                console.log(data);
+            } catch (error) {
+                console.log("내 정보 불러오기 실패");
+                console.error(error);
+            }
 
-  return (
-    <Wrapper>
-      <Container>
-        <LeftSideMyInfo>
-          {info}
-          <TemperatureWithImage />
-          <MyInfo />
-          <RouteToOtherPage />
-        </LeftSideMyInfo>
-        <RightSideMyInfo>
-          <ContentHeader />
-          <GotoZbtiButton>
-            <img src={GotoZbti} alt="GotoZbti"></img>
-          </GotoZbtiButton>
-        </RightSideMyInfo>
-      </Container>
-    </Wrapper>
-  );
+            //내 예측 글 목록
+            try {
+                const data = await getMyPredictList(userNo);
+                setMyPagePredictList(data);
+                console.log(data);
+            } catch (error) {
+                console.log("내 예측 목록 실패");
+                console.error(error);
+            }
+
+            //내가 구독한 사람 목록
+            try {
+                const data = await getMySubscribeList(userNo);
+                setMyPageSubscribeList(data);
+            } catch (error) {
+                console.log("내가 구독한 사람 목록 불러오기 실패");
+                console.error(error);
+            }
+
+            //내 주식 구독 목록
+            try {
+                const data = await getMyStockList(userId);
+                setMyStockList(data);
+                console.log(data);
+                console.log(myStockList.length);
+                // console.log(data.length);
+            } catch (error) {
+                console.log("내 주식 구독 목록 불러오기 실패");
+                console.error(error);
+            }
+        };
+
+        fetchData(userNo);
+    }, []);
+
+    return (
+        <Wrapper>
+            <Container>
+                <LeftSideMyInfo>
+                    {info}
+                    <TemperatureWithImage />
+                    <MyInfo />
+                    <RouteToOtherPage />
+                </LeftSideMyInfo>
+                <RightSideMyInfo>
+                    <ContentHeader />
+                    <GotoZbtiButton>
+                        <img src={GotoZbti} alt="GotoZbti"></img>
+                    </GotoZbtiButton>
+                </RightSideMyInfo>
+            </Container>
+        </Wrapper>
+    );
 }
 
 export default Mypage;
 
 const Wrapper = styled.div`
-  display: block;
+    display: block;
 `;
 
 const Container = styled.div`
-  position: static;
-  width: 1280px;
-  margin: 0 auto;
-  padding-bottom: 40px;
+    position: static;
+    width: 1280px;
+    margin: 0 auto;
+    padding-bottom: 40px;
 `;
 
 const LeftSideMyInfo = styled.div`
-  float: left;
-  width: 420px;
-  height: 785px;
-  text-align: center;
-  border: 1px solid;
-  margin: 0 auto;
+    float: left;
+    width: 420px;
+    height: 785px;
+    text-align: center;
+    margin: 0 auto;
+
+    background: #ffffff;
+    border: 0.77908px solid #e7e7e7;
+    box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
+    border-radius: 10.9071px;
 `;
 
 const RightSideMyInfo = styled.div`
-  float: right;
-  width: 775px;
-  border: 1px solid;
-  margin: 0 auto;
+    float: right;
+    width: 775px;
+    height: 660px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 0.77908px solid #e7e7e7;
+    box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
+    border-radius: 10.9071px;
 `;
 
 const GotoZbtiButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 695px;
-  margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 695px;
+    margin: 0 auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
 `;

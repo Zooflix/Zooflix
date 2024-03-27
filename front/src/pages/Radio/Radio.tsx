@@ -33,18 +33,38 @@ function Player() {
 
   useEffect(() => {
     ttsMaker();
+    setIsPaused(true);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(isPaused);
-  }, [isPaused])
+  }, [isPaused]);
+
+  // audio 요소의 재생 완료 이벤트 처리
+  useEffect(() => {
+    const handleAudioEnded = () => {
+      setIsPaused(true); // 재생이 완료되면 isPaused를 true로 설정
+    };
+    if (audioEl.current) {
+      audioEl.current.addEventListener("ended", handleAudioEnded);
+    }
+    return () => {
+      if (audioEl.current) {
+        audioEl.current.removeEventListener("ended", handleAudioEnded);
+      }
+    };
+  }, [setIsPaused]);
 
   const ttsMaker = async () => {
     const url = await playRadio();
     if (audioEl.current) {
+      const previousUrl = audioEl.current.src;
+      if (previousUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(previousUrl); // 이전 Blob URL 해제
+      }
       audioEl.current.src = url;
     }
-  }
+  };
 
   const clickBtn = () => {
     setIsPaused(!isPaused);
@@ -53,27 +73,38 @@ function Player() {
     } else {
       audioEl.current?.play();
     }
-  } 
-
-  const subtitle = () => {
-
-  }
+  };
 
   return (
     <Wrapper>
       <Title text="뉴스를 들려줄게요" />
       <PlayContainer>
-        <audio ref={audioEl}/>
-        <ImgBtn src={Playicon} onClick={clickBtn} disabled={isPaused? false:true} style={imgBtnStyle}></ImgBtn>
-        <ImgBtn src={Pauseicon} onClick={clickBtn} disabled={isPaused? true:false} style={imgBtnStyle}></ImgBtn>
+        <audio ref={audioEl} />
+        <ImgBtn
+          src={Playicon}
+          onClick={clickBtn}
+          disabled={isPaused ? false : true}
+          style={imgBtnStyle}
+        ></ImgBtn>
+        <ImgBtn
+          src={Pauseicon}
+          onClick={clickBtn}
+          disabled={isPaused ? true : false}
+          style={imgBtnStyle}
+        ></ImgBtn>
       </PlayContainer>
-      <Character3d name="Bear" characterScale={0.53} canvasWidth={400} canvasHeight={200} />
+      <Character3d
+        name="Bear"
+        characterScale={0.58}
+        canvasWidth={400}
+        canvasHeight={440}
+        toBelow={35}
+        action="turn"
+      />
       <SquareBtn text="자막보기" style={buttonStyleDark} />
     </Wrapper>
-  )
+  );
 }
-
-
 
 export default Player;
 

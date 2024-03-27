@@ -1,64 +1,66 @@
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { myPageInfoState, myPagePredictListState } from "../../Store/MyPageState";
 
 function MyInfo() {
+    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+    const [myPagePredictList, setMyPagePredictList] = useRecoilState(
+        myPagePredictListState
+    );
 
-  const [myInfo, setMyInfo] = useState({});
-
-  const myInfoExample =
-    {
-      userNo: 1,
-      userName: '홍길동',
-      userTemperature: 30,
-      predictCount: 32,
-      successCount: 28,
-      predictionRate: 28/32 * 100,
-      SubscribeFromMe: 1212,
-      subscribeToMe: 1232,
-    }
-
-
-  useEffect(() => {
+    let successCnt = 0; //성공 횟수
     
-  }, []);
+    myPagePredictList.forEach(item => {
+        if (item.pdResult === "성공") {
+            successCnt += 1;
+        }
+    });
 
-  return (
-    <Wrapper>
-      <LeftsideQuestion>
-        <div>총 예측 횟수</div>
-        <div>예측 성공 횟수</div>
-        <div>예측률</div>
-        <div>구독</div>
-        <div>구독자</div>
-      </LeftsideQuestion>
-      <RightSideAnswer>
-        <div>{myInfoExample.predictCount}</div>
-        <div>{myInfoExample.successCount}</div>
-        <div>{myInfoExample.predictionRate}</div>
-        <div>{myInfoExample.SubscribeFromMe}</div>
-        <div>{myInfoExample.subscribeToMe}</div>
-      </RightSideAnswer>
-    </Wrapper>
-  )
+    // 소수점 둘째 짜리까지 성공 비율 -> rate
+    let rateOfPredict = Math.round(successCnt / myPagePredictList.length); 
+    let rate = Math.round(rateOfPredict * 100) / 100;
+
+
+    console.log("MyInfo : " + rate);
+
+    return (
+        <Wrapper>
+            <LeftsideQuestion>
+                <div>총 예측 횟수</div>
+                <div>예측 성공 횟수</div>
+                <div>예측률</div>
+                <div>구독</div>
+                <div>구독자</div>
+            </LeftsideQuestion>
+            <RightSideAnswer>
+                <div>{myPagePredictList.length}</div>
+                <div>{successCnt}</div>
+                <div>{rate}</div>
+                <div>{myPageInfo.subscribeFromMe}</div>
+                <div>{myPageInfo.subscribeToMe}</div>
+            </RightSideAnswer>
+        </Wrapper>
+    );
 }
 
 export default MyInfo;
 
 const Wrapper = styled.div`
-  margin: 0 auto;
-  display: flex;
+    margin: 0 auto;
+    display: flex;
 `;
 
 const LeftsideQuestion = styled.div`
-  float: left,
-  width: 50%;
+  float: left;
+  width: 80%;
   margin: 30px 70px;
   text-align: left;
 `;
 
 const RightSideAnswer = styled.div`
-  float: right,
-  width: 50%;
+  float: right;
+  width: 20%;
   margin: 30px 70px;
   text-align: right;
 `;

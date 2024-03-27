@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MyPredictList from "./MyPredictList";
 import MySubscriptions from "./MySubscription";
+import MySubscribeList from "./MySubscribeList";
 
 interface ContentHeaderProps {}
 
 function ContentHeader(props: ContentHeaderProps) {
-    const [selectedTab, setSelectedTab] = useState<string>("my-predictions"); // 선택된 탭 상태 추가
+    const [selectedTab, setSelectedTab] = useState<string>("my-predictions");
 
     const handleTabClick = (tabName: string) => {
-        setSelectedTab(tabName); // 클릭된 탭의 이름을 상태로 설정
+        setSelectedTab(tabName);
     };
 
     return (
@@ -19,16 +20,16 @@ function ContentHeader(props: ContentHeaderProps) {
                     <ContentTabList>
                         <ContentTabListItem>
                             <ContentTabListItemSpan
-                                onClick={() => handleTabClick("my-predictions")} // 클릭 이벤트 처리
-                                selected={selectedTab === "my-predictions"} // 선택된 탭 여부에 따라 스타일 적용
+                                onClick={() => handleTabClick("my-predictions")}
+                                selected={selectedTab === "my-predictions"}
                             >
                                 내가 쓴 예측 글
                             </ContentTabListItemSpan>
                         </ContentTabListItem>
                         <ContentTabListItem>
                             <ContentTabListItemSpan
-                                onClick={() => handleTabClick("my-subscriptions")} // 클릭 이벤트 처리
-                                selected={selectedTab === "my-subscriptions"} // 선택된 탭 여부에 따라 스타일 적용
+                                onClick={() => handleTabClick("my-subscriptions")}
+                                selected={selectedTab === "my-subscriptions"}
                             >
                                 내 구독 정보
                             </ContentTabListItemSpan>
@@ -36,17 +37,18 @@ function ContentHeader(props: ContentHeaderProps) {
                     </ContentTabList>
                 </ContentHeaderTab>
             </ContentTabHeader>
-            {/* 여기에 선택된 탭에 따른 화면을 동적으로 렌더링 */}
+            
             {selectedTab === "my-predictions" && <MyPredictList />}
-            {selectedTab === "my-subscriptions" && <MySubscriptions />}
+            {selectedTab === "my-subscriptions" && <MySubscribeList />}
         </Wrapper>
     );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    margin-bottom: 30px;
+`;
 const ContentTabHeader = styled.div`
     display: flex;
-    padding: 15px 20px;
 `;
 const ContentHeaderTab = styled.nav`
     flex: 1;
@@ -55,8 +57,6 @@ const ContentHeaderTab = styled.nav`
 const ContentTabList = styled.ul`
     display: flex;
     list-style: none;
-    margin: 0;
-    padding: 0;
     margin-block-style: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;

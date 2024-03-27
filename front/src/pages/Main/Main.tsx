@@ -1,95 +1,112 @@
 import styled from "styled-components";
 import FlowBar from "../../components/Main/FlowBar";
 import ZustraRank from "../../components/Main/ZustraRank";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MoreRank from "../../components/Main/MoreRank";
 import StockRank from "../../components/Main/StockRank";
 import Character3d from "../../components/Character/Character3d";
 import zooflix from "../../assets/img/Zooflix.svg";
 import { Link } from "react-router-dom";
+import { getRankingList } from "../../apis/api/Main";
 
 function Main() {
   const [mainData, setMainData] = useState({
     zustraRank: [
       {
-        userNo: 1,
-        userName: "수민",
-        predictCount: 2,
-        successCount: 1,
-        failCount: 1,
-        userTemperature: 78,
-        userZbti: "Lion",
-        successStreak: 1,
+        userNo: null,
+        userName: null,
+        predictCount: null,
+        successCount: null,
+        failCount: null,
+        userTemperature: null,
+        userZbti: null,
+        successStreak: null,
+        cnt: null,
       },
       {
-        userNo: 1,
-        userName: "혜진",
-        predictCount: 3,
-        successCount: 1,
-        failCount: 2,
-        userTemperature: 68,
-        userZbti: "Monkey",
-        successStreak: 1,
+        userNo: null,
+        userName: null,
+        predictCount: null,
+        successCount: null,
+        failCount: null,
+        userTemperature: null,
+        userZbti: null,
+        successStreak: null,
+        cnt: null,
       },
       {
-        userNo: 1,
-        userName: "성주",
-        predictCount: 10,
-        successCount: 3,
-        failCount: 7,
-        userTemperature: 62,
-        userZbti: "Rabbit",
-        successStreak: 1,
+        userNo: null,
+        userName: null,
+        predictCount: null,
+        successCount: null,
+        failCount: null,
+        userTemperature: null,
+        userZbti: null,
+        successStreak: null,
+        cnt: null,
       },
     ],
     topFailUser: {
-      userNo: 1,
-      userName: "성주",
-      predictCount: 10,
-      successCount: 3,
-      failCount: 7,
-      userTemperature: 62,
-      userZbti: "Rabbit",
-      successStreak: 1,
+      userNo: null,
+      userName: null,
+      predictCount: null,
+      successCount: null,
+      failCount: null,
+      userTemperature: null,
+      userZbti: null,
+      successStreak: null,
+      cnt: null,
     },
     topStreakUser: {
-      userNo: 1,
-      userName: "수민",
-      predictCount: 2,
-      successCount: 1,
-      failCount: 1,
-      userTemperature: 78,
-      userZbti: "Lion",
-      successStreak: 1,
+      userNo: null,
+      userName: null,
+      predictCount: null,
+      successCount: null,
+      failCount: null,
+      userTemperature: null,
+      userZbti: null,
+      successStreak: null,
+      cnt: null,
     },
     topStockUser: {
-      userNo: 1,
-      userName: "혜진",
-      predictCount: 3,
-      successCount: 1,
-      failCount: 2,
-      userTemperature: 68,
-      userZbti: "Monkey",
-      successStreak: 1,
+      userNo: null,
+      userName: null,
+      predictCount: null,
+      successCount: null,
+      failCount: null,
+      userTemperature: null,
+      userZbti: null,
+      successStreak: null,
+      cnt: null,
     },
     stockRank: [
       {
-        stockCode: 12345,
-        StockName: "삼성전자",
-        subscriberCnt: 98,
+        stockCode: null,
+        StockName: null,
+        subscriberCnt: null,
       },
       {
-        stockCode: 23456,
-        StockName: "SK하이닉스",
-        subscriberCnt: 88,
+        stockCode: null,
+        StockName: null,
+        subscriberCnt: null,
       },
       {
-        stockCode: 98765,
-        StockName: "LG에너지솔루션",
-        subscriberCnt: 56,
+        stockCode: null,
+        StockName: null,
+        subscriberCnt: null,
       },
     ],
   });
+
+  useEffect(() => {
+    handleList();
+  }, []);
+
+  const handleList = async () => {
+    const list = await getRankingList();
+    console.log("rankinglist" + list);
+    setMainData(list || []);
+  };
 
   return (
     <MainWrapper>
@@ -108,7 +125,7 @@ function Main() {
           <Link to="/stocksub">
             <Bubble>
               <div>
-                <img src={zooflix} width="140px" />
+                <img src={zooflix} width="140px" alt="zooflix" />
               </div>
               <div>주식 구독하러가기</div>
             </Bubble>
