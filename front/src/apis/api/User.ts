@@ -8,8 +8,7 @@ export async function loginUser(userId: String, userPw: String) {
   try {
     const response = await axios.post(
       `${REACT_APP_HOME_URL}/login`, 
-      { userId, userPw }, 
-      {withCredentials: true})
+      { userId, userPw },)
       .then(res => {
       localStorage.setItem("access", res.headers['access']);
       
@@ -26,17 +25,14 @@ export async function loginUser(userId: String, userPw: String) {
 export async function logoutUser() {
   try {
     const response = await axios.post(
-      `${REACT_APP_HOME_URL}/logout`,
-      {withCredentials: true})
+      `${REACT_APP_HOME_URL}/logout`,)
       .then(res => {
-      localStorage.removeItem("access");
-      console.log("로그아웃 성공");
+      localStorage.removeItem("access");      
       return res;
     });
     
     return response.status;
   } catch (e) {
-    console.log("실패")
     console.log(e);
   }
 }

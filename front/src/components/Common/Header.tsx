@@ -10,9 +10,15 @@ import { loginCheck } from "../User/IsLoginCheck";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(loginCheck()); 
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const handleLogout = () => {
+    logoutUser(); // 로그아웃 요청
+    setIsLogin(false); // 로그인 상태 업데이트
+  };
 
   return (
     <Container>
@@ -21,9 +27,9 @@ function Header() {
       </ImgContainer>
       <LoginContainer>
         {
-          loginCheck()? (
-            <div onClick={ logoutUser } style={{ textDecoration: "none", color: "black" }}>
-              <div>로그아웃</div>
+          isLogin ? (
+            <div onClick={ handleLogout } style={{ cursor: "pointer", textDecoration: "none", color: "black" }}>
+              로그아웃
             </div>
           ) : (
             <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
