@@ -11,33 +11,43 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class MainService {
-            private final UserRepository userRepository;
-            private final StockSubscribeRepository stockSubscribeRepository;
+    private final UserRepository userRepository;
+    private final StockSubscribeRepository stockSubscribeRepository;
 
-            @Value("http://127.0.0.1:8000/get_indices")
-            private String indices;
+    @Value("http://127.0.0.1:8000/get_indices")
+    private String indicesEndpoint;
 
+    public double[] callIndicesEndpoint() {
+        RestTemplate restTemplate = new RestTemplate();
+        // REST API 호출
+        double[] result = restTemplate.postForObject(indicesEndpoint, null, double[].class);
+        return result;
+    }
 
-            /**
-             * 2.1 메인페이지 - 랭킹 데이터 조회
-             *
-             */
+    /**
+     * 2.1 메인페이지 - 랭킹 데이터 조회
+     */
 
-            public MainDto mainRankingData(){
-            List<UserRankingKeyProjection> userRankingList = userRepository.getUserRanking();
-            UserRankingKeyProjection mostPredictUser = userRepository.getMostPredictUser();
-            UserRankingKeyProjection mostWrongPredictUser = userRepository.getMostWrongPredictUser();
-            UserRankingKeyProjection stockCodeMostPredictUSer = stockSubscribeRepository.getStockCodeMostPredictUSer();
-            List<StockRankingProjection> stockRankingList = stockSubscribeRepository.getStockRanking();
+    public MainDto mainRankingData() {
+        List<UserRankingKeyProjection> userRankingList = userRepository.getUserRanking();
+        UserRankingKeyProjection mostPredictUser = userRepository.getMostPredictUser();
+        UserRankingKeyProjection mostWrongPredictUser = userRepository.getMostWrongPredictUser();
+        UserRankingKeyProjection stockCodeMostPredictUSer = stockSubscribeRepository.getStockCodeMostPredictUSer();
+        List<StockRankingProjection> stockRankingList = stockSubscribeRepository.getStockRanking();
 
-            return new MainDto(userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
+        double[] result = callIndicesEndpoint();
+
+        return new MainDto(result[0], result[1], result[2], userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
     }
 }

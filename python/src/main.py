@@ -69,14 +69,7 @@ async def get_indices():
     # kospi100_index = kospi100_data.iloc[0]['Close']
     usd_krw_rate = usd_krw_data.iloc[0]['Close']
 
-    return {
-        "date": today,
-        "KOSPI": kospi_index,
-        "KOSDAQ": kosdaq_index,
-        "USD/KRW": usd_krw_rate,
-    }
-
-
+    return [kospi_index, kosdaq_index, usd_krw_rate]
 
 #
 # 전체목록 가져오기

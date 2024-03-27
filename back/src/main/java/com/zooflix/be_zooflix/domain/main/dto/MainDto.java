@@ -14,10 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MainDto {
-//    private double kospi;
-//    private double kosdaq;
-//    private double dau;
-//    private double krw;
+    private double kospi;
+    private double kosdaq;
+    private double usd;
     private List<UserRankingKeyProjection> zustraRank;
     private List<StockRankingProjection> stockRank;
     private UserRankingKeyProjection topStreakUser;
