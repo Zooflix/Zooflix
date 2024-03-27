@@ -24,6 +24,7 @@ import Intro from "./components/Landing/Intro";
 import styled from "styled-components";
 import SubscribeStock from "./pages/SubscribeStock/SubscribeStock";
 import UpdateMyInfo from "./components/Mypage/UpdateMyInfo";
+import CharacterCursor from "./components/Character/CharacterCursor";
 
 function App() {
   const location = useLocation();
@@ -48,6 +49,13 @@ function App() {
   return (
     <AppWrapper>
       <AnimatePresence>
+        <CharacterCursor
+          name="Bear"
+          characterScale={0.4}
+          action="turn"
+          canvasHeight={70}
+          canvasWidth={50}
+        />
         {showHeaderandSide() && <Header />}
         {showHeaderandSide() && <SideNavBar />}
         <Routes>

@@ -11,6 +11,7 @@ const StyledModal = styled(Modal)`
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0.5;
 `;
 
 function UserDetailModal({ userName, isModalOpen, closeModal }: ModalProps) {

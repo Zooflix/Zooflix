@@ -20,6 +20,7 @@ function Main() {
         userTemperature: 78,
         userZbti: "Lion",
         successStreak: 1,
+        cnt: 2,
       },
       {
         userNo: 1,
@@ -30,6 +31,7 @@ function Main() {
         userTemperature: 68,
         userZbti: "Monkey",
         successStreak: 1,
+        cnt: 2,
       },
       {
         userNo: 1,
@@ -40,6 +42,7 @@ function Main() {
         userTemperature: 62,
         userZbti: "Rabbit",
         successStreak: 1,
+        cnt: 2,
       },
     ],
     topFailUser: {
@@ -51,6 +54,7 @@ function Main() {
       userTemperature: 62,
       userZbti: "Rabbit",
       successStreak: 1,
+      cnt: 2,
     },
     topStreakUser: {
       userNo: 1,
@@ -61,6 +65,7 @@ function Main() {
       userTemperature: 78,
       userZbti: "Lion",
       successStreak: 5,
+      cnt: 2,
     },
     topStockUser: {
       userNo: 1,
@@ -71,6 +76,7 @@ function Main() {
       userTemperature: 68,
       userZbti: "Monkey",
       successStreak: 1,
+      cnt: 5,
     },
     stockRank: [
       {
