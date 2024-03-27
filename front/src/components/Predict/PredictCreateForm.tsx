@@ -53,6 +53,7 @@ function PredictCreateForm() {
   const [upDown, setUpDown] = useState<string>("");
   const [open, setOpen] = useState(false);
 
+  //알럿창 초기값 세팅
   const [alertOption, setAlertOption] = useState<{
     severity: AlertColor;
     value: String;
@@ -104,7 +105,7 @@ function PredictCreateForm() {
       setOpen(true);
       setAlertOption({
         severity: "error",
-        value: "예측 근거거는 10자 이상 입력해 주세요.",
+        value: "예측 근거는 10자 이상 입력해 주세요.",
       });
       //   alert("예측 근거는 10자 이상 입력해 주세요.");
       return;
@@ -129,15 +130,25 @@ function PredictCreateForm() {
     };
     try {
       await insertPredict(predict);
-      navigate("/predict");
       setOpen(true);
       setAlertOption({
         severity: "success",
         value: "예측 등록이 완료되었습니다.",
       });
+      navigate("/predict");
     } catch (error) {
       console.log("Error deleting data:", error);
     }
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   const handleSearchChange = (value: React.SetStateAction<string>) => {
@@ -163,7 +174,12 @@ function PredictCreateForm() {
       nowPrice * 0.95 < predictPrice &&
       predictPrice < nowPrice * 1.05
     ) {
-      alert("현재가와 5% 이상 차이나도록 값을 입력하세요.");
+      setOpen(true);
+      setAlertOption({
+        severity: "error",
+        value: "현재가와 5% 이상 차이나도록 값을 입력하세요.",
+      });
+      //   alert("현재가와 5% 이상 차이나도록 값을 입력하세요.");
     }
   }, [predictPrice]);
 
@@ -251,6 +267,14 @@ function PredictCreateForm() {
           onClick={handlePredict}
         />
       </BtnContainer>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert severity={alertOption?.severity}>{alertOption?.value}</Alert>
+      </Snackbar>
     </Wrapper>
   );
 }

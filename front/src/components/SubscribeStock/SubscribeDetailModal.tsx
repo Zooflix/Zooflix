@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import SquareBtn from "../Common/SquareBtn";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useState } from "react";
+import { ChangeEvent } from "react";
 
 interface ModalProps {
   isModalOpen: boolean;
@@ -17,9 +18,30 @@ const StyledModal = styled(Modal)`
 
 function SubscribeDetailModal({ isModalOpen, closeModal }: ModalProps) {
   const [open, setOpen] = useState(false);
+  const [alertOption, setAlertOption] = useState<{
+    severity: AlertColor;
+    value: string;
+  }>({ severity: "error", value: "" });
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
 
   const handleSubscribeAlert = () => {
-    setOpen(true);
+    if (!isChecked) {
+      setOpen(true);
+      setAlertOption({
+        severity: "error",
+        value: "개인정보 수집에 동의해주세요.",
+      });
+    } else {
+      setOpen(true);
+      setAlertOption({
+        severity: "success",
+        value: "주식 구독이 성공적으로 이루어졌습니다.",
+      });
+    }
   };
 
   const handleClose = (
@@ -62,8 +84,8 @@ function SubscribeDetailModal({ isModalOpen, closeModal }: ModalProps) {
           <span className="orange">취소 또는 환불이 불가</span> 합니다.
         </h5>
         <CheckboxContainer>
-          <input type="checkbox" /> 주식 정기 구독 유의사항을 모두 읽고
-          확인하였습니다.
+          <input type="checkbox" checked={isChecked} onChange={handleChange} />{" "}
+          주식 정기 구독 유의사항을 모두 읽고 확인하였습니다.
         </CheckboxContainer>
         <ButtonContainer>
           {/* 구독하기 버튼 누르면 알럿창 */}
@@ -75,9 +97,7 @@ function SubscribeDetailModal({ isModalOpen, closeModal }: ModalProps) {
           onClose={handleClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
-          <Alert severity="success">
-            주식 구독이 성공적으로 이루어졌습니다.
-          </Alert>
+          <Alert severity={alertOption?.severity}>{alertOption?.value}</Alert>
         </Snackbar>
       </Container>
     </StyledModal>
