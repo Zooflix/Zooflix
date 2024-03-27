@@ -47,7 +47,7 @@ else:
 #
 # 주요 지표 추출 (혜진 + 수민)
 #
-@app.get("/")
+@app.get("/get_indices/")
 async def get_indices():
     today = datetime.now().strftime('%Y-%m-%d')
 
