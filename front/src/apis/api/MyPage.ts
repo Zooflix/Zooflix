@@ -43,3 +43,14 @@ export const deleteMySubscribe = async (subscribeNo: Number) => {
     }
 }
 
+//내 주식 구독 목록
+export const getMyStockList = async (userId: String) => {
+    try {
+        const response = await axios.get(`/stock/subscribe/list/${userId}`);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
