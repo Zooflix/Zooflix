@@ -17,25 +17,21 @@ function Problem2() {
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader />
-        <Question text="내가 처음으로 보유한 주식은?" />
-        <ImgContainer>
-          <img
-            src={Icon}
-            alt="icon"
-            className="icon"
-            loading="lazy"
-            decoding="async"
-          />
-        </ImgContainer>
-        <Answer
-          text="삼성전자, 테슬라와 같은 대형주"
-          onClick={handleAnswerClick}
-        />
-        <Answer
-          text="스타트업, 강소기업 같은 성장주"
-          onClick={handleAnswerClick}
-        />
+        <ZbtiHeader backLink="/zbti"/>
+        <Container>
+          <Question text="내가 처음으로 보유한 주식은?" />
+          <ImgContainer>
+            <img
+              src={Icon}
+              alt="icon"
+              className="icon"
+              loading="lazy"
+              decoding="async"
+            />
+          </ImgContainer>
+          <Answer text="삼성전자, 테슬라와 같은 대형주" onClick={handleAnswerClick} />
+          <Answer text="스타트업, 강소기업 같은 성장주" onClick={handleAnswerClick} />
+        </Container>
       </Wrapper>
     </PageTransition>
   );
@@ -49,7 +45,17 @@ const Wrapper = styled.div`
   }
 `;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+`; 
+
+
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 10px 0 30px;
+  max-height: 350px;
 `;

@@ -16,25 +16,27 @@ function Problem8() {
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader />
-        <Question text="이럴 리 없어. 내 주식이 모두 하락하고 있다. 당신의 선택은?" />
-        <ImgContainer>
-          <img
-            src={Icon}
-            alt="icon"
-            className="icon"
-            loading="lazy"
-            decoding="async"
+        <ZbtiHeader backLink="/zbti"/>
+        <Container>
+          <Question text="이럴 리 없어. 내 주식이 모두 하락하고 있다. 당신의 선택은?" />
+          <ImgContainer>
+            <img
+              src={Icon}
+              alt="icon"
+              className="icon"
+              loading="lazy"
+              decoding="async"
+            />
+          </ImgContainer>
+          <Answer
+            text="안된다면 자식한테 물려주지. 믿고 기다리자."
+            onClick={handleAnswerClick}
           />
-        </ImgContainer>
-        <Answer
-          text="안된다면 자식한테 물려주지. 믿고 기다리자."
-          onClick={handleAnswerClick}
-        />
-        <Answer
-          text="내 생각이 시장과 다르면 오늘이라도 파는게 맞아."
-          onClick={handleAnswerClick}
-        />
+          <Answer
+            text="내 생각이 시장과 다르면 오늘이라도 파는게 맞아."
+            onClick={handleAnswerClick}
+          />
+        </Container>
       </Wrapper>
     </PageTransition>
   );
@@ -48,7 +50,17 @@ const Wrapper = styled.div`
   }
 `;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+`; 
+
+
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 10px 0 30px;
+  max-height: 350px;
 `;

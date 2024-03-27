@@ -16,25 +16,27 @@ function Problem6() {
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader />
-        <Question text="아파트 주민회의에서 주민이 B주식은 오른다고 무조건 사라고 했다." />
-        <ImgContainer>
-          <img
-            src={Icon}
-            alt="icon"
-            className="icon"
-            loading="lazy"
-            decoding="async"
+        <ZbtiHeader backLink="/zbti"/>
+        <Container>
+          <Question text="아파트 주민회의에서 주민이 B주식은 오른다고 무조건 사라고 했다." />
+          <ImgContainer>
+            <img
+              src={Icon}
+              alt="icon"
+              className="icon"
+              loading="lazy"
+              decoding="async"
+            />
+          </ImgContainer>
+          <Answer
+            text="오른다는 데는 이유가 있지. 바로 100주 매수"
+            onClick={handleAnswerClick}
           />
-        </ImgContainer>
-        <Answer
-          text="오른다는 데는 이유가 있지. 바로 100주 매수"
-          onClick={handleAnswerClick}
-        />
-        <Answer
-          text="아직 오를 때가 아니다. 내 소신을 지키자."
-          onClick={handleAnswerClick}
-        />
+          <Answer
+            text="아직 오를 때가 아니다. 내 소신을 지키자."
+            onClick={handleAnswerClick}
+          />
+        </Container>
       </Wrapper>
     </PageTransition>
   );
@@ -44,11 +46,21 @@ export default Problem6;
 
 const Wrapper = styled.div`
   .icon {
-    width: 400px;
+    width: 370px;
   }
 `;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+`; 
+
 
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 10px 0 30px;
+  max-height: 350px;
 `;

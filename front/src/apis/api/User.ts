@@ -1,5 +1,6 @@
 // import { REACT_APP_HOME_URL } from "../constants";
 import { axios } from "../utils/axios";
+import { useState, useEffect } from "react";
 
 const REST_USER_API = `/user`;
 const REACT_APP_HOME_URL = 'http://localhost:8089';
@@ -9,7 +10,8 @@ export async function loginUser(userId: String, userPw: String) {
   try {
     const response = await axios.post(
       `${REACT_APP_HOME_URL}/login`, 
-      { userId, userPw },)
+      { userId, userPw },
+      {withCredentials: true},)
       .then(res => {
       localStorage.setItem("access", res.headers['access']);
       
@@ -26,9 +28,11 @@ export async function loginUser(userId: String, userPw: String) {
 export async function logoutUser() {
   try {
     const response = await axios.post(
-      `${REACT_APP_HOME_URL}/logout`,)
-      .then(res => {
-      localStorage.removeItem("access");      
+      `${REACT_APP_HOME_URL}/logout`,
+      {},
+      {withCredentials: true},)
+      .then(res => {      
+      localStorage.removeItem("access");
       return res;
     });
     

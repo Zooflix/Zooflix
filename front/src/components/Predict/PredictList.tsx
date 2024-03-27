@@ -56,6 +56,7 @@ function PredictList(props: PredictProps) {
     }
     try {
       await deletePredict(pdNo);
+      window.location.reload();
     } catch (error) {
       console.log("Error deleting data:", error);
     }
@@ -77,6 +78,7 @@ function PredictList(props: PredictProps) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = (userName: string) => {
+    setSelectUserName(userName);
     setIsModalOpen(true);
   };
 
@@ -92,22 +94,15 @@ function PredictList(props: PredictProps) {
             pdResult={item.pdResult}
           >
             <Noncllick>
-              {/* 모달 */}
-              <UserDetailModal
-                isModalOpen={isModalOpen}
-                closeModal={closeModal}
-                userName={item.userName}
-              />
-              <p style={{ width: "100px" }}>{item.stockName}</p>
+              <p style={{ width: "150px" }}>{item.stockName}</p>
               <p
-                style={{ width: "100px" }}
+                style={{ width: "120px", cursor: "pointer" }}
                 onClick={() => openModal(item.userName)}
               >
-                {item.userName}
+                <b>{item.userName}</b>
               </p>
-
-              <p style={{ width: "100px" }}>{item.pdDate}</p>
-              <p style={{ width: "100px" }}>
+              <p style={{ width: "110px" }}>{item.pdDate}</p>
+              <p style={{ width: "130px" }}>
                 {item.pdValue}
                 <span
                   style={{
@@ -118,6 +113,11 @@ function PredictList(props: PredictProps) {
                   {item.pdUpDown ? "▲" : "▼"}
                 </span>
               </p>
+              <Result style={{color: item.pdResult==="성공"? "#73E369": "#B7B7B7",
+            borderColor: item.pdResult==="성공"? "rgba(115, 227, 105, 0.3)": "rgba(183, 183, 183, 0.3)",
+            borderStyle: item.pdResult === "성공" || item.pdResult === "실패" ? "solid" : "none",
+            backgroundColor: item.pdResult === "성공" || item.pdResult === "실패" ? "white" : "transparent",
+            }}>{item.pdResult}</Result>
 
               <button
                 onClick={() =>
@@ -135,7 +135,6 @@ function PredictList(props: PredictProps) {
                 />
               </button>
             </Noncllick>
-
             <Click isOpen={openItems.includes(item.pdNo)}>
               <Content>{item.pdContent}</Content>
               <FeedIcon>
@@ -150,6 +149,14 @@ function PredictList(props: PredictProps) {
             </Click>
           </Feed>
         ))}
+        {/* 모달 */}
+        {props.currentPage && (
+          <UserDetailModal
+            isModalOpen={isModalOpen}
+            closeModal={closeModal}
+            userName={selectUserName}
+          />
+        )}
     </Wrapper>
   );
 }
@@ -185,6 +192,7 @@ const Feed = styled.div<FeedProps>`
 
 const Noncllick = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-evenly;
   p {
     width: "100px";
@@ -205,3 +213,15 @@ const FeedIcon = styled.div`
 const Content = styled.div`
   overflow: hidden;
 `;
+
+const Result = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  margin-right: 10px;
+  font-size: 13px;
+  border-radius: 9px;
+  height: 20px;
+  border-width: 2px;
+`

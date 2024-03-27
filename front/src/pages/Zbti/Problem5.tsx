@@ -16,25 +16,27 @@ function Problem5() {
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader />
-        <Question text="오늘 꿈에서 A기업 호재가 나왔다." />
-        <ImgContainer>
-          <img
-            src={Icon}
-            alt="icon"
-            className="icon"
-            loading="lazy"
-            decoding="async"
+        <ZbtiHeader backLink="/zbti"/>
+        <Container>
+          <Question text="오늘 꿈에서 A기업 호재가 나왔다." />
+          <ImgContainer>
+            <img
+              src={Icon}
+              alt="icon"
+              className="icon"
+              loading="lazy"
+              decoding="async"
+            />
+          </ImgContainer>
+          <Answer
+            text="무조건 사! 이건 수익률 백퍼 높아"
+            onClick={handleAnswerClick}
           />
-        </ImgContainer>
-        <Answer
-          text="무조건 사! 이건 수익률 백퍼 높아"
-          onClick={handleAnswerClick}
-        />
-        <Answer
-          text="아니야. 꿈은 꿈일뿐 정보를 더 찾아보자"
-          onClick={handleAnswerClick}
-        />
+          <Answer
+            text="아니야. 꿈은 꿈일뿐 정보를 더 찾아보자"
+            onClick={handleAnswerClick}
+          />
+        </Container>
       </Wrapper>
     </PageTransition>
   );
@@ -44,11 +46,21 @@ export default Problem5;
 
 const Wrapper = styled.div`
   .icon {
-    width: 400px;
+    width: 370px;
   }
 `;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+`; 
+
 
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 10px 0 30px;
+  max-height: 350px;
 `;
