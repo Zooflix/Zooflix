@@ -44,6 +44,39 @@ elif platform.system() == 'Darwin':
 else:
     plt.rc('font', family='NanumGothic')
 
+#
+# 주요 지표 추출 (혜진 + 수민)
+#
+@app.get("/")
+async def get_indices():
+    today = datetime.now().strftime('%Y-%m-%d')
+
+    kospi_data = fdr.DataReader('KS11', today, today)
+    kosdaq_data = fdr.DataReader('KQ11', today, today)
+    dau_data = fdr.DataReader('DJI', today, today)
+    # nasdaq_data = fdr.DataReader('IXIC', today, today)
+    # us500_data = fdr.DataReader('US500', today, today)
+    # kospi50_data = fdr.DataReader('KS50', today, today)
+    # kospi100_data = fdr.DataReader('KS100', today, today)
+    usd_krw_data = fdr.DataReader('USD/KRW', today, today)
+
+    kospi_index = kospi_data.iloc[0]['Close']
+    kosdaq_index = kosdaq_data.iloc[0]['Close']
+    dau_index = dau_data.iloc[0]['Close']
+    # nasdaq_index = nasdaq_data.iloc[0]['Close']
+    # us500_index = us500_data.iloc[0]['Close']
+    # kospi50_index = kospi50_data.iloc[0]['Close']
+    # kospi100_index = kospi100_data.iloc[0]['Close']
+    usd_krw_rate = usd_krw_data.iloc[0]['Close']
+
+    return {
+        "date": today,
+        "KOSPI": kospi_index,
+        "KOSDAQ": kosdaq_index,
+        "USD/KRW": usd_krw_rate,
+    }
+
+
 
 #
 # 전체목록 가져오기
