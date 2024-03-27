@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin("*")
+
 @RequestMapping("/stock")
 public class StockSubscribeController {
     private final StockSubscribeService service;
