@@ -230,6 +230,9 @@ public class PredictService {
         List<String> dateList = predictRepository.findPdDateByUserNo(userNo, stockName);
         List<String> valueList = predictRepository.findPdValueByUserNo(userNo, stockName);
         List<String> resultList = predictRepository.findPdResultByUserNo(userNo, stockName);
+        if(resultList.isEmpty()){
+            return getGraph(stockName);
+        }
         List<Float> valueListF = new ArrayList<>();
         for (String valueString : valueList) {
             Float value = Float.parseFloat(valueString);
