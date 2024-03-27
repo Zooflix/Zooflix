@@ -42,7 +42,7 @@ function Intro() {
 
   useEffect(() => {
     if (isVisible1) {
-      controls1.start({ opacity: 1, x: 0, transition: { duration: 1.3 } });
+      controls1.start({ opacity: 1, x: 0, transition: { duration: 1.6 } });
     } else {
       controls1.start({ opacity: 0.5, x: -300 });
     }
@@ -50,7 +50,7 @@ function Intro() {
 
   useEffect(() => {
     if (isVisible2) {
-      controls2.start({ opacity: 1, x: 0, transition: { duration: 1.3 } });
+      controls2.start({ opacity: 1, x: 0, transition: { duration: 1.6 } });
     } else {
       controls2.start({ opacity: 0.5, x: 400 });
     }
@@ -58,7 +58,7 @@ function Intro() {
 
   useEffect(() => {
     if (isVisible3) {
-      controls3.start({ opacity: 1, x: 0, transition: { duration: 1.3 } });
+      controls3.start({ opacity: 1, x: 0, transition: { duration: 1.6 } });
     } else {
       controls3.start({ opacity: 0.5, x: -300 });
     }
@@ -158,7 +158,9 @@ const Margin = styled.div`
   margin-top: 50px;
 `;
 
-const LandingPage2 = styled.div``;
+const LandingPage2 = styled.div`
+  margin-top: 40px;
+`;
 
 const ButtonDiv = styled.div`
   button {
