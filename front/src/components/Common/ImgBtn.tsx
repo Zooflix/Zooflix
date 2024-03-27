@@ -60,7 +60,9 @@ const Button = styled.button`
     display: block; /* hover 시에만 정보창을 표시합니다. */
   }
 `;
-const ButtonImg = styled.img``;
+const ButtonImg = styled.img`
+  cursor: pointer;
+`;
 
 const Information = styled.div`
   display: none; /* 기본적으로는 숨깁니다. */

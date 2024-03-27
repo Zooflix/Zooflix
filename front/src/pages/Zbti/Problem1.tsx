@@ -17,22 +17,27 @@ function Problem1() {
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader />
-        <Question text="주식 투자를 시작해보려고 한다. 얼마까지 투자 가능한가?" />
-        <ImgContainer>
-          <img
-            src={Icon}
-            alt="icon"
-            className="icon"
-            loading="lazy"
-            decoding="async"
+        <ZbtiHeader backLink="/zbti"/>
+        <Container>
+          <Question text="주식 투자를 시작해보려고 한다. 얼마까지 투자 가능한가?" />
+          <ImgContainer>
+            <img
+              src={Icon}
+              alt="icon"
+              className="icon"
+              loading="lazy"
+              decoding="async"
+            />
+          </ImgContainer>
+          <Answer
+            text="마이너스 통장까지 풀베팅!"
+            onClick={handleAnswerClick}
           />
-        </ImgContainer>
-        <Answer text="마이너스 통장까지 풀베팅!" onClick={handleAnswerClick} />
-        <Answer
-          text="일단 삼성전자 한 주부터 조심조심"
-          onClick={handleAnswerClick}
-        />
+          <Answer
+            text="일단 삼성전자 한 주부터 조심조심"
+            onClick={handleAnswerClick}
+          />
+        </Container>
       </Wrapper>
     </PageTransition>
   );
@@ -42,11 +47,21 @@ export default Problem1;
 
 const Wrapper = styled.div`
   .icon {
-    width: 300px;
+    width: 370px;
   }
 `;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+`; 
+
 
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 10px 0 30px;
+  max-height: 350px;
 `;

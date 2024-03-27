@@ -43,6 +43,8 @@ function App() {
       "/problem6",
       "/problem7",
       "/problem8",
+      "/zbti",
+      "/loading",
     ].includes(pathname);
   };
 
