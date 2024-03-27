@@ -66,7 +66,7 @@ const Information = styled.div`
   display: none; /* 기본적으로는 숨깁니다. */
   position: absolute; /* 절대 위치로 설정하여 겹쳐지게 합니다. */
   top: 110%;
-  left: 0;
+  left: 100%;
   z-index: 999; /* 다른 요소 위에 나타나도록 z-index를 설정합니다. */
   background-color: lightgray;
   color: gray;
