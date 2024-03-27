@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-
 public class PredictController {
 
     private final PredictService predictService;
