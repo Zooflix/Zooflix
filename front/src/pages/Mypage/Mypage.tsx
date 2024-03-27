@@ -14,9 +14,11 @@ import { useEffect } from "react";
 import {
     getMyInfo,
     getMyPredictList,
+    getMyStockList,
     getMySubscribeList,
 } from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
+import { stockSubListState } from "../../Store/StockSubscribeState";
 
 function Mypage() {
     const info = "내 정보";
@@ -29,10 +31,13 @@ function Mypage() {
         myPageSubscribeListState
     );
 
+    const [myStockList, setMyStockList] = useRecoilState(stockSubListState);
+
     const navigate = useNavigate();
 
     // const accessToken = localStorage.getItem('accessToken');
     const userNo = 2;
+    const userId = "ssafy1";
 
     useEffect(() => {
         // if(!accessToken){
@@ -68,6 +73,18 @@ function Mypage() {
                 setMyPageSubscribeList(data);
             } catch (error) {
                 console.log("내가 구독한 사람 목록 불러오기 실패");
+                console.error(error);
+            }
+
+            //내 주식 구독 목록
+            try {
+                const data = await getMyStockList(userId);
+                setMyStockList(data);
+                console.log(data);
+                console.log(myStockList.length);
+                // console.log(data.length);
+            } catch (error) {
+                console.log("내 주식 구독 목록 불러오기 실패");
                 console.error(error);
             }
         };

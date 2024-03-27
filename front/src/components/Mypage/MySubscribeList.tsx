@@ -3,6 +3,7 @@ import styled from "styled-components";
 import MySubscription from "./MySubscription";
 import { useRecoilState } from "recoil";
 import { myPageSubscribeListState } from "../../Store/MyPageState";
+import SubscribeStockList from "../../components/Mypage/SubscribeStockList";
 
 function MySubscribeList() {
     const [myPageSubscribeList, setMyPageSubScribeList] = useRecoilState(
@@ -23,25 +24,7 @@ function MySubscribeList() {
                 <LeftSide>
                     내가 정기 구독 중인 주식
                     <CardSection>
-                        <Card>
-                            {/* 더미 코드 */}
-                            <div>
-                                <h3>삼성전자</h3>
-                                <p>2020년 12월 1일</p>
-                            </div>
-                        </Card>
-                        <Card>
-                            <div>
-                                <h3>삼성화재</h3>
-                                <p>2020년 12월 1일</p>
-                            </div>
-                        </Card>
-                        <Card>
-                            <div>
-                                <h3>삼성생명</h3>
-                                <p>2020년 12월 1일</p>
-                            </div>
-                        </Card>
+                        <SubscribeStockList></SubscribeStockList>
                     </CardSection>
                 </LeftSide>
                 <RightSide>
