@@ -17,5 +17,7 @@ export default BackBtn;
 const Wrapper = styled.div`
   img {
     width: 25px;
+    margin-left: 10px;
+    margin-top: 7px;
   }
 `;

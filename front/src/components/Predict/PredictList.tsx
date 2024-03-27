@@ -78,6 +78,7 @@ function PredictList(props: PredictProps) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = (userName: string) => {
+    setSelectUserName(userName);
     setIsModalOpen(true);
   };
 
@@ -95,17 +96,11 @@ function PredictList(props: PredictProps) {
             <Noncllick>
               <p style={{ width: "150px" }}>{item.stockName}</p>
               <p
-                style={{ width: "120px" }}
+                style={{ width: "120px", cursor: "pointer" }}
                 onClick={() => openModal(item.userName)}
               >
                 <b>{item.userName}</b>
               </p>
-              {/* 모달 */}
-              <UserDetailModal
-                isModalOpen={isModalOpen}
-                closeModal={closeModal}
-                userName={item.userName}
-              />
               <p style={{ width: "110px" }}>{item.pdDate}</p>
               <p style={{ width: "130px" }}>
                 {item.pdValue}
@@ -154,6 +149,14 @@ function PredictList(props: PredictProps) {
             </Click>
           </Feed>
         ))}
+        {/* 모달 */}
+        {props.currentPage && (
+          <UserDetailModal
+            isModalOpen={isModalOpen}
+            closeModal={closeModal}
+            userName={selectUserName}
+          />
+        )}
     </Wrapper>
   );
 }
