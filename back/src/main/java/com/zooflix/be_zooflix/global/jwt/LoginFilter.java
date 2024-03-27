@@ -80,7 +80,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //유저 정보. getName 으로 username 꺼내옴.
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         int userNo = customUserDetails.getUserNo();
-        String username = authentication.getName();
+        String userId = authentication.getName();
 
         // 반복자 사용해서 authentication 에서 role 값 가져오기 가능.
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -89,11 +89,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
         //토큰 생성
-        String access = jwtUtil.createJwt("access", userNo, username, role, 600000L);
-        String refresh = jwtUtil.createJwt("refresh", userNo, username, role, 86400000L);
+        String access = jwtUtil.createJwt("access", userNo, userId, role, 600000L);
+        String refresh = jwtUtil.createJwt("refresh", userNo, userId, role, 86400000L);
 
         //Refresh 토큰 저장
-        addRefreshEntity(username, refresh, 86400000L);
+        addRefreshEntity(userId, refresh, 86400000L);
 
         //응답 설정
         response.setHeader("access", access); // 응답 헤더에 access 넣어줌.
@@ -124,7 +124,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         Cookie cookie = new Cookie(key, value); // 키랑 value로 쿠키 생성.
         cookie.setMaxAge(24*60*60);
-        //cookie.setSecure(true); // https 통신 진행할 경우 추가
+        cookie.setSecure(true); // https 통신 진행할 경우 추가
         //cookie.setPath("/"); // 쿠키 적용 범위도 설정 가능
         cookie.setHttpOnly(true); // 이걸로 자바 스크립트로 쿠키 접근 못하게 막기.
 

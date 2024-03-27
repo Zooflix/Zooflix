@@ -37,11 +37,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     //구독한 사람 목록을 온도로 내림차순 정렬
     @Query("select new com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto(u.userName, u.userTemperature) from User u  order by u.userTemperature")
     List<MyInfoDto> findAllByTemperature();
-    @Query(nativeQuery = true, value = "select u.user_no as userNo, u.user_name as userName, u.predict_count as predictCount, u.success_count as successCount, u.fail_count as failCount, u.user_temperature as userTemperature, u.user_zbti as userZbti, u.success_streak as successStreak from user u order by user_temperature desc limit 3")
+    @Query(nativeQuery = true, value = "select u.user_no as userNo, u.user_name as userName, u.predict_count as predictCount, u.success_count as successCount, u.fail_count as failCount, u.user_temperature as userTemperature, u.user_zbti as userZbti, u.success_streak as successStreak, u.user_temperature as cnt from user u order by user_temperature desc limit 3")
     List<UserRankingKeyProjection> getUserRanking();
-    @Query(nativeQuery = true, value = "select u.user_no as userNo, u.user_name as userName, u.predict_count as predictCount, u.success_count as successCount, u.fail_count as failCount, u.user_temperature as userTemperature, u.user_zbti as userZbti, u.success_streak as successStreak from user u order by success_count desc limit 1")
+    @Query(nativeQuery = true, value = "select u.user_no as userNo, u.user_name as userName, u.predict_count as predictCount, u.success_count as successCount, u.fail_count as failCount, u.user_temperature as userTemperature, u.user_zbti as userZbti, u.success_streak as successStreak, u.success_count as cnt from user u order by success_count desc limit 1")
     UserRankingKeyProjection getMostPredictUser();
-    @Query(nativeQuery = true, value = "select u.user_no as userNo, u.user_name as userName, u.predict_count as predictCount, u.success_count as successCount, u.fail_count as failCount, u.user_temperature as userTemperature, u.user_zbti as userZbti, u.success_streak as successStreak from user u order by fail_count desc limit 1")
+    @Query(nativeQuery = true, value = "select u.user_no as userNo, u.user_name as userName, u.predict_count as predictCount, u.success_count as successCount, u.fail_count as failCount, u.user_temperature as userTemperature, u.user_zbti as userZbti, u.success_streak as successStreak, u.fail_count as cnt  from user u order by fail_count desc limit 1")
     UserRankingKeyProjection getMostWrongPredictUser();
 
     @Query("SELECT new com.zooflix.be_zooflix.domain.user.dto.UserInfoDto(u.userNo, u.userId, u.userName, u.predictCount, u.successCount, u.userTemperature, " +
