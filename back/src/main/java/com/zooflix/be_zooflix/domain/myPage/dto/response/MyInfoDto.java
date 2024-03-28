@@ -8,6 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 public class MyInfoDto {
     private int userNo;                 //유저 인덱스
+    private String userId;              //유저 아이디
+    private String userPw;              //유저 비밀번호
     private String userName;            //유저 닉네임
     private double userTemperature;     //유저 온도
     private int predictCount;           //총 예측 횟수
