@@ -3,8 +3,7 @@ import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 
 import { deletePredict } from "../../apis/api/Predict";
-import { report } from "../../apis/api/Report";
-import { selectUserNoState } from "../../Store/PredictState";
+import { selectedPdNoState, selectUserNoState } from "../../Store/PredictState";
 import { selectStockNameState } from "../../Store/PredictState";
 import { selectUserNameState } from "../../Store/PredictState";
 
@@ -13,6 +12,7 @@ import Reportbtn from "../../assets/img/button/Reportbtn.svg";
 import Feedbtn from "../../assets/img/button/Feedbtn.svg";
 import FeedOpenbtn from "../../assets/img/button/FeedOpenbtn.svg";
 import UserDetailModal from "./UserDetailModal";
+import ReportModal from "./ReportModal";
 
 type FeedProps = {
   pdUpDown: boolean;
@@ -30,6 +30,8 @@ function PredictList(props: PredictProps) {
     useRecoilState(selectStockNameState);
   const [selectUserName, setSelectUserName] =
     useRecoilState(selectUserNameState);
+
+  const [selectedPdNo, setSelectedPdNo] = useRecoilState(selectedPdNoState);
 
   const toggleContent = (
     pdNo: number,
@@ -63,20 +65,6 @@ function PredictList(props: PredictProps) {
     }
   };
 
-  //신고
-  const handleReport = async (userNo: number, pdNo: number) => {
-    const isReport = window.confirm("글을 신고하시겠습니까?");
-    if (!isReport) {
-      return;
-    }
-    try {
-      await report(userNo, pdNo);
-      window.location.reload();
-    } catch (error) {
-      console.log("Error deleting data:", error);
-    }
-  };
-
   useEffect(() => {
     setOpenItems([]);
   }, [props.currentPage]);
@@ -97,7 +85,14 @@ function PredictList(props: PredictProps) {
     setIsModalOpen(true);
   };
 
+  //신고모달 : 2
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const openModal2 = (userNo: number, pdNo: number) => {
+    setIsModalOpen2(true);
+  };
+
   const closeModal = () => setIsModalOpen(false);
+  const closeModal2 = () => setIsModalOpen2(false);
 
   return (
     <Wrapper>
@@ -176,7 +171,7 @@ function PredictList(props: PredictProps) {
                 <img
                   src={Reportbtn}
                   alt="신고"
-                  onClick={() => handleReport(item.userNo, item.pdNo)}
+                  onClick={() => openModal2(item.userNo, item.pdNo)}
                 />
               </FeedIcon>
             </Click>
@@ -184,11 +179,19 @@ function PredictList(props: PredictProps) {
         ))}
       {/* 모달 */}
       {props.currentPage && (
-        <UserDetailModal
-          isModalOpen={isModalOpen}
-          closeModal={closeModal}
-          userName={selectUserName}
-        />
+        <>
+          <UserDetailModal
+            isModalOpen={isModalOpen}
+            closeModal={closeModal}
+            userName={selectUserName}
+          />
+          <ReportModal
+            isModalOpen={isModalOpen2}
+            closeModal={closeModal2}
+            userNo={selectUserNo}
+            pdNo={selectedPdNo}
+          />
+        </>
       )}
     </Wrapper>
   );

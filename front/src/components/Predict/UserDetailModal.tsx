@@ -15,7 +15,6 @@ const StyledModal = styled(Modal)`
 `;
 
 function UserDetailModal({ userName, isModalOpen, closeModal }: ModalProps) {
-  console.log(userName);
   return (
     <StyledModal open={isModalOpen} onClose={closeModal}>
       <Container>
@@ -54,7 +53,7 @@ const Container = styled.div`
 
 const ButtonContainer = styled.div`
   button {
-    margin : 20px;
+    margin: 20px;
   }
 `;
 const SubscribeButton = styled.button`
