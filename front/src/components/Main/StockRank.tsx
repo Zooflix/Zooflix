@@ -25,7 +25,7 @@ function StockRank({ stockRank }: Props) {
               <StockItem key={index}>
                 <Title>
                   <img src={rankArr[index]} height="50px" />
-                  {stock.StockName}
+                  {stock.stockName}
                 </Title>
                 <div>{stock.subscriberCnt}명이 구독중</div>
               </StockItem>

@@ -11,6 +11,9 @@ import { getRankingList } from "../../apis/api/Main";
 
 function Main() {
   const [mainData, setMainData] = useState({
+    kospi: 0,
+    kosdaq: 0,
+    usd: 0,
     zustraRank: [
       {
         userNo: null,
@@ -82,24 +85,26 @@ function Main() {
     stockRank: [
       {
         stockCode: null,
-        StockName: null,
+        stockName: null,
         subscriberCnt: null,
       },
       {
         stockCode: null,
-        StockName: null,
+        stockName: null,
         subscriberCnt: null,
       },
       {
         stockCode: null,
-        StockName: null,
+        stockName: null,
         subscriberCnt: null,
       },
     ],
   });
 
   useEffect(() => {
+    console.log("main");
     handleList();
+    console.log(mainData);
   }, []);
 
   const handleList = async () => {
