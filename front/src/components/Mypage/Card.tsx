@@ -34,9 +34,11 @@ const SubscribeStockListItem: React.FC<ItemProps> = ({ card }) => {
                         <StockName>{card.stockName}</StockName>
                         <Content>{}</Content>
                     </Item> : 
-                    <Content>
-                        {card.stockCode}
-                    </Content>}
+                    <Item>
+                        <StockName>{card.stockName}</StockName>
+                        <Content>{}</Content>
+                    </Item>
+                }
             </button>
         </div>
     );

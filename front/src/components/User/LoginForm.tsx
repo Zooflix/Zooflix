@@ -10,6 +10,8 @@ import BackBtn from "../Common/BackBtn";
 function LoginForm() {
   const navigate = useNavigate();
 
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
   const [userId, setUserId] = useRecoilState(userIdState);
   const [userPw, setUserPw] = useRecoilState(userPwState);
 
@@ -26,8 +28,10 @@ function LoginForm() {
 
   const handleLogin = async () => {
     try {
-      const result = await loginUser(userId, userPw);
+      const result = await loginUser(id, password);
       if (result == 200) {
+        setUserId(id);
+        setUserPw(password);
         navigate("/main");
       } else {
         alert("아이디나 비밀번호를 확인해주세요.");
@@ -48,14 +52,14 @@ function LoginForm() {
           <input
             type="text"
             placeholder="아이디를 입력하세요"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
+            value={id}
+            onChange={(e) => setId(e.target.value)}
           />
           <input
             type="password"
             placeholder="비밀번호를 입력하세요"
-            value={userPw}
-            onChange={(e) => setUserPw(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </InputContainer>
         <button onClick={handleLogin}>로그인 하기</button>
