@@ -65,14 +65,14 @@ function ZustraRank({ rankData }: Props) {
                     <Character3d
                       name={item.userZbti || "Bear"}
                       characterScale={0.35}
-                      canvasWidth={80}
+                      canvasWidth={70}
                       canvasHeight={100}
                     />
                   ) : (
                     <Character3d
                       name={item.userZbti || "Bear"}
                       characterScale={0.35}
-                      canvasWidth={80}
+                      canvasWidth={70}
                       canvasHeight={100}
                       action="turn"
                     />
@@ -206,7 +206,6 @@ const Graph = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 50px;
-  margin-left: 50px;
 `;
 
 const InnerGraph = styled.div<InnerGraphProps>`
@@ -228,14 +227,14 @@ const Margin = styled.div`
 `;
 
 const ToggleButton = styled.div`
-  margin-left: 30px;
+  margin: 20px;
   font-size: 12px;
   color: gray;
   cursor: pointer;
 `;
 
 const Button = styled.div`
-  margin-right: 30px;
+  margin-right: 50px;
   font-size: 12px;
   color: black;
   width: 80px;
@@ -252,11 +251,13 @@ const Button = styled.div`
 const ButtonDiv = styled.div`
   display: flex;
   flex-direction: row;
+  margin-right: 20px;
 `;
 
 const UserRank = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const fadeIn = keyframes`
