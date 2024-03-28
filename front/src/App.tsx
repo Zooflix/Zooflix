@@ -50,13 +50,13 @@ function App() {
 
   return (
     <>
-      <CharacterCursor
+      {/* <CharacterCursor
         name="Bear"
         characterScale={0.4}
         action="turn"
         canvasHeight={70}
         canvasWidth={50}
-      />
+      /> */}
       <AppWrapper>
         <AnimatePresence>
           {showHeaderandSide() && <Header />}
