@@ -32,16 +32,6 @@ export const getUserSubscribeList = async (userNo: Number) => {
     }
 };
 
-// 유저 구독 취소
-export const deleteUserSubscribe = async (subscribeNo: Number) => {
-    try {
-        const response = await axios.delete(`${REST_MYPAGE_API}/subscribe/delete/${subscribeNo}`);
-        console.log(response.data);
-        return response.data;
-    } catch (error) {
-        console.log(error);        
-    }
-}
 
 // 유저 주식 구독 목록
 export const getUserStockList = async (userId: String) => {

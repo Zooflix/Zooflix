@@ -3,18 +3,19 @@ import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import BearImg from "../../assets/img/Zbti/BearImg.svg";
 import { useRecoilState } from "recoil";
-import { myPageInfoState } from "../../Store/MyPageState";
+import { userPageInfoState } from "../../Store/UserPageState";
 
 ChartJS.register(ArcElement, Tooltip);
 
 function DoughnutChart() {
-  const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+  const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
 
   const Data = {
     datasets: [
       {
-        data: [myPageInfo.userTemperature, 100 - myPageInfo.userTemperature],
-        backgroundColor: ["#7AD3FF", "rgba(122,211,255,0.1)"],
+        data: [userPageInfo.userTemperature, 100 - userPageInfo.userTemperature],
+        backgroundColor: ["#7AD3FF", "rgba(122,211,255,0.3)"],
+        // borderColor: ["#FF6384", "#7AD3FF"],
         borderRadius: 10,
         circumference: 270,
         rotation: 225,
@@ -24,13 +25,7 @@ function DoughnutChart() {
       },
     ],
   };
-  const Options = {
-    plugins: {
-      tooltip: {
-        enabled: false,
-      },
-    },
-  };
+  const Options = {};
 
   return (
     <ChartWrapper>
