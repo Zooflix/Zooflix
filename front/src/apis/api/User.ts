@@ -2,7 +2,7 @@
 import { axios } from "../utils/axios";
 import { useState, useEffect } from "react";
 
-const REST_USER_API = `/user`;
+const REST_USER_API = `/auth`;
 const REACT_APP_HOME_URL = 'http://localhost:8089';
 
 //회원 로그인
@@ -40,4 +40,51 @@ export async function logoutUser() {
   } catch (e) {
     console.log(e);
   } 
+}
+
+export async function signupUser(userId: String, userName: String, userPw: String, userAppKey: String, userSecretKey: String, userAccount: String) {
+  try {
+    
+    const response = await axios.post(
+      `${REST_USER_API}/signup`,
+      { userId, userName, userPw, userAppKey, userSecretKey, userAccount },      
+    )
+    .then(res => {
+      return res;
+    });
+    
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function idCheck(userId: String) {
+  try {
+    const response = await axios.post(
+      `${REST_USER_API}/id-check`,
+      { userId },)
+      .then(res => {
+        return res;
+    });
+    console.log(response);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function nameCheck(userName: String) {
+  try {
+    const response = await axios.post(
+      `${REST_USER_API}/name-check`,
+      { userName },)
+      .then(res => {
+        return res;
+    });
+    console.log(response);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
 }
