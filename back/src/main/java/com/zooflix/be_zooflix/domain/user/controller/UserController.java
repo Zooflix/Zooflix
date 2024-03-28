@@ -45,6 +45,12 @@ public class UserController {
         return ResponseEntity.ok(userService.postLogin(userLoginDto));
     }
 
+    @Operation(summary = "수정용 회원정보 가져오기")
+    @GetMapping("/update/info/{userId}")
+    public ResponseEntity<UserUpdateDto> selectUpdateUser(@PathVariable String userId) {
+        return ResponseEntity.ok(userService.getUpdateUserInfo(userId));
+    }
+
     @Operation(summary = "회원정보 수정")
     @PutMapping("/update/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable String userId, UserUpdateDto userUpdateDto) {

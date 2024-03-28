@@ -34,6 +34,7 @@ public class StockSubscribeService {
 
         if (user.getUserAppKey() == null) {
             user.userUpdateKey(
+                    user.getUserId(),   //추가됨
                     user.getUserName(),
                     user.getUserPw(),
                     request.getUserAppKey(),
