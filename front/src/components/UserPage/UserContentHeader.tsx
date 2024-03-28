@@ -1,17 +1,19 @@
 import { useState } from "react";
 import styled from "styled-components";
-import MyPredictList from "./MyPredictList";
-import MySubscribeList from "./MySubscribeList";
-import PredictList from "../../components/Predict/PredictList";
+import MySubscribeList from "../Mypage/MySubscribeList";
+import PredictList from "../Predict/PredictList";
 import { useRecoilState } from "recoil";
-import { myPagePredictListState } from "../../Store/MyPageState";
+import { userPageInfoState, userPagePredictListState } from "../../Store/UserPageState";
 
 interface ContentHeaderProps {}
 
-function ContentHeader(props: ContentHeaderProps) {
-    const [selectedTab, setSelectedTab] = useState<string>("my-predictions");
-    const [myPagePredictList, setMyPagePredictList] = useRecoilState(
-        myPagePredictListState
+function UserContentHeader(props: ContentHeaderProps) {
+    const [selectedTab, setSelectedTab] = useState<string>("user-predictions");
+    
+    const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
+
+    const [userPagePredictList, setUserPagePredictList] = useRecoilState(
+        userPagePredictListState
     );
 
     const handleTabClick = (tabName: string) => {
@@ -25,30 +27,32 @@ function ContentHeader(props: ContentHeaderProps) {
                     <ContentTabList>
                         <ContentTabListItem>
                             <ContentTabListItemSpan
-                                onClick={() => handleTabClick("my-predictions")}
-                                selected={selectedTab === "my-predictions"}
+                                onClick={() =>
+                                    handleTabClick("user-predictions")
+                                }
+                                selected={selectedTab === "user-predictions"}
                             >
-                                내가 쓴 예측 글
+                                {userPageInfo.userName} 님이 쓴 예측글
                             </ContentTabListItemSpan>
                         </ContentTabListItem>
                         <ContentTabListItem>
                             <ContentTabListItemSpan
                                 onClick={() =>
-                                    handleTabClick("my-subscriptions")
+                                    handleTabClick("user-subscriptions")
                                 }
-                                selected={selectedTab === "my-subscriptions"}
+                                selected={selectedTab === "user-subscriptions"}
                             >
-                                내 구독 정보
+                                {userPageInfo.userName} 님의  구독 정보
                             </ContentTabListItemSpan>
                         </ContentTabListItem>
                     </ContentTabList>
                 </ContentHeaderTab>
             </ContentTabHeader>
 
-            {selectedTab === "my-predictions" && (
-                <PredictList currentPage={myPagePredictList} />
+            {selectedTab === "user-predictions" && (
+                <PredictList currentPage={userPagePredictList} />
             )}
-            {selectedTab === "my-subscriptions" && <MySubscribeList />}
+            {selectedTab === "user-subscriptions" && <MySubscribeList />}
         </Wrapper>
     );
 }
@@ -89,4 +93,4 @@ const ContentTabListItemSpan = styled.span<{ selected: boolean }>`
     -webkit-font-smoothing: antialiased;
 `;
 
-export default ContentHeader;
+export default UserContentHeader;
