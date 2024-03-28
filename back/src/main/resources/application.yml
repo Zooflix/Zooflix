@@ -41,6 +41,7 @@ python:
       crawling: http://127.0.0.1:8000/radio/crawling/translation/endpoint
       summary: http://127.0.0.1:8000/radio/summary/endpoint
       tts: http://127.0.0.1:8000/radio/tts/endpoint
+    indices: http://127.0.0.1:8000/get_indices
   news:
     url: https://www.cnbc.com/world-markets/
   ppg:
