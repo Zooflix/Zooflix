@@ -30,15 +30,32 @@ const imgBtnStyle = {
 function Player() {
   const [isPaused, setIsPaused] = useRecoilState(isPausedState);
   const audioEl = useRef<HTMLAudioElement>(null);
+  const [currentUrl, setCurrentUrl] = useState('');
+  const [isClicked, setIsClicked] = useState(Boolean);
+  const [firstPlay, setFirstPlay] = useState(0);
 
   useEffect(() => {
-    ttsMaker();
-    setIsPaused(true);
+    setCurrentUrl(window.location.href);
+    setFirstPlay(0);
   }, []);
-
+  
   useEffect(() => {
     console.log(isPaused);
   }, [isPaused]);
+  
+  useEffect(() => {
+    console.log(currentUrl);
+    if (currentUrl === 'http://localhost:3000/radio') {
+      setIsPaused(true);
+    }
+  }, [currentUrl])
+
+  useEffect(() => {
+    if (isClicked && firstPlay===1) {
+      ttsMaker();
+    }
+  }, [isClicked])
+
 
   // audio 요소의 재생 완료 이벤트 처리
   useEffect(() => {
@@ -68,6 +85,8 @@ function Player() {
 
   const clickBtn = () => {
     setIsPaused(!isPaused);
+    setIsClicked(true);
+    setFirstPlay(firstPlay+1);
     if (!isPaused) {
       audioEl.current?.pause();
     } else {
