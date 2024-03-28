@@ -7,7 +7,9 @@ interface PasswordProps {
 function PasswordInput(props: PasswordProps) {
   return (
     <Wrapper>
-      <label className="small-title">{props.text}</label>
+      <label className="small-title">
+        {props.text==="APP 시크릿 키"? <Secret>{props.text}</Secret>: props.text }
+      </label>
       <InputContainer>
         <input type="password" placeholder={props.placeholder} />
       </InputContainer>
@@ -21,10 +23,17 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   .small-title {
-    padding-top: 20px;
-    margin-right: 30px;
+    width: 70px;
     font-weight: bold;
+    padding: 5px 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
+`;
+
+const Secret = styled.label`
+  word-break : keep-all;
 `;
 
 const InputContainer = styled.div`
@@ -45,7 +54,7 @@ const InputContainer = styled.div`
     border: none;
     margin-left: 10px;
     height: 40px;
-    width: 300px;
+    width: 250px;
   }
 
   input:focus {

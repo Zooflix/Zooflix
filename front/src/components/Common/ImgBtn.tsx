@@ -9,12 +9,8 @@ type ImgBtnProps = {
   onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
   disabled?: boolean;
   style?: React.CSSProperties;
-  information?: InformationProps;
+  children?: React.ReactNode;
 };
-
-type InformationProps = {
-  text: string;
-}
 
 function ImgBtn(props: ImgBtnProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -36,7 +32,7 @@ function ImgBtn(props: ImgBtnProps) {
         <ButtonImg src={props.src} style={props.style} />
         {props.src === Informationbtn && isHovered && (
           <Information>
-            {props.information?.text}
+            {props.children}
           </Information>
         )}
       </Button>
@@ -46,7 +42,9 @@ function ImgBtn(props: ImgBtnProps) {
 
 export default ImgBtn;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  color: #3d3d3d;
+`;
 
 const Button = styled.button`
   background-color: transparent;
@@ -68,13 +66,15 @@ const Information = styled.div`
   position: absolute; /* 절대 위치로 설정하여 겹쳐지게 합니다. */
   top: 110%;
   left: 100%;
-  z-index: 999; /* 다른 요소 위에 나타나도록 z-index를 설정합니다. */
+  z-index: 2; /* 다른 요소 위에 나타나도록 z-index를 설정합니다. */
   background-color: lightgray;
   color: gray;
   font-size: 12px;
-  padding: 7px;
-  width: 170px;
-  border-radius: 0 15px 15px 15px;
+  padding: 5px;
+  width: 150px;
+  border-radius: 0 10px 10px 10px;
   color: #4b4b4b;
   font-weight: bold;
+  word-break: keep-all;
+}
 `;

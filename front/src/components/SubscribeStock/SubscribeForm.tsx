@@ -23,19 +23,6 @@ const informationStyle = {
 
 function SubscribeForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentTime, setCurrentTime] = useState<string>("");
-
-  const setTime = async () => {
-    const today = new Date();
-
-    const formattedCurrentTime = `
-      ${today.getFullYear()}년
-      ${today.getMonth() + 1}월
-      ${today.getDate()}일
-      ${today.getHours()}시 ${today.getMinutes()}분
-    `;
-    setCurrentTime(formattedCurrentTime);
-  };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -47,8 +34,6 @@ function SubscribeForm() {
           <SearchInput />
           <SubscribeDateInput text="구독일" placeholder="구독일" />
           <QuantityInput text="수량" />
-          {/* <span className="highlighter">예상가격 <br/> {currentTime}</span>
-          <ImgBtn src={Informationbtn} style={informationStyle} information={{text: "✶ 현재 시장가X수량"}}/> */}
         </FirstContainer>
         <SecondContainer>
           <PasswordInput

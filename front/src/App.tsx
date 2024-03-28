@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
-import Mypage from "./pages/Mypage/Mypage";
+import Mypage from "./pages/MyPage/Mypage";
 import Radio from "./pages/Radio/Radio";
 import Main from "./pages/Main/Main";
 import SideNavBar from "./components/Common/SideNavBar";
@@ -25,6 +25,7 @@ import styled from "styled-components";
 import SubscribeStock from "./pages/SubscribeStock/SubscribeStock";
 import UpdateMyInfo from "./components/Mypage/UpdateMyInfo";
 import CharacterCursor from "./components/Character/CharacterCursor";
+import UserPage from "./pages/UserPage/Userpage";
 import ZbtiResult from "./pages/Zbti/ZbtiResult";
 
 function App() {
@@ -89,6 +90,8 @@ function App() {
             <Route path="/predict" element={<Predict />} />
 
             <Route path="/predict/create" element={<PredictCreate />} />
+
+            <Route path="/user-page" element={<UserPage />} />
           </Routes>
         </AnimatePresence>
       </AppWrapper>
