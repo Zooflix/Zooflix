@@ -1,5 +1,5 @@
 // import { REACT_APP_HOME_URL } from "../constants";
-import { axios } from "../utils/axios";
+import { axios, axiosPrivate } from "../utils/axios";
 import { useState, useEffect } from "react";
 
 const REST_USER_API = `/auth`;
@@ -28,7 +28,7 @@ export async function loginUser(userId: String, userPw: String) {
 // 수정용 회원 정보
 export async function updateUserInfo(userId: String){
   try {
-    const response = await axios.get(`/auth/update/info/${userId}`);
+    const response = await axiosPrivate.get(`${REST_USER_API}/update/info`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -55,6 +55,7 @@ export async function logoutUser() {
   } 
 }
 
+// 회원 가입
 export async function signupUser(userId: String, userName: String, userPw: String, userAppKey: String, userSecretKey: String, userAccount: String) {
   try {
     
@@ -72,6 +73,7 @@ export async function signupUser(userId: String, userName: String, userPw: Strin
   }
 }
 
+// 아이디 체크
 export async function idCheck(userId: String) {
   try {
     const response = await axios.post(
@@ -87,6 +89,7 @@ export async function idCheck(userId: String) {
   }
 }
 
+// 이름 체크
 export async function nameCheck(userName: String) {
   try {
     const response = await axios.post(

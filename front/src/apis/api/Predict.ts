@@ -1,4 +1,4 @@
-import { axios } from "../utils/axios";
+import { axios, axiosPrivate } from "../utils/axios";
 
 const REST_PREDICT_API = "http://localhost:8089/predict";
 
@@ -29,7 +29,7 @@ interface PredictReqDto {
 }
 export async function insertPredict(predictReqDto: PredictReqDto) {
     try {
-        const response = await axios.post(`${REST_PREDICT_API}`, predictReqDto);
+        const response = await axiosPrivate.post(`${REST_PREDICT_API}`, predictReqDto);
         return response.data;
     } catch (e) {
         console.log(e);

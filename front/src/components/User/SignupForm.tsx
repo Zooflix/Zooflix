@@ -42,6 +42,10 @@ function SignupForm() {
               }
               else {
                 if (isChecked) {
+                  if (userAppKey === '' || userSecretKey === '' || userAccount === '') {
+                    alert("APP KEY 정보를 전부 입력해주세요.");
+                    return;
+                  }
                   setUserAppKey(await securityAesEncode(userAppKey));
                   setUserSecretKey(await securityAesEncode(userSecretKey));
                   setUserAccount(await securityAesEncode(userAccount));
