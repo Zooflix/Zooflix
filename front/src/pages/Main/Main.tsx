@@ -115,7 +115,11 @@ function Main() {
 
   return (
     <MainWrapper>
-      <FlowBar />
+      <FlowBar
+        kospi={mainData.kospi}
+        kosdaq={mainData.kosdaq}
+        usd={mainData.usd}
+      />
       <Rank>
         <ZustraRank rankData={mainData.zustraRank} />
         <StockRank stockRank={mainData.stockRank} />
