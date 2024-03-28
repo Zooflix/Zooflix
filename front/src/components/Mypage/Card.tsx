@@ -27,7 +27,7 @@ const SubscribeStockListItem: React.FC<ItemProps> = ({ card }) => {
     // console.log(dateDiff);
 
     return (
-        <div>
+        <ItemContainer>
             <button onClick={handleClick}>
                 {isFront ? 
                     <Item>
@@ -35,25 +35,38 @@ const SubscribeStockListItem: React.FC<ItemProps> = ({ card }) => {
                         <Content>{}</Content>
                     </Item> : 
                     <Item>
-                        <StockName>{card.stockName}</StockName>
-                        <Content>{}</Content>
+                        <StockName>gd</StockName>
+                        <Content>gd</Content>
                     </Item>
                 }
             </button>
-        </div>
+        </ItemContainer>
     );
 };
 
 export default SubscribeStockListItem;
 
+const ItemContainer = styled.div`
+    width: 195px;
+    height: 140px;
+    display: flex;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`;
+
 const Item = styled.div`
-    width: 250px;
-    height: 170px;
+    width: 100%;
+    height: 100%;
     background-color: black;
     border: none;
     border-radius: 20px;
-    margin: 50px;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;
 
 const StockName = styled.h2`
