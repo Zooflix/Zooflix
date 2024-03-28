@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface InputProps {
-  text: string;
+  text?: string;
   placeholder: string;
 }
 
@@ -23,9 +23,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   label {
-    padding-top: 20px;
-    margin-right: 30px;
+    width: 50px;
     font-weight: bold;
+    padding: 5px 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `;
 

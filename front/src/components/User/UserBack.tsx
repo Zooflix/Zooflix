@@ -1,7 +1,13 @@
 import styled, { keyframes } from "styled-components";
 
+import LoginHeader from "../../components/User/LoginHeader";
+
 function UserBack() {
-  return <Wrapper></Wrapper>;
+  return (
+  <Wrapper>
+    <LoginHeader backLink="/main"/>
+  </Wrapper>
+  );
 }
 
 export default UserBack;
