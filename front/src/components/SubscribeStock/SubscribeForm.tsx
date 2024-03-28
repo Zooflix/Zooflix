@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { useState } from "react";
 
+// 이미지
+import Informationbtn from "../../assets/img/button/Informationbtn.svg";
+
+// 컴포넌트
+import SubscribeDetailModal from "./SubscribeDetailModal";
 import SearchInput from "./SearchInput";
 import PasswordInput from "./PasswordInput";
 import SquareBtn from "../Common/SquareBtn";
@@ -9,9 +14,12 @@ import GetIssued from "./GetIssued";
 import SubscribeDateInput from "./SubscribeDateInput";
 import ImgBtn from "../Common/ImgBtn";
 
-import SubscribeDetailModal from "./SubscribeDetailModal";
+// 스타일
+const informationStyle = {
+  backgroundColor: "transparent",
+  border: "none",
+};
 
-import Informationbtn from "../../assets/img/button/Informationbtn.svg";
 
 function SubscribeForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,22 +30,25 @@ function SubscribeForm() {
   return (
     <Wrapper>
       <InputContainer>
-        <SearchInput />
-        <PasswordInput
-          text="계좌번호"
-          placeholder="한국투자증권 계좌번호를 입력하세요"
-        />
-        <SubscribeDateInput text="구독일" placeholder="구독일" />
-        <PasswordInput
-          text="APP 키"
-          placeholder="한국투자증권 APP 키를 입력하세요"
-        />
-        <QuantityInput text="수량" />
-        <ImgBtn src={Informationbtn} />
-        <PasswordInput
-          text="APP 시크릿 키"
-          placeholder="한국투자증권 APP 시크릿 키를 입력하세요"
-        />
+        <FirstContainer>
+          <SearchInput />
+          <SubscribeDateInput text="구독일" placeholder="구독일" />
+          <QuantityInput text="수량" />
+        </FirstContainer>
+        <SecondContainer>
+          <PasswordInput
+            text="계좌번호"
+            placeholder="한국투자증권 계좌번호를 입력하세요"
+          />
+          <PasswordInput
+            text="APP 키"
+            placeholder="한국투자증권 APP 키를 입력하세요"
+          />
+          <PasswordInput
+            text="APP 시크릿 키"
+            placeholder="한국투자증권 APP 시크릿 키를 입력하세요"
+          />
+        </SecondContainer>
       </InputContainer>
       <GetIssued />
       <ButtonContainer>
@@ -70,6 +81,23 @@ const ButtonContainer = styled.div`
 
 const InputContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   justify-content: space-between;
+
+  span {
+    font-size: 13px;
+    color: gray;
+  }
+
+  .highlighter {
+    font-weight: bold;
+  }
+`;
+
+const FirstContainer = styled.div`
+
+`;
+
+const SecondContainer = styled.div`
+
 `;

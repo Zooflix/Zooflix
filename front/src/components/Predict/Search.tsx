@@ -85,6 +85,7 @@ interface SearchListProps {
 
 const Wrapper = styled.div`
     position: relative;
+    z-index: 5;
 `;
 
 const SearchInput = styled.div`

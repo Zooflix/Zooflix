@@ -11,13 +11,34 @@ export const userPwState = atom({
   key: "userPwState",
   default: "",
 });
+
 // accessToken
 export const userAccessTokenState = atom({
   key: "userAccessTokenState",
   default: "",
 });
+
 // 유저 no
 export const userNoState = atom({
   key: "userNoState",
   default: 0,
+});
+
+// 수정용 유저 정보
+export const updateUserInfoState = atom({
+  key: "updateUserInfoState",
+  default: {
+    userId: "",
+    userPW: "",
+    userName: "",
+    userAppKey: "",
+    userSecretKey: "",
+    userAccount: "",
+  },
+})
+
+// 유저 zbti
+export const userZbtiState = atom({
+  key: "userZbtiState",
+  default: "",
 });

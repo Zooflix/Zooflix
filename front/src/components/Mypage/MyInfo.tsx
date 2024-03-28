@@ -33,7 +33,7 @@ function MyInfo() {
             <RightSideAnswer>
                 <div>{myPagePredictList.length}</div>
                 <div>{successCnt}</div>
-                <div>{rate}</div>
+                <div>{rate + " %"}</div>
                 <div>{myPageInfo.subscribeFromMe}</div>
                 <div>{myPageInfo.subscribeToMe}</div>
             </RightSideAnswer>

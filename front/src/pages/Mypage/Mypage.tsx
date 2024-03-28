@@ -103,7 +103,7 @@ function Mypage() {
     <Wrapper>
       <Container>
         <LeftSideMyInfo>
-          {info}
+          <h2>내 정보</h2>
           <TemperatureWithImage />
           <MyInfo />
           <RouteToOtherPage />

@@ -3,7 +3,7 @@ import Search from "../Predict/Search";
 import { useState } from "react";
 
 const searchInputStyle = {
-  width: "243px",
+  width: "225px",
 };
 
 function SearchInput() {
@@ -34,8 +34,11 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: row;
   label {
+    width: 50px;
     font-weight: bold;
-    padding-top: 20px;
-    margin-right: 30px;
+    padding: 5px 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `;

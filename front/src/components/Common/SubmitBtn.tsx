@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 type SubmitBtnProps = {
   text: string;
+  onClick?: () => void;
 };
 
 
 
 function SubmitBtn(props: SubmitBtnProps) {
-  return <Button>{props.text}</Button>;
+  return <Button onClick={props.onClick}>{props.text}</Button>;
 }
 
 export default SubmitBtn;
