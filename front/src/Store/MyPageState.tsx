@@ -4,6 +4,9 @@ import { atom } from "recoil";
 export const myPageInfoState = atom({
     key: "myPageInfoState",
     default: {
+        userNo: 0,
+        userId: "",
+        userPw: "",
         userName: "",
         userTemperature: 30,
         predictCount: 0,
@@ -23,6 +26,7 @@ export interface myPredict {
     pdDate: String;
     pdResult: string;
     pdContent: string;
+    userNo: number;
 }
 
 export const myPagePredictListState = atom<myPredict[]>({

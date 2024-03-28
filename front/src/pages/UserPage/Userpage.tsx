@@ -1,17 +1,9 @@
 import styled from "styled-components";
-import TemperatureWithImage from "../../components/Mypage/TemperatureWithImage";
 import MyInfo from "../../components/Mypage/MyInfo";
-import RouteToOtherPage from "../../components/Mypage/RouteToOtherPage";
-import ContentHeader from "../../components/Mypage/ContentHeader";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-import {
-    getMyInfo,
-    getMyPredictList,
-    getMyStockList,
-    getMySubscribeList,
-} from "../../apis/api/MyPage";
+import { getMyStockList } from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 import {
@@ -25,6 +17,9 @@ import {
     getUserPredictList,
     getUserSubscribeList,
 } from "../../apis/api/UserPage";
+import TempWithImage from "../../components/UserPage/TempWithImage";
+import SubscribeButton from "../../components/UserPage/SubscribeButton";
+import UserContentHeader from "../../components/UserPage/UserContentHeader";
 
 function UserPage() {
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
@@ -75,11 +70,7 @@ function UserPage() {
                 console.log("유저 구독한 사람 목록 불러오기 실패");
                 console.error(error);
             }
-        }; 
-        
-        //현재 UserPage.tsx .ts 작업만 진행된 상황
-        //백엔드 다시 다 살려야함
-
+        };
         fetchData();
     }, []);
 
@@ -88,7 +79,7 @@ function UserPage() {
     useEffect(() => {
         // 임의의 인덱스값 userNo 넣음
         const fetchData = async (userId: String) => {
-            //내 주식 구독 목록
+            //유저 주식 구독 목록
             try {
                 const data = await getMyStockList(userId);
                 setUserStockList(data);
@@ -106,12 +97,12 @@ function UserPage() {
             <Container>
                 <LeftSideMyInfo>
                     {userPageInfo.userName + " 님의 정보"}
-                    <TemperatureWithImage />
+                    <TempWithImage />
                     <MyInfo />
-                    <RouteToOtherPage />
+                    <SubscribeButton />
                 </LeftSideMyInfo>
                 <RightSideMyInfo>
-                    <ContentHeader />
+                    <UserContentHeader />
                     <GotoZbtiButton>
                         <img
                             src={GotoZbti}
