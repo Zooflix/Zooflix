@@ -23,3 +23,16 @@ export const userNoState = atom({
   key: "userNoState",
   default: 0,
 });
+
+// 수정용 유저 정보
+export const updateUserInfoState = atom({
+  key: "updateUserInfoState",
+  default: {
+    userId: "",
+    userPW: "",
+    userName: "",
+    userAppKey: "",
+    userSecretKey: "",
+    userAccount: "",
+  },
+})

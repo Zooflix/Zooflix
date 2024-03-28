@@ -1,23 +1,46 @@
 import styled from "styled-components";
 import UserInput from "../User/UserInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SubmitBtn from "../Common/SubmitBtn";
 import { useRecoilState } from "recoil";
-import { userIdState, userPwState } from "../../Store/UserState";
+import { myPageInfoState } from "../../Store/MyPageState";
+import { getMyInfo } from "../../apis/api/MyPage";
+import { updateUserInfoState } from "../../Store/UserState";
 
 const InputStyle = {
     backgroundColor: "#D7F1FF",
 };
 
 function UpdateMyInfo() {
-    const [userId, setUserId] = useRecoilState(userIdState);
-    const [userPw, setUserPw] = useRecoilState(userPwState);
-
     const [isChecked, setIsChecked] = useState(false);
 
     const handleCheckboxChange = (event: any) => {
         setIsChecked(event.target.checked);
     };
+
+    // access 토큰 받아지면 사용할 것
+    const [updateUserInfo, setUpdateUserInfo] = useRecoilState(updateUserInfoState);
+
+    // 임시용
+    const userName = "다라란";
+    const password = "user1";
+
+    useEffect(() => {
+        const fetchData = async () => {
+            // //내 정보
+            // try {
+            //     const data = await getMyInfo();
+            //     setMyPageInfo(data);
+            //     console.log(data);
+            // } catch (error) {
+            //     console.log("내 정보 불러오기 실패");
+            //     console.error(error);
+            // }
+        };
+        fetchData();
+    }, []);
+
+
     return (
         <Wrapper>
             <h2>UPDATE</h2>
@@ -26,7 +49,7 @@ function UpdateMyInfo() {
                 <UserInput
                     type="text"
                     style={InputStyle}
-                    placeholder={userId}
+                    placeholder={userName}
                     readonly
                 />
                 <UserInput

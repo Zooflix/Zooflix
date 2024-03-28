@@ -92,7 +92,8 @@ function Character3d({
             object.rotation.y += 0.01;
             object.position.y = 1 - toBelow;
             // object.position.x = 1 + canvasWidth / 2;
-          }
+          }else if (action === "none") {
+          } 
           renderer.render(scene, camera);
           requestAnimationFrame(animate);
         };
