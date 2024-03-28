@@ -93,9 +93,9 @@ public class StockSubscribeService {
         return response;
     }
 
-    public UserKeyProjection checkApiKey(int userNo){
+    public boolean checkApiKey(int userNo) {
         UserKeyProjection userKey = userRepository.findByUserNo(userNo);
-        return userKey;
+        return userKey.getUserAccount() != null && userKey.getUserAppKey() != null && userKey.getUserSecretKey() != null;
     }
 
     private StockSubscribeDto convertToStockSubscribeDto(StockSubscribe stockSubscribe) {

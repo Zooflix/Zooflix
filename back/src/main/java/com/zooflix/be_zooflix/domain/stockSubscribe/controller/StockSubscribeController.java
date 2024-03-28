@@ -66,9 +66,8 @@ public class StockSubscribeController {
      */
     @GetMapping("/subscribe/checkApikey/{userNo}")
     @Operation(summary = "등록된 API key가 있는지 확인")
-    public ResponseEntity<ResultResponse<UserKeyProjection>> checkUserApiKey(@PathVariable(name = "userNo") int userNo) {
-        UserKeyProjection checkApiKey = service.checkApiKey(userNo);
-        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), checkApiKey));
+    public ResponseEntity<ResultResponse<Boolean>> checkUserApiKey(@PathVariable(name = "userNo") int userNo) {
+        boolean apiKeyExists = service.checkApiKey(userNo);
+        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), apiKeyExists));
     }
-
 }
