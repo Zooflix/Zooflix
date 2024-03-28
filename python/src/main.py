@@ -20,7 +20,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import warnings
 import platform
-import datetime
+from datetime import datetime
 import io
 from typing import List
 from starlette.responses import StreamingResponse
@@ -28,6 +28,7 @@ import asyncio
 
 from starlette.responses import StreamingResponse
 import asyncio
+
 
 warnings.filterwarnings('ignore')
 
@@ -69,7 +70,11 @@ async def get_indices():
     # kospi100_index = kospi100_data.iloc[0]['Close']
     usd_krw_rate = usd_krw_data.iloc[0]['Close']
 
-    return [kospi_index, kosdaq_index, usd_krw_rate]
+    return {
+        "KOSPI": kospi_index,
+        "KOSDAQ": kosdaq_index,
+        "USD/KRW": usd_krw_rate,
+    }
 
 #
 # 전체목록 가져오기
