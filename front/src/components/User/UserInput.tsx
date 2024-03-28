@@ -6,16 +6,20 @@ type InputProps = {
   placeholder?: string;
   style?: React.CSSProperties;
   readonly?: boolean;
+  value?: string;
+  onChange?: (e: any) => void;
 };
 
 function UserInput(props: InputProps) {
   return (
     <Wrapper>
-      <input
+      <input        
         type={props.type}
         placeholder={props.placeholder}
         style={props.style}
         readOnly={props.readonly}
+        onChange={props.onChange}
+        value={props.value}
       />
     </Wrapper>
   );
