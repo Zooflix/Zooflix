@@ -21,13 +21,13 @@ function MySubscribeList() {
     <Wrapper>
       <Container>
         <LeftSide>
-          내가 정기 구독 중인 주식
+          <h3>내가 정기 구독 중인 주식</h3>
           <CardSection>
             <CardList />
           </CardSection>
         </LeftSide>
         <RightSide>
-          <div>내가 구독 중인 회원</div>
+          <h3>내가 구독 중인 회원</h3>
           <div>
             {myPageSubscribeList &&
               myPageSubscribeList.map((subscribe) => (
@@ -61,23 +61,20 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   text-align: center;
 `;
 
 const LeftSide = styled.div`
-  //   width: 235px;
-  //   margin: 20px 52px;
+  width: 50%;
   flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const CardSection = styled.div`
-  width: 190px;
-  //   margin: 20px;
-`;
+const CardSection = styled.div``;
 
 const RightSide = styled.div`
-  width: 330px;
-  //   margin: 20px 52px;
+  //   width: 330px;
   flex-direction: column;
 `;
