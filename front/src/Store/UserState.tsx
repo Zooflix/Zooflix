@@ -36,3 +36,9 @@ export const updateUserInfoState = atom({
     userAccount: "",
   },
 })
+
+// 유저 zbti
+export const userZbtiState = atom({
+  key: "userZbtiState",
+  default: "",
+});

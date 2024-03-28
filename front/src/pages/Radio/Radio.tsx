@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
-import { playRadio } from "../../apis/api/Radio";
 import { atom, useRecoilState } from "recoil";
+
+// api
+import { playRadio } from "../../apis/api/Radio";
+import { getUserInfo } from "../../apis/api/UserPage";
+
+// state
+import { isPausedState } from "../../Store/RadioState";
+import { userZbtiState } from "../../Store/UserState";
+import { selectUserNoState } from "../../Store/PredictState";
 
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
@@ -12,7 +20,7 @@ import Title from "../../components/Common/Title";
 import ImgBtn from "../../components/Common/ImgBtn";
 import Character3d from "../../components/Character/Character3d";
 import SquareBtn from "../../components/Common/SquareBtn";
-import { isPausedState } from "../../Store/RadioState";
+
 
 // 버튼 스타일
 const buttonStyleDark = {
@@ -33,18 +41,36 @@ function Player() {
   const [currentUrl, setCurrentUrl] = useState('');
   const [isClicked, setIsClicked] = useState(Boolean);
   const [firstPlay, setFirstPlay] = useState(0);
-
-  useEffect(() => {
-    setCurrentUrl(window.location.href);
-    setFirstPlay(0);
-  }, []);
   
+  const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
+  const [userZbti, setUserZbti] = useRecoilState(userZbtiState);
+
+  // 나중가면 지우기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   useEffect(() => {
     console.log(isPaused);
   }, [isPaused]);
+
   
   useEffect(() => {
-    console.log(currentUrl);
+    // 처음 플레이&radio페이지일 때만 tts 생성하기
+    setCurrentUrl(window.location.href);
+    setFirstPlay(0);
+
+    // zbti 불러오기 // header로 바꾸면 수정 필요!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const fetchData = async () => {
+      try {
+        const response = await getUserInfo(selectUserNo);
+        setUserZbti(response.zbti);
+      } catch (error) {
+          console.log("zbti 불러오기 실패");
+          console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  
+  useEffect(() => {
     if (currentUrl === 'http://localhost:3000/radio') {
       setIsPaused(true);
     }
@@ -72,6 +98,8 @@ function Player() {
     };
   }, [setIsPaused]);
 
+
+  // tts 재생
   const ttsMaker = async () => {
     const url = await playRadio();
     if (audioEl.current) {
@@ -83,6 +111,8 @@ function Player() {
     }
   };
 
+
+  // 재생/중단 버튼
   const clickBtn = () => {
     setIsPaused(!isPaused);
     setIsClicked(true);
@@ -96,21 +126,22 @@ function Player() {
 
   return (
     <Wrapper>
-      <Title text="뉴스를 들려줄게요" />
+      <Title text="해외뉴스를 들려줄게요" />
       <PlayContainer>
         <audio ref={audioEl} />
+        {isPaused?
         <ImgBtn
           src={Playicon}
           onClick={clickBtn}
           disabled={isPaused ? false : true}
           style={imgBtnStyle}
-        ></ImgBtn>
+        ></ImgBtn> :
         <ImgBtn
           src={Pauseicon}
           onClick={clickBtn}
           disabled={isPaused ? true : false}
           style={imgBtnStyle}
-        ></ImgBtn>
+        ></ImgBtn>}
       </PlayContainer>
       <Character3d
         name="Bear"

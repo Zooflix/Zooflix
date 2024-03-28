@@ -72,8 +72,8 @@ const Container = styled.div`
     position: relative;
     top: 20px;
     display: inline-block;
-    animation: bounce 0.7s ease alternate;
-    animation-iteration-count: 2;
+    animation: bounce .5s ease alternate;
+    animation-iteration-count : 2;
     font-size: 50px;
     color: #0d274d;
   }
@@ -106,9 +106,22 @@ const Container = styled.div`
   @keyframes bounce {
     100% {
       top: -20px;
+<<<<<<< HEAD
       text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc,
         0 5px 0 #ccc, 0 6px 0 #ccc, 0 7px 0 #ccc, 0 8px 0 #ccc, 0 9px 0 #ccc,
         0 50px 25px rgba(0, 0, 0, 0.2);
+=======
+      text-shadow: 0 1px 0 #fff,
+                   0 2px 0 #fff,
+                   0 3px 0 #CCC,
+                   0 4px 0 #CCC,
+                   0 5px 0 #CCC,
+                   0 6px 0 #CCC,
+                   0 7px 0 #CCC,
+                   0 8px 0 #CCC,
+                   0 9px 0 #CCC,
+                   0 50px 25px rgba(0, 0, 0, .2);
+>>>>>>> feature-fe/radio
     }
   }
 `;
