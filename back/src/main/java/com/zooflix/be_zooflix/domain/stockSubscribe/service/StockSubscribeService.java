@@ -65,8 +65,11 @@ public class StockSubscribeService {
      * 3.2 주식 정기 구독 해지
      *
      */
-    public int terminationSubscribe(int stockSubscribeNo){
+    public int terminationSubscribe(int stockSubscribeNo, int userNo){
         StockSubscribe subscribe = stockSubscribeRepository.findByStockSubscribeNo(stockSubscribeNo);
+        if (userNo != subscribe.getUser().getUserNo()) {
+            throw new RuntimeException("토큰 정보와 일치하는 유저가 아닙니다!");
+        }
         stockSubscribeRepository.delete(subscribe);
 
         //예약주문된 내역이 있다면 주문취소하기
@@ -94,9 +97,10 @@ public class StockSubscribeService {
         return response;
     }
 
-    public UserKeyProjection checkApiKey(int userNo){
+    public boolean checkApiKey(int userNo){
         UserKeyProjection userKey = userRepository.findByUserNo(userNo);
-        return userKey;
+        // 값이 비어있거나 null 이면 false 반환.
+        return !userKey.getUserAppKey().isEmpty() && userKey.getUserAppKey() != null;
     }
 
     private StockSubscribeDto convertToStockSubscribeDto(StockSubscribe stockSubscribe) {

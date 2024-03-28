@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.validation.constraints.NotNull;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
