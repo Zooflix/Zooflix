@@ -15,7 +15,7 @@ import PredictInput from "./PredictInput";
 import PredictReasonInput from "./PredictReasonInput";
 import SquareBtn from "../../components/Common/SquareBtn";
 
-import { Alert, AlertColor, Box, Snackbar } from "@mui/material";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
 
 // 스타일
 const searchInputStyle = {
@@ -74,13 +74,20 @@ function PredictCreateForm() {
   };
 
   const handlePredict = async () => {
+    if (stockName === "") {
+      setOpen(true);
+      setAlertOption({
+        severity: "error",
+        value: "종목명을 선택해 주세요.",
+      });
+      return;
+    }
     if (predictDate === "") {
       setOpen(true);
       setAlertOption({
         severity: "error",
         value: "예측 날짜를 선택해 주세요.",
       });
-      //   alert("예측 날짜를 선택해 주세요.");
       return;
     }
     if (predictPrice === 0) {
@@ -89,7 +96,6 @@ function PredictCreateForm() {
         severity: "error",
         value: "예측 가격을 선택해 주세요.",
       });
-      //   alert("예측 가격을 입력해 주세요.");
       return;
     }
     if (predictReason === "") {
@@ -98,7 +104,6 @@ function PredictCreateForm() {
         severity: "error",
         value: "예측 근거를 입력해 주세요.",
       });
-      //   alert("예측 근거를 입력해 주세요.");
       return;
     }
     if (predictReason.length < 10) {
@@ -107,18 +112,9 @@ function PredictCreateForm() {
         severity: "error",
         value: "예측 근거는 10자 이상 입력해 주세요.",
       });
-      //   alert("예측 근거는 10자 이상 입력해 주세요.");
       return;
     }
-    if (stockName === "") {
-      setOpen(true);
-      setAlertOption({
-        severity: "error",
-        value: "종목명을 선택해 주세요.",
-      });
-      //   alert("종목명을 선택해 주세요.");
-      return;
-    }
+
     const predict = {
       stockName: stockName,
       userNo: 14,
@@ -131,11 +127,11 @@ function PredictCreateForm() {
     try {
       await insertPredict(predict);
       setOpen(true);
+      navigate("/predict");
       setAlertOption({
         severity: "success",
         value: "예측 등록이 완료되었습니다.",
       });
-      navigate("/predict");
     } catch (error) {
       console.log("Error deleting data:", error);
     }
@@ -276,6 +272,14 @@ function PredictCreateForm() {
           onClick={handlePredict}
         />
       </BtnContainer>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert severity={alertOption?.severity}>{alertOption?.value}</Alert>
+      </Snackbar>
     </Wrapper>
   );
 }

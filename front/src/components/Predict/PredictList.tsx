@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 
 import { deletePredict } from "../../apis/api/Predict";
+import { report } from "../../apis/api/Report";
 import { selectUserNoState } from "../../Store/PredictState";
 import { selectStockNameState } from "../../Store/PredictState";
 import { selectUserNameState } from "../../Store/PredictState";
@@ -62,6 +63,20 @@ function PredictList(props: PredictProps) {
     }
   };
 
+  //신고
+  const handleReport = async (userNo: number, pdNo: number) => {
+    const isReport = window.confirm("글을 신고하시겠습니까?");
+    if (!isReport) {
+      return;
+    }
+    try {
+      await report(userNo, pdNo);
+      window.location.reload();
+    } catch (error) {
+      console.log("Error deleting data:", error);
+    }
+  };
+
   useEffect(() => {
     setOpenItems([]);
   }, [props.currentPage]);
@@ -113,11 +128,25 @@ function PredictList(props: PredictProps) {
                   {item.pdUpDown ? "▲" : "▼"}
                 </span>
               </p>
-              <Result style={{color: item.pdResult==="성공"? "#73E369": "#B7B7B7",
-            borderColor: item.pdResult==="성공"? "rgba(115, 227, 105, 0.3)": "rgba(183, 183, 183, 0.3)",
-            borderStyle: item.pdResult === "성공" || item.pdResult === "실패" ? "solid" : "none",
-            backgroundColor: item.pdResult === "성공" || item.pdResult === "실패" ? "white" : "transparent",
-            }}>{item.pdResult}</Result>
+              <Result
+                style={{
+                  color: item.pdResult === "성공" ? "#73E369" : "#B7B7B7",
+                  borderColor:
+                    item.pdResult === "성공"
+                      ? "rgba(115, 227, 105, 0.3)"
+                      : "rgba(183, 183, 183, 0.3)",
+                  borderStyle:
+                    item.pdResult === "성공" || item.pdResult === "실패"
+                      ? "solid"
+                      : "none",
+                  backgroundColor:
+                    item.pdResult === "성공" || item.pdResult === "실패"
+                      ? "white"
+                      : "transparent",
+                }}
+              >
+                {item.pdResult}
+              </Result>
 
               <button
                 onClick={() =>
@@ -144,19 +173,23 @@ function PredictList(props: PredictProps) {
                   style={{ marginRight: "20px" }}
                   onClick={() => handleDelete(item.pdNo)}
                 />
-                <img src={Reportbtn} alt="신고" />
+                <img
+                  src={Reportbtn}
+                  alt="신고"
+                  onClick={() => handleReport(item.userNo, item.pdNo)}
+                />
               </FeedIcon>
             </Click>
           </Feed>
         ))}
-        {/* 모달 */}
-        {props.currentPage && (
-          <UserDetailModal
-            isModalOpen={isModalOpen}
-            closeModal={closeModal}
-            userName={selectUserName}
-          />
-        )}
+      {/* 모달 */}
+      {props.currentPage && (
+        <UserDetailModal
+          isModalOpen={isModalOpen}
+          closeModal={closeModal}
+          userName={selectUserName}
+        />
+      )}
     </Wrapper>
   );
 }
@@ -224,4 +257,4 @@ const Result = styled.div`
   border-radius: 9px;
   height: 20px;
   border-width: 2px;
-`
+`;
