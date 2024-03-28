@@ -23,11 +23,13 @@ import platform
 import datetime
 import io
 from typing import List
+from typing import Optional
 from starlette.responses import StreamingResponse
 import asyncio
 
 from starlette.responses import StreamingResponse
 import asyncio
+
 
 warnings.filterwarnings('ignore')
 
@@ -44,7 +46,48 @@ elif platform.system() == 'Darwin':
 else:
     plt.rc('font', family='NanumGothic')
 
+#
+# 주요 지표 추출 (혜진 + 수민)
+#
 
+
+class IndicesResponse(BaseModel):
+    KOSPI: float
+    KOSDAQ: float
+    USD_KRW: float
+
+
+@app.get("/get_indices/", response_model=List[IndicesResponse])
+async def get_indices() -> List[IndicesResponse]:
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+
+    kospi_data = fdr.DataReader('KS11', today, today)
+    kosdaq_data = fdr.DataReader('KQ11', today, today)
+    dau_data = fdr.DataReader('DJI', today, today)
+    # nasdaq_data = fdr.DataReader('IXIC', today, today)
+    # us500_data = fdr.DataReader('US500', today, today)
+    # kospi50_data = fdr.DataReader('KS50', today, today)
+    # kospi100_data = fdr.DataReader('KS100', today, today)
+    usd_krw_data = fdr.DataReader('USD/KRW', today, today)
+
+    kospi_index = kospi_data.iloc[0]['Close']
+    kosdaq_index = kosdaq_data.iloc[0]['Close']
+
+    dau_index = dau_data.iloc[0]['Close']
+    # nasdaq_index = nasdaq_data.iloc[0]['Close']
+    # us500_index = us500_data.iloc[0]['Close']
+    # kospi50_index = kospi50_data.iloc[0]['Close']
+    # kospi100_index = kospi100_data.iloc[0]['Close']
+    usd_krw_rate = usd_krw_data.iloc[0]['Close']
+
+    print(kospi_index)
+    print(kosdaq_index)
+    print(usd_krw_data)
+
+    indices_response = [
+        IndicesResponse(KOSPI=kospi_index, KOSDAQ=kosdaq_index, USD_KRW=usd_krw_rate)
+    ]
+    return indices_response
 #
 # 전체목록 가져오기
 #
@@ -218,7 +261,7 @@ async def crawling(url):
                         for oneContent in contentList:
                             content_texts += oneContent.text+ " "
                         descriptionList.append(content_texts)
-                        if len(descriptionList) == 2:
+                        if len(descriptionList) == 7:
                             return descriptionList
                 else:
                     errMsg = "newsDetailPage is not found"
@@ -321,7 +364,7 @@ async def summary(request: Request):
             "language": "ko",
             "model": "news",
             "tone": 2,
-            "summaryCount": 3
+            "summaryCount": 2
         }
     }
     headers = {
@@ -334,7 +377,8 @@ async def summary(request: Request):
     # JSON 문자열을 파이썬 객체로 변환
     responseJson = response.json()
     if (response.status_code == 200):
-        return responseJson["summary"]
+        result = responseJson["summary"].replace("\n", " ")
+        return result
     else:
         print("Error Code:" + str(responseJson)+" summary is failed")
 

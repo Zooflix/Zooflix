@@ -8,7 +8,7 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     database: mysql
     open-in-view: false
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -41,9 +41,6 @@ python:
       crawling: http://127.0.0.1:8000/radio/crawling/translation/endpoint
       summary: http://127.0.0.1:8000/radio/summary/endpoint
       tts: http://127.0.0.1:8000/radio/tts/endpoint
-  path:
-    news: C:\projects\myapi\News.py
-    end-price: C:\projects\myapi\EndPrice.py
   news:
     url: https://www.cnbc.com/world-markets/
   ppg:
