@@ -1,8 +1,8 @@
 // import { REACT_APP_HOME_URL } from "../constants";
-import { axios } from "../utils/axios";
+import { axios, axiosPrivate } from "../utils/axios";
 import { useState, useEffect } from "react";
 
-const REST_USER_API = `/user`;
+const REST_USER_API = `/auth`;
 const REACT_APP_HOME_URL = 'http://localhost:8089';
 
 //회원 로그인
@@ -28,7 +28,7 @@ export async function loginUser(userId: String, userPw: String) {
 // 수정용 회원 정보
 export async function updateUserInfo(userId: String){
   try {
-    const response = await axios.get(`/auth/update/info/${userId}`);
+    const response = await axiosPrivate.get(`${REST_USER_API}/update/info`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -53,4 +53,54 @@ export async function logoutUser() {
   } catch (e) {
     console.log(e);
   } 
+}
+
+// 회원 가입
+export async function signupUser(userId: String, userName: String, userPw: String, userAppKey: String, userSecretKey: String, userAccount: String) {
+  try {
+    
+    const response = await axios.post(
+      `${REST_USER_API}/signup`,
+      { userId, userName, userPw, userAppKey, userSecretKey, userAccount },      
+    )
+    .then(res => {
+      return res;
+    });
+    
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// 아이디 체크
+export async function idCheck(userId: String) {
+  try {
+    const response = await axios.post(
+      `${REST_USER_API}/id-check`,
+      { userId },)
+      .then(res => {
+        return res;
+    });
+    console.log(response);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// 이름 체크
+export async function nameCheck(userName: String) {
+  try {
+    const response = await axios.post(
+      `${REST_USER_API}/name-check`,
+      { userName },)
+      .then(res => {
+        return res;
+    });
+    console.log(response);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
 }
