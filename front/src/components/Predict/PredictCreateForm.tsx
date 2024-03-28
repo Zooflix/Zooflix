@@ -267,7 +267,16 @@ function PredictCreateForm() {
                 }}
                 onClick={refreshPrice}
               />
-              <ImgBtn src={Informationbtn} style={informationStyle} information={{text:"해당 가격을 기준으로 \n 예측글이 등록됩니다.\n 가격을 업데이트 하려면\n새로고침을 눌러주세요."}}/>
+              <ImgBtn src={Informationbtn} style={informationStyle}>
+              <div>
+                <span className="info-highlight">
+                해당 가격을 기준으로 <br/>
+                예측글이 등록됩니다. <br/>
+                가격을 업데이트 하려면 <br/>
+                새로고침을 눌러주세요. <br/>
+                </span>
+              </div>
+              </ImgBtn>
             </>
           )}
         </SearchContainer>
@@ -353,6 +362,10 @@ const SearchContainer = styled.div`
   span {
     font-size: 13px;
     color: gray;
+  }
+
+  .info-highlight {
+    color: #3d3d3d;
   }
 
   .highlighter {

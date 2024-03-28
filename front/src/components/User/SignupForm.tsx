@@ -85,9 +85,6 @@ function SignupForm() {
     <Wrapper>
       <UserBack />
       <Container>
-        <BtnWrapper>
-          <BackBtn link="/login" className="backbtn" />
-        </BtnWrapper>
         <h2>REGISTER</h2>
         <InputContainer>
           <UserInput type="text" placeholder="아이디를 입력하세요" value={userId} onChange={(e) => setUserId(e.target.value)} />

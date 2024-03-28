@@ -43,12 +43,9 @@ function LoginForm() {
 
   return (
     <LoginWrapper>
-      {/* <UserBackground /> */}
-      <BackBtn link="/main" />
       <UserBack />
 
       <Container>
-        <BackBtn link="/main" className="backbtn" />
         <h2>LOG IN</h2>
         <InputContainer>
           <input
