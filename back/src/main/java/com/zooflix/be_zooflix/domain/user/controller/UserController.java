@@ -48,9 +48,9 @@ public class UserController {
     }
 
     @Operation(summary = "수정용 회원정보 가져오기")
-    @GetMapping("/update/info/{userId}")
-    public ResponseEntity<UserUpdateDto> selectUpdateUser(@PathVariable String userId) {
-        return ResponseEntity.ok(userService.getUpdateUserInfo(userId));
+    @GetMapping("/update/info")
+    public ResponseEntity<UserUpdateDto> selectUpdateUser(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ResponseEntity.ok(userService.getUpdateUserInfo(customUserDetails.getUserId()));
     }
 
     @Operation(summary = "회원정보 수정")
@@ -69,15 +69,15 @@ public class UserController {
     }
 
     @Operation(summary = "주bti 저장")
-    @PutMapping("/zbti/{userNo}/{userZbti}")
-    public ResponseEntity<String> updateZbti(@PathVariable int userNo, @PathVariable String userZbti) {
-        return ResponseEntity.ok(userService.putUpdateZbit(userNo, userZbti));
+    @PutMapping("/zbti/{userZbti}")
+    public ResponseEntity<String> updateZbti(@PathVariable String userZbti, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ResponseEntity.ok(userService.putUpdateZbit(customUserDetails.getUserNo(), userZbti));
     }
 
     @Operation(summary = "회원탈퇴")
-    @DeleteMapping("/delete/{userNo}")
-    public ResponseEntity<String> deleteUser(@PathVariable int userNo) {
-        return ResponseEntity.ok(userService.deleteUser(userNo));
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteUser(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return ResponseEntity.ok(userService.deleteUser(customUserDetails.getUserNo()));
     }
 
     @Operation(summary = "토큰 재발급")
