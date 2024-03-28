@@ -207,20 +207,22 @@ public class UserService {
         }
 
         int userNo = jwtUtil.getUserNo(refresh);
-        String username = jwtUtil.getUsername(refresh);
+        String userId = jwtUtil.getUsername(refresh);
         String role = jwtUtil.getRole(refresh);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", userNo, username, role, 600000L);
-        String newRefresh = jwtUtil.createJwt("refresh", userNo, username, role, 86400000L);
+        String newAccess = jwtUtil.createJwt("access", userNo, userId, role, 600000L);
+        String newRefresh = jwtUtil.createJwt("refresh", userNo, userId, role, 86400000L);
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
         jwtRefreshRepository.deleteByRefreshToken(refresh);
-        addRefreshEntity(username, newRefresh, 86400000L);
+        addRefreshEntity(userId, newRefresh, 86400000L);
 
         //response
         response.setHeader("access", newAccess);
-        response.addCookie(createCookie("refresh", newRefresh));
+        Cookie cookie = new Cookie("refresh", refresh);
+        cookie.setPath("/");
+        response.addCookie(cookie); // 응답 쿠키에 refresh 넣어줌
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
