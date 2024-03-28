@@ -36,8 +36,7 @@ function Mypage() {
     const navigate = useNavigate();
 
     // const accessToken = localStorage.getItem('accessToken');
-    const userNo = 2;
-    const userId = "ssafy1";
+    const userId = "user1";
 
     useEffect(() => {
         // if(!accessToken){
@@ -46,10 +45,10 @@ function Mypage() {
         // }
 
         // 임의의 인덱스값 userNo 넣음
-        const fetchData = async (userNo: Number) => {
+        const fetchData = async () => {
             //내 정보
             try {
-                const data = await getMyInfo(userNo);
+                const data = await getMyInfo();
                 setMyPageInfo(data);
                 console.log(data);
             } catch (error) {
@@ -59,7 +58,7 @@ function Mypage() {
 
             //내 예측 글 목록
             try {
-                const data = await getMyPredictList(userNo);
+                const data = await getMyPredictList();
                 setMyPagePredictList(data);
                 console.log(data);
             } catch (error) {
@@ -69,27 +68,33 @@ function Mypage() {
 
             //내가 구독한 사람 목록
             try {
-                const data = await getMySubscribeList(userNo);
+                const data = await getMySubscribeList();
                 setMyPageSubscribeList(data);
             } catch (error) {
                 console.log("내가 구독한 사람 목록 불러오기 실패");
                 console.error(error);
             }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+
+        // 임의의 인덱스값 userNo 넣음
+        const fetchData = async (userId: String) => {
 
             //내 주식 구독 목록
             try {
                 const data = await getMyStockList(userId);
                 setMyStockList(data);
-                console.log(data);
-                console.log(myStockList.length);
-                // console.log(data.length);
             } catch (error) {
                 console.log("내 주식 구독 목록 불러오기 실패");
                 console.error(error);
             }
         };
 
-        fetchData(userNo);
+        fetchData(userId);
     }, []);
 
     return (

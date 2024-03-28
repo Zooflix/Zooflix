@@ -4,7 +4,7 @@ import { axios } from "../utils/axios";
 export async function getRankingList() {
   try {
     const response = await axios.get(`/main/ranking`);
-    console.log(response.data.resultData);
+    console.log("result Data" + response.data.resultData);
     return response.data.resultData;
   } catch (e) {
     console.log(e);
