@@ -25,13 +25,13 @@ public class MainService {
     private final UserRepository userRepository;
     private final StockSubscribeRepository stockSubscribeRepository;
 
-    @Value("http://127.0.0.1:8000/get_indices")
+    @Value("${python.endpoint.indices}")
     private String indicesEndpoint;
 
     public double[] callIndicesEndpoint() {
         RestTemplate restTemplate = new RestTemplate();
         // REST API 호출
-        double[] result = restTemplate.postForObject(indicesEndpoint, null, double[].class);
+        double[] result = restTemplate.getForObject(indicesEndpoint, double[].class);
         return result;
     }
 
