@@ -176,24 +176,23 @@ function PredictCreateForm() {
     };
 
     useEffect(() => {
-        const fetchDataAndCheck = async () => {
-            const check = await possibleCheck();
-            if (check === true) {
-                alert("이미 예측중인 종목입니다.");
-                // setOpen(true);
-                // setAlertOption({
-                //     severity: "error",
-                //     value: "이미 예측중인 종목입니다.",
-                // });
-                setStockName("");
-                return;
-            } else {
-                fetchData();
-                setTime();
-            }
-        };
-
-        fetchDataAndCheck();
+        // const fetchDataAndCheck = async () => {
+        //     const check = await possibleCheck();
+        //     if (check === true) {
+        //         alert("이미 예측중인 종목입니다.");
+        //         // setOpen(true);
+        //         // setAlertOption({
+        //         //     severity: "error",
+        //         //     value: "이미 예측중인 종목입니다.",
+        //         // });
+        //         setStockName("");
+        //         return;
+        //     } else {
+        //     }
+        //     fetchDataAndCheck();
+        //   };
+          fetchData();
+          setTime();
     }, [stockName]);
 
     useEffect(() => {
