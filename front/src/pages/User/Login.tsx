@@ -1,12 +1,18 @@
-import BackBtn from "../../components/Common/BackBtn";
+import styled from "styled-components";
 import LoginForm from "../../components/User/LoginForm";
 
 function Login() {
   return (
-    <div>
+    <LoginWrapper>
       <LoginForm />
-    </div>
+    </LoginWrapper>
   );
 }
 
 export default Login;
+
+const LoginWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+`;

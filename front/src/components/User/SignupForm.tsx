@@ -63,7 +63,12 @@ function SignupForm() {
 }
 
 export default SignupForm;
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+`;
 const Container = styled.div`
   display: flex;
   justify-content: center;

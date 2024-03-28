@@ -38,9 +38,11 @@ function LoginForm() {
   };
 
   return (
-    <Wrapper>
+    <LoginWrapper>
       {/* <UserBackground /> */}
+      <BackBtn link="/main" />
       <UserBack />
+
       <Container>
         <BackBtn link="/main" className="backbtn" />
         <h2>LOG IN</h2>
@@ -63,13 +65,18 @@ function LoginForm() {
           아직 회원이 아니신가요?
         </GoToRegister>
       </Container>
-    </Wrapper>
+    </LoginWrapper>
   );
 }
 
 export default LoginForm;
 
-const Wrapper = styled.div``;
+const LoginWrapper = styled.div`
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+`;
 
 const Container = styled.div`
   .backbtn {
@@ -113,6 +120,7 @@ const Container = styled.div`
   z-index: 1;
   transform: translate(-50%, -50%);
   padding: 300px;
+  height: 100vh;
 `;
 
 const InputContainer = styled.div`
