@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { zbtiState } from "../../Store/ZbtiState";
 
 import PageTransition from "../../components/Zbti/PageTransition";
 
@@ -10,14 +12,16 @@ import Answer from "../../components/Zbti/Answer";
 
 function Problem4() {
   const navigate = useNavigate();
+  const [zbtiValues, setZbtiValues] = useRecoilState(zbtiState);
 
-  const handleAnswerClick = () => {
+  const handleAnswerClick = (answer: number) => {
+    setZbtiValues([...zbtiValues, answer]);
     navigate("/problem5");
   };
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader backLink="/zbti"/>
+        <ZbtiHeader backLink="/zbti" />
         <Container>
           <Question text="100만원이 입금됐다. 웬걸? 어떻게 투자할 것인가?" />
           <ImgContainer>
@@ -29,10 +33,13 @@ function Problem4() {
               decoding="async"
             />
           </ImgContainer>
-          <Answer text="10만원씩 분산투자해야지" onClick={handleAnswerClick} />
+          <Answer
+            text="10만원씩 분산투자해야지"
+            onClick={() => handleAnswerClick(1)}
+          />
           <Answer
             text="인생은 한방. 100만원쯤은 한방으로"
-            onClick={handleAnswerClick}
+            onClick={() => handleAnswerClick(2)}
           />
         </Container>
       </Wrapper>
@@ -53,8 +60,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
-`; 
-
+`;
 
 const ImgContainer = styled.div`
   display: flex;

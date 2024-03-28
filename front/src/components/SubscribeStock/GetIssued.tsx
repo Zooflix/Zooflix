@@ -24,7 +24,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-top: 20px;
+  align-items: center;
+  margin-top: 10px;
   margin-right: 30px;
 `;
 
@@ -41,7 +42,7 @@ const Button = styled.button`
   background-color: #1e3659;
   color: white;
   font-weight: bold;
-  height: 40px;
+  height: 25px;
   padding: 0 10px;
 
   &:hover {

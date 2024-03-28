@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { zbtiState } from "../../Store/ZbtiState";
 
 import PageTransition from "../../components/Zbti/PageTransition";
 import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
@@ -9,14 +11,16 @@ import Answer from "../../components/Zbti/Answer";
 
 function Problem7() {
   const navigate = useNavigate();
+  const [zbtiValues, setZbtiValues] = useRecoilState(zbtiState);
 
-  const handleAnswerClick = () => {
+  const handleAnswerClick = (answer: number) => {
+    setZbtiValues([...zbtiValues, answer]);
     navigate("/problem8");
   };
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader backLink="/zbti"/>
+        <ZbtiHeader backLink="/zbti" />
         <Container>
           <Question text="나의 1년 목표 수익률은?" />
           <ImgContainer>
@@ -30,11 +34,11 @@ function Problem7() {
           </ImgContainer>
           <Answer
             text="예금 금리만 넘기는 수준이라면 만족"
-            onClick={handleAnswerClick}
+            onClick={() => handleAnswerClick(1)}
           />
           <Answer
             text="위험을 감수했으니 50%도 기대할거야."
-            onClick={handleAnswerClick}
+            onClick={() => handleAnswerClick(2)}
           />
         </Container>
       </Wrapper>
@@ -55,8 +59,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
-`; 
-
+`;
 
 const ImgContainer = styled.div`
   display: flex;

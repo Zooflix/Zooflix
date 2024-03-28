@@ -5,7 +5,6 @@ import SignupForm from "../../components/User/SignupForm";
 function Signup() {
   return (
     <SignupWrapper>
-      <BackBtn link="/main" />
       <SignupForm />;
     </SignupWrapper>
   );
