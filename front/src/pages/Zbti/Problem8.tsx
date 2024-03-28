@@ -15,7 +15,7 @@ function Problem8() {
 
   const handleAnswerClick = (answer: number) => {
     setZbtiValues([...zbtiValues, answer]);
-    navigate("/result");
+    navigate("/loading");
   };
   return (
     <PageTransition>
