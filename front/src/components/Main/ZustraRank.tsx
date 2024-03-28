@@ -28,10 +28,15 @@ function ZustraRank({ rankData }: Props) {
     "linear-gradient(90deg, rgba(251, 77, 161, 0.95) 0%, rgba(255, 113, 182, 0.95) 35%, rgba(255, 165, 209, 0.95) 54.5%, rgba(255, 184, 218, 0.95) 68.5%, rgba(255, 217, 235, 0.95) 100%)",
   ];
   let zbti = new Map();
+  //Bear, Cow, Fox, Hippo, Lion, Monkey, Pig, Rabbit, Rhino, Sloth, Unicon, Zebra
   zbti.set("Lion", "일단 다 사자");
   zbti.set("Monkey", "재간둥이 원숭이");
   zbti.set("Pig", "저금왕 돼지");
   zbti.set("Rabbit", "팔랑귀 토끼");
+  zbti.set("Unicon", "공모주 러버 유니콘");
+  zbti.set("Hippo", "큰 손 투자자 하마");
+  zbti.set("Cow", "느긋한 젖소");
+  zbti.set("Zebra", "호기심 많은 얼룩말");
 
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
@@ -76,14 +81,21 @@ function ZustraRank({ rankData }: Props) {
                   <Margin>
                     <div>
                       <Name>{item.userName}</Name>
-                      <SmallText>
-                        {Math.round(
-                          (item.successCount / item.predictCount) * 100
-                        )}
-                        % 예측 성공률
-                      </SmallText>
+                      {item.predictCount !== 0 && (
+                        <SmallText>
+                          {Math.round(
+                            (item.successCount / item.predictCount) * 100
+                          )}
+                          % 예측 성공률
+                        </SmallText>
+                      )}
                     </div>
-                    <Zbti>{zbti.get(item.userZbti)} 유형</Zbti>
+                    {zbti.get(item.userZbti) === null ||
+                    zbti.get(item.userZbti) === "Bear" ? (
+                      <Zbti>주bti 검사 결과가 없습니다.</Zbti>
+                    ) : (
+                      <Zbti>{zbti.get(item.userZbti)} 유형</Zbti>
+                    )}
                   </Margin>
                   <Graph>
                     <InnerGraph
