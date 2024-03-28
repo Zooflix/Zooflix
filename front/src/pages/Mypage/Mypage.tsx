@@ -5,7 +5,7 @@ import RouteToOtherPage from "../../components/Mypage/RouteToOtherPage";
 import ContentHeader from "../../components/Mypage/ContentHeader";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
-import { 
+import {
   myPageInfoState,
   myPagePredictListState,
   myPageSubscribeListState,
@@ -103,7 +103,7 @@ function Mypage() {
     <Wrapper>
       <Container>
         <LeftSideMyInfo>
-          {info}
+          <h2>내 정보</h2>
           <TemperatureWithImage />
           <MyInfo />
           <RouteToOtherPage />

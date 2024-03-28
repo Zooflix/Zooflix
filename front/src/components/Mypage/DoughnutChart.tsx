@@ -14,8 +14,7 @@ function DoughnutChart() {
     datasets: [
       {
         data: [myPageInfo.userTemperature, 100 - myPageInfo.userTemperature],
-        backgroundColor: ["#7AD3FF", "rgba(122,211,255,0.3)"],
-        // borderColor: ["#FF6384", "#7AD3FF"],
+        backgroundColor: ["#7AD3FF", "rgba(122,211,255,0.1)"],
         borderRadius: 10,
         circumference: 270,
         rotation: 225,
@@ -25,7 +24,13 @@ function DoughnutChart() {
       },
     ],
   };
-  const Options = {};
+  const Options = {
+    plugins: {
+      tooltip: {
+        enabled: false,
+      },
+    },
+  };
 
   return (
     <ChartWrapper>

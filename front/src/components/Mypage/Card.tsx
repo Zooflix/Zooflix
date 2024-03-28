@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React from "react";
 
 interface ItemProps {
   card: {
@@ -14,12 +14,6 @@ interface ItemProps {
 }
 
 const SubscribeStockListItem: React.FC<ItemProps> = ({ card }) => {
-  const [isFront, setIsFront] = useState(true);
-
-  const handleClick = () => {
-    setIsFront(!isFront);
-  };
-
   return (
     <div>
       <Card>

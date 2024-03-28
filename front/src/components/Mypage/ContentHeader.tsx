@@ -12,7 +12,7 @@ function ContentHeader(props: ContentHeaderProps) {
   const [selectedTab, setSelectedTab] = useState<string>("my-predictions");
   const [myPagePredictList, setMyPagePredictList] = useRecoilState(
     myPagePredictListState
-);
+  );
 
   const handleTabClick = (tabName: string) => {
     setSelectedTab(tabName);
@@ -43,7 +43,9 @@ function ContentHeader(props: ContentHeaderProps) {
         </ContentHeaderTab>
       </ContentTabHeader>
 
-      {selectedTab === "my-predictions" && <PredictList currentPage={myPagePredictList} />}
+      {selectedTab === "my-predictions" && (
+        <PredictList currentPage={myPagePredictList} />
+      )}
       {selectedTab === "my-subscriptions" && <MySubscribeList />}
     </Wrapper>
   );
@@ -62,11 +64,6 @@ const ContentHeaderTab = styled.nav`
 const ContentTabList = styled.ul`
   display: flex;
   list-style: none;
-  //   margin-block-style: 1em;
-  //   margin-block-end: 1em;
-  //   margin-inline-start: 0px;
-  //   margin-inline-end: 0px;
-  // padding-inline-start: 40px;
 `;
 const ContentTabListItem = styled.li`
   position: relative;
