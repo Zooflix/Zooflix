@@ -19,6 +19,9 @@ function Sort(props: SortProps) {
                 <option key="userTem" value="userTem">
                     온도순
                 </option>
+                <option key="end" value="end">
+                    예측 완료 글
+                </option>
             </select>
         </Wrapper>
     );
@@ -29,7 +32,7 @@ export default Sort;
 const Wrapper = styled.div`
     select {
         height: 30px;
-        width: 80px;
+        width: 100px;
         border: none;
         box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
