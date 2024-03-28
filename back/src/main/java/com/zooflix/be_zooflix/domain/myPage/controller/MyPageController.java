@@ -31,8 +31,8 @@ public class MyPageController {
     }
 
     @Operation(summary = "내 예측 글 보기")
-    @GetMapping("/my-page/predict/{userNo}")
-    public ResponseEntity<List<MyPredictionDto>> selectMyPrediction(@PathVariable int userNo, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @GetMapping("/my-page/predict")
+    public ResponseEntity<List<MyPredictionDto>> selectMyPrediction(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         if(customUserDetails == null) {
             System.out.println("null!");
@@ -44,8 +44,8 @@ public class MyPageController {
 
 
     @Operation(summary = "내 정보 보기")
-    @GetMapping("/my-page/info/{userNo}")
-    public ResponseEntity<MyInfoDto> selectMyInfo(@PathVariable int userNo, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @GetMapping("/my-page/info")
+    public ResponseEntity<MyInfoDto> selectMyInfo(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         if(customUserDetails == null) {
             System.out.println("null!");
             throw new RuntimeException("토큰이 존재하지 않습니다.");
@@ -55,8 +55,8 @@ public class MyPageController {
     }
 
     @Operation(summary = "내가 구독 중인 회원 목록(구독인덱스, 닉네임, 온도)")
-    @GetMapping("/my-page/subscribe/{userNo}")
-    public  ResponseEntity<List<MySubscribeDto>> selectMySubscribe(@PathVariable int userNo, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @GetMapping("/my-page/subscribe")
+    public  ResponseEntity<List<MySubscribeDto>> selectMySubscribe(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         if(customUserDetails == null) {
             System.out.println("null!");
             throw new RuntimeException("토큰이 존재하지 않습니다.");

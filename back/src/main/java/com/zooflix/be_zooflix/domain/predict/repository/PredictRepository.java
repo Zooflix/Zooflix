@@ -49,6 +49,9 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
     @Query(nativeQuery = true, value = "SELECT pd_result from predict where user_no= :userNo AND stock_name = :stockName AND pd_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) and pd_date <= CURRENT_DATE();")
     List<String> findPdResultByUserNo(int userNo, String stockName);
 
+    @Query(nativeQuery = true, value = "SELECT CASE  WHEN COUNT(*) >= 1 THEN 'true'  ELSE 'false' END AS result from predict where user_no= :userNo AND stock_name = :stockName AND pd_result IS NULL")
+    boolean findStockNameNoResult(int userNo, String stockName); //있으면true 없으면false
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(nativeQuery = true, value = "delete from predict p where p.user_no = :userNo")

@@ -49,45 +49,31 @@ else:
 #
 # 주요 지표 추출 (혜진 + 수민)
 #
-
-
-class IndicesResponse(BaseModel):
-    KOSPI: float
-    KOSDAQ: float
-    USD_KRW: float
-
-
-@app.get("/get_indices/", response_model=List[IndicesResponse])
-async def get_indices() -> List[IndicesResponse]:
+@app.get("/get_indices/")
+async def get_indices():
     today = datetime.datetime.now().strftime('%Y-%m-%d')
 
-    kospi_data = fdr.DataReader('KS11', today, today)
-    kosdaq_data = fdr.DataReader('KQ11', today, today)
-    dau_data = fdr.DataReader('DJI', today, today)
+
+    kospi_data = fdr.DataReader('KS11', today)
+    kosdaq_data = fdr.DataReader('KQ11', today)
+    dau_data = fdr.DataReader('DJI', today)
     # nasdaq_data = fdr.DataReader('IXIC', today, today)
     # us500_data = fdr.DataReader('US500', today, today)
     # kospi50_data = fdr.DataReader('KS50', today, today)
     # kospi100_data = fdr.DataReader('KS100', today, today)
-    usd_krw_data = fdr.DataReader('USD/KRW', today, today)
+    usd_krw_data = fdr.DataReader('USD/KRW', today)
 
     kospi_index = kospi_data.iloc[0]['Close']
     kosdaq_index = kosdaq_data.iloc[0]['Close']
-
-    dau_index = dau_data.iloc[0]['Close']
+    # dau_index = dau_data.iloc[0]["Close"]
     # nasdaq_index = nasdaq_data.iloc[0]['Close']
     # us500_index = us500_data.iloc[0]['Close']
     # kospi50_index = kospi50_data.iloc[0]['Close']
     # kospi100_index = kospi100_data.iloc[0]['Close']
     usd_krw_rate = usd_krw_data.iloc[0]['Close']
 
-    print(kospi_index)
-    print(kosdaq_index)
-    print(usd_krw_data)
+    return [kospi_index, kosdaq_index, usd_krw_rate]
 
-    indices_response = [
-        IndicesResponse(KOSPI=kospi_index, KOSDAQ=kosdaq_index, USD_KRW=usd_krw_rate)
-    ]
-    return indices_response
 #
 # 전체목록 가져오기
 #

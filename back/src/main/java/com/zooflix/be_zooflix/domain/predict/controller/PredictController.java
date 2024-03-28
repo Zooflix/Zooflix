@@ -54,6 +54,12 @@ public class PredictController {
         return ResponseEntity.ok(savedPredict);
     }
 
+    @Operation(summary = "예측 가능 확인")
+    @GetMapping("/predict/check")
+    public boolean checkPredict(@RequestParam int userNo,@RequestParam String stockName) {
+        return predictService.checkPredict(userNo, stockName);
+    }
+
     @Operation(summary = "종가 업데이트")
     @PostMapping("predict/nxtvalue")
     public ResponseEntity<?> updateNxtValue() {

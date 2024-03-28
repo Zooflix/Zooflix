@@ -128,6 +128,11 @@ public class PredictService {
         return toDto(predictRepository.save(predict));
     }
 
+    //이미 예측중인게 있으면 글작성불가
+    public boolean checkPredict(int userNo, String stockName){
+        return predictRepository.findStockNameNoResult(userNo, stockName);
+    }
+
     //종가 업데이트
     @Scheduled(cron = "0 30 15 ? * MON-FRI")
     public void postNxtValue() {
