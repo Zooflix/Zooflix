@@ -25,6 +25,7 @@ import styled from "styled-components";
 import SubscribeStock from "./pages/SubscribeStock/SubscribeStock";
 import UpdateMyInfo from "./components/Mypage/UpdateMyInfo";
 import CharacterCursor from "./components/Character/CharacterCursor";
+import ZbtiResult from "./pages/Zbti/ZbtiResult";
 
 function App() {
   const location = useLocation();
@@ -45,6 +46,7 @@ function App() {
       "/problem8",
       "/zbti",
       "/loading",
+      "/result",
     ].includes(pathname);
   };
 
@@ -82,6 +84,8 @@ function App() {
             <Route path="/problem7" element={<Problem7 />} />
             <Route path="/problem8" element={<Problem8 />} />
             <Route path="/loading" element={<Loading />} />
+            <Route path="/result" element={<ZbtiResult />} />
+
             <Route path="/predict" element={<Predict />} />
 
             <Route path="/predict/create" element={<PredictCreate />} />

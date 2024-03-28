@@ -2,11 +2,17 @@ import { useState } from "react";
 import styled from "styled-components";
 import MyPredictList from "./MyPredictList";
 import MySubscribeList from "./MySubscribeList";
+import PredictList from "../../components/Predict/PredictList";
+import { useRecoilState } from "recoil";
+import { myPagePredictListState } from "../../Store/MyPageState";
 
 interface ContentHeaderProps {}
 
 function ContentHeader(props: ContentHeaderProps) {
   const [selectedTab, setSelectedTab] = useState<string>("my-predictions");
+  const [myPagePredictList, setMyPagePredictList] = useRecoilState(
+    myPagePredictListState
+);
 
   const handleTabClick = (tabName: string) => {
     setSelectedTab(tabName);
@@ -37,7 +43,7 @@ function ContentHeader(props: ContentHeaderProps) {
         </ContentHeaderTab>
       </ContentTabHeader>
 
-      {selectedTab === "my-predictions" && <MyPredictList />}
+      {selectedTab === "my-predictions" && <PredictList currentPage={myPagePredictList} />}
       {selectedTab === "my-subscriptions" && <MySubscribeList />}
     </Wrapper>
   );
