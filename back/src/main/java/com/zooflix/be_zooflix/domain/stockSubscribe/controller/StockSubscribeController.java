@@ -3,6 +3,7 @@ package com.zooflix.be_zooflix.domain.stockSubscribe.controller;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
 import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
+import com.zooflix.be_zooflix.global.jwt.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import com.zooflix.be_zooflix.domain.stockSubscribe.dto.request.*;
 import com.zooflix.be_zooflix.domain.stockSubscribe.service.StockSubscribeService;
 import jakarta.validation.Valid;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.zooflix.be_zooflix.global.result.ResultResponse;
@@ -33,7 +35,8 @@ public class StockSubscribeController {
      */
     @PostMapping("/subscribe")
     @Operation(summary = "주식 정기 구독")
-    public ResponseEntity<ResultResponse<Integer>> insertStockSubscribe(@RequestBody @Valid AddStockSubscribeRequest request) {
+    public ResponseEntity<ResultResponse<Integer>> insertStockSubscribe(@RequestBody @Valid AddStockSubscribeRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        request.setUserId(customUserDetails.getUserId());
         int result =  service.postSubscribe(request);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
     }
@@ -44,8 +47,8 @@ public class StockSubscribeController {
      */
     @DeleteMapping("/subscribe/termination/{stockSubscribeNo}")
     @Operation(summary = "주식 정기 구독 해지")
-    public ResponseEntity<ResultResponse<Integer>> terminationSubscribe(@PathVariable(name = "stockSubscribeNo") int stockSubscribeNo) {
-        int result =  service.terminationSubscribe(stockSubscribeNo);
+    public ResponseEntity<ResultResponse<Integer>> terminationSubscribe(@PathVariable(name = "stockSubscribeNo") int stockSubscribeNo, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        int result =  service.terminationSubscribe(stockSubscribeNo, customUserDetails.getUserNo());
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
     }
 
@@ -64,11 +67,11 @@ public class StockSubscribeController {
      * 3.4 user api key 있는지 확인
      *
      */
-    @GetMapping("/subscribe/checkApikey/{userNo}")
+    @GetMapping("/subscribe/checkApikey")
     @Operation(summary = "등록된 API key가 있는지 확인")
-    public ResponseEntity<ResultResponse<UserKeyProjection>> checkUserApiKey(@PathVariable(name = "userNo") int userNo) {
-        UserKeyProjection checkApiKey = service.checkApiKey(userNo);
-        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), checkApiKey));
+    public ResponseEntity<ResultResponse<Boolean>> checkUserApiKey(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        boolean apiKeyExists = service.checkApiKey(customUserDetails.getUserNo());
+        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), apiKeyExists));
     }
 
 }
