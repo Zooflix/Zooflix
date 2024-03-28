@@ -6,12 +6,12 @@ const REST_USER_API = `/user`;
 const REACT_APP_HOME_URL = 'http://localhost:8089';
 
 //회원 로그인
-export async function loginUser(userId: String, userPw: String) {
+export async function loginUser(userId: String, userPw: String) {  
   try {
     const response = await axios.post(
-      `${REACT_APP_HOME_URL}/login`, 
+      `/login`, 
       { userId, userPw },
-      {withCredentials: true},)
+      { headers: { "access": localStorage.getItem('access') }, withCredentials: true},)
       .then(res => {
       localStorage.setItem("access", res.headers['access']);
       
@@ -28,12 +28,12 @@ export async function loginUser(userId: String, userPw: String) {
 export async function logoutUser() {
   try {
     const response = await axios.post(
-      `${REACT_APP_HOME_URL}/logout`,
+      `/logout`,
       {},
-      {withCredentials: true},)
-      .then(res => {      
-      localStorage.removeItem("access");
-      return res;
+      { headers: { "access": localStorage.getItem('access') }, withCredentials: true},)
+      .then(res => {        
+        localStorage.removeItem("access");
+        return res;
     });
     
     return response.status;
