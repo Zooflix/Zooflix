@@ -1,13 +1,20 @@
+import styled from "styled-components";
 import BackBtn from "../../components/Common/BackBtn";
 import SignupForm from "../../components/User/SignupForm";
 
 function Signup() {
   return (
-    <div>
+    <SignupWrapper>
       <BackBtn link="/main" />
       <SignupForm />;
-    </div>
+    </SignupWrapper>
   );
 }
 
 export default Signup;
+
+const SignupWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+`;

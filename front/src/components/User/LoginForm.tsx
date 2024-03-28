@@ -5,12 +5,13 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { userIdState, userPwState } from "../../Store/UserState";
 import UserBack from "./UserBack";
+import BackBtn from "../Common/BackBtn";
 
 function LoginForm() {
   const navigate = useNavigate();
 
-    const [userId, setUserId] = useRecoilState(userIdState);
-    const [userPw, setUserPw] = useRecoilState(userPwState);
+  const [userId, setUserId] = useRecoilState(userIdState);
+  const [userPw, setUserPw] = useRecoilState(userPwState);
 
   const handleSignupClick = () => {
     navigate("/signup");
@@ -20,21 +21,21 @@ function LoginForm() {
     try {
       const result = await loginUser(userId, userPw);
       if (result == 200) {
-        navigate("/main");  
-      }
-      else {
+        navigate("/main");
+      } else {
         alert("아이디나 비밀번호를 확인해주세요.");
       }
-      
     } catch (e) {
       console.error(e);
     }
   };
 
   return (
-    <Wrapper>
+    <LoginWrapper>
       {/* <UserBackground /> */}
+      <BackBtn link="/main" />
       <UserBack />
+
       <Container>
         <h2>LOG IN</h2>
         <InputContainer>
@@ -56,13 +57,18 @@ function LoginForm() {
           아직 회원이 아니신가요?
         </GoToRegister>
       </Container>
-    </Wrapper>
+    </LoginWrapper>
   );
 }
 
 export default LoginForm;
 
-const Wrapper = styled.div``;
+const LoginWrapper = styled.div`
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+`;
 
 const Container = styled.div`
   input {
@@ -102,6 +108,7 @@ const Container = styled.div`
   z-index: 1;
   transform: translate(-50%, -50%);
   padding: 300px;
+  height: 100vh;
 `;
 
 const InputContainer = styled.div`
