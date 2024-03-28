@@ -20,9 +20,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import warnings
 import platform
-from datetime import datetime
+import datetime
 import io
 from typing import List
+from typing import Optional
 from starlette.responses import StreamingResponse
 import asyncio
 
@@ -48,9 +49,17 @@ else:
 #
 # 주요 지표 추출 (혜진 + 수민)
 #
-@app.get("/get_indices/")
-async def get_indices():
-    today = datetime.now().strftime('%Y-%m-%d')
+
+
+class IndicesResponse(BaseModel):
+    KOSPI: float
+    KOSDAQ: float
+    USD_KRW: float
+
+
+@app.get("/get_indices/", response_model=List[IndicesResponse])
+async def get_indices() -> List[IndicesResponse]:
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
 
     kospi_data = fdr.DataReader('KS11', today, today)
     kosdaq_data = fdr.DataReader('KQ11', today, today)
@@ -63,6 +72,7 @@ async def get_indices():
 
     kospi_index = kospi_data.iloc[0]['Close']
     kosdaq_index = kosdaq_data.iloc[0]['Close']
+
     dau_index = dau_data.iloc[0]['Close']
     # nasdaq_index = nasdaq_data.iloc[0]['Close']
     # us500_index = us500_data.iloc[0]['Close']
@@ -70,12 +80,14 @@ async def get_indices():
     # kospi100_index = kospi100_data.iloc[0]['Close']
     usd_krw_rate = usd_krw_data.iloc[0]['Close']
 
-    return {
-        "KOSPI": kospi_index,
-        "KOSDAQ": kosdaq_index,
-        "USD/KRW": usd_krw_rate,
-    }
+    print(kospi_index)
+    print(kosdaq_index)
+    print(usd_krw_data)
 
+    indices_response = [
+        IndicesResponse(KOSPI=kospi_index, KOSDAQ=kosdaq_index, USD_KRW=usd_krw_rate)
+    ]
+    return indices_response
 #
 # 전체목록 가져오기
 #
