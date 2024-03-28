@@ -34,8 +34,9 @@ const NoResultsMessage = styled.div`
 
 const Container = styled.div`
     display: flex;
-    overflow-x: auto;
-    -ms-overflow-style: none;
+    overflow-y: auto;
+    flex-direction: column;
+    overflow-y: auto;
     scrollbar-width: none;
     &::-webkit-scrollbar {
         display: none;
