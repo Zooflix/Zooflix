@@ -20,5 +20,8 @@ const Wrapper = styled.div`
   text-aligns: center;
   h1 {
     color: #0d274d;
+    font-family: WAGURITTF;
+    font-weight: lighter;
+    font-size: 50px;
   }
 `;

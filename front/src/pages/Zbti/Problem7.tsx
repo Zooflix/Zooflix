@@ -16,25 +16,27 @@ function Problem7() {
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader />
-        <Question text="나의 1년 목표 수익률은?" />
-        <ImgContainer>
-          <img
-            src={Icon}
-            alt="icon"
-            className="icon"
-            loading="lazy"
-            decoding="async"
+        <ZbtiHeader backLink="/zbti"/>
+        <Container>
+          <Question text="나의 1년 목표 수익률은?" />
+          <ImgContainer>
+            <img
+              src={Icon}
+              alt="icon"
+              className="icon"
+              loading="lazy"
+              decoding="async"
+            />
+          </ImgContainer>
+          <Answer
+            text="예금 금리만 넘기는 수준이라면 만족"
+            onClick={handleAnswerClick}
           />
-        </ImgContainer>
-        <Answer
-          text="예금 금리만 넘기는 수준이라면 만족"
-          onClick={handleAnswerClick}
-        />
-        <Answer
-          text="위험을 감수했으니 50%도 기대할거야."
-          onClick={handleAnswerClick}
-        />
+          <Answer
+            text="위험을 감수했으니 50%도 기대할거야."
+            onClick={handleAnswerClick}
+          />
+        </Container>
       </Wrapper>
     </PageTransition>
   );
@@ -48,7 +50,17 @@ const Wrapper = styled.div`
   }
 `;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+`; 
+
+
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 10px 0 30px;
+  max-height: 350px;
 `;

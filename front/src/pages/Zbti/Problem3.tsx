@@ -17,25 +17,27 @@ function Problem3() {
   return (
     <PageTransition>
       <Wrapper>
-        <ZbtiHeader />
-        <Question text="주식이 급등해서 10%의 수익을 얻는다면?" />
-        <ImgContainer>
-          <img
-            src={Icon}
-            alt="icon"
-            className="icon"
-            loading="lazy"
-            decoding="async"
+        <ZbtiHeader backLink="/zbti"/>
+        <Container>
+          <Question text="주식이 급등해서 10%의 수익을 얻는다면?" />
+          <ImgContainer>
+            <img
+              src={Icon}
+              alt="icon"
+              className="icon"
+              loading="lazy"
+              decoding="async"
+            />
+          </ImgContainer>
+          <Answer
+            text="미래가 중요해.. 나는 존버할래.."
+            onClick={handleAnswerClick}
           />
-        </ImgContainer>
-        <Answer
-          text="미래가 중요해.. 나는 존버할래.."
-          onClick={handleAnswerClick}
-        />
-        <Answer
-          text="현재가 제일 중요하지. 바로 익절하고 지금 가자!"
-          onClick={handleAnswerClick}
-        />
+          <Answer
+            text="현재가 제일 중요하지. 바로 익절하고 지금 가자!"
+            onClick={handleAnswerClick}
+          />
+        </Container>
       </Wrapper>
     </PageTransition>
   );
@@ -45,11 +47,21 @@ export default Problem3;
 
 const Wrapper = styled.div`
   .icon {
-    width: 400px;
+    width: 370px;
   }
 `;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+`; 
+
 
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin: 10px 0 30px;
+  max-height: 350px;
 `;
