@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 // 이미지
 import Bear from "../../assets/img/character/Bear.svg";
@@ -8,18 +8,27 @@ import Rabbit from "../../assets/img/character/Rabbit.svg";
 import Panda from "../../assets/img/character/Panda.svg";
 import Sloth from "../../assets/img/character/Sloth.svg";
 
+// 컴포넌트
+import Character from "../../components/Character/Character3d";
+
 function Loading() {
   return (
     <Wrapper>
       <h1>분석중</h1>
-      <ImgContainer>
-        <img src={Bear} alt="Bear" />
-        {/* <img src={Fox} alt="Fox" />
-        <img src={Lion} alt="Lion" />
-        <img src={Rabbit} alt="Rabbit" />
-        <img src={Panda} alt="Panda" />
-        <img src={Sloth} alt="Sloth" /> */}
-        </ImgContainer>
+        <Container>
+          <div>
+            <Character name="Unicorn" characterScale={0.25} canvasWidth={250} canvasHeight={300} action="none"/>
+          </div>
+          <div>
+            <Character name="Lion" characterScale={0.25} canvasWidth={250} canvasHeight={300} action="none"/>
+          </div>
+          <div>
+            <Character name="Sloth" characterScale={0.25} canvasWidth={250} canvasHeight={300} action="none"/>
+          </div>
+          <div>
+            <Character name="Cow" characterScale={0.25} canvasWidth={250} canvasHeight={300} action="none"/>
+          </div>
+        </Container>
     </Wrapper>
   );
 }
@@ -27,8 +36,9 @@ function Loading() {
 export default Loading;
 
 const Wrapper = styled.div`
-  position:relative;
-  // overflow:hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   h1 {
     font-family: WAGURITTF;
@@ -37,67 +47,42 @@ const Wrapper = styled.div`
   }
 `;
 
-const ImgContainer = styled.div`
-  position: relative;
+const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  width: 700px;
+  position: relative;
+  justify-content: space-between;
 
-  img {
-    width: 100px;
-    position: absolute;
-    animation: bounce 1.2s infinite;
+  div {
+    position: relative;
+    top: 20px;
+    display: inline-block;
+    animation: bounce .7s ease alternate;
+    font-size: 50px;
+    color: #0d274d;
   }
+  
+  div :nth-child(2) { animation-delay: .1s; }
+  div :nth-child(3) { animation-delay: .2s; }
+  div :nth-child(4) { animation-delay: .3s; }
+  div :nth-child(5) { animation-delay: .4s; }
 
   @keyframes bounce {
-    0% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(50px) translateY(-30px);
-    }
     100% {
-      transform: translateX(100px);
+      top: -20px;
+      text-shadow: 0 1px 0 #CCC,
+                   0 2px 0 #CCC,
+                   0 3px 0 #CCC,
+                   0 4px 0 #CCC,
+                   0 5px 0 #CCC,
+                   0 6px 0 #CCC,
+                   0 7px 0 #CCC,
+                   0 8px 0 #CCC,
+                   0 9px 0 #CCC,
+                   0 50px 25px rgba(0, 0, 0, .2);
     }
   }
-  // @keyframes bounce {
-  //   0% {
-  //     top: 30px;
-  // 	  animation-timing-function: ease-in;
-  // 	}
-  // 	50% {
-  //     top: 100px;
-  //     animation-timing-function: ease-out;
-  // 	}
-  // 	60% {
-  //     top: 120px;
-  // 	  animation-timing-function: ease-in;
-  //   }
-  // 	65% {
-  //     top: 100px;
-  // 	  animation-timing-function: ease-out;
-  //   }
-  // 	90% {
-  // 	  top: 30px;
-  // 	  animation-timing-function: ease-in;
-  // 	}
-  // 	100% {
-  //     top: 30px;
-  // 	  animation-timing-function: ease-in;
-  // 	}
-  // }
-
-  // @keyframes bannermove {
-  //   0% {
-  //       transform: translate(0, 0);
-  //   }
-  //   // 50% {
-  //   //     transform: translate(50%, 0);
-  //   // }
-  //   100% {
-  //     transform: translate(100%, 0);
-  //   }
-  // }
 `;
 
 

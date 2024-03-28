@@ -267,7 +267,7 @@ function PredictCreateForm() {
                 }}
                 onClick={refreshPrice}
               />
-              <ImgBtn src={Informationbtn} style={informationStyle} />
+              <ImgBtn src={Informationbtn} style={informationStyle} information={{text:"해당 가격을 기준으로 \n 예측글이 등록됩니다.\n 가격을 업데이트 하려면\n새로고침을 눌러주세요."}}/>
             </>
           )}
         </SearchContainer>

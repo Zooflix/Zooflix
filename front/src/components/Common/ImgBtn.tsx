@@ -9,7 +9,12 @@ type ImgBtnProps = {
   onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
   disabled?: boolean;
   style?: React.CSSProperties;
+  information?: InformationProps;
 };
+
+type InformationProps = {
+  text: string;
+}
 
 function ImgBtn(props: ImgBtnProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -31,13 +36,7 @@ function ImgBtn(props: ImgBtnProps) {
         <ButtonImg src={props.src} style={props.style} />
         {props.src === Informationbtn && isHovered && (
           <Information>
-            해당 가격을 기준으로
-            <br />
-            예측글이 등록됩니다.
-            <br />
-            가격을 업데이트 하려면
-            <br />
-            새로고침을 눌러주세요.
+            {props.information?.text}
           </Information>
         )}
       </Button>
