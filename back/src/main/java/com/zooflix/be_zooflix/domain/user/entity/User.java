@@ -64,12 +64,14 @@ public class User {
     @Column
     private LocalDateTime userTokenDate;
 
-    public void userUpdate(String userName, String userPw) {
+    public void userUpdate(String userId, String userName, String userPw) {
+        this.userId = userId;
         this.userName = userName;
         this.userPw = userPw;
     }
 
-    public void userUpdateKey(String userName, String userPw, String userAppKey, String userSecretKey, String userAccount) {
+    public void userUpdateKey(String userId, String userName, String userPw, String userAppKey, String userSecretKey, String userAccount) {
+        this.userId = userId;
         this.userName = userName;
         this.userPw = userPw;
         this.userAppKey = userAppKey;

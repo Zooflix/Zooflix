@@ -25,16 +25,22 @@ public class MainService {
     private final UserRepository userRepository;
     private final StockSubscribeRepository stockSubscribeRepository;
 
-    @Value("http://127.0.0.1:8000/get_indices")
+    @Value("${python.endpoint.indices}")
     private String indicesEndpoint;
 
     public double[] callIndicesEndpoint() {
         RestTemplate restTemplate = new RestTemplate();
         // REST API 호출
-        double[] result = restTemplate.postForObject(indicesEndpoint, null, double[].class);
-        return result;
-    }
+        Double[] result = restTemplate.getForObject(indicesEndpoint, Double[].class);
 
+        // double[]로 변환
+        double[] convertedResult = new double[result.length];
+        for (int i = 0; i < result.length; i++) {
+            convertedResult[i] = result[i];
+        }
+
+        return convertedResult;
+    }
     /**
      * 2.1 메인페이지 - 랭킹 데이터 조회
      */
@@ -47,6 +53,7 @@ public class MainService {
         List<StockRankingProjection> stockRankingList = stockSubscribeRepository.getStockRanking();
 
         double[] result = callIndicesEndpoint();
+        System.out.println(result);
 
         return new MainDto(result[0], result[1], result[2], userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
     }
