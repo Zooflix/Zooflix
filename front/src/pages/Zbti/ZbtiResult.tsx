@@ -4,13 +4,13 @@ import { zbtiState } from "../../Store/ZbtiState";
 
 import sloth from "../../assets/img/Portfolio/sloth.svg";
 import cow from "../../assets/img/Portfolio/cow.svg";
-import fox from "../../assets/img/Portfolio/fox.svg";
-import hippo from "../../assets/img/Portfolio/hippo.svg";
-import lion from "../../assets/img/Portfolio/lion.svg";
-import monkey from "../../assets/img/Portfolio/monkey.svg";
+// import fox from "../../assets/img/Portfolio/fox.svg";
+// import hippo from "../../assets/img/Portfolio/hippo.svg";
+// import lion from "../../assets/img/Portfolio/lion.svg";
+// import monkey from "../../assets/img/Portfolio/monkey.svg";
 import panda from "../../assets/img/Portfolio/panda.svg";
 import pig from "../../assets/img/Portfolio/pig.svg";
-import rabbit from "../../assets/img/Portfolio/rabbit.svg";
+// import rabbit from "../../assets/img/Portfolio/rabbit.svg";
 import unicorn from "../../assets/img/Portfolio/unicorn.svg";
 import zebra from "../../assets/img/Portfolio/zebra.svg";
 
@@ -33,22 +33,22 @@ function ZbtiResult() {
   return (
     <Container>
       {isSloth && <img src={sloth} alt="sloth portfolio" />}
-      {isHippo && <img src={hippo} alt="hippo portfolio" />}
+      {/* {isHippo && <img src={hippo} alt="hippo portfolio" />} */}
       {isUnicorn && <img src={unicorn} alt="unicorn portfolio" />}
-      {isFox && <img src={fox} alt="fox portfolio" />}
-      {isRabbit && <img src={rabbit} alt="rabbit portfolio" />}
+      {/* {isFox && <img src={fox} alt="fox portfolio" />} */}
+      {/* {isRabbit && <img src={rabbit} alt="rabbit portfolio" />} */}
       {isPig && <img src={pig} alt="pig portfolio" />}
-      {isMonkey && <img src={monkey} alt="monkey portfolio" />}
+      {/* {isMonkey && <img src={monkey} alt="monkey portfolio" />} */}
       {isCow && <img src={cow} alt="cow portfolio" />}
       {isZebra && <img src={zebra} alt="zebra portfolio" />}
-      {isLion && <img src={lion} alt="lion portfolio" />}
+      {/* {isLion && <img src={lion} alt="lion portfolio" />} */}
       {/* 나머지는 판다 */}
       {isPanda && <img src={panda} alt="panda portfolio" />}
     </Container>
   );
 }
-
+// df
 export default ZbtiResult;
 
 const Container = styled.div``;
-const ResultValue = styled.div``;
+// const ResultValue = styled.div``;
