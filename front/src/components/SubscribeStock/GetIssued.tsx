@@ -1,13 +1,19 @@
-// 발급받기
-
 import styled from "styled-components";
-import SquareBtn from "../Common/SquareBtn";
+import { useNavigate } from "react-router-dom";
 
 function GetIssued() {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    const url =
+      "https://apiportal.koreainvestment.com/apiservice/oauth2#L_5c87ba63-740a-4166-93ac-803510bb9c02";
+    window.location.href = url;
+  };
+
   return (
     <Wrapper>
       <Text>APP 키가 없으신가요?</Text>
-      <Button>발급받기</Button>
+      <Button onClick={handleButtonClick}>발급받기</Button>
     </Wrapper>
   );
 }
