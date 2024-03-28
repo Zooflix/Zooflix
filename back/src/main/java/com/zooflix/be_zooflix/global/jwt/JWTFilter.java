@@ -30,7 +30,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
         // 토큰이 없다면 다음 필터로 넘김
         if (accessToken == null) {
-
             filterChain.doFilter(request, response);
 
             return;
@@ -67,12 +66,13 @@ public class JWTFilter extends OncePerRequestFilter {
         // username, role 값을 획득
         String username = jwtUtil.getUsername(accessToken);
         String role = jwtUtil.getRole(accessToken);
+        int userNo = jwtUtil.getUserNo(accessToken);
 
         UserDto userDto = new UserDto();
         userDto.setUserId(username);
         userDto.setUserRole(role);
+        userDto.setUserNo(userNo);
         CustomUserDetails customUserDetails = new CustomUserDetails(userDto);
-
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
 

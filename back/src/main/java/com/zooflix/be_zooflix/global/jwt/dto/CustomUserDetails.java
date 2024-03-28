@@ -42,7 +42,11 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public String getUsername() { // 난 userId로 쓰는데 만들어져 있는 메서드들은 username 기준이라 이름만 이렇게 하고 실제 값은 id로 줘야 한다.
+    public String getUsername() {
+        return userDto.getUserName();
+    }
+
+    public String getUserId() {
 
         return userDto.getUserId();
     }
