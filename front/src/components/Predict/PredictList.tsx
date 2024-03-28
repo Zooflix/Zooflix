@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 
 import { deletePredict } from "../../apis/api/Predict";
+import { report } from "../../apis/api/Report";
 import { selectUserNoState } from "../../Store/PredictState";
 import { selectStockNameState } from "../../Store/PredictState";
 import { selectUserNameState } from "../../Store/PredictState";
@@ -56,6 +57,20 @@ function PredictList(props: PredictProps) {
     }
     try {
       await deletePredict(pdNo);
+      window.location.reload();
+    } catch (error) {
+      console.log("Error deleting data:", error);
+    }
+  };
+
+  //신고
+  const handleReport = async (userNo: number, pdNo: number) => {
+    const isReport = window.confirm("글을 신고하시겠습니까?");
+    if (!isReport) {
+      return;
+    }
+    try {
+      await report(userNo, pdNo);
       window.location.reload();
     } catch (error) {
       console.log("Error deleting data:", error);
@@ -144,19 +159,23 @@ function PredictList(props: PredictProps) {
                   style={{ marginRight: "20px" }}
                   onClick={() => handleDelete(item.pdNo)}
                 />
-                <img src={Reportbtn} alt="신고" />
+                <img
+                  src={Reportbtn}
+                  alt="신고"
+                  onClick={() => handleReport(item.userNo, item.pdNo)}
+                />
               </FeedIcon>
             </Click>
           </Feed>
         ))}
-        {/* 모달 */}
-        {props.currentPage && (
-          <UserDetailModal
-            isModalOpen={isModalOpen}
-            closeModal={closeModal}
-            userName={selectUserName}
-          />
-        )}
+      {/* 모달 */}
+      {props.currentPage && (
+        <UserDetailModal
+          isModalOpen={isModalOpen}
+          closeModal={closeModal}
+          userName={selectUserName}
+        />
+      )}
     </Wrapper>
   );
 }

@@ -16,7 +16,7 @@ import PredictInput from "./PredictInput";
 import PredictReasonInput from "./PredictReasonInput";
 import SquareBtn from "../../components/Common/SquareBtn";
 
-import { Alert, AlertColor, Box, Snackbar } from "@mui/material";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
 
 // 스타일
 const searchInputStyle = {
@@ -75,6 +75,15 @@ function PredictCreateForm() {
     };
 
     const handlePredict = async () => {
+        if (stockName === "") {
+            setOpen(true);
+            setAlertOption({
+                severity: "error",
+                value: "종목명을 선택해 주세요.",
+            });
+            //   alert("종목명을 선택해 주세요.");
+            return;
+        }
         if (predictDate === "") {
             setOpen(true);
             setAlertOption({
@@ -119,15 +128,7 @@ function PredictCreateForm() {
             //   alert("예측 근거는 10자 이상 입력해 주세요.");
             return;
         }
-        if (stockName === "") {
-            setOpen(true);
-            setAlertOption({
-                severity: "error",
-                value: "종목명을 선택해 주세요.",
-            });
-            //   alert("종목명을 선택해 주세요.");
-            return;
-        }
+
         const predict = {
             stockName: stockName,
             userNo: 14,
@@ -170,30 +171,30 @@ function PredictCreateForm() {
     };
 
     const possibleCheck = async () => {
-      const check = await checkPredict(14, stockName);
-      return check;
-  }
-  
-  useEffect(() => {
-      const fetchDataAndCheck = async () => {
-          const check = await possibleCheck();
-          if (check === true) {
-            alert("이미 예측중인 종목입니다.")
-              // setOpen(true);
-              // setAlertOption({
-              //     severity: "error",
-              //     value: "이미 예측중인 종목입니다.",
-              // });
-              setStockName("");
-              return;
-          } else {
-              fetchData();
-              setTime();
-          }
-      };
-  
-      fetchDataAndCheck();
-  }, [stockName]);
+        const check = await checkPredict(14, stockName);
+        return check;
+    };
+
+    useEffect(() => {
+        const fetchDataAndCheck = async () => {
+            const check = await possibleCheck();
+            if (check === true) {
+                alert("이미 예측중인 종목입니다.");
+                // setOpen(true);
+                // setAlertOption({
+                //     severity: "error",
+                //     value: "이미 예측중인 종목입니다.",
+                // });
+                setStockName("");
+                return;
+            } else {
+                fetchData();
+                setTime();
+            }
+        };
+
+        fetchDataAndCheck();
+    }, [stockName]);
 
     useEffect(() => {
         if (nowPrice * 0.95 >= predictPrice) {

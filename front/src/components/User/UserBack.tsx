@@ -17,7 +17,8 @@ const movement = keyframes`
 
 const Wrapper = styled.div`
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   margin: 0;
   align-items: center;
   justify-content: center;

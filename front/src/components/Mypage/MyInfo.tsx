@@ -21,9 +21,6 @@ function MyInfo() {
     let rateOfPredict = Math.round(successCnt / myPagePredictList.length); 
     let rate = Math.round(rateOfPredict * 100) / 100;
 
-
-    console.log("MyInfo : " + rate);
-
     return (
         <Wrapper>
             <LeftsideQuestion>
