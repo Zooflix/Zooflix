@@ -39,6 +39,60 @@ function Mypage() {
     navigate("/zbti");
   };
 
+  // 임의의 인덱스값 userNo 넣음
+  const fetchData = async () => {
+    //내 정보
+    try {
+      const dataInfo = await getMyInfo()
+        .then(resInfo => {
+          console.log(resInfo)
+          setMyPageInfo(resInfo?.data);
+          console.log("마이인포: " + myPageInfo.userName);
+
+          const dataPredict = getMyPredictList()
+            .then(resPredict => {
+              setMyPagePredictList(resPredict);
+              console.log("프리딕트: " + myPagePredictList);
+
+              const dataSubscribe = getMySubscribeList()
+                .then(resSubscribe => {
+                  setMyPageSubscribeList(resSubscribe);
+                  console.log("내가 구독한 사람 목록 : " + myPageSubscribeList)
+
+                  const dataStock = getMyStockList(userId)
+                    .then(resStock => {
+                      setMyStockList(resStock);
+                      console.log("내 주식 구독 목록 : " + myStockList);
+                    })
+                    .catch(error => {
+                      console.log("내 주식 구독 목록 불러오기 실패");
+                      console.error(error);
+                    });
+
+                })
+                .catch(error => {
+                  console.log("내가 구독한 사람 목록 불러오기 실패");
+                  console.error(error);
+                });
+
+            })
+            .catch(error => {
+              console.log("내 예측 목록 실패");
+              console.error(error);
+            });
+
+        })
+        .catch(error => {
+          console.log("내 정보 불러오기 실패");
+          console.error(error);
+        });      
+    } catch (error) {
+      console.log("최종실패?");
+      console.error(error);
+    }   
+
+  };
+
   // const accessToken = localStorage.getItem('accessToken');
   const userId = "user1";
 
@@ -48,56 +102,26 @@ function Mypage() {
     //     return;
     // }
 
-    // 임의의 인덱스값 userNo 넣음
-    const fetchData = async () => {
-      //내 정보
-      try {
-        const data = await getMyInfo();
-        setMyPageInfo(data);
-        console.log(data);
-      } catch (error) {
-        console.log("내 정보 불러오기 실패");
-        console.error(error);
-      }
-
-      //내 예측 글 목록
-      try {
-        const data = await getMyPredictList();
-        setMyPagePredictList(data);
-        console.log(data);
-      } catch (error) {
-        console.log("내 예측 목록 실패");
-        console.error(error);
-      }
-
-      //내가 구독한 사람 목록
-      try {
-        const data = await getMySubscribeList();
-        setMyPageSubscribeList(data);
-      } catch (error) {
-        console.log("내가 구독한 사람 목록 불러오기 실패");
-        console.error(error);
-      }
-    };
+    
 
     fetchData();
   }, []);
 
-  useEffect(() => {
-    // 임의의 인덱스값 userNo 넣음
-    const fetchData = async (userId: String) => {
-      //내 주식 구독 목록
-      try {
-        const data = await getMyStockList(userId);
-        setMyStockList(data);
-      } catch (error) {
-        console.log("내 주식 구독 목록 불러오기 실패");
-        console.error(error);
-      }
-    };
+  // useEffect(() => {
+  //   // 임의의 인덱스값 userNo 넣음
+  //   const fetchData = async (userId: String) => {
+  //     //내 주식 구독 목록
+  //     try {
+  //       const data = await getMyStockList(userId);
+  //       setMyStockList(data);
+  //     } catch (error) {
+  //       console.log("내 주식 구독 목록 불러오기 실패");
+  //       console.error(error);
+  //     }
+  //   };
 
-    fetchData(userId);
-  }, []);
+  //   fetchData(userId);
+  // }, []);
 
   return (
     <Wrapper>

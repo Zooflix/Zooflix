@@ -22,50 +22,21 @@ export async function tokenReissue() {
   return response;
 }
 
-axiosPrivate.interceptors.request.use(config => {
-  config.headers['access'] = localStorage.getItem('access');
-  console.log(localStorage.getItem('access'));
-  return config;
-}, error => {
-  return Promise.reject(error);
-})
-
-axiosPrivate.interceptors.response.use(  
-  // 200 번대 응답 처리
-  (response) => {
-    return response;
-  },
-  // 200 번대 응답이 아닌 경우
-  async (error) => {    
-    const {
-      config,
-      response: { status },
-    } = error;
-
-    // 토큰 만료된 경우. 401
-    if (status === 401) {
-      
-      if (error.response.data === 'access token expired') {        
-        const originRequest = config;
-        const response = await tokenReissue();
-        // 토큰 재발급 성공
-        if (response.status === 200) {          
-          localStorage.setItem("access", response.headers['access']);          
-          // 진행중이던 요청 이어서 하기
-          console.log("재발급 성공?")
-          console.log("리스폰스 토큰 : " + localStorage.getItem('access'));
-          originRequest.headers['access'] = localStorage.getItem('access');
-          return axios(originRequest);
-        }
-        // 토큰 재발급 실패(리프레시 토큰도 만료되면 재 로그인)
-        else if (response.status === 404) {
-          alert("다시 로그인 해주세요.");
-        }
-        else {
-          alert("로그인 필요");
-        }
+axiosPrivate.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const response = await tokenReissue(); // 토큰 재발급 요청
+      if (response.status === 200) {
+        localStorage.setItem("access", response.headers.access); // 새 토큰 저장
+        axios.defaults.headers.common['access'] = response.headers.access; // 모든 요청에 대한 기본 헤더 업데이트
+        originalRequest.headers['access'] = response.headers.access; // 실패한 요청에 대한 헤더 업데이트
+        return axios(originalRequest); // 요청 재시도
       }
     }
     return Promise.reject(error);
   }
 );
+
