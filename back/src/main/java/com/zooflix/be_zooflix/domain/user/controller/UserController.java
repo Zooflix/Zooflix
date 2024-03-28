@@ -5,10 +5,12 @@ import com.zooflix.be_zooflix.domain.user.dto.UserLoginDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserSignupDto;
 import com.zooflix.be_zooflix.domain.user.dto.UserUpdateDto;
 import com.zooflix.be_zooflix.domain.user.service.UserService;
+import com.zooflix.be_zooflix.global.jwt.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,9 +48,12 @@ public class UserController {
     }
 
     @Operation(summary = "회원정보 수정")
-    @PutMapping("/update/{userId}")
-    public ResponseEntity<String> updateUser(@PathVariable String userId, UserUpdateDto userUpdateDto) {
-        return ResponseEntity.ok(userService.putUpdateUser(userId, userUpdateDto));
+    @PutMapping("/update")
+    public ResponseEntity<String> updateUser(UserUpdateDto userUpdateDto, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if(customUserDetails == null) {
+            throw new RuntimeException("토큰이 존재하지 않습니다.");
+        }
+        return ResponseEntity.ok(userService.putUpdateUser(customUserDetails.getUserId(), userUpdateDto));
     }
 
     @Operation(summary = "예측 게시글 작성자 정보 조회")
