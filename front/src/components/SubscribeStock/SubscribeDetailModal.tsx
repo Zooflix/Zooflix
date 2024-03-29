@@ -4,10 +4,17 @@ import SquareBtn from "../Common/SquareBtn";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 import { useState } from "react";
 import { ChangeEvent } from "react";
+import { insertStockSubscribe } from "../../apis/api/Subscribe";
 
 interface ModalProps {
   isModalOpen: boolean;
   closeModal: () => void;
+  stockName: string;
+  stockSubscribeDay: number;
+  stockCount: number;
+  userAccount: string;
+  userAppKey: string;
+  userSecretKey: string;
 }
 
 const StyledModal = styled(Modal)`
@@ -16,7 +23,16 @@ const StyledModal = styled(Modal)`
   justify-content: center;
 `;
 
-function SubscribeDetailModal({ isModalOpen, closeModal }: ModalProps) {
+function SubscribeDetailModal({
+  isModalOpen,
+  closeModal,
+  stockName,
+  stockSubscribeDay,
+  stockCount,
+  userAccount,
+  userAppKey,
+  userSecretKey,
+}: ModalProps) {
   const [open, setOpen] = useState(false);
   const [alertOption, setAlertOption] = useState<{
     severity: AlertColor;
@@ -37,6 +53,14 @@ function SubscribeDetailModal({ isModalOpen, closeModal }: ModalProps) {
       });
     } else {
       setOpen(true);
+      insertStockSubscribe({
+        stockName,
+        stockSubscribeDay,
+        stockCount,
+        userAccount,
+        userAppKey,
+        userSecretKey,
+      });
       setAlertOption({
         severity: "success",
         value: "주식 구독이 성공적으로 이루어졌습니다.",

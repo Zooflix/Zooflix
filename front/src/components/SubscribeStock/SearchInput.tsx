@@ -1,17 +1,18 @@
 import styled from "styled-components";
 import Search from "../Predict/Search";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 const searchInputStyle = {
   width: "225px",
 };
 
-function SearchInput() {
-  const [stockName, setStockName] = useState("null");
+interface Props {
+  onSearchChange: (value: string) => void;
+}
 
-  const handleSearchChange = (value: React.SetStateAction<string>) => {
-    setStockName(value);
-  };
+function SearchInput({ onSearchChange }: Props) {
+  const [stockName, setStockName] = useState("");
+
   return (
     <div>
       <SearchContainer>
@@ -20,7 +21,7 @@ function SearchInput() {
           type="text"
           placeholder="종목명 또는 지수명을 입력해주세요."
           style={searchInputStyle}
-          onSearchChange={handleSearchChange}
+          onSearchChange={onSearchChange}
         />
       </SearchContainer>
     </div>
