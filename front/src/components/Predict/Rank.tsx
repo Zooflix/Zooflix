@@ -1,20 +1,69 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import Character3d from "../Character/Character3d";
+import { getZoostra } from "../../apis/api/Predict";
 
 type RankProps = {
-    search: string;
+    stockName: string;
 };
 
 function Rank(props: RankProps) {
-    if (props.search === "") {
+    const [zoostra, setZoostra] = useState({
+        userNo: null,
+        userName: "",
+        userZbti: "",
+    });
+
+    useEffect(() => {
+        getZoostra(props.stockName)
+            .then((data) => {
+                setZoostra(data);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch zoostra:", error);
+            });
+    }, [props.stockName]);
+
+    if (props.stockName === "null") {
         return (
             <Wrapper>
                 <Content>이 달의 주스트라다무스</Content>
+                <Zoostra>
+                    <Character3d
+                        name={zoostra.userZbti}
+                        characterScale={0.3}
+                        canvasWidth={60}
+                        canvasHeight={60}
+                    />
+                    <Name>{zoostra.userName}
+                    <span>{'>'}</span></Name>
+                </Zoostra>
             </Wrapper>
         );
     } else {
         return (
             <Wrapper>
-                <Content>{props.search} 에서 가장 예측을 잘해요!</Content>
+                {zoostra.userNo ? (
+            <>
+                <Content>{props.stockName} 에서 가장 예측을 잘해요!</Content>
+                <Zoostra>
+                    <Character3d
+                        name={zoostra.userZbti}
+                        characterScale={0.3}
+                        canvasWidth={60}
+                        canvasHeight={60}
+                    />
+                    <Name>
+                        {zoostra.userName}
+                        <span>{' > '}</span>
+                    </Name>
+                </Zoostra>
+            </>
+        ) : (
+            <Content>{props.stockName}는
+            <br/>
+            예측성공한 사용자가 없어요!</Content>
+        )}
             </Wrapper>
         );
     }
@@ -27,14 +76,29 @@ const Wrapper = styled.div`
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
     width: 50%;
-    height: 100px;
+    height: 120px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    flex-direction: column;
+    padding: 10px 30px;
+    
 `;
 const Content = styled.div`
+    margin-bottom: 10px;
+    font-weight: bold;
+`;
+
+const Zoostra = styled.div`
     display: flex;
-    justify-content: center;
-    text-align: center;
+    padding-top: 10px;
+`;
+const Name = styled.div`
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    padding-bottom: 10px;
+    span {
+        padding-left: 15px;
+    }
 `;

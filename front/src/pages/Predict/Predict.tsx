@@ -70,7 +70,7 @@ function Predict() {
                     <PredictList currentPage={currentPage} />
                 </LeftContainer>
                 <RightContainer>
-                    <Rank search="" />
+                    <Rank stockName={stockName} />
                     <Graph />
                     <StockHistory />
                 </RightContainer>

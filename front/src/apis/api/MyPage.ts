@@ -5,8 +5,8 @@ const REST_MYPAGE_API = `/my-page`;
 // 내 정보 가져오기
 export const getMyInfo = async () => {
     try {
-        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/info`);
-        return response.data;
+        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/info`);        
+        return response;
     } catch (error) {
         console.error(error);
     }
@@ -63,9 +63,7 @@ export const deleteMySubscribe = async (subscribeNo: Number) => {
 //내 주식 구독 목록
 export const getMyStockList = async (userId: String) => {
     try {
-        const response = await axiosPrivate.get(
-            `/stock/subscribe/list/${userId}`
-        );
+        const response = await axiosPrivate.get(`/stock/subscribe/list/${userId}`);
         console.log(response.data.resultData);
         return response.data.resultData;
     } catch (error) {
