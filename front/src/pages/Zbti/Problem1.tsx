@@ -7,11 +7,11 @@ import Question from "../../components/Zbti/Question";
 import Icon from "../../assets/img/ZbtiIcon/question1.svg";
 import Answer from "../../components/Zbti/Answer";
 import { useRecoilState } from "recoil";
-import { zbtiState } from "../../Store/ZbtiState";
+import { zbtiQuestionState } from "../../Store/ZbtiState";
 
 function Problem1() {
   const navigate = useNavigate();
-  const [zbtiValues, setZbtiValues] = useRecoilState(zbtiState);
+  const [zbtiValues, setZbtiValues] = useRecoilState(zbtiQuestionState);
 
   const handleAnswerClick = (answer: number) => {
     setZbtiValues([...zbtiValues, answer]);

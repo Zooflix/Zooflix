@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { zbtiState } from "../../Store/ZbtiState";
+import { zbtiQuestionState } from "../../Store/ZbtiState";
 
 import PageTransition from "../../components/Zbti/PageTransition";
 
@@ -12,7 +12,7 @@ import Answer from "../../components/Zbti/Answer";
 
 function Problem4() {
   const navigate = useNavigate();
-  const [zbtiValues, setZbtiValues] = useRecoilState(zbtiState);
+  const [zbtiValues, setZbtiValues] = useRecoilState(zbtiQuestionState);
 
   const handleAnswerClick = (answer: number) => {
     setZbtiValues([...zbtiValues, answer]);

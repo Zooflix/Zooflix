@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { zbtiState } from "../../Store/ZbtiState";
+import { zbtiQuestionState } from "../../Store/ZbtiState";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 // 이미지
@@ -11,7 +11,7 @@ import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
 import StartTest from "../../components/Zbti/StartTest";
 
 function ZbtiStart() {
-  const [zbtiValue, setZbtiValue] = useRecoilState(zbtiState);
+  const [zbtiValue, setZbtiValue] = useRecoilState(zbtiQuestionState);
   const navigate = useNavigate();
 
   const handleStartClick = () => {
@@ -106,11 +106,6 @@ const Container = styled.div`
   @keyframes bounce {
     100% {
       top: -20px;
-<<<<<<< HEAD
-      text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc,
-        0 5px 0 #ccc, 0 6px 0 #ccc, 0 7px 0 #ccc, 0 8px 0 #ccc, 0 9px 0 #ccc,
-        0 50px 25px rgba(0, 0, 0, 0.2);
-=======
       text-shadow: 0 1px 0 #fff,
                    0 2px 0 #fff,
                    0 3px 0 #CCC,
@@ -121,7 +116,6 @@ const Container = styled.div`
                    0 8px 0 #CCC,
                    0 9px 0 #CCC,
                    0 50px 25px rgba(0, 0, 0, .2);
->>>>>>> feature-fe/radio
     }
   }
 `;
