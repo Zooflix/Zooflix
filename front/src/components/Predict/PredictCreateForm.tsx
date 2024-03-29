@@ -131,7 +131,7 @@ function PredictCreateForm() {
 
     const predict = {
       stockName: stockName,
-      userNo: 14,
+      userNo: 0,
       pdDate: predictDate,
       pdValue: predictPrice,
       preValue: nowPrice,
@@ -176,23 +176,22 @@ function PredictCreateForm() {
   };
 
   useEffect(() => {
-    // const fetchDataAndCheck = async () => {
-    //     const check = await possibleCheck();
-    //     if (check === true) {
-    //         alert("이미 예측중인 종목입니다.");
-    //         // setOpen(true);
-    //         // setAlertOption({
-    //         //     severity: "error",
-    //         //     value: "이미 예측중인 종목입니다.",
-    //         // });
-    //         setStockName("");
-    //         return;
-    //     } else {
-    //     }
-    //     fetchDataAndCheck();
-    //   };
-    fetchData();
-    setTime();
+    const fetchDataAndCheck = async () => {
+        const check = await possibleCheck();
+        if (check === true) {
+            setOpen(true);
+            setAlertOption({
+                severity: "error",
+                value: "이미 예측중인 종목입니다.",
+            });
+            setStockName("");
+            return;
+        } else {
+          setTime();
+          fetchData();
+        }
+      };
+      fetchDataAndCheck();
   }, [stockName]);
 
   useEffect(() => {
