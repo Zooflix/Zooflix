@@ -26,10 +26,9 @@ export async function loginUser(userId: String, userPw: String) {
 }
 
 // 수정용 회원 정보
-export async function updateUserInfo(userId: String){
+export async function updateUserInfo(){
   try {
     const response = await axiosPrivate.get(`${REST_USER_API}/update/info`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

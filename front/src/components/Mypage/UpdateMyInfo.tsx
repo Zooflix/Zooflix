@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import SubmitBtn from "../Common/SubmitBtn";
 import { useRecoilState } from "recoil";
 import { myPageInfoState } from "../../Store/MyPageState";
-import { getMyInfo } from "../../apis/api/MyPage";
+import { updateUserInfo } from "../../apis/api/User";
 import { updateUserInfoState } from "../../Store/UserState";
 
 const InputStyle = {
@@ -13,31 +13,29 @@ const InputStyle = {
 
 function UpdateMyInfo() {
     const [isChecked, setIsChecked] = useState(false);
+    
+    const [userId, setUserId] = useState("");
+    const [userName, setUserName] = useState("");
+    const [userPw, setUserPw] = useState("");
+    const [userAppKey, setUserAppKey] = useState("");
+    const [userSecretKey, setUserSecretKey] = useState("");
+    const [userAccount, setUserAccount] = useState("");
 
     const handleCheckboxChange = (event: any) => {
         setIsChecked(event.target.checked);
     };
 
-    // access 토큰 받아지면 사용할 것
-    const [updateUserInfo, setUpdateUserInfo] = useRecoilState(updateUserInfoState);
-
-    // 임시용
-    const userName = "다라란";
-    const password = "user1";
-
     useEffect(() => {
         const fetchData = async () => {
-            // //내 정보
-            // try {
-            //     const data = await getMyInfo();
-            //     setMyPageInfo(data);
-            //     console.log(data);
-            // } catch (error) {
-            //     console.log("내 정보 불러오기 실패");
-            //     console.error(error);
-            // }
+            const data = await updateUserInfo();            
+            setUserId(data.userId);
+            setUserName(data.userName);            
+            setUserAppKey(data.userAppKey);
+            setUserSecretKey(data.userSecretKey);
+            setUserAccount(data.userAccount);
         };
         fetchData();
+        
     }, []);
 
 
@@ -49,13 +47,14 @@ function UpdateMyInfo() {
                 <UserInput
                     type="text"
                     style={InputStyle}
-                    placeholder={userName}
-                    readonly
+                    placeholder="변경할 이름을 입력하세요"
+                    value={userName}
+                    // readonly
                 />
                 <UserInput
                     type="password"
                     placeholder="현재 비밀번호를 입력하세요"
-                    style={InputStyle}
+                    style={InputStyle}                    
                 />
                 <UserInput
                     type="password"
@@ -82,19 +81,22 @@ function UpdateMyInfo() {
                 {isChecked && (
                     <>
                         <UserInput
-                            type="password"
+                            type="text"
                             placeholder="한국투자증권의 APP key를 입력하세요"
                             style={InputStyle}
+                            value={userAppKey}
                         />
                         <UserInput
-                            type="password"
+                            type="text"
                             placeholder="한국투자증권의 APP Secret key를 입력하세요"
                             style={InputStyle}
+                            value={userSecretKey}
                         />
                         <UserInput
-                            type="password"
+                            type="text"
                             placeholder="한국투자증권의 계좌번호를 입력하세요(10자)"
                             style={InputStyle}
+                            value={userAccount}
                         />
                     </>
                 )}

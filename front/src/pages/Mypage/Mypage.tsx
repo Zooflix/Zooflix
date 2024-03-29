@@ -42,54 +42,46 @@ function Mypage() {
   // 임의의 인덱스값 userNo 넣음
   const fetchData = async () => {
     //내 정보
-    try {
-      const dataInfo = await getMyInfo()
-        .then(resInfo => {
-          console.log(resInfo)
-          setMyPageInfo(resInfo?.data);
-          console.log("마이인포: " + myPageInfo.userName);
+    const dataInfo = await getMyInfo()
+      .then(resInfo => {
+        console.log(resInfo)
+        setMyPageInfo(resInfo?.data);
+        console.log("마이인포: " + myPageInfo.userName);
+      })
+      .catch(error => {
+        console.log("에러메세지" + error.message);
+        console.error(error);
+      });
 
-          const dataPredict = getMyPredictList()
-            .then(resPredict => {
-              setMyPagePredictList(resPredict);
-              console.log("프리딕트: " + myPagePredictList);
+    const dataPredict = await getMyPredictList()
+      .then(resPredict => {
+        setMyPagePredictList(resPredict);
+        console.log("프리딕트: " + myPagePredictList);
+      })
+      .catch(error => {
+        console.log("에러메세지: " + error.message);
+        console.error(error);
+      });
 
-              const dataSubscribe = getMySubscribeList()
-                .then(resSubscribe => {
-                  setMyPageSubscribeList(resSubscribe);
-                  console.log("내가 구독한 사람 목록 : " + myPageSubscribeList)
+    const dataSubscribe = await getMySubscribeList()
+      .then(resSubscribe => {
+        setMyPageSubscribeList(resSubscribe);
+        console.log("내가 구독한 사람 목록 : " + myPageSubscribeList)
+      })
+      .catch(error => {
+        console.log("에러메세지: " + error.message);
+        console.error(error);
+      });
 
-                  const dataStock = getMyStockList(userId)
-                    .then(resStock => {
-                      setMyStockList(resStock);
-                      console.log("내 주식 구독 목록 : " + myStockList);
-                    })
-                    .catch(error => {
-                      console.log("내 주식 구독 목록 불러오기 실패");
-                      console.error(error);
-                    });
-
-                })
-                .catch(error => {
-                  console.log("내가 구독한 사람 목록 불러오기 실패");
-                  console.error(error);
-                });
-
-            })
-            .catch(error => {
-              console.log("내 예측 목록 실패");
-              console.error(error);
-            });
-
-        })
-        .catch(error => {
-          console.log("내 정보 불러오기 실패");
-          console.error(error);
-        });      
-    } catch (error) {
-      console.log("최종실패?");
-      console.error(error);
-    }   
+    const dataStock = await getMyStockList(userId)
+      .then(resStock => {
+        setMyStockList(resStock);
+        console.log("내 주식 구독 목록 : " + myStockList);
+      })
+      .catch(error => {
+        console.log("에러메세지: " + error.message);
+        console.error(error);
+      });
 
   };
 
