@@ -28,7 +28,6 @@ public class JWTUtil {
     }
 
     public String getUserId(String token) { // 유저 이름 검증
-
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("userId", String.class);
     }
 
