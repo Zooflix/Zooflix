@@ -45,7 +45,7 @@ function Rank(props: RankProps) {
             <Wrapper>
                 {zoostra.userNo ? (
             <>
-                <Content>{props.stockName} 에서 가장 예측을 잘해요!</Content>
+                <Content>{props.stockName} 에서 예측을 <span style={{color: "#DE0000"}}>가장 잘해요!</span></Content>
                 <Zoostra>
                     <Character3d
                         name={zoostra.userZbti}
@@ -60,9 +60,9 @@ function Rank(props: RankProps) {
                 </Zoostra>
             </>
         ) : (
-            <Content>{props.stockName}는
+            <NoContent>{props.stockName} 종목은
             <br/>
-            예측성공한 사용자가 없어요!</Content>
+            예측성공한 사용자가 없어요!</NoContent>
         )}
             </Wrapper>
         );
@@ -87,6 +87,15 @@ const Wrapper = styled.div`
 const Content = styled.div`
     margin-bottom: 10px;
     font-weight: bold;
+`;
+
+const NoContent = styled.div`
+    margin-bottom: 10px;
+    font-weight: bold;
+    line-height: 2;
+    display: flex;
+    justify-content: center;
+    text-align: center;
 `;
 
 const Zoostra = styled.div`

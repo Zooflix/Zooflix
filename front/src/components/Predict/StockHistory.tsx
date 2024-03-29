@@ -13,6 +13,9 @@ function StockHistory() {
     const [stockHistoryList, setStockHistoryList] = useState<any[]>([]);
 
     useEffect(() => {
+        if(selectUserNo===0){
+            return;
+        }
         selectStockHistory(selectUserNo).then((list: any[]) => {
             setStockHistoryList(list);
         });
