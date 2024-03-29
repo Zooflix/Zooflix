@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class AlarmController {
 
     private final AlarmService alarmService;

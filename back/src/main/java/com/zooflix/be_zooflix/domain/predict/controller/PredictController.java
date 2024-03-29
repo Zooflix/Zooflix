@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.predict.controller;
 
+import com.zooflix.be_zooflix.domain.predict.dto.PredictRankDto;
 import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
 import com.zooflix.be_zooflix.domain.predict.dto.StockHistoryDto;
@@ -33,20 +34,20 @@ public class PredictController {
 
     @Operation(summary = "전체 예측 글 조회")
     @GetMapping("/predict")
-    public ResponseEntity<?> selectPredicts(@RequestParam String sorted,@RequestParam String stockName) {
-        if(sorted.equals("userTem")&&stockName.equals("null")) { //(종목x 온도순 정렬o)
+    public ResponseEntity<?> selectPredicts(@RequestParam String sorted, @RequestParam String stockName) {
+        if (sorted.equals("userTem") && stockName.equals("null")) { //(종목x 온도순 정렬o)
             List<PredictResDto> predicts = predictService.getSortedPredicts();
             return ResponseEntity.ok(predicts);
-        } else if(sorted.equals("date")&&!stockName.equals("null")){ //(종목o 정렬x)
+        } else if (sorted.equals("date") && !stockName.equals("null")) { //(종목o 정렬x)
             List<PredictResDto> selectedPredicts = predictService.getPredictsByStockName(stockName);
             return ResponseEntity.ok(selectedPredicts);
-        } else if(sorted.equals("userTem")) { //(종목o 온도순 정렬o)
+        } else if (sorted.equals("userTem")) { //(종목o 온도순 정렬o)
             List<PredictResDto> selectedPredicts = predictService.getSortedPredictsByStockName(stockName);
             return ResponseEntity.ok(selectedPredicts);
-        } else if(sorted.equals("end")&&stockName.equals("null")) { //(종목x 완료 정렬o)
+        } else if (sorted.equals("end") && stockName.equals("null")) { //(종목x 완료 정렬o)
             List<PredictResDto> predicts = predictService.getEndPredicts();
             return ResponseEntity.ok(predicts);
-        } else if(sorted.equals("end")){ //(종목o 완료 정렬o)
+        } else if (sorted.equals("end")) { //(종목o 완료 정렬o)
             List<PredictResDto> selectedPredicts = predictService.getEndPredictsByStockName(stockName);
             return ResponseEntity.ok(selectedPredicts);
         } else { //기본(종목x 정렬x)
@@ -65,7 +66,7 @@ public class PredictController {
 
     @Operation(summary = "예측 가능 확인")
     @GetMapping("/predict/check")
-    public boolean checkPredict(@RequestParam int userNo,@RequestParam String stockName) {
+    public boolean checkPredict(@RequestParam int userNo, @RequestParam String stockName) {
         return predictService.checkPredict(userNo, stockName);
     }
 
@@ -105,13 +106,13 @@ public class PredictController {
     @Operation(summary = "매매정보")
     @GetMapping("/predict/stock/{userNo}")
     public List<StockHistoryDto> selectStockHistory(@PathVariable int userNo) throws IOException {
-       return predictService.getStockHistory(userNo);
+        return predictService.getStockHistory(userNo);
     }
 
     @Operation(summary = "종목검색")
     @GetMapping("/predict/stock/search")
     public List<String> selectStockSearch(@RequestParam String stockName) {
-      return predictService.getStockSearch(stockName);
+        return predictService.getStockSearch(stockName);
     }
 
     @Operation(summary = "현재가격")
@@ -124,7 +125,17 @@ public class PredictController {
     @Operation(summary = "주식목록 전체 저장")
     @GetMapping("/stock/list")
     public void saveStockList() {
-    predictService.getStockList();
+        predictService.getStockList();
+    }
+
+    @Operation(summary = "이달의 주스트라다무스")
+    @GetMapping("/predict/rank")
+    public PredictRankDto selectZoostra(@RequestParam String stockName) {
+        if (stockName.equals("null")) {
+            return predictService.getZoostra();
+        } else {
+            return predictService.getZoostraByStockName(stockName);
+        }
     }
 
 }
