@@ -21,7 +21,7 @@ interface subscribeProps {
 
 export async function insertStockSubscribe(subscribe: subscribeProps) {
   try {
-    const response = await axios.post(`/stock/subscribe`, subscribe);
+    const response = await axiosPrivate.post(`/stock/subscribe`, subscribe);
     console.log("result Data" + response.data.resultData);
     return response.data.resultData;
   } catch (e) {
