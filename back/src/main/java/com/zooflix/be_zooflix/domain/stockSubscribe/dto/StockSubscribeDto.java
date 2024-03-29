@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 public class StockSubscribeDto {
     private int stockSubscribeNo;
-    private int stockCode;
+    private String stockCode;
     private String stockName;
     private int stockCount;
     private LocalDateTime stockSubscribeCreate;

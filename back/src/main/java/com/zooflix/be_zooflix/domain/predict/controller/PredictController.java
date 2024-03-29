@@ -1,9 +1,6 @@
 package com.zooflix.be_zooflix.domain.predict.controller;
 
-import com.zooflix.be_zooflix.domain.predict.dto.PredictRankDto;
-import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
-import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
-import com.zooflix.be_zooflix.domain.predict.dto.StockHistoryDto;
+import com.zooflix.be_zooflix.domain.predict.dto.*;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.service.PredictService;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
@@ -111,7 +108,7 @@ public class PredictController {
 
     @Operation(summary = "종목검색")
     @GetMapping("/predict/stock/search")
-    public List<String> selectStockSearch(@RequestParam String stockName) {
+    public List<StockResponseProjection> selectStockSearch(@RequestParam String stockName) {
         return predictService.getStockSearch(stockName);
     }
 
