@@ -15,7 +15,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -64,8 +66,11 @@ public class RadioService {
     private String pythonTtsClientSecret;
 
 
+    @Qualifier("RedisTemplate")
     private final RedisTemplate<String, String> redisTemplate;
 
+    @Qualifier("zooflixRedis")
+    private final RedisConnectionFactory zooflixRedis;
 
 
     /*
