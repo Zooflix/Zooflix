@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { zbtiQuestionState, zbtiResultState } from "../../Store/ZbtiState";
+import { userPageInfoState } from "../../Store/UserPageState";
 import { useNavigate } from "react-router";
 import html2canvas from "html2canvas";
 import saveAs from "file-saver";
@@ -47,14 +48,17 @@ const imgList: ImgMap = {
 
 function ZbtiResult() {
   const zbtiValue = useRecoilValue(zbtiQuestionState);
-  const [zbtiResult, setZbtiResult] = useRecoilState(zbtiResultState);
+  const [userInfo, setUserInfo] = useRecoilState(userPageInfoState);
+  console.log(zbtiValue);
+  
+  
 
   const isSloth =
     JSON.stringify(zbtiValue) === JSON.stringify([2, 1, 1, 2, 1, 2, 1, 2]);
   const isHippo =
     JSON.stringify(zbtiValue) === JSON.stringify([1, 1, 1, 2, 1, 1, 2, 1]);
   const isUnicorn =
-    JSON.stringify(zbtiValue) === JSON.stringify([1, 2, 2, 2, 1, 1, 2, 2]);
+    JSON.stringify(zbtiValue) === JSON.stringify([1, 2, 2, 2, 1, 1, 2, 1]);
   const isFox =
     JSON.stringify(zbtiValue) === JSON.stringify([1, 1, 2, 1, 1, 2, 1, 1]);
   const isRabbit =
@@ -72,35 +76,72 @@ function ZbtiResult() {
 
   const setZbti = async () => {
     if (isSloth) {
-      setZbtiResult("Sloth");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Sloth",
+      }));
     } else if (isHippo) {
-      setZbtiResult("Hippo");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Hippo",
+      }));
     } else if (isUnicorn) {
-      setZbtiResult("Unicorn");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Unicorn",
+      }));
     } else if (isFox) {
-      setZbtiResult("Fox");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Fox",
+      }));
     } else if (isRabbit) {
-      setZbtiResult("Rabbit");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Rabbit",
+      }));
     } else if (isPig) {
-      setZbtiResult("Pig");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Pig",
+      }));
     } else if (isZebra) {
-      setZbtiResult("Zebra");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Zebra",
+      }));
     } else if (isMonkey) {
-      setZbtiResult("Monkey");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Monkey",
+      }));
     } else if (isCow) {
-      setZbtiResult("Cow");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Cow",
+      }));
     } else if (isLion) {
-      setZbtiResult("Lion");
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Lion",
+      }));
     } else {
-      setZbtiResult("Panda");
-    }
-    await zbtiUpdate(zbtiResult);
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        userZbti: "Panda",
+      }));
+    };
+    console.log(userInfo.userZbti);
   };
 
   useEffect(() => {
     setZbti();
-    console.log(zbtiResult);
   }, []);
+
+  useEffect(()=> {
+    console.log(userInfo.userZbti);
+    zbtiUpdate(userInfo.userZbti);
+  }, [userInfo.userZbti]);
 
   const navigate = useNavigate();
   const handleRetry = () => {
@@ -133,7 +174,7 @@ function ZbtiResult() {
       <Header>
         <h1>다라란님의 투자 성향은?</h1>
       </Header>
-      <PortfolioImg src={imgList[zbtiResult]} />
+      <PortfolioImg src={imgList[userInfo.userZbti]} />
       <ButtonContainer>
         <DownloadButton onClick={handleDownload}>
           <img src={Download} alt="다운로드" />
