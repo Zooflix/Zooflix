@@ -21,8 +21,6 @@ import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 
 function Mypage() {
-  const info = "내 정보";
-
   const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
   const [myPagePredictList, setMyPagePredictList] = useRecoilState(
     myPagePredictListState
@@ -44,53 +42,49 @@ function Mypage() {
     //내 정보
     try {
       const dataInfo = await getMyInfo()
-        .then(resInfo => {
-          console.log(resInfo)
+        .then((resInfo) => {
+          console.log(resInfo);
           setMyPageInfo(resInfo?.data);
           console.log("마이인포: " + myPageInfo.userName);
 
           const dataPredict = getMyPredictList()
-            .then(resPredict => {
+            .then((resPredict) => {
               setMyPagePredictList(resPredict);
               console.log("프리딕트: " + myPagePredictList);
 
               const dataSubscribe = getMySubscribeList()
-                .then(resSubscribe => {
+                .then((resSubscribe) => {
                   setMyPageSubscribeList(resSubscribe);
-                  console.log("내가 구독한 사람 목록 : " + myPageSubscribeList)
+                  console.log("내가 구독한 사람 목록 : " + myPageSubscribeList);
 
                   const dataStock = getMyStockList(userId)
-                    .then(resStock => {
+                    .then((resStock) => {
                       setMyStockList(resStock);
                       console.log("내 주식 구독 목록 : " + myStockList);
                     })
-                    .catch(error => {
+                    .catch((error) => {
                       console.log("내 주식 구독 목록 불러오기 실패");
                       console.error(error);
                     });
-
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.log("내가 구독한 사람 목록 불러오기 실패");
                   console.error(error);
                 });
-
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("내 예측 목록 실패");
               console.error(error);
             });
-
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("내 정보 불러오기 실패");
           console.error(error);
-        });      
+        });
     } catch (error) {
       console.log("최종실패?");
       console.error(error);
-    }   
-
+    }
   };
 
   // const accessToken = localStorage.getItem('accessToken');

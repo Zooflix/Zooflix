@@ -123,11 +123,25 @@ function PredictList(props: PredictProps) {
                   {item.pdUpDown ? "▲" : "▼"}
                 </span>
               </p>
-              <Result style={{color: item.pdResult==="성공"? "#00D208": "#B7B7B7",
-            borderColor: item.pdResult==="성공"? "rgba(115, 227, 105, 0.3)": "rgba(183, 183, 183, 0.3)",
-            borderStyle: item.pdResult === "성공" || item.pdResult === "실패" ? "solid" : "none",
-            backgroundColor: item.pdResult === "성공" || item.pdResult === "실패" ? "white" : "transparent",
-            }}>{item.pdResult}</Result>
+              <Result
+                style={{
+                  color: item.pdResult === "성공" ? "#00D208" : "#B7B7B7",
+                  borderColor:
+                    item.pdResult === "성공"
+                      ? "rgba(115, 227, 105, 0.3)"
+                      : "rgba(183, 183, 183, 0.3)",
+                  borderStyle:
+                    item.pdResult === "성공" || item.pdResult === "실패"
+                      ? "solid"
+                      : "none",
+                  backgroundColor:
+                    item.pdResult === "성공" || item.pdResult === "실패"
+                      ? "white"
+                      : "transparent",
+                }}
+              >
+                {item.pdResult}
+              </Result>
 
               <button
                 onClick={() =>
@@ -170,6 +184,7 @@ function PredictList(props: PredictProps) {
             isModalOpen={isModalOpen}
             closeModal={closeModal}
             userName={selectUserName}
+            userNo={selectUserNo}
           />
           <ReportModal
             isModalOpen={isModalOpen2}
@@ -247,4 +262,4 @@ const Result = styled.div`
   height: 20px;
   border-width: 2px;
   font-weight: bold;
-`
+`;

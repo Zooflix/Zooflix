@@ -4,22 +4,25 @@ import { useRecoilState } from "recoil";
 import { myPageInfoState } from "../../Store/MyPageState";
 
 function TemperatureWithImage() {
+  const [myPageInfo] = useRecoilState(myPageInfoState);
 
-    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
-
-    return (
-        <Wrapper>
-            <DoughnutChart/>
-            {myPageInfo.userName}
-            <br/>
-            {myPageInfo.userTemperature + "°C"}
-        </Wrapper>
-    )
+  return (
+    <Wrapper>
+      <DoughnutChart
+        temp={myPageInfo.userTemperature}
+        color="#7AD3FF"
+        transparency="rgba(122,211,255,0.1)"
+      />
+      {myPageInfo.userName}
+      <br />
+      {myPageInfo.userTemperature + "°C"}
+    </Wrapper>
+  );
 }
 
 export default TemperatureWithImage;
 
 const Wrapper = styled.div`
-    display: column;
-    justify-content: center;
+  display: column;
+  justify-content: center;
 `;
