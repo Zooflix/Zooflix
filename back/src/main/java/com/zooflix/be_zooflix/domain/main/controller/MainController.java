@@ -28,6 +28,7 @@ public class MainController {
     @GetMapping("/ranking")
     @Operation(summary = "메인페이지 랭킹 데이터 조회")
     public ResponseEntity<ResultResponse<MainDto>> mainRankingData() {
+        System.out.println("main");
         MainDto mainData = mainService.mainRankingData();
 
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), mainData));

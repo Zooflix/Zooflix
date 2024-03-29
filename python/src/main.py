@@ -33,13 +33,13 @@ elif platform.system() == 'Darwin':
 else:
     plt.rc('font', family='NanumGothic')
 
+
 #
 # 주요 지표 추출 (혜진 + 수민)
 #
 @app.get("/get_indices/")
 async def get_indices():
     today = datetime.datetime.now().strftime('%Y-%m-%d')
-
 
     kospi_data = fdr.DataReader('KS11', today)
     kosdaq_data = fdr.DataReader('KQ11', today)
