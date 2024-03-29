@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { zbtiQuestionState, zbtiResultState } from "../../Store/ZbtiState";
-import { userPageInfoState } from "../../Store/UserPageState";
+import { myPageInfoState } from "../../Store/MyPageState";
 import { useNavigate } from "react-router";
 import html2canvas from "html2canvas";
 import saveAs from "file-saver";
@@ -48,10 +48,8 @@ const imgList: ImgMap = {
 
 function ZbtiResult() {
   const zbtiValue = useRecoilValue(zbtiQuestionState);
-  const [userInfo, setUserInfo] = useRecoilState(userPageInfoState);
+  const [userInfo, setUserInfo] = useRecoilState(myPageInfoState);
   console.log(zbtiValue);
-  
-  
 
   const isSloth =
     JSON.stringify(zbtiValue) === JSON.stringify([2, 1, 1, 2, 1, 2, 1, 2]);
@@ -130,15 +128,14 @@ function ZbtiResult() {
         ...prevUserInfo,
         userZbti: "Panda",
       }));
-    };
-    console.log(userInfo.userZbti);
+    }
   };
 
   useEffect(() => {
     setZbti();
   }, []);
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log(userInfo.userZbti);
     zbtiUpdate(userInfo.userZbti);
   }, [userInfo.userZbti]);

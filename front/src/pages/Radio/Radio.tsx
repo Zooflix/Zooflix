@@ -8,7 +8,7 @@ import { playRadio } from "../../apis/api/Radio";
 // state
 import { isPausedState } from "../../Store/RadioState";
 import { zbtiResultState } from "../../Store/ZbtiState";
-import { userPageInfoState } from "../../Store/UserPageState";
+import { myPageInfoState } from "../../Store/MyPageState";
 
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
@@ -19,7 +19,6 @@ import Title from "../../components/Common/Title";
 import ImgBtn from "../../components/Common/ImgBtn";
 import Character3d from "../../components/Character/Character3d";
 import SquareBtn from "../../components/Common/SquareBtn";
-
 
 // 버튼 스타일
 const buttonStyleDark = {
@@ -37,39 +36,34 @@ const imgBtnStyle = {
 function Player() {
   const [isPaused, setIsPaused] = useRecoilState(isPausedState);
   const audioEl = useRef<HTMLAudioElement>(null);
-  const [currentUrl, setCurrentUrl] = useState('');
+  const [currentUrl, setCurrentUrl] = useState("");
   const [isClicked, setIsClicked] = useState(Boolean);
   const [firstPlay, setFirstPlay] = useState(0);
-  const userInfo = useRecoilValue(userPageInfoState);
-  
+  const userInfo = useRecoilValue(myPageInfoState);
 
   // 나중가면 지우기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   useEffect(() => {
     console.log(isPaused);
   }, [isPaused]);
 
-  
   useEffect(() => {
     // 처음 플레이&radio페이지일 때만 tts 생성하기
     setCurrentUrl(window.location.href);
     setFirstPlay(0);
     console.log(userInfo.userZbti);
-    
   }, []);
 
-  
   useEffect(() => {
-    if (currentUrl === 'http://localhost:3000/radio') {
+    if (currentUrl === "http://localhost:3000/radio") {
       setIsPaused(true);
     }
-  }, [currentUrl])
+  }, [currentUrl]);
 
   useEffect(() => {
-    if (isClicked && firstPlay===1) {
+    if (isClicked && firstPlay === 1) {
       ttsMaker();
     }
-  }, [isClicked])
-
+  }, [isClicked]);
 
   // audio 요소의 재생 완료 이벤트 처리
   useEffect(() => {
@@ -86,7 +80,6 @@ function Player() {
     };
   }, [setIsPaused]);
 
-
   // tts 재생
   const ttsMaker = async () => {
     const url = await playRadio();
@@ -99,12 +92,11 @@ function Player() {
     }
   };
 
-
   // 재생/중단 버튼
   const clickBtn = () => {
     setIsPaused(!isPaused);
     setIsClicked(true);
-    setFirstPlay(firstPlay+1);
+    setFirstPlay(firstPlay + 1);
     if (!isPaused) {
       audioEl.current?.pause();
     } else {
@@ -117,19 +109,21 @@ function Player() {
       <Title text="해외뉴스를 들려줄게요" />
       <PlayContainer>
         <audio ref={audioEl} />
-        {isPaused?
-        <ImgBtn
-          src={Playicon}
-          onClick={clickBtn}
-          disabled={isPaused ? false : true}
-          style={imgBtnStyle}
-        ></ImgBtn> :
-        <ImgBtn
-          src={Pauseicon}
-          onClick={clickBtn}
-          disabled={isPaused ? true : false}
-          style={imgBtnStyle}
-        ></ImgBtn>}
+        {isPaused ? (
+          <ImgBtn
+            src={Playicon}
+            onClick={clickBtn}
+            disabled={isPaused ? false : true}
+            style={imgBtnStyle}
+          ></ImgBtn>
+        ) : (
+          <ImgBtn
+            src={Pauseicon}
+            onClick={clickBtn}
+            disabled={isPaused ? true : false}
+            style={imgBtnStyle}
+          ></ImgBtn>
+        )}
       </PlayContainer>
       <Character3d
         name={userInfo.userZbti}
