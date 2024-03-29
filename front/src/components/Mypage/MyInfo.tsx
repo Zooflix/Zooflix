@@ -26,18 +26,18 @@ function MyInfo() {
   return (
     <Wrapper>
       <LeftsideQuestion>
-        <div>총 예측 횟수</div>
-        <div>예측 성공 횟수</div>
-        <div>예측률</div>
-        <div>구독</div>
-        <div>구독자</div>
+        <h4>총 예측 횟수</h4>
+        <h4>예측 성공 횟수</h4>
+        <h4>예측률</h4>
+        <h4>구독</h4>
+        <h4>구독자</h4>
       </LeftsideQuestion>
       <RightSideAnswer>
-        <div>{myPagePredictList.length}</div>
-        <div>{successCnt}</div>
-        <div>{rate + " %"}</div>
-        <div>{myPageInfo.subscribeFromMe}</div>
-        <div>{myPageInfo.subscribeToMe}</div>
+        <h4>{myPagePredictList.length}</h4>
+        <h4>{successCnt}</h4>
+        <h4>{rate}%</h4>
+        <h4>{myPageInfo.subscribeFromMe}</h4>
+        <h4>{myPageInfo.subscribeToMe}</h4>
       </RightSideAnswer>
     </Wrapper>
   );
@@ -48,18 +48,10 @@ export default MyInfo;
 const Wrapper = styled.div`
   margin: 0 auto;
   display: flex;
+  justify-content: space-between;
+  padding: 5px 70px;
 `;
 
-const LeftsideQuestion = styled.div`
-  float: left;
-  width: 80%;
-  margin: 30px 70px;
-  text-align: left;
-`;
+const LeftsideQuestion = styled.div``;
 
-const RightSideAnswer = styled.div`
-  float: right;
-  width: 20%;
-  margin: 30px 70px;
-  text-align: right;
-`;
+const RightSideAnswer = styled.div``;
