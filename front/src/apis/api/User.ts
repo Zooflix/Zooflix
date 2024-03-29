@@ -135,12 +135,9 @@ export async function selectInfo(userNo: number) {
 // zbti 업데이트
 export async function zbtiUpdate(userZbti: String) {
   try {
-    const response = await axios.put(`${REST_USER_API}/zbti/${userZbti}`)
-      .then(res => {
-        return res;
-    });
-    console.log(response);
-    return response;
+    const response = await axiosPrivate.put(`${REST_USER_API}/zbti/${userZbti}`);
+    console.log(response.data);
+    return response.data;
   } catch (e) {
     console.log(e);
   }
