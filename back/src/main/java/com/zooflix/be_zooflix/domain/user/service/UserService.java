@@ -119,7 +119,7 @@ public class UserService {
     public String putUpdateUser(String userId, UserUpdateDto userUpdateDto) {
         User user = userRepository.findByUserId(userId);
 
-        if (userUpdateDto.getUserAppKey() != null) {
+        if (userUpdateDto.getUserAppKey() != null && !userUpdateDto.getUserAppKey().isEmpty()) {
             user.userUpdateKey(
                     userUpdateDto.getUserId(),
                     userUpdateDto.getUserName(),
