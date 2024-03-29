@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { selectInfo } from "../../apis/api/User";
 import { useEffect, useState } from "react";
 import DoughnutChart from "../Mypage/DoughnutChart";
+import { useRecoilState } from "recoil";
+import { zbtiResultState } from "../../Store/ZbtiState";
 
 interface ModalProps {
   isModalOpen: boolean;
