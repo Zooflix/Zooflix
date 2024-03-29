@@ -27,9 +27,9 @@ public class JWTUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("userNo", Integer.class);
     }
 
-    public String getUsername(String token) { // 유저 이름 검증
+    public String getUserId(String token) { // 유저 이름 검증
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("username", String.class);
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("userId", String.class);
     }
 
     public String getRole(String token) { // 유저 권한 검증

@@ -65,33 +65,33 @@ public class CustomLogoutFilter extends GenericFilterBean {
             return;
         }
 
-        //expired check 만료 된건지 확인.
-        try {
-            jwtUtil.isExpired(refresh);
-        } catch (ExpiredJwtException e) {
-
-            //response status code 이미 만료 됐으면 보내는 리퀘스트. 굳이 bad 말고 다른거도 ㄱㅊ
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
-        String category = jwtUtil.getCategory(refresh);
-        if (!category.equals("refresh")) {
-
-            //response status code 리프레쉬 토큰이 아니면 bad
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        //DB에 저장되어 있는지 확인
-        Boolean isExist = jwtRefreshRepository.existsByRefreshToken(refresh);
-        if (!isExist) {
-
-            //response status code 없다는건 이미 로그아웃 된 상태니까 그에 맞게 리퀘스트. bad 아니여도 댐!
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
+//        //expired check 만료 된건지 확인.
+//        try {
+//            jwtUtil.isExpired(refresh);
+//        } catch (ExpiredJwtException e) {
+//
+//            //response status code 이미 만료 됐으면 보내는 리퀘스트. 굳이 bad 말고 다른거도 ㄱㅊ
+//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//            return;
+//        }
+//
+//        // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
+//        String category = jwtUtil.getCategory(refresh);
+//        if (!category.equals("refresh")) {
+//
+//            //response status code 리프레쉬 토큰이 아니면 bad
+//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//            return;
+//        }
+//
+//        //DB에 저장되어 있는지 확인
+//        Boolean isExist = jwtRefreshRepository.existsByRefreshToken(refresh);
+//        if (!isExist) {
+//
+//            //response status code 없다는건 이미 로그아웃 된 상태니까 그에 맞게 리퀘스트. bad 아니여도 댐!
+//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//            return;
+//        }
 
         //로그아웃 진행
         //Refresh 토큰 DB에서 제거
