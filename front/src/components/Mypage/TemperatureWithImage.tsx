@@ -13,9 +13,7 @@ function TemperatureWithImage() {
         color="#7AD3FF"
         transparency="rgba(122,211,255,0.1)"
       />
-      {myPageInfo.userName}
       <br />
-      {myPageInfo.userTemperature + "°C"}
     </Wrapper>
   );
 }

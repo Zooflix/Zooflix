@@ -45,17 +45,14 @@ function Mypage() {
         .then((resInfo) => {
           console.log(resInfo);
           setMyPageInfo(resInfo?.data);
-          console.log("마이인포: " + myPageInfo.userName);
 
           const dataPredict = getMyPredictList()
             .then((resPredict) => {
               setMyPagePredictList(resPredict);
-              console.log("프리딕트: " + myPagePredictList);
 
               const dataSubscribe = getMySubscribeList()
                 .then((resSubscribe) => {
                   setMyPageSubscribeList(resSubscribe);
-                  console.log("내가 구독한 사람 목록 : " + myPageSubscribeList);
 
                   const dataStock = getMyStockList(userId)
                     .then((resStock) => {
@@ -87,33 +84,11 @@ function Mypage() {
     }
   };
 
-  // const accessToken = localStorage.getItem('accessToken');
   const userId = "user1";
 
   useEffect(() => {
-    // if(!accessToken){
-    //     navigate("/main");
-    //     return;
-    // }
-
     fetchData();
   }, []);
-
-  // useEffect(() => {
-  //   // 임의의 인덱스값 userNo 넣음
-  //   const fetchData = async (userId: String) => {
-  //     //내 주식 구독 목록
-  //     try {
-  //       const data = await getMyStockList(userId);
-  //       setMyStockList(data);
-  //     } catch (error) {
-  //       console.log("내 주식 구독 목록 불러오기 실패");
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchData(userId);
-  // }, []);
 
   return (
     <Wrapper>
@@ -154,15 +129,14 @@ const Container = styled.div`
 
 const LeftSideMyInfo = styled.div`
   float: left;
-  width: 420px;
-  height: 785px;
+  width: 450px;
+  margin-bottom: 40px;
   text-align: center;
-  margin: 0 auto;
 
   background: #ffffff;
-  border: 0.77908px solid #e7e7e7;
-  box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
-  border-radius: 10.9071px;
+  border: 1px solid #e7e7e7;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
 `;
 
 const RightSideMyInfo = styled.div`
@@ -172,7 +146,7 @@ const RightSideMyInfo = styled.div`
   margin: 0 auto;
   background: #ffffff;
   border: 0.77908px solid #e7e7e7;
-  box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 10.9071px;
 `;
 

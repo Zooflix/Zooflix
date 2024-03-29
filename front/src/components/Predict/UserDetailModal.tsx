@@ -62,7 +62,7 @@ function UserDetailModal({
                   color="#7AD3FF"
                   transparency="rgba(122,211,255,0.1)"
                 />
-                {userInfo.userTemperature}℃
+                {/* {userInfo.userTemperature}℃ */}
               </Graph>
               <LineContainer>
                 <Line>
@@ -73,13 +73,13 @@ function UserDetailModal({
                   <label>예측 성공 횟수</label> {userInfo.successCount}
                 </Line>
                 <Line>
-                  <label>예측률</label> {userInfo.predictPercent}{" "}
+                  <label>예측률</label> {userInfo.predictPercent}%
                 </Line>
                 <Line>
-                  <label>구독</label> {userInfo.subscribeCount}{" "}
+                  <label>구독</label> {userInfo.subscribeCount}
                 </Line>
                 <Line>
-                  <label>구독자</label> {userInfo.subscriberCount}{" "}
+                  <label>구독자</label> {userInfo.subscriberCount}
                 </Line>
               </LineContainer>
             </InfoContainer>
@@ -98,7 +98,7 @@ export default UserDetailModal;
 
 const Container = styled.div`
   width: 600px;
-  height: 500px;
+  height: 400px;
   background-color: white;
   border: none;
   border-radius: 30px;
@@ -145,6 +145,10 @@ const InfoContainer = styled.div`
 const Line = styled.div`
   display: flex;
   justify-content: space-between;
+  margin: 10px 0;
+  label {
+    font-weight: bold;
+  }
 `;
 
 const Graph = styled.div`
@@ -152,4 +156,5 @@ const Graph = styled.div`
 `;
 const LineContainer = styled.div`
   width: 50%;
+  padding-top: 15%;
 `;

@@ -16,7 +16,6 @@ function DoughnutChart({ temp, color, transparency }: ChartProps) {
     datasets: [
       {
         data: [temp, 100 - temp],
-        // backgroundColor: ["#7AD3FF", "rgba(122,211,255,0.1)"],
         backgroundColor: [color, transparency],
         borderRadius: 10,
         circumference: 270,
@@ -39,6 +38,7 @@ function DoughnutChart({ temp, color, transparency }: ChartProps) {
     <ChartWrapper>
       <Doughnut data={Data} options={Options}></Doughnut>
       {/* <ZbtiImg src={BearImg}></ZbtiImg> */}
+      <Temp>{temp}℃</Temp>
     </ChartWrapper>
   );
 }
@@ -48,6 +48,7 @@ export default DoughnutChart;
 const ChartWrapper = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 70%;
@@ -58,4 +59,9 @@ const ChartWrapper = styled.div`
 const ZbtiImg = styled.img`
   position: absolute;
   z-index: 2;
+`;
+
+const Temp = styled.div`
+  font-weight: bold;
+  font-size: 20px;
 `;
