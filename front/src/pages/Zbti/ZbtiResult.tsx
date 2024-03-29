@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { zbtiQuestionState, zbtiResultState } from "../../Store/ZbtiState";
 import { useNavigate } from "react-router";
 import html2canvas from "html2canvas";
+import saveAs from "file-saver";
 
 // api
 import { zbtiUpdate } from "../../apis/api/User";
@@ -24,31 +25,29 @@ import Refresh from "../../assets/img/button/Refresh.svg";
 
 // 컴포넌트
 import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
-import { useEffect } from "react";
-
+import { useEffect, useRef } from "react";
 
 interface ImgMap {
-  [key:string]: string;
+  [key: string]: string;
 }
 
-const imgList:ImgMap = {
-  "Sloth": Sloth,
-  "Cow": Cow,
-  "Fox": Fox,
-  "Hippo": Hippo,
-  "Lion": Lion,
-  "Monkey": Monkey,
-  "Panda": Panda,
-  "Pig": Pig,
-  "Rabbit": Rabbit,
-  "Unicorn": Unicorn,
-  "Zebra": Zebra,
+const imgList: ImgMap = {
+  Sloth: Sloth,
+  Cow: Cow,
+  Fox: Fox,
+  Hippo: Hippo,
+  Lion: Lion,
+  Monkey: Monkey,
+  Panda: Panda,
+  Pig: Pig,
+  Rabbit: Rabbit,
+  Unicorn: Unicorn,
+  Zebra: Zebra,
 };
 
 function ZbtiResult() {
   const zbtiValue = useRecoilValue(zbtiQuestionState);
   const [zbtiResult, setZbtiResult] = useRecoilState(zbtiResultState);
-  
 
   const isSloth =
     JSON.stringify(zbtiValue) === JSON.stringify([2, 1, 1, 2, 1, 2, 1, 2]);
@@ -94,11 +93,11 @@ function ZbtiResult() {
       setZbtiResult("Lion");
     } else {
       setZbtiResult("Panda");
-    };
+    }
     await zbtiUpdate(zbtiResult);
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     setZbti();
     console.log(zbtiResult);
   }, []);
@@ -109,35 +108,34 @@ function ZbtiResult() {
   };
 
   //캡처이미지로 다운로드
-  const onCapture = () => {
-    html2canvas(document.getElementById("imageWrapper") as HTMLElement).then(
-      (canvas: any) => {
-        onSaveAs(canvas.toDataURL("image/png"), "");
-      }
-    );
-  };
-  const onSaveAs = (uri: string, filename: string) => {
-    const link = document.createElement("a");
-    document.body.appendChild(link);
-    link.download = filename;
-    link.href = uri;
-    link.click();
-    document.body.removeChild(link);
+  const divRef = useRef<HTMLDivElement>(null);
+  const handleDownload = async () => {
+    if (!divRef.current) return;
+
+    try {
+      const div = divRef.current;
+      const canvas = await html2canvas(div, { scale: 2 });
+      canvas.toBlob((blob) => {
+        if (blob !== null) {
+          saveAs(blob, "result.png");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <Container>
+    <Container ref={divRef}>
       <ZbtiHeaderContainer>
         <ZbtiHeader backLink="/my-page" />
       </ZbtiHeaderContainer>
-      <div className="imageWrapper" id="imageWrapper">
-        <Header>
-          <h1>다라란님의 투자 성향은?</h1>
-        </Header>
-        <PortfolioImg src={imgList[zbtiResult]} />
-      </div>
+      <Header>
+        <h1>다라란님의 투자 성향은?</h1>
+      </Header>
+      <PortfolioImg src={imgList[zbtiResult]} />
       <ButtonContainer>
-        <DownloadButton onClick={onCapture}>
+        <DownloadButton onClick={handleDownload}>
           <img src={Download} alt="다운로드" />
           <div>다운로드</div>
         </DownloadButton>
@@ -177,9 +175,7 @@ const Header = styled.div`
   }
 `;
 
-const PortfolioImg = styled.img`
-  
-`;
+const PortfolioImg = styled.img``;
 
 const ButtonContainer = styled.div`
   position: absolute;
