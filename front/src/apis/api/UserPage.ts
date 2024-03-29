@@ -5,7 +5,7 @@ const REST_MYPAGE_API = `/my-page`;
 // 유저 정보 가져오기
 export const getUserInfo = async (userNo: Number) => {
     try {
-        const response = await axios.get(`${REST_MYPAGE_API}/info/${userNo}`);
+        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/info/${userNo}`);
         return response.data;
     } catch (error) {
         console.error(error);
