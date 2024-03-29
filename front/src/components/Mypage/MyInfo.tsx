@@ -11,10 +11,9 @@ function MyInfo() {
     const [myPagePredictList, setMyPagePredictList] = useRecoilState(
         myPagePredictListState
     );
-
+    
     let successCnt = 0; //성공 횟수
-    let successRate = 0;  //성공 확률
-
+    let successRate = 0; //성공 확률
 
     myPagePredictList.forEach((item) => {
         if (item.pdResult === "성공") {
@@ -22,13 +21,11 @@ function MyInfo() {
         }
     });
 
-    // 소수점 둘째 짜리까지 성공 비율 -> rate
-    let rateOfPredict = Math.round(
-      successCnt / myPagePredictList.length * 100
-    );
-
-    let rate = Math.round(rateOfPredict * 100) / 100;
-    successRate = rate;
+    if(successCnt > 0) {
+      successRate = Math.round((successCnt / myPagePredictList.length) * 100) / 100;
+    } else {
+      successRate = 0;
+    }
 
     return (
         <Wrapper>
@@ -42,7 +39,7 @@ function MyInfo() {
             <RightSideAnswer>
                 <h4>{myPagePredictList.length}</h4>
                 <h4>{successCnt}</h4>
-                <h4>{successRate}%</h4>
+                <h4>{successRate} %</h4>
                 <h4>{myPageInfo.subscribeFromMe}</h4>
                 <h4>{myPageInfo.subscribeToMe}</h4>
             </RightSideAnswer>
