@@ -70,6 +70,6 @@ export default Zbti;
 
 const Wrapper = styled.div`
   img {
-    width: 60px;
+    width: 70px;
   }
 `;
