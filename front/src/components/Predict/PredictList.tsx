@@ -40,6 +40,7 @@ function PredictList(props: PredictProps) {
     userName: string
   ) => {
     setSelectUserNo(userNo);
+    console.log("userNo : " + userNo);
     setSelectStockName(stockName);
     setSelectUserName(userName);
 
@@ -83,6 +84,7 @@ function PredictList(props: PredictProps) {
   const openModal = (userName: string, userNo: number) => {
     setSelectUserName(userName);
     setSelectUserNo(userNo);
+    console.log("Modal opened ; " + selectUserName)
     setIsModalOpen(true);
   };
 
@@ -150,7 +152,7 @@ function PredictList(props: PredictProps) {
                     item.pdNo,
                     item.userNo,
                     item.stockName,
-                    item.userName
+                    item.userName,
                   )
                 }
               >

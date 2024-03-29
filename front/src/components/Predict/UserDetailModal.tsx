@@ -1,10 +1,18 @@
 import styled from "styled-components";
 import Modal from "@mui/material/Modal";
 import SquareBtn from "../Common/SquareBtn";
-import { useNavigate } from "react-router-dom";
 import { selectInfo } from "../../apis/api/User";
 import { useEffect, useState } from "react";
 import DoughnutChart from "../Mypage/DoughnutChart";
+import { useRecoilState } from "recoil";
+import {
+    selectStockNameState,
+    selectUserNoState,
+} from "../../Store/PredictState";
+import { Link, useNavigate } from "react-router-dom";
+import { myPageInfoState } from "../../Store/MyPageState";
+import { userPageInfoState } from "../../Store/UserPageState";
+import { subscribeUser } from "../../apis/api/MyPage";
 
 interface ModalProps {
   isModalOpen: boolean;
