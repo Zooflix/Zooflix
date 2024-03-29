@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import BearImg from "../../assets/img/Zbti/BearImg.svg";
 import Zbti from "../Predict/Zbti";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { zbtiQuestionState, zbtiResultState } from "../../Store/ZbtiState";
+import { useRecoilValue } from "recoil";
+import { zbtiResultState } from "../../Store/ZbtiState";
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -39,8 +38,6 @@ function DoughnutChart({ temp, color, transparency }: ChartProps) {
 
   //로그인 한 zbti
   const zbtiResult = useRecoilValue(zbtiResultState);
-  console.log("넘기지", zbtiResult);
-  // const [zbtiResult, setZbtiResult] = useRecoilState(zbtiResultState);
   return (
     <ChartWrapper>
       <Doughnut data={Data} options={Options}></Doughnut>

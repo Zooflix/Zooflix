@@ -24,43 +24,43 @@ function Zbti(props: ZbtiProps) {
   return (
     <Wrapper className={props.className}>
       {props.userZbti === "Bear" && (
-        <img src={Bear} style={{ width: props.width }} />
+        <img src={Bear} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Cow" && (
-        <img src={Cow} style={{ width: props.width }} />
+        <img src={Cow} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Fox" && (
-        <img src={Fox} style={{ width: props.width }} />
+        <img src={Fox} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Hippo" && (
-        <img src={Hippo} style={{ width: props.width }} />
+        <img src={Hippo} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Lion" && (
-        <img src={Lion} style={{ width: props.width }} />
+        <img src={Lion} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Monkey" && (
-        <img src={Monkey} style={{ width: props.width }} />
+        <img src={Monkey} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Panda" && (
-        <img src={Panda} style={{ width: props.width }} />
+        <img src={Panda} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Pig" && (
-        <img src={Pig} style={{ width: props.width }} />
+        <img src={Pig} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Rabbit" && (
-        <img src={Rabbit} style={{ width: props.width }} />
+        <img src={Rabbit} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Sloth" && (
-        <img src={Sloth} style={{ width: props.width }} />
+        <img src={Sloth} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Sloth" && (
-        <img src={Sloth} style={{ width: props.width }} />
+        <img src={Sloth} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Unicorn" && (
-        <img src={Unicorn} style={{ width: props.width }} />
+        <img src={Unicorn} style={{ width: props.width }} alt="img" />
       )}
       {props.userZbti === "Zebra" && (
-        <img src={Zebra} style={{ width: props.width }} />
+        <img src={Zebra} style={{ width: props.width }} alt="img" />
       )}
     </Wrapper>
   );
