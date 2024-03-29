@@ -1,16 +1,31 @@
+import { ChangeEvent } from "react";
 import styled from "styled-components";
 
 interface InputProps {
   text?: string;
   placeholder: string;
+  onDayChange: (value: number) => void;
 }
 
 function SubscribeDateInput(props: InputProps) {
+  const changeDay = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    props.onDayChange(value);
+  };
+
   return (
     <Wrapper>
       <label>{props.text}</label>
       <InputContainer>
-        매월 <input type="number" placeholder={props.placeholder} />
+        매월{" "}
+        <input
+          type="number"
+          placeholder={props.placeholder}
+          onChange={changeDay}
+          min="1"
+          max="31"
+          required
+        />
         일에 구독을 신청합니다.
       </InputContainer>
     </Wrapper>

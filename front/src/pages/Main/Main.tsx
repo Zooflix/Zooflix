@@ -141,9 +141,10 @@ function Main() {
           </Link>
           <Character3d
             name="Bear"
-            characterScale={0.53}
-            canvasHeight={200}
+            characterScale={0.45}
+            canvasHeight={240}
             canvasWidth={200}
+            toBelow={24}
           />
         </SubscribeDiv>
       </BelowDiv>

@@ -1,17 +1,35 @@
+import { ChangeEvent } from "react";
 import styled from "styled-components";
 
 interface PasswordProps {
   placeholder: string;
   text: string;
+  disabled?: boolean;
+  onInputChange: (value: string) => void;
 }
-function PasswordInput(props: PasswordProps) {
+function PasswordInput({
+  placeholder,
+  text,
+  disabled,
+  onInputChange,
+}: PasswordProps) {
+  function InputChange(event: ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+    onInputChange(value);
+  }
+
   return (
     <Wrapper>
       <label className="small-title">
-        {props.text==="APP 시크릿 키"? <Secret>{props.text}</Secret>: props.text }
+        {text === "APP 시크릿 키" ? <Secret>{text}</Secret> : text}
       </label>
       <InputContainer>
-        <input type="password" placeholder={props.placeholder} />
+        <input
+          type="password"
+          placeholder={placeholder}
+          disabled={disabled}
+          onChange={InputChange}
+        />
       </InputContainer>
     </Wrapper>
   );
@@ -33,7 +51,7 @@ const Wrapper = styled.div`
 `;
 
 const Secret = styled.label`
-  word-break : keep-all;
+  word-break: keep-all;
 `;
 
 const InputContainer = styled.div`
