@@ -1,5 +1,6 @@
 package com.zooflix.be_zooflix.domain.predict.repository;
 
+import com.zooflix.be_zooflix.domain.predict.dto.PredictRankDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -63,5 +64,21 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
     @Query(nativeQuery = true, value = "delete from predict p where p.user_no = :userNo")
     void deleteAllByUser(int userNo);
 
+    @Query(nativeQuery = true, value = "SELECT user_no FROM user ORDER BY user_temperature DESC LIMIT 1")
+    int findZoostra();
 
+
+    @Query(nativeQuery = true, value = "SELECT user_no\n" +
+            "FROM predict\n" +
+            "WHERE stock_name = :stockName AND pd_result = '성공'\n" +
+            "GROUP BY user_no\n" +
+            "ORDER BY COUNT(CASE WHEN pd_result = '실패' THEN 1 END) ASC, COUNT(*) DESC\n" +
+            "LIMIT 1;")
+    String findZoostraByStockName(String stockName);
+
+    @Query(nativeQuery = true, value = "SELECT user_name FROM user where user_no = :userNo")
+    String findUserNameByUserNo(int userNo);
+
+    @Query(nativeQuery = true, value = "SELECT user_zbti FROM user where user_no = :userNo")
+    String findUserZbtiByUserNo(int userNo);
 }

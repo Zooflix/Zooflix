@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
+import com.zooflix.be_zooflix.domain.predict.dto.PredictRankDto;
 import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
 
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
@@ -143,7 +144,7 @@ public class PredictService {
     }
 
     //이미 예측중인게 있으면 글작성불가
-    public boolean checkPredict(int userNo, String stockName){
+    public boolean checkPredict(int userNo, String stockName) {
         return predictRepository.findStockNameNoResult(userNo, stockName);
     }
 
@@ -208,6 +209,29 @@ public class PredictService {
                 .build();
     }
 
+    public PredictRankDto getZoostra() {
+        int userNo = predictRepository.findZoostra();
+            String name = predictRepository.findUserNameByUserNo(userNo);
+            String zbti = predictRepository.findUserZbtiByUserNo(userNo);
+            PredictRankDto rank = new PredictRankDto(userNo, name, zbti);
+            return rank;
+    }
+
+    public PredictRankDto getZoostraByStockName(String stockName) {
+        String no = predictRepository.findZoostraByStockName(stockName);
+        System.out.println("userNo1: "+no);
+        if (no != null) {
+            int userNo = Integer.parseInt(no);
+            String name = predictRepository.findUserNameByUserNo(userNo);
+            String zbti = predictRepository.findUserZbtiByUserNo(userNo);
+            PredictRankDto rank = new PredictRankDto(userNo, name, zbti);
+            return rank;
+        } else {
+            PredictRankDto rank = new PredictRankDto();
+            return rank;
+        }
+    }
+
     @Value("http://127.0.0.1:8000/get_closing_price")
     private String pythonPredictValue;
 
@@ -234,6 +258,7 @@ public class PredictService {
     }
 
     public String getGraph(String stockName) {
+        if(stockName == null) return null;
         String date = String.valueOf(LocalDate.now());
         String code = stockListRepository.findStockCode(stockName);
         // 쿼리 문자열로 요청 데이터 구성
@@ -249,7 +274,7 @@ public class PredictService {
         List<String> dateList = predictRepository.findPdDateByUserNo(userNo, stockName);
         List<String> valueList = predictRepository.findPdValueByUserNo(userNo, stockName);
         List<String> resultList = predictRepository.findPdResultByUserNo(userNo, stockName);
-        if(resultList.isEmpty()){
+        if (resultList.isEmpty()) {
             return getGraph(stockName);
         }
         List<Float> valueListF = new ArrayList<>();
@@ -285,6 +310,9 @@ public class PredictService {
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
         UserKeyProjection userInfo = userRepository.findByUserNo(userNo);
         List<StockHistoryDto> historyDtoList = new ArrayList<>();
+        if(userInfo == null){
+            return historyDtoList;
+        }
         if (userInfo.getUserAppKey() == null || userInfo.getUserSecretKey() == null || userInfo.getUserAccount() == null) {
             return historyDtoList;
         }
@@ -425,11 +453,11 @@ public class PredictService {
     public void getStockList() {
         RestTemplate restTemplate = new RestTemplate();
 
-        String url =  pythonStockList;
+        String url = pythonStockList;
 
         ResponseEntity<List> responseEntity = restTemplate.getForEntity(url, List.class);
         List<LinkedHashMap<String, String>> list = responseEntity.getBody();
-        for (LinkedHashMap<String, String> stockMap : list){
+        for (LinkedHashMap<String, String> stockMap : list) {
             String stockName = stockMap.get("Name");
             String stockCode = stockMap.get("Code");
 
