@@ -79,13 +79,13 @@ public class UserService {
         }
         userSignupDto.setUserPw(passwordEncoder.encode(userSignupDto.getUserPw()));
         // 회원가입에서 받은 암호화된 데이터를 db에 넘길 때 새로 암호화 하는 과정.
-        if (userSignupDto.getUserAppKey() != null) {
+        if (userSignupDto.getUserAppKey() != null && !userSignupDto.getUserAppKey().isEmpty()) {
             userSignupDto.setUserAppKey(aesUtils.APItoDB(userSignupDto.getUserAppKey()));
         }
-        if (userSignupDto.getUserSecretKey() != null) {
+        if (userSignupDto.getUserSecretKey() != null && !userSignupDto.getUserSecretKey().isEmpty()) {
             userSignupDto.setUserSecretKey(aesUtils.APItoDB(userSignupDto.getUserSecretKey()));
         }
-        if (userSignupDto.getUserAccount() != null) {
+        if (userSignupDto.getUserAccount() != null && !userSignupDto.getUserAccount().isEmpty()) {
             userSignupDto.setUserAccount(aesUtils.APItoDB(userSignupDto.getUserAccount()));
         }
 
@@ -106,12 +106,22 @@ public class UserService {
 
     }
 
+    // 수정용 회원 정보 가져오기
+    public UserUpdateDto getUpdateUserInfo(String userId) {
+        User user = userRepository.findByUserId(userId);
+
+        UserUpdateDto userUpdateDto = new UserUpdateDto();
+        userUpdateDto = userUpdateDto.toDto((user));
+        return userUpdateDto;
+    }
+
     // 회원정보 수정
     public String putUpdateUser(String userId, UserUpdateDto userUpdateDto) {
         User user = userRepository.findByUserId(userId);
 
         if (userUpdateDto.getUserAppKey() != null) {
             user.userUpdateKey(
+                    userUpdateDto.getUserId(),
                     userUpdateDto.getUserName(),
                     userUpdateDto.getUserPw(),
                     aesUtils.APItoDB(userUpdateDto.getUserAppKey()),
@@ -120,6 +130,7 @@ public class UserService {
             );
         } else {
             user.userUpdate(
+                    userUpdateDto.getUserId(),
                     userUpdateDto.getUserName(),
                     userUpdateDto.getUserPw()
             );
@@ -207,11 +218,11 @@ public class UserService {
         }
 
         int userNo = jwtUtil.getUserNo(refresh);
-        String userId = jwtUtil.getUsername(refresh);
+        String userId = jwtUtil.getUserId(refresh);
         String role = jwtUtil.getRole(refresh);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", userNo, userId, role, 600000L);
+        String newAccess = jwtUtil.createJwt("access", userNo, userId, role, 6000001L);
         String newRefresh = jwtUtil.createJwt("refresh", userNo, userId, role, 86400000L);
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
@@ -220,7 +231,7 @@ public class UserService {
 
         //response
         response.setHeader("access", newAccess);
-        Cookie cookie = new Cookie("refresh", refresh);
+        Cookie cookie = new Cookie("refresh", newRefresh);
         cookie.setPath("/");
         response.addCookie(cookie); // 응답 쿠키에 refresh 넣어줌
 

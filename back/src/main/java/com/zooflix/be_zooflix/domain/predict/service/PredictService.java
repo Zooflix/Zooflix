@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
+import com.zooflix.be_zooflix.domain.predict.dto.PredictRankDto;
 import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
 
 import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
@@ -85,6 +86,13 @@ public class PredictService {
                 .collect(Collectors.toList());
     }
 
+    public List<PredictResDto> getEndPredicts() {
+        List<Predict> predicts = predictRepository.findEndPredict();
+        return predicts.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
     //종목명 검색
     public List<PredictResDto> getPredictsByStockName(String stockName) {
         List<Predict> predicts = predictRepository.findByStockNameOrderByCreateDateDesc(stockName);
@@ -95,6 +103,13 @@ public class PredictService {
 
     public List<PredictResDto> getSortedPredictsByStockName(String stockName) {
         List<Predict> predicts = predictRepository.findByStockNameOrderByUserTem(stockName);
+        return predicts.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PredictResDto> getEndPredictsByStockName(String stockName) {
+        List<Predict> predicts = predictRepository.findEndPredictByStockName(stockName);
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -129,7 +144,7 @@ public class PredictService {
     }
 
     //이미 예측중인게 있으면 글작성불가
-    public boolean checkPredict(int userNo, String stockName){
+    public boolean checkPredict(int userNo, String stockName) {
         return predictRepository.findStockNameNoResult(userNo, stockName);
     }
 
@@ -194,6 +209,29 @@ public class PredictService {
                 .build();
     }
 
+    public PredictRankDto getZoostra() {
+        int userNo = predictRepository.findZoostra();
+            String name = predictRepository.findUserNameByUserNo(userNo);
+            String zbti = predictRepository.findUserZbtiByUserNo(userNo);
+            PredictRankDto rank = new PredictRankDto(userNo, name, zbti);
+            return rank;
+    }
+
+    public PredictRankDto getZoostraByStockName(String stockName) {
+        String no = predictRepository.findZoostraByStockName(stockName);
+        System.out.println("userNo1: "+no);
+        if (no != null) {
+            int userNo = Integer.parseInt(no);
+            String name = predictRepository.findUserNameByUserNo(userNo);
+            String zbti = predictRepository.findUserZbtiByUserNo(userNo);
+            PredictRankDto rank = new PredictRankDto(userNo, name, zbti);
+            return rank;
+        } else {
+            PredictRankDto rank = new PredictRankDto();
+            return rank;
+        }
+    }
+
     @Value("http://127.0.0.1:8000/get_closing_price")
     private String pythonPredictValue;
 
@@ -235,7 +273,7 @@ public class PredictService {
         List<String> dateList = predictRepository.findPdDateByUserNo(userNo, stockName);
         List<String> valueList = predictRepository.findPdValueByUserNo(userNo, stockName);
         List<String> resultList = predictRepository.findPdResultByUserNo(userNo, stockName);
-        if(resultList.isEmpty()){
+        if (resultList.isEmpty()) {
             return getGraph(stockName);
         }
         List<Float> valueListF = new ArrayList<>();
@@ -411,11 +449,11 @@ public class PredictService {
     public void getStockList() {
         RestTemplate restTemplate = new RestTemplate();
 
-        String url =  pythonStockList;
+        String url = pythonStockList;
 
         ResponseEntity<List> responseEntity = restTemplate.getForEntity(url, List.class);
         List<LinkedHashMap<String, String>> list = responseEntity.getBody();
-        for (LinkedHashMap<String, String> stockMap : list){
+        for (LinkedHashMap<String, String> stockMap : list) {
             String stockName = stockMap.get("Name");
             String stockCode = stockMap.get("Code");
 

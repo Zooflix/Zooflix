@@ -18,4 +18,5 @@ public class MyStockDto {
     private int stockDate;      //구매할 일자
     private LocalDateTime stockSubscribeCreate;  //구독한 날짜
     private int stockTotalCount;//총 매수 수량
+    private int userNo;         //유저 인덱스
 }
