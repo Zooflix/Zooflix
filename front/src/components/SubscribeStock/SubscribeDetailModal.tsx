@@ -9,7 +9,8 @@ import { insertStockSubscribe } from "../../apis/api/Subscribe";
 interface ModalProps {
   isModalOpen: boolean;
   closeModal: () => void;
-  stockName: string;
+  stockName?: string;
+  stockCode?: string;
   stockSubscribeDay: number;
   stockCount: number;
   userAccount: string;
@@ -27,6 +28,7 @@ function SubscribeDetailModal({
   isModalOpen,
   closeModal,
   stockName,
+  stockCode,
   stockSubscribeDay,
   stockCount,
   userAccount,
@@ -55,6 +57,7 @@ function SubscribeDetailModal({
       setOpen(true);
       insertStockSubscribe({
         stockName,
+        stockCode,
         stockSubscribeDay,
         stockCount,
         userAccount,

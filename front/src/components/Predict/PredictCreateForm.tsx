@@ -4,6 +4,7 @@ import { selectNowPrice } from "../../apis/api/Predict";
 import { checkPredict } from "../../apis/api/Predict";
 import { insertPredict } from "../../apis/api/Predict";
 import { useNavigate } from "react-router-dom";
+import { getJwtUserNo } from "../../apis/utils/jwt";
 
 // 이미지
 import Refreshbtn from "../../assets/img/button/Refreshbtn.svg";
@@ -50,6 +51,7 @@ function PredictCreateForm() {
   const [maxDate, setMaxDate] = useState<string>("");
   const [stockName, setStockName] = useState("");
   const [nowPrice, setNowPrice] = useState(0);
+  const [priceOk, setPriceOk] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [upDown, setUpDown] = useState<string>("");
   const [open, setOpen] = useState(false);
@@ -161,8 +163,11 @@ function PredictCreateForm() {
     setOpen(false);
   };
 
-  const handleSearchChange = (value: React.SetStateAction<string>) => {
-    setStockName(value);
+  const handleSearchChange = (value: {
+    stockName: string;
+    stockCode: string;
+  }) => {
+    setStockName(value.stockName);
   };
 
   const fetchData = async () => {
@@ -171,38 +176,39 @@ function PredictCreateForm() {
   };
 
   const possibleCheck = async () => {
-    const check = await checkPredict(14, stockName);
+    const userNo = getJwtUserNo();
+    const check = await checkPredict(userNo, stockName);
     return check;
   };
 
   useEffect(() => {
     const fetchDataAndCheck = async () => {
-        const check = await possibleCheck();
-        if (check === true) {
-            setOpen(true);
-            setAlertOption({
-                severity: "error",
-                value: "이미 예측중인 종목입니다.",
-            });
-            setStockName("");
-            return;
-        } else {
-          setTime();
-          fetchData();
-        }
-      };
-      fetchDataAndCheck();
+      const check = await possibleCheck();
+      if (check === true) {
+        setOpen(true);
+        setAlertOption({
+          severity: "error",
+          value: "이미 예측중인 종목입니다.",
+        });
+        setStockName("");
+        return;
+      } else {
+        setTime();
+        fetchData();
+      }
+    };
+    fetchDataAndCheck();
   }, [stockName]);
 
   useEffect(() => {
     if (nowPrice * 0.9 >= predictPrice) {
       setUpDown("하락");
+      setPriceOk(true);
     } else if (nowPrice * 1.1 <= predictPrice) {
       setUpDown("상승");
-    } else if (
-      nowPrice * 0.9 < predictPrice &&
-      predictPrice < nowPrice * 1.1
-    ) {
+      setPriceOk(true);
+    } else if (nowPrice * 0.9 < predictPrice && predictPrice < nowPrice * 1.1) {
+      setPriceOk(false);
       setOpen(true);
       setAlertOption({
         severity: "error",
@@ -267,14 +273,14 @@ function PredictCreateForm() {
                 onClick={refreshPrice}
               />
               <ImgBtn src={Informationbtn} style={informationStyle}>
-              <div>
-                <span className="info-highlight">
-                해당 가격을 기준으로 <br/>
-                예측글이 등록됩니다. <br/>
-                가격을 업데이트 하려면 <br/>
-                새로고침을 눌러주세요. <br/>
-                </span>
-              </div>
+                <div>
+                  <span className="info-highlight">
+                    해당 가격을 기준으로 <br />
+                    예측글이 등록됩니다. <br />
+                    가격을 업데이트 하려면 <br />
+                    새로고침을 눌러주세요. <br />
+                  </span>
+                </div>
               </ImgBtn>
             </>
           )}
@@ -294,7 +300,7 @@ function PredictCreateForm() {
             placeholder="예측 가격을 입력하세요."
             onPriceChange={handlePriceChange}
           />
-          {stockName && predictPrice > 0 && (
+          {stockName && predictPrice > 0 && priceOk && (
             <>
               <span>
                 <b
@@ -322,7 +328,7 @@ function PredictCreateForm() {
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert severity={alertOption?.severity}>{alertOption?.value}</Alert>
       </Snackbar>

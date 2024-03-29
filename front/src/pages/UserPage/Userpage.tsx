@@ -20,6 +20,7 @@ import {
 import TempWithImage from "../../components/UserPage/TempWithImage";
 import SubscribeButton from "../../components/UserPage/SubscribeButton";
 import UserContentHeader from "../../components/UserPage/UserContentHeader";
+import UserInfo from "../../components/UserPage/UserInfo";
 
 function UserPage() {
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
@@ -98,7 +99,7 @@ function UserPage() {
                 <LeftSideMyInfo>
                     {userPageInfo.userName + " 님의 정보"}
                     <TempWithImage />
-                    <MyInfo />
+                    <UserInfo />
                     <SubscribeButton />
                 </LeftSideMyInfo>
                 <RightSideMyInfo>

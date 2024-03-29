@@ -30,7 +30,10 @@ function SubscribeForm() {
   const [accessToken, setAccessToken] = useState<boolean>(false);
   const [userNo, setUserNo] = useRecoilState(userNoState);
 
-  const [stockName, setStockName] = useState("");
+  const [stock, setStock] = useState<{
+    stockName: string;
+    stockCode: string;
+  } | null>(null);
   const [subscribeDay, setSubscribeDay] = useState(1);
   const [stockCnt, setStockCnt] = useState(1);
   const [account, setAccount] = useState("");
@@ -57,7 +60,7 @@ function SubscribeForm() {
     <Wrapper>
       <InputContainer>
         <FirstContainer>
-          <SearchInput onSearchChange={setStockName} />
+          <SearchInput onSearchChange={setStock} />
           <SubscribeDateInput
             text="구독일"
             placeholder="구독일"
@@ -112,7 +115,8 @@ function SubscribeForm() {
         <SubscribeDetailModal
           isModalOpen={isModalOpen}
           closeModal={closeModal}
-          stockName={stockName}
+          stockName={stock?.stockName}
+          stockCode={stock?.stockCode}
           stockSubscribeDay={subscribeDay}
           stockCount={stockCnt}
           userAccount={account}

@@ -11,10 +11,6 @@ function SubscribeButton() {
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
     
     function handleClickToSubscribe() {
-        // console.log(myPageInfo.userNo);
-        // console.log(userPageInfo.userNo);
-        // console.log(myPageInfo.subscribeNo);
-        // console.log(userPageInfo.subscribeNo);
         subscribeUser(myPageInfo.userNo, userPageInfo.userNo);
         alert(userPageInfo.userName +" 님을 구독하셨습니다.");
     }

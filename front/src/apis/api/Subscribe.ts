@@ -11,7 +11,8 @@ export async function getUserApi() {
 }
 
 interface subscribeProps {
-  stockName: string;
+  stockName?: string;
+  stockCode?: string;
   stockSubscribeDay: number;
   stockCount: number;
   userAccount?: string;

@@ -1,41 +1,51 @@
-import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { userPageInfoState, userPagePredictListState } from "../../Store/UserPageState";
+import {
+    myPageInfoState,
+    myPagePredictListState,
+} from "../../Store/MyPageState";
+import { useState } from "react";
+import { userPageInfoState } from "../../Store/UserPageState";
 
 function UserInfo() {
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
     const [userPagePredictList, setUserPagePredictList] = useRecoilState(
-        userPagePredictListState
+        myPagePredictListState
     );
+    
+    console.log(userPageInfo.userNo);
+    console.log(userPagePredictList.length);
 
     let successCnt = 0; //성공 횟수
-    
-    userPagePredictList.forEach(item => {
+    let successRate = 0; //성공 확률
+
+    userPagePredictList.forEach((item) => {
         if (item.pdResult === "성공") {
             successCnt += 1;
         }
     });
 
-    // 소수점 둘째 짜리까지 성공 비율 -> rate
-    let rateOfPredict = Math.round(successCnt / userPagePredictList.length); 
-    let rate = Math.round(rateOfPredict * 100) / 100;
+    if(successCnt > 0) {
+      successRate = Math.round((successCnt / userPagePredictList.length) * 100) / 100;
+    } else {
+      successRate = 0;
+    }
 
     return (
         <Wrapper>
             <LeftsideQuestion>
-                <div>총 예측 횟수</div>
-                <div>예측 성공 횟수</div>
-                <div>예측률</div>
-                <div>구독</div>
-                <div>구독자</div>
+                <h4>총 예측 횟수</h4>
+                <h4>예측 성공 횟수</h4>
+                <h4>예측률</h4>
+                <h4>구독</h4>
+                <h4>구독자</h4>
             </LeftsideQuestion>
             <RightSideAnswer>
-                <div>{userPagePredictList.length}</div>
-                <div>{successCnt}</div>
-                <div>{rate + " %"}</div>
-                <div>{userPageInfo.subscribeFromMe}</div>
-                <div>{userPageInfo.subscribeToMe}</div>
+                <h4>{userPagePredictList.length}</h4>
+                <h4>{successCnt}</h4>
+                <h4>{successRate} %</h4>
+                <h4>{userPageInfo.subscribeFromMe}</h4>
+                <h4>{userPageInfo.subscribeToMe}</h4>
             </RightSideAnswer>
         </Wrapper>
     );
@@ -46,18 +56,10 @@ export default UserInfo;
 const Wrapper = styled.div`
     margin: 0 auto;
     display: flex;
+    justify-content: space-between;
+    padding: 5px 70px;
 `;
 
-const LeftsideQuestion = styled.div`
-  float: left;
-  width: 80%;
-  margin: 30px 70px;
-  text-align: left;
-`;
+const LeftsideQuestion = styled.div``;
 
-const RightSideAnswer = styled.div`
-  float: right;
-  width: 20%;
-  margin: 30px 70px;
-  text-align: right;
-`;
+const RightSideAnswer = styled.div``;

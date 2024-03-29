@@ -4,6 +4,7 @@ import Character3d from "../Character/Character3d";
 import { getZoostra } from "../../apis/api/Predict";
 import Zbti from "./Zbti";
 import Crown from "../../assets/img/rank/crown.svg";
+import UserDetailModal from "./UserDetailModal";
 
 type RankProps = {
     stockName: string;
@@ -11,7 +12,7 @@ type RankProps = {
 
 function Rank(props: RankProps) {
     const [zoostra, setZoostra] = useState({
-        userNo: null,
+        userNo: 0,
         userName: "",
         userZbti: "",
     });
@@ -26,55 +27,88 @@ function Rank(props: RankProps) {
             });
     }, [props.stockName]);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = (userName: string, userNo: number) => {
+        setIsModalOpen(true);
+    };
+    const closeModal = () => setIsModalOpen(false);
     if (props.stockName === "null") {
         return (
-            <Wrapper>
-                <Content>이 달의 주스트라다무스</Content>
-                <Zoostra>
-                    <OnCrown>
-                    <CrownImage src={Crown} alt="Crown" style={{ width: "42px" }} />
-                        {/* <Zbti userZbti={zoostra.userZbti} /> */}
-                        <Zbti userZbti="Rabbit" />
-                    </OnCrown>
-                    <Name>
-                        {zoostra.userName}
-                        <span>{">"}</span>
-                    </Name>
-                </Zoostra>
-            </Wrapper>
+            <BigWrapper>
+                <Wrapper>
+                    <Content>이 달의 <b>주스트라다무스</b></Content>
+                    <div
+                        onClick={() =>
+                            openModal(zoostra.userName, zoostra.userNo)
+                        }
+                        style={{cursor: 'pointer'}}
+                    >
+                        <Zoostra>
+                            <OnCrown>
+                                <CrownImage
+                                    src={Crown}
+                                    alt="Crown"
+                                    style={{ width: "42px" }}
+                                />
+                                <Zbti userZbti="Rabbit" />
+                            </OnCrown>
+                            <Name>
+                                {zoostra.userName}
+                                <span>{">"}</span>
+                            </Name>
+                        </Zoostra>
+                    </div>
+                </Wrapper>
+                <UserDetailModal
+                    isModalOpen={isModalOpen}
+                    closeModal={closeModal}
+                    userName={zoostra.userName}
+                    userNo={zoostra.userNo}
+                />
+            </BigWrapper>
         );
     } else {
         return (
-            <Wrapper>
-                {zoostra.userNo ? (
-                    <>
-                        <Content>
-                            {props.stockName} 에서 예측을{" "}
-                            <span style={{ color: "#DE0000" }}>
-                                가장 잘해요!
-                            </span>
-                        </Content>
-                        <Zoostra>
-                            <Zbti userZbti={zoostra.userZbti} />
-                            <Name>
-                                {zoostra.userName}
-                                <span>{" > "}</span>
-                            </Name>
-                        </Zoostra>
-                    </>
-                ) : (
-                    <NoContent>
-                        {props.stockName} 종목은
-                        <br />
-                        예측성공한 사용자가 없어요!
-                    </NoContent>
-                )}
-            </Wrapper>
+            <BigWrapper>
+                <Wrapper>
+                    {zoostra.userNo === 0 ? (
+                        <>
+                            <Content>
+                                {props.stockName} 에서 예측을{" "}
+                                <span style={{ color: "#DE0000" }}>
+                                    가장 잘해요!
+                                </span>
+                            </Content>
+                            <Zoostra>
+                                <Zbti userZbti={zoostra.userZbti} />
+                                <Name>
+                                    {zoostra.userName}
+                                    <span>{" > "}</span>
+                                </Name>
+                            </Zoostra>
+                        </>
+                    ) : (
+                        <NoContent>
+                            {props.stockName} 종목은
+                            <br />
+                            예측성공한 사용자가 없어요!
+                        </NoContent>
+                    )}
+                </Wrapper>
+                <UserDetailModal
+                    isModalOpen={isModalOpen}
+                    closeModal={closeModal}
+                    userName={zoostra.userName}
+                    userNo={zoostra.userNo}
+                />
+            </BigWrapper>
         );
     }
 }
 
 export default Rank;
+
+const BigWrapper = styled.div``;
 
 const Wrapper = styled.div`
     border-radius: 30px;
@@ -84,12 +118,12 @@ const Wrapper = styled.div`
     height: 120px;
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     flex-direction: column;
     padding: 10px 30px;
 `;
 const Content = styled.div`
-    font-weight: bold;
+    font-weight: bolder;
 `;
 
 const NoContent = styled.div`

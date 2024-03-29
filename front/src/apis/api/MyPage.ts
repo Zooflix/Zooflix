@@ -33,10 +33,10 @@ export const getMySubscribeList = async () => {
 };
 
 // 유저 구독하기
-export async function subscribeUser(userNo: Number, subscribeNo: Number) {
+export async function subscribeUser(userNo: Number, subscribeUserNo: Number) {
   try {
     const response = await axios
-      .post(`user/subscribe`, { userNo, subscribeNo })
+      .post(`/user-subscribe`, { userNo, subscribeUserNo })
       .then((res) => {
         return res;
       });
