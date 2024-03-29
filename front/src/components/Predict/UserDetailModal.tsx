@@ -2,8 +2,14 @@ import styled from "styled-components";
 import Modal from "@mui/material/Modal";
 import SquareBtn from "../Common/SquareBtn";
 import { useRecoilState } from "recoil";
-import { selectUserNoState } from "../../Store/PredictState";
+import {
+    selectStockNameState,
+    selectUserNoState,
+} from "../../Store/PredictState";
 import { Link, useNavigate } from "react-router-dom";
+import { myPageInfoState } from "../../Store/MyPageState";
+import { userPageInfoState } from "../../Store/UserPageState";
+import { subscribeUser } from "../../apis/api/MyPage";
 
 interface ModalProps {
     isModalOpen: boolean;
@@ -20,8 +26,17 @@ const StyledModal = styled(Modal)`
 function UserDetailModal({ userName, isModalOpen, closeModal }: ModalProps) {
     const navigate = useNavigate();
 
-    const navToUserPage = async() => {
-        navigate('/user-page');
+    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+    const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
+    const [selectStockName, setSelectStockName] = useRecoilState(selectStockNameState);
+
+    const navToUserPage = async () => {
+        navigate("/user-page");
+    };
+
+    const handleSubscribe = () => {
+        subscribeUser(myPageInfo.userNo, selectUserNo);
+        alert("구독 완료");
     };
 
     return (
@@ -32,11 +47,13 @@ function UserDetailModal({ userName, isModalOpen, closeModal }: ModalProps) {
                     예측정보입니다.
                 </span>
                 <ButtonContainer className="btn-container">
-                    <SubscribeButton type="button">구독하기</SubscribeButton>
-                    <SquareBtn 
-                        text="글 보러가기" 
-                        onClick={navToUserPage}
-                    />
+                    <SubscribeButton
+                        type="button"
+                        onClick={() => handleSubscribe()}
+                    >
+                        구독하기
+                    </SubscribeButton>
+                    <SquareBtn text="글 보러가기" onClick={navToUserPage} />
                 </ButtonContainer>
             </Container>
         </StyledModal>
