@@ -5,7 +5,7 @@ const REST_MYPAGE_API = `/my-page`;
 // 내 정보 가져오기
 export const getMyInfo = async () => {
     try {
-        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/info`, { headers: { 'access': localStorage.getItem('access') } });        
+        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/info`);        
         return response;
     } catch (error) {
         console.error(error);
@@ -15,7 +15,7 @@ export const getMyInfo = async () => {
 // 내 예측 글 목록 가져오기
 export const getMyPredictList = async () => {
     try {
-        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/predict`, { headers: {'access': localStorage.getItem('access')} });
+        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/predict`);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -25,7 +25,7 @@ export const getMyPredictList = async () => {
 // 내가 구독한 사람 목록 가져오기(유저 구독 인덱스, 닉네임, 온도)
 export const getMySubscribeList = async () => {
     try {
-        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/subscribe`, { headers: {'access': localStorage.getItem('access')} });
+        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/subscribe`);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -63,7 +63,7 @@ export const deleteMySubscribe = async (subscribeNo: Number) => {
 //내 주식 구독 목록
 export const getMyStockList = async (userId: String) => {
     try {
-        const response = await axiosPrivate.get(`/stock/subscribe/list/${userId}`, { headers: {'access': localStorage.getItem('access')} });
+        const response = await axiosPrivate.get(`/stock/subscribe/list/${userId}`);
         console.log(response.data.resultData);
         return response.data.resultData;
     } catch (error) {

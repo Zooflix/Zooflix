@@ -12,7 +12,7 @@ export const axios = Axios.create({
 export const axiosPrivate = Axios.create({
   baseURL: `http://localhost:8089`,
   headers: {
-    "Content-Type": "application/json",    
+    "Content-Type": "application/json",
   },
   
 });
@@ -21,6 +21,19 @@ export async function tokenReissue() {
   const response = await axios.post('/auth/reissue', {}, { withCredentials: true });
   return response;
 }
+
+axiosPrivate.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem("access");
+    if (token) {
+      config.headers['access'] = `${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+)
 
 axiosPrivate.interceptors.response.use(
   response => response,
