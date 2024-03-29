@@ -163,8 +163,11 @@ function PredictCreateForm() {
     setOpen(false);
   };
 
-  const handleSearchChange = (value: React.SetStateAction<string>) => {
-    setStockName(value);
+  const handleSearchChange = (value: {
+    stockName: string;
+    stockCode: string;
+  }) => {
+    setStockName(value.stockName);
   };
 
   const fetchData = async () => {
@@ -180,21 +183,21 @@ function PredictCreateForm() {
 
   useEffect(() => {
     const fetchDataAndCheck = async () => {
-        const check = await possibleCheck();
-        if (check === true) {
-            setOpen(true);
-            setAlertOption({
-                severity: "error",
-                value: "이미 예측중인 종목입니다.",
-            });
-            setStockName("");
-            return;
-        } else {
-          setTime();
-          fetchData();
-        }
-      };
-      fetchDataAndCheck();
+      const check = await possibleCheck();
+      if (check === true) {
+        setOpen(true);
+        setAlertOption({
+          severity: "error",
+          value: "이미 예측중인 종목입니다.",
+        });
+        setStockName("");
+        return;
+      } else {
+        setTime();
+        fetchData();
+      }
+    };
+    fetchDataAndCheck();
   }, [stockName]);
 
   useEffect(() => {
@@ -204,10 +207,7 @@ function PredictCreateForm() {
     } else if (nowPrice * 1.1 <= predictPrice) {
       setUpDown("상승");
       setPriceOk(true);
-    } else if (
-      nowPrice * 0.9 < predictPrice &&
-      predictPrice < nowPrice * 1.1
-    ) {
+    } else if (nowPrice * 0.9 < predictPrice && predictPrice < nowPrice * 1.1) {
       setPriceOk(false);
       setOpen(true);
       setAlertOption({
@@ -273,14 +273,14 @@ function PredictCreateForm() {
                 onClick={refreshPrice}
               />
               <ImgBtn src={Informationbtn} style={informationStyle}>
-              <div>
-                <span className="info-highlight">
-                해당 가격을 기준으로 <br/>
-                예측글이 등록됩니다. <br/>
-                가격을 업데이트 하려면 <br/>
-                새로고침을 눌러주세요. <br/>
-                </span>
-              </div>
+                <div>
+                  <span className="info-highlight">
+                    해당 가격을 기준으로 <br />
+                    예측글이 등록됩니다. <br />
+                    가격을 업데이트 하려면 <br />
+                    새로고침을 눌러주세요. <br />
+                  </span>
+                </div>
               </ImgBtn>
             </>
           )}

@@ -15,100 +15,100 @@ import ListHeader from "../../components/Predict/ListHeader";
 import Page from "../../components/Predict/Page";
 
 const buttonStyleDark = {
-    backgroundColor: "#1E3659",
-    color: "white",
-    border: "none",
-    width: "110px",
-    height: "40px",
-    borderRadius: "20px",
-    boxShadow: "1px 2px 5px rgba(0, 0, 0, 0.2)",
+  backgroundColor: "#1E3659",
+  color: "white",
+  border: "none",
+  width: "110px",
+  height: "40px",
+  borderRadius: "20px",
+  boxShadow: "1px 2px 5px rgba(0, 0, 0, 0.2)",
 };
 
 const searchInputStyle = {
-    width: "25vw",
+  width: "25vw",
 };
 
 function Predict() {
-    const [sorted, setSorted] = useState("date"); // 초기값은 "date"
-    const handleSortChange = (value: React.SetStateAction<string>) => {
-        setSorted(value);
-    };
+  const [sorted, setSorted] = useState("date"); // 초기값은 "date"
+  const handleSortChange = (value: React.SetStateAction<string>) => {
+    setSorted(value);
+  };
 
-    const [stockName, setStockName] = useState("null"); // 초기값은 "null"
-    const handleSearchChange = (value: React.SetStateAction<string>) => {
-        setStockName(value);
-    };
+  const [stockName, setStockName] = useState("null"); // 초기값은 "null"
+  const handleSearchChange = (value: {
+    stockName: string;
+    stockCode: string;
+  }) => {
+    setStockName(value.stockName);
+  };
 
-    const [currentPage, setCurrentPage] = useState<any[]>([]);
-    const handleCurrentPageChange = (value: React.SetStateAction<any[]>) => {
-        setCurrentPage(value);
-    };
+  const [currentPage, setCurrentPage] = useState<any[]>([]);
+  const handleCurrentPageChange = (value: React.SetStateAction<any[]>) => {
+    setCurrentPage(value);
+  };
 
-    return (
-        <Wrapper>
-            <UpperContainer>
-                <LeftContainer>
-                    <FirstContainer>
-                        <Title text="주식 예측 하기" />
-                        <Link to="/predict/create">
-                            <SquareBtn
-                                text="나도 예측하기"
-                                style={buttonStyleDark}
-                            />
-                        </Link>
-                    </FirstContainer>
-                    <SecondContainer>
-                        <Search
-                            type="text"
-                            placeholder="종목명을 입력하세요."
-                            onSearchChange={handleSearchChange}
-                            style={searchInputStyle}
-                        />
-                        <Sort onSortChange={handleSortChange} />
-                    </SecondContainer>
-                    <ListHeader />
-                    <PredictList currentPage={currentPage} />
-                </LeftContainer>
-                <RightContainer>
-                    <Rank stockName={stockName} />
-                    <Graph />
-                    <StockHistory />
-                </RightContainer>
-            </UpperContainer>
-            <LowerContainer>
-                <Page
-                    sorted={sorted}
-                    stockName={stockName}
-                    onCurrentPageChange={handleCurrentPageChange}
-                />
-            </LowerContainer>
-        </Wrapper>
-    );
+  return (
+    <Wrapper>
+      <UpperContainer>
+        <LeftContainer>
+          <FirstContainer>
+            <Title text="주식 예측 하기" />
+            <Link to="/predict/create">
+              <SquareBtn text="나도 예측하기" style={buttonStyleDark} />
+            </Link>
+          </FirstContainer>
+          <SecondContainer>
+            <Search
+              type="text"
+              placeholder="종목명을 입력하세요."
+              onSearchChange={handleSearchChange}
+              style={searchInputStyle}
+            />
+            <Sort onSortChange={handleSortChange} />
+          </SecondContainer>
+          <ListHeader />
+          <PredictList currentPage={currentPage} />
+        </LeftContainer>
+        <RightContainer>
+          <Rank stockName={stockName} />
+          <Graph />
+          <StockHistory />
+        </RightContainer>
+      </UpperContainer>
+      <LowerContainer>
+        <Page
+          sorted={sorted}
+          stockName={stockName}
+          onCurrentPageChange={handleCurrentPageChange}
+        />
+      </LowerContainer>
+    </Wrapper>
+  );
 }
 
 export default Predict;
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const UpperContainer = styled.div`
-    padding-left: 200px;
-    display: flex;
+  padding-left: 200px;
+  display: flex;
 `;
 const LowerContainer = styled.div`
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 `;
 
 const LeftContainer = styled.div`
-    width: 65%;
+  width: 65%;
 `;
 
 const RightContainer = styled.div`
-    width: 50%;
-    margin-left: 100px;
+  width: 50%;
+  margin-left: 100px;
 `;
 
 const FirstContainer = styled.div`
@@ -120,7 +120,7 @@ const FirstContainer = styled.div`
 `;
 
 const SecondContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;

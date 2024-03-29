@@ -8,12 +8,14 @@ type SearchProps = {
   type: string;
   placeholder: string;
   style?: React.CSSProperties;
-  onSearchChange: (value: string) => void;
+  onSearchChange: (value: { stockName: string; stockCode: string }) => void;
 };
 
 function Search(props: SearchProps) {
   const [keyword, setKeyword] = useState<string>("");
-  const [keyItems, setKeyItems] = useState<string[]>([]);
+  const [keyItems, setKeyItems] = useState<
+    { stockName: string; stockCode: string }[] | null
+  >(null);
   const [searchResultVisible, setSearchResultVisible] =
     useState<boolean>(false);
   const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
@@ -30,15 +32,19 @@ function Search(props: SearchProps) {
     };
   }, [keyword]);
 
-  const handleSearchChange = (value: string) => {
+  const handleSearchChange = (value: {
+    stockName: string;
+    stockCode: string;
+  }) => {
     props.onSearchChange(value);
-    setKeyword(value);
+    setKeyword(value.stockName);
     setSearchResultVisible(false);
   };
 
   const fetchData = async () => {
     try {
       const result = await stockSearch(keyword);
+      console.log(result);
       setKeyItems(result);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -63,8 +69,10 @@ function Search(props: SearchProps) {
         {keyword &&
           keyItems &&
           keyItems.map((item) => (
-            <SelectOne key={item}>
-              <div onClick={() => handleSearchChange(item)}>{item}</div>
+            <SelectOne key={item.stockCode}>
+              <div onClick={() => handleSearchChange(item)}>
+                {item.stockName}
+              </div>
             </SelectOne>
           ))}
       </SearchResult>
@@ -81,6 +89,10 @@ interface SearchResultProps {
 
 interface SearchListProps {
   list: string[];
+}
+
+interface KeyItemsProps {
+  list: { stockName: string; stockCode: string }[] | null;
 }
 
 const Wrapper = styled.div`
@@ -142,8 +154,9 @@ const SelectOne = styled.div`
   }
 `;
 
-const EmptyResult = styled.div<SearchListProps>`
-  display: ${(props) => (props.list.length > 0 ? "none" : "block")};
+const EmptyResult = styled.div<KeyItemsProps>`
+  display: ${(props) =>
+    !props.list || props.list.length === 0 ? "block" : "none"};
   text-align: center;
   margin: 60px;
   position: relative;
