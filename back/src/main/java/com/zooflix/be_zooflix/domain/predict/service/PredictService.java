@@ -258,6 +258,7 @@ public class PredictService {
     }
 
     public String getGraph(String stockName) {
+        if(stockName == null) return null;
         String date = String.valueOf(LocalDate.now());
         String code = stockListRepository.findStockCode(stockName);
         // 쿼리 문자열로 요청 데이터 구성
