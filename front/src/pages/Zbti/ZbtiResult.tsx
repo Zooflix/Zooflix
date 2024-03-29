@@ -1,28 +1,54 @@
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { zbtiState } from "../../Store/ZbtiState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { zbtiQuestionState, zbtiResultState } from "../../Store/ZbtiState";
 import { useNavigate } from "react-router";
 import html2canvas from "html2canvas";
 
-import sloth from "../../assets/img/Portfolio/sloth.svg";
-import cow from "../../assets/img/Portfolio/cow.svg";
-import fox from "../../assets/img/Portfolio/fox.svg";
-import hippo from "../../assets/img/Portfolio/hippo.svg";
-import lion from "../../assets/img/Portfolio/lion.svg";
-import monkey from "../../assets/img/Portfolio/monkey.svg";
-import panda from "../../assets/img/Portfolio/panda.svg";
-import pig from "../../assets/img/Portfolio/pig.svg";
-import rabbit from "../../assets/img/Portfolio/rabbit.svg";
-import unicorn from "../../assets/img/Portfolio/unicorn.svg";
-import zebra from "../../assets/img/Portfolio/zebra.svg";
-import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
+// api
+import { zbtiUpdate } from "../../apis/api/User";
 
+// 이미지
+import Sloth from "../../assets/img/Portfolio/sloth.svg";
+import Cow from "../../assets/img/Portfolio/cow.svg";
+import Fox from "../../assets/img/Portfolio/fox.svg";
+import Hippo from "../../assets/img/Portfolio/hippo.svg";
+import Lion from "../../assets/img/Portfolio/lion.svg";
+import Monkey from "../../assets/img/Portfolio/monkey.svg";
+import Panda from "../../assets/img/Portfolio/panda.svg";
+import Pig from "../../assets/img/Portfolio/pig.svg";
+import Rabbit from "../../assets/img/Portfolio/rabbit.svg";
+import Unicorn from "../../assets/img/Portfolio/unicorn.svg";
+import Zebra from "../../assets/img/Portfolio/zebra.svg";
 import Download from "../../assets/img/button/DownloadBtn.svg";
 import Refresh from "../../assets/img/button/Refresh.svg";
 
+// 컴포넌트
+import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
+import { useEffect } from "react";
+
+
+interface ImgMap {
+  [key:string]: string;
+}
+
+const imgList:ImgMap = {
+  "Sloth": Sloth,
+  "Cow": Cow,
+  "Fox": Fox,
+  "Hippo": Hippo,
+  "Lion": Lion,
+  "Monkey": Monkey,
+  "Panda": Panda,
+  "Pig": Pig,
+  "Rabbit": Rabbit,
+  "Unicorn": Unicorn,
+  "Zebra": Zebra,
+};
+
 function ZbtiResult() {
-  const zbtiValue = useRecoilValue(zbtiState);
-  console.log(zbtiValue);
+  const zbtiValue = useRecoilValue(zbtiQuestionState);
+  const [zbtiResult, setZbtiResult] = useRecoilState(zbtiResultState);
+  
 
   const isSloth =
     JSON.stringify(zbtiValue) === JSON.stringify([2, 1, 1, 2, 1, 2, 1, 2]);
@@ -44,6 +70,38 @@ function ZbtiResult() {
     JSON.stringify(zbtiValue) === JSON.stringify([2, 1, 1, 1, 2, 2, 1, 1]);
   const isLion =
     JSON.stringify(zbtiValue) === JSON.stringify([1, 2, 2, 1, 1, 1, 2, 2]);
+
+  const setZbti = async () => {
+    if (isSloth) {
+      setZbtiResult("Sloth");
+    } else if (isHippo) {
+      setZbtiResult("Hippo");
+    } else if (isUnicorn) {
+      setZbtiResult("Unicorn");
+    } else if (isFox) {
+      setZbtiResult("Fox");
+    } else if (isRabbit) {
+      setZbtiResult("Rabbit");
+    } else if (isPig) {
+      setZbtiResult("Pig");
+    } else if (isZebra) {
+      setZbtiResult("Zebra");
+    } else if (isMonkey) {
+      setZbtiResult("Monkey");
+    } else if (isCow) {
+      setZbtiResult("Cow");
+    } else if (isLion) {
+      setZbtiResult("Lion");
+    } else {
+      setZbtiResult("Panda");
+    };
+    await zbtiUpdate(zbtiResult);
+  };
+
+  useEffect(()=> {
+    setZbti();
+    console.log(zbtiResult);
+  }, []);
 
   const navigate = useNavigate();
   const handleRetry = () => {
@@ -76,27 +134,7 @@ function ZbtiResult() {
         <Header>
           <h1>다라란님의 투자 성향은?</h1>
         </Header>
-        {isSloth && <img src={sloth} alt="sloth portfolio" />}
-        {isHippo && <img src={hippo} alt="hippo portfolio" />}
-        {isUnicorn && <img src={unicorn} alt="unicorn portfolio" />}
-        {isFox && <img src={fox} alt="fox portfolio" />}
-        {isRabbit && <img src={rabbit} alt="rabbit portfolio" />}
-        {isPig && <img src={pig} alt="pig portfolio" />}
-        {isMonkey && <img src={monkey} alt="monkey portfolio" />}
-        {isCow && <img src={cow} alt="cow portfolio" />}
-        {isZebra && <img src={zebra} alt="zebra portfolio" />}
-        {isLion && <img src={lion} alt="lion portfolio" />}
-        {/* 나머지는 판다 */}
-        {!isSloth &&
-          !isHippo &&
-          !isUnicorn &&
-          !isFox &&
-          !isRabbit &&
-          !isPig &&
-          !isMonkey &&
-          !isCow &&
-          !isZebra &&
-          !isLion && <img src={panda} alt="panda portfolio" />}
+        <PortfolioImg src={imgList[zbtiResult]} />
       </div>
       <ButtonContainer>
         <DownloadButton onClick={onCapture}>
@@ -137,6 +175,10 @@ const Header = styled.div`
     color: white;
     text-shadow: 2px 2px 2px gray;
   }
+`;
+
+const PortfolioImg = styled.img`
+  
 `;
 
 const ButtonContainer = styled.div`

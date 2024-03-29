@@ -22,8 +22,10 @@ function SubscribeStock() {
 export default SubscribeStock;
 
 const Wrapper = styled.div`
-  padding-left: 300px;
+  margin-left: 6vw;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
 `;
 

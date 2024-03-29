@@ -16,6 +16,9 @@ function Graph() {
     const [graphImage, setGraphImage] = useState<string>("");
 
     useEffect(() => {
+        if(selectStockName ===""){
+            return;
+        }       
         selectCompareGraph(selectUserNo, selectStockName).then(
             (imageUrl: string) => {
                 setGraphImage(imageUrl);

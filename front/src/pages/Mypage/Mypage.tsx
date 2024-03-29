@@ -21,8 +21,6 @@ import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 
 function Mypage() {
-  const info = "내 정보";
-
   const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
   const [myPagePredictList, setMyPagePredictList] = useRecoilState(
     myPagePredictListState
@@ -44,82 +42,53 @@ function Mypage() {
     //내 정보
     try {
       const dataInfo = await getMyInfo()
-        .then(resInfo => {
-          console.log(resInfo)
+        .then((resInfo) => {
+          console.log(resInfo);
           setMyPageInfo(resInfo?.data);
-          console.log("마이인포: " + myPageInfo.userName);
 
           const dataPredict = getMyPredictList()
-            .then(resPredict => {
+            .then((resPredict) => {
               setMyPagePredictList(resPredict);
-              console.log("프리딕트: " + myPagePredictList);
 
               const dataSubscribe = getMySubscribeList()
-                .then(resSubscribe => {
+                .then((resSubscribe) => {
                   setMyPageSubscribeList(resSubscribe);
-                  console.log("내가 구독한 사람 목록 : " + myPageSubscribeList)
 
                   const dataStock = getMyStockList(userId)
-                    .then(resStock => {
+                    .then((resStock) => {
                       setMyStockList(resStock);
                       console.log("내 주식 구독 목록 : " + myStockList);
                     })
-                    .catch(error => {
+                    .catch((error) => {
                       console.log("내 주식 구독 목록 불러오기 실패");
                       console.error(error);
                     });
-
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.log("내가 구독한 사람 목록 불러오기 실패");
                   console.error(error);
                 });
-
             })
-            .catch(error => {
+            .catch((error) => {
               console.log("내 예측 목록 실패");
               console.error(error);
             });
-
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("내 정보 불러오기 실패");
           console.error(error);
-        });      
+        });
     } catch (error) {
       console.log("최종실패?");
       console.error(error);
-    }   
-
+    }
   };
 
-  // const accessToken = localStorage.getItem('accessToken');
   const userId = "user1";
 
   useEffect(() => {
-    // if(!accessToken){
-    //     navigate("/main");
-    //     return;
-    // }
-
     fetchData();
   }, []);
-
-  // useEffect(() => {
-  //   // 임의의 인덱스값 userNo 넣음
-  //   const fetchData = async (userId: String) => {
-  //     //내 주식 구독 목록
-  //     try {
-  //       const data = await getMyStockList(userId);
-  //       setMyStockList(data);
-  //     } catch (error) {
-  //       console.log("내 주식 구독 목록 불러오기 실패");
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchData(userId);
-  // }, []);
 
   return (
     <Wrapper>
@@ -130,8 +99,10 @@ function Mypage() {
           <MyInfo />
           <RouteToOtherPage />
         </LeftSideMyInfo>
-        <RightSideMyInfo>
-          <ContentHeader />
+        <Right>
+          <RightSideMyInfo>
+            <ContentHeader />
+          </RightSideMyInfo>
           <GotoZbtiButton>
             <img
               src={GotoZbti}
@@ -139,7 +110,7 @@ function Mypage() {
               onClick={() => handleZbti()}
             ></img>
           </GotoZbtiButton>
-        </RightSideMyInfo>
+        </Right>
       </Container>
     </Wrapper>
   );
@@ -160,17 +131,19 @@ const Container = styled.div`
 
 const LeftSideMyInfo = styled.div`
   float: left;
-  width: 420px;
-  height: 785px;
+  width: 450px;
+  margin-bottom: 40px;
   text-align: center;
-  margin: 0 auto;
 
   background: #ffffff;
-  border: 0.77908px solid #e7e7e7;
-  box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
-  border-radius: 10.9071px;
+  border: 1px solid #e7e7e7;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
 `;
-
+const Right = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const RightSideMyInfo = styled.div`
   float: right;
   width: 775px;
@@ -178,18 +151,13 @@ const RightSideMyInfo = styled.div`
   margin: 0 auto;
   background: #ffffff;
   border: 0.77908px solid #e7e7e7;
-  box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 10.9071px;
 `;
 
-const GotoZbtiButton = styled.button`
+const GotoZbtiButton = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 695px;
-  margin: 0 auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  outline: none;
+  margin-top: 20px;
+  }
 `;

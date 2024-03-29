@@ -1,56 +1,44 @@
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 
 function RouteToOtherPage() {
-    const [userInfo, setUserInfo] = useState({});
-    // const userNo = userInfo.userNo;  이후 작업
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  function handleClickToPortfolio() {
+    navigate("/portfolio");
+  }
 
-    function handleClickToPortfolio() {
-        navigate("/portfolio");
-    }
+  function handleClickToUpdateUser() {
+    navigate("/my-page/update");
+  }
 
-    function handleClickToUpdateUser() {
-        navigate("/my-page/update");
-    }
-
-    return (
-        <Wrapper>
-            <Container>
-                <GoToPortfolio onClick={()=> handleClickToPortfolio()}>
-                    내 포트폴리오 확인하기
-                </GoToPortfolio>
-                <GoToUpdateUser onClick={() => handleClickToUpdateUser()}>
-                    수정
-                </GoToUpdateUser>
-            </Container>
-        </Wrapper>
-    );
+  return (
+    <Container>
+      <Button onClick={() => handleClickToPortfolio()}>
+        내 포트폴리오 확인하기
+      </Button>
+      <Button onClick={() => handleClickToUpdateUser()}>수정</Button>
+    </Container>
+  );
 }
 
 export default RouteToOtherPage;
 
-const Wrapper = styled.div``;
-
 const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 50px 0;
 `;
 
-const GoToPortfolio = styled.div`
-    font-family: "Noto Sans KR", "Noto Sans", sans-serif;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 10px;
-`;
-
-const GoToUpdateUser = styled.div`
-    font-family: "Noto Sans KR", "Noto Sans", sans-serif;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 10px;
+const Button = styled.button`
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 15px;
+  background-color: #e7f1f5;
+  color: #97adca;
+  margin: 0 10px;
 `;

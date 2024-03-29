@@ -1,5 +1,5 @@
 import { diffProps } from "@react-three/fiber/dist/declarations/src/core/utils";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
 import { selectNowPrice } from "../../apis/api/Predict";
 
@@ -23,17 +23,15 @@ const informationStyle = {
   border: "none",
 };
 
-
-
 interface InputProps {
   placeholder?: string;
   text: string;
+  stockCntChange: (stock: number) => void;
 }
 
 function QuantityInput(props: InputProps) {
   const [currentTime, setCurrentTime] = useState<string>("");
   const [isClicked, setIsClicked] = useState(false);
-
 
   const setTime = async () => {
     const today = new Date();
@@ -47,28 +45,39 @@ function QuantityInput(props: InputProps) {
     setCurrentTime(formattedCurrentTime);
   };
 
-  const refreshPrice =async () => {
+  const refreshPrice = async () => {
     setTime();
     setIsClicked(true); // 버튼 클릭 시 회전
     setTimeout(() => setIsClicked(false), 500);
-  }
+  };
 
   function current() {
     return (
       <div>
         <span>
-        현재 시장가 x 수량 <br/>
-        {currentTime}
+          현재 시장가 x 수량 <br />
+          {currentTime}
         </span>
       </div>
-    )
+    );
+  }
+
+  function stockCntChange(event: ChangeEvent<HTMLInputElement>) {
+    const value = parseInt(event.target.value);
+    props.stockCntChange(value);
   }
 
   return (
     <Wrapper>
       <label>{props.text}</label>
       <InputContainer>
-        <input type="number" placeholder={props.placeholder} /> 주
+        <input
+          type="number"
+          placeholder={props.placeholder}
+          onChange={stockCntChange}
+          min="1"
+        />{" "}
+        주
       </InputContainer>
       <span>
         예상가격 <br />
@@ -85,8 +94,8 @@ function QuantityInput(props: InputProps) {
       />
       <ImgBtn src={Informationbtn} style={informationStyle}>
         <span className="info-highlight">
-        현재 시장가 x 수량 <br/>
-        {currentTime}
+          현재 시장가 x 수량 <br />
+          {currentTime}
         </span>
       </ImgBtn>
     </Wrapper>

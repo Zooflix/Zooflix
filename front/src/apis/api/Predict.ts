@@ -13,7 +13,6 @@ export async function selectPredicts(sorted: string, stockName: string) {
         });
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -32,7 +31,6 @@ export async function insertPredict(predictReqDto: PredictReqDto) {
         const response = await axiosPrivate.post(`${REST_PREDICT_API}`, predictReqDto);
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -42,7 +40,6 @@ export async function deletePredict(pdNo: number) {
         const response = await axios.delete(`${REST_PREDICT_API}/${pdNo}`);
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -56,7 +53,6 @@ export async function selectGraph(stockName: string) {
         });
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -73,7 +69,6 @@ export async function selectCompareGraph(userNo: number, stockName: string) {
         );
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -83,7 +78,6 @@ export async function selectStockHistory(userNo: number) {
         const response = await axios.get(`${REST_PREDICT_API}/stock/${userNo}`);
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -97,7 +91,6 @@ export async function stockSearch(stockName: String) {
         });
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -111,7 +104,6 @@ export async function selectNowPrice(stockName: String) {
         });
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -126,7 +118,6 @@ export async function checkPredict(userNo: number, stockName: String) {
         });
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -140,6 +131,5 @@ export async function getZoostra(stockName: String) {
         });
         return response.data;
     } catch (e) {
-        console.log(e);
     }
 }
