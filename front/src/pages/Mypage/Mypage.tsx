@@ -20,6 +20,8 @@ import {
 import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 
+import { getJwtUserNo } from "../../apis/utils/jwt";
+
 function Mypage() {
   const info = "내 정보";
 
@@ -103,7 +105,7 @@ function Mypage() {
     // }
 
     
-
+    console.log("토큰 값 가져와!" + getJwtUserNo());
     fetchData();
   }, []);
 
