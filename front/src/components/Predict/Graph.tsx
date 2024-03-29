@@ -68,7 +68,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     img {
         width: 95%;
         height: 95%;

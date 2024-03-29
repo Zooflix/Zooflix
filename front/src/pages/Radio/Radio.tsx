@@ -4,11 +4,11 @@ import { atom, useRecoilState, useRecoilValue } from "recoil";
 
 // api
 import { playRadio } from "../../apis/api/Radio";
-import { getUserInfo } from "../../apis/api/UserPage";
 
 // state
 import { isPausedState } from "../../Store/RadioState";
 import { zbtiResultState } from "../../Store/ZbtiState";
+import { userPageInfoState } from "../../Store/UserPageState";
 
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
@@ -40,7 +40,7 @@ function Player() {
   const [currentUrl, setCurrentUrl] = useState('');
   const [isClicked, setIsClicked] = useState(Boolean);
   const [firstPlay, setFirstPlay] = useState(0);
-  const zbtiResult = useRecoilValue(zbtiResultState);
+  const userInfo = useRecoilValue(userPageInfoState);
   
 
   // 나중가면 지우기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -53,6 +53,8 @@ function Player() {
     // 처음 플레이&radio페이지일 때만 tts 생성하기
     setCurrentUrl(window.location.href);
     setFirstPlay(0);
+    console.log(userInfo.userZbti);
+    
   }, []);
 
   
@@ -67,11 +69,6 @@ function Player() {
       ttsMaker();
     }
   }, [isClicked])
-
-  useEffect(() => {
-    console.log(zbtiResult);
-    
-  },[zbtiResult]);
 
 
   // audio 요소의 재생 완료 이벤트 처리
@@ -135,7 +132,7 @@ function Player() {
         ></ImgBtn>}
       </PlayContainer>
       <Character3d
-        name={zbtiResult}
+        name={userInfo.userZbti}
         characterScale={0.58}
         canvasWidth={400}
         canvasHeight={440}

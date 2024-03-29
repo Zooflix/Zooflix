@@ -49,6 +49,7 @@ function Page(props: PageProps) {
         try {
             const result = await selectPredicts(props.sorted, props.stockName);
             setData(result);
+            setPage(1);
         } catch (error) {
             console.error("Error fetching data:", error);
         }

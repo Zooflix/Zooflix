@@ -165,22 +165,22 @@ function UserDetailModal({
 export default UserDetailModal;
 
 const Container = styled.div`
-    width: 600px;
-    height: 400px;
-    background-color: white;
-    border: none;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 30px;
-    span {
-        font-weight: bold;
-        font-size: 23px;
-    }
-    .user-name {
-        color: orange;
-    }
+  width: 600px;
+  height: 400px;
+  background-color: white;
+  border: none;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  span {
+    font-weight: bold;
+    font-size: 23px;
+  }
+  .user-name {
+    color: orange;
+  }
 `;
 
 const ButtonContainer = styled.div`

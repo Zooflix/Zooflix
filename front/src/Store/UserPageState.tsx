@@ -14,6 +14,7 @@ export const userPageInfoState = atom({
         predictionRate: 0,
         subscribeToMe: 0,
         subscribeFromMe: 0,
+        userZbti: "",
     },
 });
 

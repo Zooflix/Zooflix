@@ -5,7 +5,7 @@ const REST_MYPAGE_API = `/my-page`;
 // 내 정보 가져오기
 export const getMyInfo = async () => {
     try {
-        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/info`);        
+        const response = await axiosPrivate.get(`${REST_MYPAGE_API}/info`);
         return response;
     } catch (error) {
         console.error(error);
@@ -29,6 +29,7 @@ export const getMySubscribeList = async () => {
         return response.data;
     } catch (error) {
         console.error(error);
+        
     }
 };
 
