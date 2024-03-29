@@ -78,10 +78,12 @@ public class AesUtils {
     }
 
     public String APItoDB(String data) {
+        if (data.isEmpty()) return null;
         return aesCBCEncode(aesCBCDecode(data, "api"), "db");
     }
 
     public String DBtoAPI(String data) {
+        if (data.isEmpty()) return null;
         return aesCBCEncode(aesCBCDecode(data, "db"), "api");
     }
 }

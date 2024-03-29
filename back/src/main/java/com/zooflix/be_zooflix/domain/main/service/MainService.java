@@ -25,7 +25,7 @@ public class MainService {
     private final UserRepository userRepository;
     private final StockSubscribeRepository stockSubscribeRepository;
 
-    @Value("http://127.0.0.1:8000/get_indices")
+    @Value("${python.endpoint.indices}")
     private String indicesEndpoint;
 
     public double[] callIndicesEndpoint() {

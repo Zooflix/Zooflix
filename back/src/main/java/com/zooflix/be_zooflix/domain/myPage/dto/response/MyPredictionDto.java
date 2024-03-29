@@ -20,4 +20,5 @@ public class MyPredictionDto {
     private LocalDate pdDate;       //예측 날짜
     private String pdResult;        //예측 결과
     private String pdContent;       //예측 근거
+    private int userNo;             //유저 인덱스
 }

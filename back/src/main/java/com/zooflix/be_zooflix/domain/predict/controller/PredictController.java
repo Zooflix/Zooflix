@@ -6,12 +6,14 @@ import com.zooflix.be_zooflix.domain.predict.dto.StockHistoryDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.service.PredictService;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
+import com.zooflix.be_zooflix.global.jwt.dto.CustomUserDetails;
 import com.zooflix.be_zooflix.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,26 +34,39 @@ public class PredictController {
     @Operation(summary = "전체 예측 글 조회")
     @GetMapping("/predict")
     public ResponseEntity<?> selectPredicts(@RequestParam String sorted,@RequestParam String stockName) {
-        if (!sorted.equals("userTem")&&stockName.equals("null")) { //기본(종목x 정렬x)
-            List<PredictResDto> predicts = predictService.getPredicts();
-            return ResponseEntity.ok(predicts);
-        } else if(stockName.equals("null")) { //(종목x 정렬o)
+        if(sorted.equals("userTem")&&stockName.equals("null")) { //(종목x 온도순 정렬o)
             List<PredictResDto> predicts = predictService.getSortedPredicts();
             return ResponseEntity.ok(predicts);
-        } else if(!sorted.equals("userTem")){ //(종목o 정렬x)
+        } else if(sorted.equals("date")&&!stockName.equals("null")){ //(종목o 정렬x)
             List<PredictResDto> selectedPredicts = predictService.getPredictsByStockName(stockName);
             return ResponseEntity.ok(selectedPredicts);
-        } else { //(종목o 정렬o)
+        } else if(sorted.equals("userTem")) { //(종목o 온도순 정렬o)
             List<PredictResDto> selectedPredicts = predictService.getSortedPredictsByStockName(stockName);
             return ResponseEntity.ok(selectedPredicts);
+        } else if(sorted.equals("end")&&stockName.equals("null")) { //(종목x 완료 정렬o)
+            List<PredictResDto> predicts = predictService.getEndPredicts();
+            return ResponseEntity.ok(predicts);
+        } else if(sorted.equals("end")){ //(종목o 완료 정렬o)
+            List<PredictResDto> selectedPredicts = predictService.getEndPredictsByStockName(stockName);
+            return ResponseEntity.ok(selectedPredicts);
+        } else { //기본(종목x 정렬x)
+            List<PredictResDto> predicts = predictService.getPredicts();
+            return ResponseEntity.ok(predicts);
         }
     }
 
     @Operation(summary = "예측 글 작성")
     @PostMapping("/predict")
-    public ResponseEntity<?> insertPredict(@RequestBody PredictReqDto predictReqDto) {
+    public ResponseEntity<?> insertPredict(@RequestBody PredictReqDto predictReqDto, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        predictReqDto.setUserNo(customUserDetails.getUserNo());
         PredictResDto savedPredict = predictService.postPredict(predictReqDto);
         return ResponseEntity.ok(savedPredict);
+    }
+
+    @Operation(summary = "예측 가능 확인")
+    @GetMapping("/predict/check")
+    public boolean checkPredict(@RequestParam int userNo,@RequestParam String stockName) {
+        return predictService.checkPredict(userNo, stockName);
     }
 
     @Operation(summary = "종가 업데이트")

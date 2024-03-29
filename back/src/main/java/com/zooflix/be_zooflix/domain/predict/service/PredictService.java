@@ -85,6 +85,13 @@ public class PredictService {
                 .collect(Collectors.toList());
     }
 
+    public List<PredictResDto> getEndPredicts() {
+        List<Predict> predicts = predictRepository.findEndPredict();
+        return predicts.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
     //종목명 검색
     public List<PredictResDto> getPredictsByStockName(String stockName) {
         List<Predict> predicts = predictRepository.findByStockNameOrderByCreateDateDesc(stockName);
@@ -95,6 +102,13 @@ public class PredictService {
 
     public List<PredictResDto> getSortedPredictsByStockName(String stockName) {
         List<Predict> predicts = predictRepository.findByStockNameOrderByUserTem(stockName);
+        return predicts.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PredictResDto> getEndPredictsByStockName(String stockName) {
+        List<Predict> predicts = predictRepository.findEndPredictByStockName(stockName);
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -126,6 +140,11 @@ public class PredictService {
         }
 
         return toDto(predictRepository.save(predict));
+    }
+
+    //이미 예측중인게 있으면 글작성불가
+    public boolean checkPredict(int userNo, String stockName){
+        return predictRepository.findStockNameNoResult(userNo, stockName);
     }
 
     //종가 업데이트

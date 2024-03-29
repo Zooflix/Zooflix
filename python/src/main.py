@@ -29,7 +29,6 @@ import asyncio
 
 from starlette.responses import StreamingResponse
 import asyncio
-import pandas_datareader as pdr
 
 
 warnings.filterwarnings('ignore')
@@ -72,8 +71,6 @@ async def get_indices():
     # kospi50_index = kospi50_data.iloc[0]['Close']
     # kospi100_index = kospi100_data.iloc[0]['Close']
     usd_krw_rate = usd_krw_data.iloc[0]['Close']
-
-    print(kospi_index)
 
     return [kospi_index, kosdaq_index, usd_krw_rate]
 

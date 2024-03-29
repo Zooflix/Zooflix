@@ -53,7 +53,8 @@ public class MyPageService {
         int subscribeFromMeCount = subscribeFromMe.size();
 
         MyInfoDto myInfo = new MyInfoDto();
-
+        myInfo.setUserNo(user.getUserNo());
+        myInfo.setUserId(user.getUserId());
         myInfo.setUserName(user.getUserName());
         myInfo.setUserTemperature(user.getUserTemperature());
         myInfo.setPredictCount(user.getPredictCount());
@@ -84,6 +85,7 @@ public class MyPageService {
             myPredictionDto.setPdDate(value.getPdDate());
             myPredictionDto.setPdResult(value.getPdResult());
             myPredictionDto.setPdContent(value.getPdContent());
+            myPredictionDto.setUserNo(value.getUser().getUserNo());
             myPredictList.add(myPredictionDto);
         }
         return myPredictList;
