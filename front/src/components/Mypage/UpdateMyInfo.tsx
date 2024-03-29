@@ -3,6 +3,8 @@ import UserInput from "../User/UserInput";
 import { useEffect, useState } from "react";
 import SubmitBtn from "../Common/SubmitBtn";
 import { useRecoilState } from "recoil";
+import { myPageInfoState } from "../../Store/MyPageState";
+import { updateUserInfo } from "../../apis/api/User";
 import { updateUserInfoState } from "../../Store/UserState";
 
 const InputStyle = {
@@ -10,7 +12,15 @@ const InputStyle = {
 };
 
 function UpdateMyInfo() {
-  const [isChecked, setIsChecked] = useState(false);
+
+    const [isChecked, setIsChecked] = useState(false);
+    
+    const [userId, setUserId] = useState("");
+    const [userName, setUserName] = useState("");
+    const [userPw, setUserPw] = useState("");
+    const [userAppKey, setUserAppKey] = useState("");
+    const [userSecretKey, setUserSecretKey] = useState("");
+    const [userAccount, setUserAccount] = useState("");
 
   const handleCheckboxChange = (event: any) => {
     setIsChecked(event.target.checked);
@@ -19,10 +29,6 @@ function UpdateMyInfo() {
   // access 토큰 받아지면 사용할 것
   const [updateUserInfo, setUpdateUserInfo] =
     useRecoilState(updateUserInfoState);
-
-  // 임시용
-  const userName = "다라란";
-  const password = "user1";
 
   useEffect(() => {
     const fetchData = async () => {
