@@ -7,7 +7,7 @@ const searchInputStyle = {
 };
 
 interface Props {
-  onSearchChange: (value: string) => void;
+  onSearchChange: (value: { stockName: string; stockCode: string }) => void;
 }
 
 function SearchInput({ onSearchChange }: Props) {
