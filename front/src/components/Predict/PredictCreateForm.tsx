@@ -4,6 +4,7 @@ import { selectNowPrice } from "../../apis/api/Predict";
 import { checkPredict } from "../../apis/api/Predict";
 import { insertPredict } from "../../apis/api/Predict";
 import { useNavigate } from "react-router-dom";
+import { getJwtUserNo } from "../../apis/utils/jwt";
 
 // 이미지
 import Refreshbtn from "../../assets/img/button/Refreshbtn.svg";
@@ -50,6 +51,7 @@ function PredictCreateForm() {
   const [maxDate, setMaxDate] = useState<string>("");
   const [stockName, setStockName] = useState("");
   const [nowPrice, setNowPrice] = useState(0);
+  const [priceOk, setPriceOk] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [upDown, setUpDown] = useState<string>("");
   const [open, setOpen] = useState(false);
@@ -171,7 +173,8 @@ function PredictCreateForm() {
   };
 
   const possibleCheck = async () => {
-    const check = await checkPredict(14, stockName);
+    const userNo = getJwtUserNo();
+    const check = await checkPredict(userNo, stockName);
     return check;
   };
 
@@ -197,12 +200,15 @@ function PredictCreateForm() {
   useEffect(() => {
     if (nowPrice * 0.9 >= predictPrice) {
       setUpDown("하락");
+      setPriceOk(true);
     } else if (nowPrice * 1.1 <= predictPrice) {
       setUpDown("상승");
+      setPriceOk(true);
     } else if (
       nowPrice * 0.9 < predictPrice &&
       predictPrice < nowPrice * 1.1
     ) {
+      setPriceOk(false);
       setOpen(true);
       setAlertOption({
         severity: "error",
@@ -294,7 +300,7 @@ function PredictCreateForm() {
             placeholder="예측 가격을 입력하세요."
             onPriceChange={handlePriceChange}
           />
-          {stockName && predictPrice > 0 && (
+          {stockName && predictPrice > 0 && priceOk && (
             <>
               <span>
                 <b
@@ -322,7 +328,7 @@ function PredictCreateForm() {
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert severity={alertOption?.severity}>{alertOption?.value}</Alert>
       </Snackbar>
