@@ -97,10 +97,9 @@ public class StockSubscribeService {
         return response;
     }
 
-    public boolean checkApiKey(int userNo){
+    public boolean checkApiKey(int userNo) {
         UserKeyProjection userKey = userRepository.findByUserNo(userNo);
-        // 값이 비어있거나 null 이면 false 반환.
-        return !userKey.getUserAppKey().isEmpty() && userKey.getUserAppKey() != null;
+        return userKey.getUserAccount() != null && userKey.getUserAppKey() != null && userKey.getUserSecretKey() != null;
     }
 
     private StockSubscribeDto convertToStockSubscribeDto(StockSubscribe stockSubscribe) {
