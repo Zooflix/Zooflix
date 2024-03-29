@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { zbtiState } from "../../Store/ZbtiState";
+import { zbtiQuestionState } from "../../Store/ZbtiState";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 // 이미지
@@ -11,7 +11,7 @@ import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
 import StartTest from "../../components/Zbti/StartTest";
 
 function ZbtiStart() {
-  const [zbtiValue, setZbtiValue] = useRecoilState(zbtiState);
+  const [zbtiValue, setZbtiValue] = useRecoilState(zbtiQuestionState);
   const navigate = useNavigate();
 
   const handleStartClick = () => {
