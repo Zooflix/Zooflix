@@ -40,8 +40,6 @@ function Zbti(props: ZbtiProps) {
                 <img src={Rabbit}/> )}
                 {props.userZbti === "Sloth" && (
                 <img src={Sloth}/> )}
-                {props.userZbti === "Sloth" && (
-                <img src={Sloth}/> )}
                 {props.userZbti === "Unicorn" && (
                 <img src={Unicorn}/> )}
                 {props.userZbti === "Zebra" && (
@@ -54,6 +52,6 @@ export default Zbti;
 
 const Wrapper = styled.div`
 img{
-    width: 60px;
+    width: 70px;
 }
 `;
