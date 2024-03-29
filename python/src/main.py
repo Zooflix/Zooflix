@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import warnings
 import platform
 import datetime
+from datetime import timedelta
 import io
 from typing import List
 from starlette.responses import StreamingResponse
@@ -39,7 +40,12 @@ else:
 #
 @app.get("/get_indices/")
 async def get_indices():
-    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    now = datetime.datetime.now()
+    today = now.strftime('%Y-%m-%d')
+
+    if now.hour < 9 or (now.hour == 9 and now.minute < 20):
+        yesterday = now - timedelta(days=1)
+        today = yesterday.strftime('%Y-%m-%d')
 
     kospi_data = fdr.DataReader('KS11', today)
     kosdaq_data = fdr.DataReader('KQ11', today)
