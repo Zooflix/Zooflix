@@ -13,47 +13,63 @@ import Unicorn from "../../assets/img/CharacterHeadOnly/Unicorn.svg";
 import Zebra from "../../assets/img/CharacterHeadOnly/Zebra.svg";
 
 type ZbtiProps = {
-    userZbti: string;
+  userZbti: string;
+  width?: string;
+  className?: string;
 };
 
 function Zbti(props: ZbtiProps) {
+  console.log(props.userZbti);
 
-     return (
-            <Wrapper>
-                {props.userZbti === "Bear" && (
-                <img src={Bear}/> )}
-                {props.userZbti === "Cow" && (
-                <img src={Cow}/> )}
-                {props.userZbti === "Fox" && (
-                <img src={Fox}/> )}
-                {props.userZbti === "Hippo" && (
-                <img src={Hippo}/> )}
-                {props.userZbti === "Lion" && (
-                <img src={Lion}/> )}
-                {props.userZbti === "Monkey" && (
-                <img src={Monkey}/> )}
-                {props.userZbti === "Panda" && (
-                <img src={Panda}/> )}
-                {props.userZbti === "Pig" && (
-                <img src={Pig}/> )}
-                {props.userZbti === "Rabbit" && (
-                <img src={Rabbit}/> )}
-                {props.userZbti === "Sloth" && (
-                <img src={Sloth}/> )}
-                {props.userZbti === "Sloth" && (
-                <img src={Sloth}/> )}
-                {props.userZbti === "Unicorn" && (
-                <img src={Unicorn}/> )}
-                {props.userZbti === "Zebra" && (
-                <img src={Zebra}/> )}
-            </Wrapper>
-        );
+  return (
+    <Wrapper className={props.className}>
+      {props.userZbti === "Bear" && (
+        <img src={Bear} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Cow" && (
+        <img src={Cow} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Fox" && (
+        <img src={Fox} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Hippo" && (
+        <img src={Hippo} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Lion" && (
+        <img src={Lion} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Monkey" && (
+        <img src={Monkey} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Panda" && (
+        <img src={Panda} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Pig" && (
+        <img src={Pig} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Rabbit" && (
+        <img src={Rabbit} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Sloth" && (
+        <img src={Sloth} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Sloth" && (
+        <img src={Sloth} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Unicorn" && (
+        <img src={Unicorn} style={{ width: props.width }} />
+      )}
+      {props.userZbti === "Zebra" && (
+        <img src={Zebra} style={{ width: props.width }} />
+      )}
+    </Wrapper>
+  );
 }
 
 export default Zbti;
 
 const Wrapper = styled.div`
-img{
+  img {
     width: 60px;
-}
+  }
 `;

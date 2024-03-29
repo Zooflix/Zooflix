@@ -64,7 +64,6 @@ function UserDetailModal({
                   color="#7AD3FF"
                   transparency="rgba(122,211,255,0.1)"
                 />
-                {/* {userInfo.userTemperature}℃ */}
               </Graph>
               <LineContainer>
                 <Line>
@@ -107,7 +106,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 30px;
+  padding: 20px;
   span {
     font-weight: bold;
     font-size: 23px;
