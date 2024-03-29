@@ -309,6 +309,9 @@ public class PredictService {
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
         UserKeyProjection userInfo = userRepository.findByUserNo(userNo);
         List<StockHistoryDto> historyDtoList = new ArrayList<>();
+        if(userInfo == null){
+            return historyDtoList;
+        }
         if (userInfo.getUserAppKey() == null || userInfo.getUserSecretKey() == null || userInfo.getUserAccount() == null) {
             return historyDtoList;
         }
