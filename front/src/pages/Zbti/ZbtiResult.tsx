@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { zbtiQuestionState, zbtiResultState } from "../../Store/ZbtiState";
+import { zbtiQuestionState } from "../../Store/ZbtiState";
 import { myPageInfoState } from "../../Store/MyPageState";
 import { useNavigate } from "react-router";
 import html2canvas from "html2canvas";
@@ -48,7 +48,7 @@ const imgList: ImgMap = {
 
 function ZbtiResult() {
   const zbtiValue = useRecoilValue(zbtiQuestionState);
-  const [userInfo, setUserInfo] = useRecoilState(myPageInfoState);
+  const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
   console.log(zbtiValue);
 
   const isSloth =
@@ -74,71 +74,72 @@ function ZbtiResult() {
 
   const setZbti = async () => {
     if (isSloth) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Sloth",
       }));
     } else if (isHippo) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Hippo",
       }));
     } else if (isUnicorn) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Unicorn",
       }));
     } else if (isFox) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Fox",
       }));
     } else if (isRabbit) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Rabbit",
       }));
     } else if (isPig) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Pig",
       }));
     } else if (isZebra) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Zebra",
       }));
     } else if (isMonkey) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Monkey",
       }));
     } else if (isCow) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Cow",
       }));
     } else if (isLion) {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Lion",
       }));
     } else {
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
+      setMyInfo((prevMyInfo) => ({
+        ...prevMyInfo,
         userZbti: "Panda",
       }));
-    }
+    };
+    console.log(myInfo.userZbti);
   };
 
   useEffect(() => {
     setZbti();
   }, []);
 
-  useEffect(() => {
-    console.log(userInfo.userZbti);
-    zbtiUpdate(userInfo.userZbti);
-  }, [userInfo.userZbti]);
+  useEffect(()=> {
+    console.log(myInfo.userZbti);
+    zbtiUpdate(myInfo.userZbti);
+  }, [myInfo.userZbti]);
 
   const navigate = useNavigate();
   const handleRetry = () => {
@@ -171,7 +172,7 @@ function ZbtiResult() {
       <Header>
         <h1>다라란님의 투자 성향은?</h1>
       </Header>
-      <PortfolioImg src={imgList[userInfo.userZbti]} />
+      <PortfolioImg src={imgList[myInfo.userZbti]} />
       <ButtonContainer>
         <DownloadButton onClick={handleDownload}>
           <img src={Download} alt="다운로드" />

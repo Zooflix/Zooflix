@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import Zbti from "../Predict/Zbti";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { zbtiQuestionState } from "../../Store/ZbtiState";
 import { myPageInfoState } from "../../Store/MyPageState";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getMyInfo } from "../../apis/api/MyPage";
 
 ChartJS.register(ArcElement, Tooltip);
@@ -16,14 +17,7 @@ interface ChartProps {
 }
 
 function DoughnutChart({ temp, color, transparency }: ChartProps) {
-  console.log(myPageInfoState);
-  const userInfo = useRecoilValue(myPageInfoState);
-
-  const myInfo = useEffect(() => {
-    getMyInfo();
-  }, []);
-
-  console.log(myInfo);
+  const myInfo = useRecoilValue(myPageInfoState);
 
   const Data = {
     datasets: [
@@ -54,7 +48,7 @@ function DoughnutChart({ temp, color, transparency }: ChartProps) {
     <ChartWrapper>
       <Doughnut data={Data} options={Options}></Doughnut>
       <Zbti
-        userZbti={userInfo.userZbti}
+        userZbti={myInfo.userZbti}
         width="250px"
         className="ZbtiImg"
       ></Zbti>

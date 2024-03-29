@@ -7,9 +7,3 @@ export const zbtiQuestionState = atom({
   key: "zbtiQuestionState",
   default: [] as number[],
 });
-
-export const zbtiResultState = atom({
-  key: "zbtiResultState",
-  default: "",
-  // effects_UNSTABLE: [persistAtom],
-})

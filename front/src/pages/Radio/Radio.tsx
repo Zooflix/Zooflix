@@ -4,11 +4,10 @@ import { atom, useRecoilState, useRecoilValue } from "recoil";
 
 // api
 import { playRadio } from "../../apis/api/Radio";
+import { getMyInfo } from "../../apis/api/MyPage";
 
 // state
 import { isPausedState } from "../../Store/RadioState";
-import { zbtiResultState } from "../../Store/ZbtiState";
-import { myPageInfoState } from "../../Store/MyPageState";
 
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
@@ -19,6 +18,7 @@ import Title from "../../components/Common/Title";
 import ImgBtn from "../../components/Common/ImgBtn";
 import Character3d from "../../components/Character/Character3d";
 import SquareBtn from "../../components/Common/SquareBtn";
+import { myPageInfoState } from "../../Store/MyPageState";
 
 // 버튼 스타일
 const buttonStyleDark = {
@@ -33,24 +33,51 @@ const imgBtnStyle = {
   margin: "5px 0 20px",
 };
 
+
 function Player() {
   const [isPaused, setIsPaused] = useRecoilState(isPausedState);
   const audioEl = useRef<HTMLAudioElement>(null);
   const [currentUrl, setCurrentUrl] = useState("");
   const [isClicked, setIsClicked] = useState(Boolean);
   const [firstPlay, setFirstPlay] = useState(0);
-  const userInfo = useRecoilValue(myPageInfoState);
+  const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
+
+  // 내 정보 불러오기
+  useEffect(()=> {
+    const fetchData = async () => {
+      try {
+        const response = await getMyInfo();
+        const info = response?.data;
+        setMyInfo(info);
+        console.log(info);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, [])
 
   // 나중가면 지우기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   useEffect(() => {
     console.log(isPaused);
   }, [isPaused]);
-
+  
   useEffect(() => {
     // 처음 플레이&radio페이지일 때만 tts 생성하기
     setCurrentUrl(window.location.href);
     setFirstPlay(0);
-    console.log(userInfo.userZbti);
+
+    const fetchData = async () => {
+      try {
+        const response = await getMyInfo();
+        const info = response?.data;
+        // setMyInfo(info);
+        console.log(info);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -126,7 +153,7 @@ function Player() {
         )}
       </PlayContainer>
       <Character3d
-        name={userInfo.userZbti}
+        name={myInfo.userZbti}
         characterScale={0.58}
         canvasWidth={400}
         canvasHeight={440}

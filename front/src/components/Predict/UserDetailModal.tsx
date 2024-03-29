@@ -17,7 +17,6 @@ import {
     userPageSubscribeListState,
 } from "../../Store/UserPageState";
 import { subscribeUser } from "../../apis/api/MyPage";
-import { zbtiResultState } from "../../Store/ZbtiState";
 import {
     getUserInfo,
     getUserPredictList,
