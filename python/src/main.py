@@ -1,20 +1,12 @@
-
 # -*- coding: utf-8 -*-
-import sys
-import requests
-# sys.path.append("c:\program files\python\lib\site-packages") # pip install 경로
-import math
-import time
 
+import uvicorn
 from fastapi import FastAPI,Request, Query
 import requests
 from requests import get
 from bs4 import BeautifulSoup
-from transformers import PreTrainedTokenizerFast, BartForConditionalGeneration
-import pyttsx3
 from pydantic import BaseModel
 import json
-import urllib.request
 import FinanceDataReader as fdr
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -23,12 +15,7 @@ import platform
 import datetime
 import io
 from typing import List
-from typing import Optional
 from starlette.responses import StreamingResponse
-import asyncio
-
-from starlette.responses import StreamingResponse
-import asyncio
 
 
 warnings.filterwarnings('ignore')
@@ -332,8 +319,6 @@ async def translation(id, secret, url, text):
 #
 @app.post("/radio/summary/endpoint")
 async def summary(request: Request):
-    summaryList = []
-
     # 1. 요청 바디에서 필요한 요소 추출
     request_body = await request.json()
     clientId = request_body.get("clientId")
@@ -370,16 +355,5 @@ async def summary(request: Request):
 
 
 
-# #
-# # tts 변환 by pyttsx3
-# #
-# @app.post("/radio/tts/endpoint")
-# def transToSpeech(item: Item):
-#     # 요청 바디에서 전달된 텍스트 추출
-#     text = item.text
-#
-#     engine = pyttsx3.init()
-#     engine.say(text)
-#     engine.runAndWait()
-#     return "success"
-
+if __name__ == "__main__" :
+	uvicorn.run("main:app", reload=True)
