@@ -36,6 +36,9 @@ public class StockSubscribeController {
     @PostMapping("/subscribe")
     @Operation(summary = "주식 정기 구독")
     public ResponseEntity<ResultResponse<Integer>> insertStockSubscribe(@RequestBody @Valid AddStockSubscribeRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if(customUserDetails == null) {
+            throw new RuntimeException("토큰이 존재하지 않습니다.");
+        }
         request.setUserId(customUserDetails.getUserId());
         int result =  service.postSubscribe(request);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
@@ -48,6 +51,9 @@ public class StockSubscribeController {
     @DeleteMapping("/subscribe/termination/{stockSubscribeNo}")
     @Operation(summary = "주식 정기 구독 해지")
     public ResponseEntity<ResultResponse<Integer>> terminationSubscribe(@PathVariable(name = "stockSubscribeNo") int stockSubscribeNo, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if(customUserDetails == null) {
+            throw new RuntimeException("토큰이 존재하지 않습니다.");
+        }
         int result =  service.terminationSubscribe(stockSubscribeNo, customUserDetails.getUserNo());
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
     }
@@ -58,7 +64,12 @@ public class StockSubscribeController {
      */
     @GetMapping("/subscribe/list/{userId}")
     @Operation(summary = "구독중인 주식 목록 조회")
-    public ResponseEntity<ResultResponse<List<StockSubscribeDto>>> subscribeList(@PathVariable(name = "userId") String userId) {
+    public ResponseEntity<ResultResponse<List<StockSubscribeDto>>> subscribeList(@PathVariable(name = "userId") String userId, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if(customUserDetails != null) {
+            System.out.println("구독주식토큰존재함");
+            userId = customUserDetails.getUserId();
+        }
+        System.out.println("구독주식목록아이디 : " + userId);
         List<StockSubscribeDto> subscribes = service.subscribeList(userId);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), subscribes));
     }
