@@ -111,37 +111,43 @@ function UserDetailModal({
             <Container>
                 {userPageInfo && (
                     <>
-                        <span>
-                            <span className="user-name">{userName}</span>님의
-                            예측정보입니다.
-                        </span>
+                        <TitleContainer>
+                            <span>
+                                <span className="user-name">{userName}</span>님의
+                                예측정보입니다.
+                            </span>
+                        </TitleContainer>
                         <InfoContainer>
-                            <Graph>
+                            <GraphContainer>
                                 <DoughnutChart
+                                    userName={userPageInfo.userName}
                                     temp={userPageInfo.userTemperature}
                                     color="#7AD3FF"
                                     transparency="rgba(122,211,255,0.1)"
+                                    imgWidth="200px"
                                 />
                                 {/* {userInfo.userTemperature}℃ */}
-                            </Graph>
+                            </GraphContainer>
                             <LineContainer>
                                 <Line>
                                     <label>총 예측 횟수</label>
-                                    {userPagePredictList.length}
+                                    <span>{userPagePredictList.length}</span>
                                 </Line>
                                 <Line>
-                                    <label>예측 성공 횟수</label> {successCnt}
+                                    <label>예측 성공 횟수</label>
+                                    <span>{successCnt}</span>
                                 </Line>
                                 <Line>
-                                    <label>예측률</label> {successRate}%
+                                    <label>예측률</label>
+                                    <span>{successRate}%</span>
                                 </Line>
                                 <Line>
                                     <label>구독</label>{" "}
-                                    {userPageInfo.subscribeFromMe}
+                                    <span>{userPageInfo.subscribeFromMe}</span>
                                 </Line>
                                 <Line>
                                     <label>구독자</label>{" "}
-                                    {userPageInfo.subscribeToMe}
+                                    <span>{userPageInfo.subscribeToMe}</span>
                                 </Line>
                             </LineContainer>
                         </InfoContainer>
@@ -172,6 +178,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: space-between;
   padding: 20px;
   span {
     font-weight: bold;
@@ -180,6 +187,9 @@ const Container = styled.div`
   .user-name {
     color: orange;
   }
+`;
+
+const TitleContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
@@ -206,7 +216,12 @@ const SubscribeButton = styled.button`
 const InfoContainer = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
     width: 100%;
+`;
+
+const GraphContainer = styled.div`
+    width: 70%;
 `;
 
 const Line = styled.div`
@@ -218,10 +233,12 @@ const Line = styled.div`
     }
 `;
 
-const Graph = styled.div`
-    width: 100%;
-`;
 const LineContainer = styled.div`
     width: 50%;
-    padding-top: 15%;
+    padding-top: 10%;
+    span {
+        font-size: 15px;
+        color: #0099e8;
+    }
+    margin-right: 40px;
 `;

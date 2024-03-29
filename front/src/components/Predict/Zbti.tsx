@@ -19,8 +19,6 @@ type ZbtiProps = {
 };
 
 function Zbti(props: ZbtiProps) {
-  console.log(props.userZbti);
-
   return (
     <Wrapper className={props.className}>
       {props.userZbti === "Bear" && (
@@ -53,9 +51,6 @@ function Zbti(props: ZbtiProps) {
       {props.userZbti === "Sloth" && (
         <img src={Sloth} style={{ width: props.width }} alt="img" />
       )}
-      {props.userZbti === "Sloth" && (
-        <img src={Sloth} style={{ width: props.width }} alt="img" />
-      )}
       {props.userZbti === "Unicorn" && (
         <img src={Unicorn} style={{ width: props.width }} alt="img" />
       )}
@@ -69,7 +64,5 @@ function Zbti(props: ZbtiProps) {
 export default Zbti;
 
 const Wrapper = styled.div`
-  img {
-    width: 70px;
-  }
+  margin-bottom: 10px
 `;

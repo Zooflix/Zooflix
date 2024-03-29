@@ -5,19 +5,23 @@ import Zbti from "../Predict/Zbti";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { zbtiQuestionState } from "../../Store/ZbtiState";
 import { myPageInfoState } from "../../Store/MyPageState";
+import { userPageInfoState } from "../../Store/UserPageState";
 import { useEffect } from "react";
 import { getMyInfo } from "../../apis/api/MyPage";
 
 ChartJS.register(ArcElement, Tooltip);
 
 interface ChartProps {
+  userName: string;
   temp: number;
   color: string;
   transparency: string;
+  imgWidth: string;
 }
 
-function DoughnutChart({ temp, color, transparency }: ChartProps) {
+function DoughnutChart({ userName, temp, color, transparency, imgWidth }: ChartProps) {
   const myInfo = useRecoilValue(myPageInfoState);
+  const userInfo = useRecoilValue(userPageInfoState);
 
   const Data = {
     datasets: [
@@ -48,8 +52,8 @@ function DoughnutChart({ temp, color, transparency }: ChartProps) {
     <ChartWrapper>
       <Doughnut data={Data} options={Options}></Doughnut>
       <Zbti
-        userZbti={myInfo.userZbti}
-        width="250px"
+        userZbti={userName===myInfo.userName? myInfo.userZbti:userInfo.userZbti}
+        width={imgWidth}
         className="ZbtiImg"
       ></Zbti>
       <Temp>{temp}℃</Temp>
@@ -72,11 +76,6 @@ const ChartWrapper = styled.div`
     position: absolute;
     z-index: 2;
   }
-`;
-
-const ZbtiImg = styled.img`
-  position: absolute;
-  z-index: 2;
 `;
 
 const Temp = styled.div`

@@ -50,7 +50,7 @@ function Rank(props: RankProps) {
                                     alt="Crown"
                                     style={{ width: "42px" }}
                                 />
-                                <Zbti userZbti="Rabbit" />
+                                <Zbti userZbti="Zebra" width="69px"/>
                             </OnCrown>
                             <Name>
                                 {zoostra.userName}

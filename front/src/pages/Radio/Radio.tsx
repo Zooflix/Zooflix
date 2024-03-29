@@ -8,6 +8,7 @@ import { getMyInfo } from "../../apis/api/MyPage";
 
 // state
 import { isPausedState } from "../../Store/RadioState";
+import { characterState } from "../../Store/RadioState";
 
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
@@ -42,21 +43,6 @@ function Player() {
   const [firstPlay, setFirstPlay] = useState(0);
   const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
 
-  // 내 정보 불러오기
-  useEffect(()=> {
-    const fetchData = async () => {
-      try {
-        const response = await getMyInfo();
-        const info = response?.data;
-        setMyInfo(info);
-        console.log(info);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchData();
-  }, [])
-
   // 나중가면 지우기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   useEffect(() => {
     console.log(isPaused);
@@ -70,15 +56,16 @@ function Player() {
     const fetchData = async () => {
       try {
         const response = await getMyInfo();
-        const info = response?.data;
-        // setMyInfo(info);
-        console.log(info);
+        console.log(response.userZbti);
+        setMyInfo(response);
       } catch (error) {
         console.error(error);
       }
     }
     fetchData();
+
   }, []);
+
 
   useEffect(() => {
     if (currentUrl === "http://localhost:3000/radio") {
@@ -152,7 +139,8 @@ function Player() {
           ></ImgBtn>
         )}
       </PlayContainer>
-      <Character3d
+      {myInfo && (
+        <Character3d
         name={myInfo.userZbti}
         characterScale={0.58}
         canvasWidth={400}
@@ -160,6 +148,7 @@ function Player() {
         toBelow={35}
         action="turn"
       />
+      )}
       <SquareBtn text="자막보기" style={buttonStyleDark} />
     </Wrapper>
   );
