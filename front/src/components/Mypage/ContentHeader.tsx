@@ -71,7 +71,7 @@ const ContentTabListItem = styled.li`
   margin: 0;
   padding: 0;
 `;
-const ContentTabListItemSpan = styled.span<{ selected: boolean }>`
+const ContentTabListItemSpan = styled.div<{ selected: boolean }>`
   display: inline-block;
   line-height: 23px;
   font-weight: 800;

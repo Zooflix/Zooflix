@@ -99,8 +99,10 @@ function Mypage() {
           <MyInfo />
           <RouteToOtherPage />
         </LeftSideMyInfo>
-        <RightSideMyInfo>
-          <ContentHeader />
+        <Right>
+          <RightSideMyInfo>
+            <ContentHeader />
+          </RightSideMyInfo>
           <GotoZbtiButton>
             <img
               src={GotoZbti}
@@ -108,7 +110,7 @@ function Mypage() {
               onClick={() => handleZbti()}
             ></img>
           </GotoZbtiButton>
-        </RightSideMyInfo>
+        </Right>
       </Container>
     </Wrapper>
   );
@@ -138,7 +140,10 @@ const LeftSideMyInfo = styled.div`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
 `;
-
+const Right = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const RightSideMyInfo = styled.div`
   float: right;
   width: 775px;
@@ -150,14 +155,9 @@ const RightSideMyInfo = styled.div`
   border-radius: 10.9071px;
 `;
 
-const GotoZbtiButton = styled.button`
+const GotoZbtiButton = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 695px;
-  margin: 0 auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  outline: none;
+  margin-top: 20px;
+  }
 `;

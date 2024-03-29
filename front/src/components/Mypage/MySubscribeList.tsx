@@ -47,7 +47,6 @@ function MySubscribeList() {
 export default MySubscribeList;
 
 const Wrapper = styled.div`
-  //   margin: 10px;
   background: #ffffff;
   border: 0.917219px solid #e7e7e7;
   box-shadow: 3.1002px 3.1002px 15.4918px -7.7505px rgba(0, 0, 0, 0.4);
