@@ -2,19 +2,22 @@ import styled from "styled-components";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import BearImg from "../../assets/img/Zbti/BearImg.svg";
-import { useRecoilState } from "recoil";
-import { myPageInfoState } from "../../Store/MyPageState";
 
 ChartJS.register(ArcElement, Tooltip);
 
-function DoughnutChart() {
-  const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+interface ChartProps {
+  temp: number;
+  color: string;
+  transparency: string;
+}
 
+function DoughnutChart({ temp, color, transparency }: ChartProps) {
   const Data = {
     datasets: [
       {
-        data: [myPageInfo.userTemperature, 100 - myPageInfo.userTemperature],
-        backgroundColor: ["#7AD3FF", "rgba(122,211,255,0.1)"],
+        data: [temp, 100 - temp],
+        // backgroundColor: ["#7AD3FF", "rgba(122,211,255,0.1)"],
+        backgroundColor: [color, transparency],
         borderRadius: 10,
         circumference: 270,
         rotation: 225,
@@ -35,7 +38,7 @@ function DoughnutChart() {
   return (
     <ChartWrapper>
       <Doughnut data={Data} options={Options}></Doughnut>
-      <ZbtiImg src={BearImg}></ZbtiImg>
+      {/* <ZbtiImg src={BearImg}></ZbtiImg> */}
     </ChartWrapper>
   );
 }
@@ -56,35 +59,3 @@ const ZbtiImg = styled.img`
   position: absolute;
   z-index: 2;
 `;
-
-// const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
-
-// // const chartColor = "linear-gradient(#e66465, #9198e5)";
-
-// const Data = {
-
-//   datasets: [
-//     {
-//       data: [myPageInfo.userTemperature, 100 - myPageInfo.userTemperature],
-//       backgroundColor: ["#FF6384", "#7AD3FF"],
-//       // borderColor: ["#FF6384", "#7AD3FF"],
-//       borderRadius: 10,
-//       circumference: 270,
-//       rotation: 225,
-//       cutout: '80%',  //두께 조절
-//       responsive: false,
-//       zIndex: 1,
-//     },
-//   ],
-// }
-
-// const Options = {  };
-
-// return (
-//   <ChartWrapper>
-//     <Doughnut data={Data} options={Options}>
-//     </Doughnut>
-//     <ZbtiImg src={BearImg}>
-//     </ZbtiImg>
-//   </ChartWrapper>
-// )

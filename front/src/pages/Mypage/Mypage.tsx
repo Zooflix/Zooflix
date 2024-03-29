@@ -21,17 +21,11 @@ import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 
 function Mypage() {
-  const info = "내 정보";
+  const [, setMyPageInfo] = useRecoilState(myPageInfoState);
+  const [, setMyPagePredictList] = useRecoilState(myPagePredictListState);
+  const [, setMyPageSubscribeList] = useRecoilState(myPageSubscribeListState);
 
-  const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
-  const [myPagePredictList, setMyPagePredictList] = useRecoilState(
-    myPagePredictListState
-  );
-  const [myPageSubscribeList, setMyPageSubscribeList] = useRecoilState(
-    myPageSubscribeListState
-  );
-
-  const [myStockList, setMyStockList] = useRecoilState(stockSubListState);
+  const [, setMyStockList] = useRecoilState(stockSubListState);
 
   const navigate = useNavigate();
 
@@ -56,7 +50,6 @@ function Mypage() {
         setMyPageInfo(data);
         console.log(data);
       } catch (error) {
-        console.log("내 정보 불러오기 실패");
         console.error(error);
       }
 
