@@ -4,7 +4,10 @@ import { Doughnut } from "react-chartjs-2";
 import BearImg from "../../assets/img/Zbti/BearImg.svg";
 import Zbti from "../Predict/Zbti";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { zbtiQuestionState, zbtiResultState } from "../../Store/ZbtiState";
+import { zbtiQuestionState } from "../../Store/ZbtiState";
+import { myPageInfoState } from "../../Store/MyPageState";
+import { useEffect } from "react";
+import { getMyInfo } from "../../apis/api/MyPage";
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -15,6 +18,8 @@ interface ChartProps {
 }
 
 function DoughnutChart({ temp, color, transparency }: ChartProps) {
+  const myInfo = useRecoilValue(myPageInfoState);
+
   const Data = {
     datasets: [
       {
@@ -38,13 +43,10 @@ function DoughnutChart({ temp, color, transparency }: ChartProps) {
   };
 
   //로그인 한 zbti
-  const zbtiResult = useRecoilValue(zbtiResultState);
-  console.log("넘기지", zbtiResult);
-  // const [zbtiResult, setZbtiResult] = useRecoilState(zbtiResultState);
   return (
     <ChartWrapper>
       <Doughnut data={Data} options={Options}></Doughnut>
-      <Zbti userZbti={zbtiResult} width="250px" className="ZbtiImg"></Zbti>
+      <Zbti userZbti={myInfo.userZbti} width="250px" className="ZbtiImg"></Zbti>
       <Temp>{temp}℃</Temp>
     </ChartWrapper>
   );
