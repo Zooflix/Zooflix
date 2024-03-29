@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import {
@@ -14,14 +15,21 @@ function MyInfo() {
   let successCnt = 0; //성공 횟수
 
   myPagePredictList.forEach((item) => {
-    if (item.pdResult === "성공") {
-      successCnt += 1;
-    }
+      if (item.pdResult === "성공") {
+          successCnt += 1;
+      }
   });
+  const [successRate, setSuccessRate] = useState(0); //성공 확률
 
-  // 소수점 둘째 짜리까지 성공 비율 -> rate
-  let rateOfPredict = Math.round(successCnt / myPagePredictList.length);
-  let rate = Math.round(rateOfPredict * 100) / 100;
+  useEffect(() => {
+    // 소수점 둘째 짜리까지 성공 비율 -> rate
+    let rateOfPredict = Math.round(
+      (successCnt / myPagePredictList.length) * 100
+    );
+    let rate = Math.round(rateOfPredict * 100) / 100;
+    setSuccessRate(rate);
+  }, [])
+  
 
   return (
     <Wrapper>
@@ -35,7 +43,7 @@ function MyInfo() {
       <RightSideAnswer>
         <h4>{myPagePredictList.length}</h4>
         <h4>{successCnt}</h4>
-        <h4>{rate}%</h4>
+        <h4>{successRate}%</h4>
         <h4>{myPageInfo.subscribeFromMe}</h4>
         <h4>{myPageInfo.subscribeToMe}</h4>
       </RightSideAnswer>

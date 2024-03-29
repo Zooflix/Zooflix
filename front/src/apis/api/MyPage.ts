@@ -8,7 +8,7 @@ export const getMyInfo = async () => {
         const response = await axiosPrivate.get(`${REST_MYPAGE_API}/info`);
         return response;
     } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 };
 
@@ -18,7 +18,7 @@ export const getMyPredictList = async () => {
         const response = await axiosPrivate.get(`${REST_MYPAGE_API}/predict`);
         return response.data;
     } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 };
 
@@ -28,7 +28,7 @@ export const getMySubscribeList = async () => {
         const response = await axiosPrivate.get(`${REST_MYPAGE_API}/subscribe`);
         return response.data;
     } catch (error) {
-        console.error(error);
+        console.log(error);
         
     }
 };
@@ -68,6 +68,6 @@ export const getMyStockList = async (userId: String) => {
         console.log(response.data.resultData);
         return response.data.resultData;
     } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 };

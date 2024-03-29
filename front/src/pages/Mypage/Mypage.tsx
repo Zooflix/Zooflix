@@ -43,7 +43,7 @@ function Mypage() {
     const dataInfo = await getMyInfo()
       .then(resInfo => {
         console.log(resInfo)
-        setMyPageInfo(resInfo?.data);
+        if (resInfo) setMyPageInfo(resInfo?.data);
         console.log("마이인포: " + myPageInfo.userName);
       })
       .catch(error => {
@@ -53,7 +53,7 @@ function Mypage() {
 
     const dataPredict = await getMyPredictList()
       .then(resPredict => {
-        setMyPagePredictList(resPredict);
+        if (resPredict) setMyPagePredictList(resPredict);
         console.log("프리딕트: " + myPagePredictList);
       })
       .catch(error => {
@@ -63,7 +63,7 @@ function Mypage() {
 
     const dataSubscribe = await getMySubscribeList()
       .then(resSubscribe => {
-        setMyPageSubscribeList(resSubscribe);
+        if (resSubscribe) setMyPageSubscribeList(resSubscribe);
         console.log("내가 구독한 사람 목록 : " + myPageSubscribeList)
       })
       .catch(error => {
@@ -72,8 +72,8 @@ function Mypage() {
       });
 
     const dataStock = await getMyStockList(userId)
-      .then(resStock => {
-        setMyStockList(resStock);
+      .then(resStock => {        
+        if (resStock) setMyStockList(resStock);
         console.log("내 주식 구독 목록 : " + myStockList);
       })
       .catch(error => {

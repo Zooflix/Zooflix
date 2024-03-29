@@ -32,9 +32,44 @@ export async function loginUser(userId: String, userPw: String) {
 export async function updateUserInfo(){
   try {
     const response = await axiosPrivate.get(`${REST_USER_API}/update/info`);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function updateUser(userId: String, userName:String, userPw: String, userAppKey:String, userSecretKey:String, userAccount:String) {
+  try {
+    const response = await axiosPrivate.put(`${REST_USER_API}/update`, {
+      userId,
+      userName,
+      userPw,
+      userAppKey,
+      userSecretKey,
+      userAccount,
+    })
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+
+}
+
+export async function loginCheck(userId: String, userPw: String) {
+  try {
+    const response = await axios
+      .post(
+        `${REST_USER_API}/login`,
+        { userId, userPw },
+      )
+      .then((res) => {
+        return res;
+      });
+    console.log(response);  
+    return response.data;
+  } catch (e) {
+    console.log("실패");
+    console.log(e);
   }
 }
 

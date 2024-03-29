@@ -27,6 +27,14 @@ function SignupForm() {
 
   const handleSignup = async () => {
     try {
+      if (!userName.trim() || !userPw.trim() || !userId.trim() || !userPwCheck.trim()) {
+        alert("필수 항목을 모두 입력해주세요.");
+        return;
+      }
+      if (userPw.length < 4) {
+        alert("비밀번호는 4자 이상 입력해주세요.");
+        return;
+      }
 
       if (userPw === userPwCheck) {
         const idCheckResult = await idCheck(userId);
