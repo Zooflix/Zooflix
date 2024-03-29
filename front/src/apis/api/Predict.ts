@@ -129,3 +129,17 @@ export async function checkPredict(userNo: number, stockName: String) {
         console.log(e);
     }
 }
+
+//랭킹
+export async function getZoostra(stockName: String) {
+    try {
+        const response = await axios.get(`${REST_PREDICT_API}/rank`, {
+            params: {
+                stockName: stockName,
+            },
+        });
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
