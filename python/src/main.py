@@ -34,6 +34,7 @@ elif platform.system() == 'Darwin':
 else:
     plt.rc('font', family='NanumGothic')
 
+
 #
 # 주요 지표 추출 (혜진 + 수민)
 #
@@ -45,7 +46,6 @@ async def get_indices():
     if now.hour < 9 or (now.hour == 9 and now.minute < 20):
         yesterday = now - timedelta(days=1)
         today = yesterday.strftime('%Y-%m-%d')
-
 
     kospi_data = fdr.DataReader('KS11', today)
     kosdaq_data = fdr.DataReader('KQ11', today)

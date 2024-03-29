@@ -84,5 +84,4 @@ public class StockSubscribeController {
         boolean apiKeyExists = service.checkApiKey(customUserDetails.getUserNo());
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), apiKeyExists));
     }
-
 }
