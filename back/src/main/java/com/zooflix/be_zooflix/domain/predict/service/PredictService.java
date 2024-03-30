@@ -17,6 +17,7 @@ import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import com.zooflix.be_zooflix.domain.userSubscribe.entity.UserSubscribe;
 import com.zooflix.be_zooflix.domain.userSubscribe.repository.UserSubscribeRepository;
+import com.zooflix.be_zooflix.global.securityAlgo.AesUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -58,14 +59,17 @@ public class PredictService {
     private final UserSubscribeRepository userSubscribeRepository;
     private final StockListRepository stockListRepository;
 
+    private final AesUtils aesUtils;
+
 
     @Autowired
-    public PredictService(PredictRepository predictRepository, UserRepository userRepository, AlarmService alarmService, UserSubscribeRepository userSubscribeRepository, StockListRepository stockListRepository) {
+    public PredictService(PredictRepository predictRepository, UserRepository userRepository, AlarmService alarmService, UserSubscribeRepository userSubscribeRepository, StockListRepository stockListRepository, AesUtils aesUtils) {
         this.predictRepository = predictRepository;
         this.userRepository = userRepository;
         this.alarmService = alarmService;
         this.userSubscribeRepository = userSubscribeRepository;
         this.stockListRepository = stockListRepository;
+        this.aesUtils = aesUtils;
     }
 
     //전체 예측 목록 조회
@@ -310,7 +314,14 @@ public class PredictService {
         if(userInfo == null){
             return historyDtoList;
         }
-        if (userInfo.getUserAppKey() == null || userInfo.getUserSecretKey() == null || userInfo.getUserAccount() == null) {
+
+        String userAppKey = aesUtils.aesCBCDecode(userInfo.getUserAppKey(), "DB");
+        String userSecretKey = aesUtils.aesCBCDecode(userInfo.getUserSecretKey(), "DB");
+        String userAccount = aesUtils.aesCBCDecode(userInfo.getUserAccount(), "DB");
+
+        if (userAppKey == null || userSecretKey == null || userAccount == null ||
+                userAppKey.isEmpty() || userSecretKey.isEmpty() || userAccount.isEmpty()
+        ) {
             return historyDtoList;
         }
 
@@ -334,8 +345,8 @@ public class PredictService {
         String baseUrl = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/inquire-daily-ccld";
 
         String queryParameters = String.format("?CANO=%s&ACNT_PRDT_CD=%s&INQR_STRT_DT=%s&INQR_END_DT=%s&SLL_BUY_DVSN_CD=00&INQR_DVSN=00&PDNO=&CCLD_DVSN=01&ORD_GNO_BRNO=&ODNO=&INQR_DVSN_3=01&INQR_DVSN_1=&CTX_AREA_FK100=&CTX_AREA_NK100=",
-                userInfo.getUserAccount().substring(0, 8),
-                userInfo.getUserAccount().substring(8),
+                userAccount.substring(0, 8),
+                userAccount.substring(8),
                 formattedAgoDate,
                 formattedDate);
 
@@ -354,8 +365,8 @@ public class PredictService {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setRequestProperty("Authorization", "Bearer " + TOKEN);
-        conn.setRequestProperty("appkey", userInfo.getUserAppKey());
-        conn.setRequestProperty("appsecret", userInfo.getUserSecretKey());
+        conn.setRequestProperty("appkey", userAppKey);
+        conn.setRequestProperty("appsecret", userSecretKey);
         conn.setRequestProperty("tr_id", "TTTC8001R");
 
         conn.connect();
@@ -404,6 +415,8 @@ public class PredictService {
 
     public String getAccessToken(int userNo) {
         User userInfo = userRepository.findMyInfo(userNo);
+        String userAppKey = aesUtils.aesCBCDecode(userInfo.getUserAppKey(), "DB");
+        String userSecretKey = aesUtils.aesCBCDecode(userInfo.getUserSecretKey(), "DB");
         // HttpClient 인스턴스 생성
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // API 엔드포인트 URL
@@ -415,8 +428,8 @@ public class PredictService {
             // 요청 본문 데이터
             String accessData = "{\n" +
                     "    \"grant_type\": \"client_credentials\",\n" +
-                    "    \"appkey\": \"" + userInfo.getUserAppKey() + "\",\n" +
-                    "    \"appsecret\": \"" + userInfo.getUserSecretKey() + "\"\n" +
+                    "    \"appkey\": \"" + userAppKey + "\",\n" +
+                    "    \"appsecret\": \"" + userSecretKey + "\"\n" +
                     "}";
             StringEntity requestBody = new StringEntity(accessData);
             httpPost.setEntity(requestBody);
