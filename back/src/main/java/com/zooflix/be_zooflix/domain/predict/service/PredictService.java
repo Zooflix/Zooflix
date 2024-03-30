@@ -136,6 +136,7 @@ public class PredictService {
             User subscriberUser = subscriber.getUser();
             alarmService.send(subscriberUser, content, AlarmTypeStatus.WRITE);
         }
+        System.out.println("알림이 성공적으로 전송되었습니다. ->"+ content);
 
         return toDto(predictRepository.save(predict));
     }

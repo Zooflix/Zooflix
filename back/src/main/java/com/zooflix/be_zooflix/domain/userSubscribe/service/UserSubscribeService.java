@@ -42,6 +42,8 @@ public class UserSubscribeService {
         String content = subscribingUser.getUserName() + "님이 구독했습니다.";
         alarmService.send(userSubscribe.getUser(), content, AlarmTypeStatus.USERSUBSCRIBE);
 
+        System.out.println("알람 구독이 정상적으로 등록되었습니다.: " + content);
+
         return userSubscribeRepository.save(userSubscribe);
     }
 
