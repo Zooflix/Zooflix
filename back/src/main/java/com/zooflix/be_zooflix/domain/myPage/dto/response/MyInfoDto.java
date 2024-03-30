@@ -17,6 +17,7 @@ public class MyInfoDto {
     private double predictionRate;      //예측 비율
     private int SubscribeFromMe;        //내가 구독한 수
     private int subscribeToMe;          //나를 구독한 수
+    private String userZbti;
 
     public MyInfoDto(String userName, double userTemperature) {
         this.userName = userName;
