@@ -1,4 +1,5 @@
 import { axios, axiosPrivate } from "../utils/axios";
+import { securityAesEncode } from "../../apis/utils/security";
 
 export async function getUserApi() {
   try {
@@ -21,6 +22,10 @@ interface subscribeProps {
 
 export async function insertStockSubscribe(subscribe: subscribeProps) {
   try {
+    if (subscribe.userAppKey !== undefined) subscribe.userAppKey = await securityAesEncode(subscribe.userAppKey);
+    if (subscribe.userSecretKey !== undefined) subscribe.userSecretKey = await securityAesEncode(subscribe.userSecretKey);
+    if (subscribe.userAccount !== undefined) subscribe.userAccount = await securityAesEncode(subscribe.userAccount);
+    
     const response = await axiosPrivate.post(`/stock/subscribe`, subscribe);
     console.log("result Data" + response.data.resultData);
     return response.data.resultData;

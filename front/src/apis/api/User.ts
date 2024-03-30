@@ -1,6 +1,6 @@
 // import { REACT_APP_HOME_URL } from "../constants";
 import { axios, axiosPrivate } from "../utils/axios";
-
+import { securityAesEncode } from "../../apis/utils/security";
 const REST_USER_API = `/auth`;
 
 //회원 로그인
@@ -38,8 +38,11 @@ export async function updateUserInfo(){
   }
 }
 
-export async function updateUser(userId: String, userName:String, userPw: String, userAppKey:String, userSecretKey:String, userAccount:String) {
+export async function updateUser(userId: String, userName:String, userPw: String, userAppKey:string, userSecretKey:string, userAccount:string) {
   try {
+    userAppKey = await securityAesEncode(userAppKey);
+    userSecretKey = await securityAesEncode(userSecretKey);
+    userAccount = await securityAesEncode(userAccount);
     const response = await axiosPrivate.put(`${REST_USER_API}/update`, {
       userId,
       userName,
@@ -102,11 +105,14 @@ export async function signupUser(
   userId: String,
   userName: String,
   userPw: String,
-  userAppKey: String,
-  userSecretKey: String,
-  userAccount: String
+  userAppKey: string,
+  userSecretKey: string,
+  userAccount: string
 ) {
   try {
+    userAppKey = await securityAesEncode(userAppKey);
+    userSecretKey = await securityAesEncode(userSecretKey);
+    userAccount = await securityAesEncode(userAccount);
     const response = await axios
       .post(`${REST_USER_API}/signup`, {
         userId,

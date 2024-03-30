@@ -6,12 +6,15 @@ import { useRecoilState } from "recoil";
 import { myPageInfoState } from "../../Store/MyPageState";
 import { updateUserInfo, loginCheck, nameCheck, updateUser } from "../../apis/api/User";
 import { updateUserInfoState } from "../../Store/UserState";
+import { securityAesEncode, securityAesDecode } from "../../apis/utils/security";
+import { useNavigate } from "react-router-dom";
 
 const InputStyle = {
   backgroundColor: "#D7F1FF",
 };
 
 function UpdateMyInfo() {
+    const navigate = useNavigate();
 
     const [isChecked, setIsChecked] = useState(false);
     
@@ -35,7 +38,7 @@ function UpdateMyInfo() {
                 return;
             }
 
-            if (userPw.length < 4) {
+            if (userNewPw.length < 4) {
                 alert("비밀번호는 4글자 이상이어야 합니다.");
                 return ;
             }
@@ -60,13 +63,20 @@ function UpdateMyInfo() {
                 return;
             }
 
-            const nameCheckResult = await nameCheck(userName);
-            if (nameCheckResult?.data === "중복") {
-                alert("사용할 수 없는 이름입니다.");
-                return;
-            }
+            // const nameCheckResult = await nameCheck(userName);
+            // if (nameCheckResult?.data === "중복") {
+            //     alert("사용할 수 없는 이름입니다.");
+            //     return;
+            // }
 
-            const updateResult = await updateUser(userId, userName, userPw, userAppKey, userSecretKey, userAccount);
+            const updateResult = await updateUser(userId, userName, userNewPw, userAppKey, userSecretKey, userAccount);
+            if (updateResult?.status) {
+                alert("회원 정보 수정 완료")
+                navigate("/my-page");
+            }
+            else {
+                alert("회원 정보 수정 실패");
+            }
             
         } catch (e) {
             console.error(e);
@@ -85,10 +95,9 @@ function UpdateMyInfo() {
                 const response = await updateUserInfo();
                 setUserId(response?.data.userId);
                 setUserName(response?.data.userName);
-                setUserAppKey(response?.data.userAppKey);
-                setUserSecretKey(response?.data.userSecretKey);
-                setUserAccount(response?.data.userAccount);
-
+                setUserAppKey(await securityAesDecode(response?.data.userAppKey));                
+                setUserSecretKey(await securityAesDecode(response?.data.userSecretKey));                
+                setUserAccount(await securityAesDecode(response?.data.userAccount));
             } catch (error) {
                 console.log("내 정보 불러오기 실패");
                 console.error(error);
@@ -107,7 +116,7 @@ function UpdateMyInfo() {
           style={InputStyle}
           placeholder="새로운 이름을 입력하세요"
           value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          readonly
         />
         <UserInput
           type="password"
@@ -166,7 +175,7 @@ function UpdateMyInfo() {
           </>
         )}
       </InputContainer>
-      <SubmitBtn text="수정 완료" />
+      <SubmitBtn text="수정 완료" onClick={handleUserUpdate} />
     </Wrapper>
   );
 }

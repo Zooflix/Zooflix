@@ -54,9 +54,9 @@ function SignupForm() {
                     alert("APP KEY 정보를 전부 입력해주세요.");
                     return;
                   }
-                  setUserAppKey(await securityAesEncode(userAppKey));
-                  setUserSecretKey(await securityAesEncode(userSecretKey));
-                  setUserAccount(await securityAesEncode(userAccount));
+                  setUserAppKey(userAppKey);
+                  setUserSecretKey(userSecretKey);
+                  setUserAccount(userAccount);
                 }
                 const signupResult = await signupUser(userId, userName, userPw, 
                   userAppKey, userSecretKey, userAccount);
