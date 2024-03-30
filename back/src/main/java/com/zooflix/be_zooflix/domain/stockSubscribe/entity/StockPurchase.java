@@ -14,7 +14,7 @@ public class StockPurchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int purchaseNo;
     @Column
-    private int stockCode;
+    private String stockCode;
     @Column
     private String stockName;
     @Column

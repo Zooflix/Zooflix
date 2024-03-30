@@ -29,7 +29,7 @@ public class StockSubscribeService {
      *
      */
     @Transactional
-    public int postSubscribe(AddStockSubscribeRequest request) {
+    public String postSubscribe(AddStockSubscribeRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
 
         if (user.getUserAppKey() == null) {

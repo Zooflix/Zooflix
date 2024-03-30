@@ -157,7 +157,7 @@ public class UserService {
         User user = userRepository.findMyInfo(userNo);
         user.userUpdateZbti(userZbti);
 
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         return "성공";
     }
