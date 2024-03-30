@@ -52,7 +52,7 @@ function Predict() {
       <UpperContainer>
         <LeftContainer>
           <FirstContainer>
-            <Title text="주식 예측 하기" />
+            <Title text="주식 예측하기" />
             <Link to="/predict/create">
               <SquareBtn text="나도 예측하기" style={buttonStyleDark} />
             </Link>

@@ -21,10 +21,14 @@ function Rank(props: RankProps) {
         getZoostra(props.stockName)
             .then((data) => {
                 setZoostra(data);
+                console.log(zoostra);
+                
             })
             .catch((error) => {
                 console.error("Failed to fetch zoostra:", error);
             });
+            console.log(props.stockName);
+            
     }, [props.stockName]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,7 +54,7 @@ function Rank(props: RankProps) {
                                     alt="Crown"
                                     style={{ width: "42px" }}
                                 />
-                                <Zbti userZbti="Zebra" width="69px"/>
+                                <Zbti userZbti={zoostra.userZbti} width="69px"/>
                             </OnCrown>
                             <Name>
                                 {zoostra.userName}
@@ -71,7 +75,7 @@ function Rank(props: RankProps) {
         return (
             <BigWrapper>
                 <Wrapper>
-                    {zoostra.userNo === 0 ? (
+                    {zoostra.userNo > 0 ? (
                         <>
                             <Content>
                                 {props.stockName} 에서 예측을{" "}
@@ -80,7 +84,7 @@ function Rank(props: RankProps) {
                                 </span>
                             </Content>
                             <Zoostra>
-                                <Zbti userZbti={zoostra.userZbti} />
+                                <Zbti userZbti={zoostra.userZbti} width="69px"/>
                                 <Name>
                                     {zoostra.userName}
                                     <span>{" > "}</span>
