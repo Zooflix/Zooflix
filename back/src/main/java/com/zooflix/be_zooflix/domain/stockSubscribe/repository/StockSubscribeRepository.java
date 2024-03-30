@@ -29,7 +29,7 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
             value = "select s.stock_code,s.stock_count, u.user_app_key, u.user_secret_key, u.user_account " +
                     "from stock_subscribe s join user u " +
                     "on s.user_no = u.user_no " +
-                    "where DAY(NOW())=s.stock_subscribe_day")
+                    "where DAY(ADDDATE(NOW(),1))=s.stock_subscribe_day")
     List<StockSubscribeDto> findTomorrowSubscribe();
 
     @Query(nativeQuery = true, value = "select * from stock_subscribe s where s.user_no = :userNo")

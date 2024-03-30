@@ -4,11 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
-import com.zooflix.be_zooflix.domain.predict.dto.PredictRankDto;
-import com.zooflix.be_zooflix.domain.predict.dto.PredictReqDto;
+import com.zooflix.be_zooflix.domain.predict.dto.*;
 
-import com.zooflix.be_zooflix.domain.predict.dto.PredictResDto;
-import com.zooflix.be_zooflix.domain.predict.dto.StockHistoryDto;
 import com.zooflix.be_zooflix.domain.predict.entity.Predict;
 import com.zooflix.be_zooflix.domain.predict.entity.StockList;
 import com.zooflix.be_zooflix.domain.predict.repository.PredictRepository;
@@ -293,8 +290,8 @@ public class PredictService {
         return builder.toUriString();
     }
 
-    public List<String> getStockSearch(String stockName) {
-        List<String> list = stockListRepository.findStockListByStockName(stockName);
+    public List<StockResponseProjection> getStockSearch(String stockName) {
+        List<StockResponseProjection> list = stockListRepository.findStockListByStockName(stockName);
         return list;
     }
 

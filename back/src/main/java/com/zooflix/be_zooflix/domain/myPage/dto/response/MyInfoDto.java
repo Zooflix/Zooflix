@@ -19,8 +19,9 @@ public class MyInfoDto {
     private int subscribeToMe;          //나를 구독한 수
     private String userZbti;
 
-    public MyInfoDto(String userName, double userTemperature) {
+    public MyInfoDto(String userName, double userTemperature, String userZbti) {
         this.userName = userName;
         this.userTemperature = userTemperature;
+        this.userZbti = userZbti;
     }
 }

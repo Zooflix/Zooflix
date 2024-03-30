@@ -62,6 +62,7 @@ public class    MyPageService {
         myInfo.setSuccessCount(user.getSuccessCount());
         myInfo.setSubscribeFromMe(subscribeFromMeCount);
         myInfo.setSubscribeToMe(subscribeToMeCount);
+        myInfo.setUserZbti((user.getUserZbti()));
 
         return myInfo;
     }

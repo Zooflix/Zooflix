@@ -10,7 +10,8 @@ import jakarta.validation.constraints.NotNull;
 @AllArgsConstructor
 
 public class AddStockSubscribeRequest {
-    int stockCode;
+    @NotNull(message = "주식 코드는 필수 항목입니다.")
+    String stockCode;
 
     @NotNull(message = "주식 종목은 필수 항목입니다.")
     String stockName;
