@@ -19,8 +19,9 @@ public class UserInfoDto {
     private double userTemperature;
     private long subscribeCount;
     private long subscriberCount;
+    private String userZbti;
 
-    public UserInfoDto(int userNo, String userId, String userName, int predictCount, int successCount, double userTemperature, long subscribeCount, long subscriberCount) {
+    public UserInfoDto(int userNo, String userId, String userName, int predictCount, int successCount, double userTemperature, long subscribeCount, long subscriberCount, String userZbti) {
         this.userNo = userNo;
         this.userId = userId;
         this.userName = userName;
@@ -29,6 +30,7 @@ public class UserInfoDto {
         this.userTemperature = userTemperature;
         this.subscribeCount = subscribeCount;
         this.subscriberCount = subscriberCount;
+        this.userZbti=userZbti;
     }
 
 }
