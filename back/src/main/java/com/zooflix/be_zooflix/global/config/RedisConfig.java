@@ -16,8 +16,8 @@ public class RedisConfig {
     private String host;
     @Value("${spring.redis.port}")
     private int port;
-    @Value("${spring.redis.password}")
-    private String password;
+//    @Value("${spring.redis.password}")
+//    private String password;
 
 
     @Bean(name="zooflixRedis")
@@ -29,7 +29,7 @@ public class RedisConfig {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
         configuration.setHostName(host);
         configuration.setPort(port);
-        configuration.setPassword(password);
+//        configuration.setPassword(password);
         return new LettuceConnectionFactory(configuration);
     }
 

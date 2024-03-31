@@ -212,12 +212,14 @@ async def getCrawlingData(request: Request):
     ppgUrl = request_body.get("ppgUrl")
     crawlingNews = await crawling(webUrl)
     transNews = await translation(clientId, clientSecret, ppgUrl, crawlingNews)
+    print("번역 완료: ",transNews)
     return transNews
 
 
 # 크롤링
+@app.get("/radio/crawling")
 async def crawling(url):
-    descriptionList = []
+    crawlingList = [] # 기사+본문 리스트
 
     # 1. 기사 URL 얻기
     articleUrl = ""
@@ -230,6 +232,7 @@ async def crawling(url):
         if (newsList!=[]):
             for news in newsList:
                 articleUrl = news['href']
+                newsTitle = news.text
 
                 # 2. 기사 본문 얻기
                 response = get(articleUrl, headers=head)
@@ -242,9 +245,14 @@ async def crawling(url):
                         contentList = description.find_all('p')
                         for oneContent in contentList:
                             content_texts += oneContent.text+ " "
-                        descriptionList.append(content_texts)
-                        if len(descriptionList) == 7:
-                            return descriptionList
+                        oneCrawling = {
+                            "Url": articleUrl,
+                            "Title": newsTitle,
+                            "Content": content_texts
+                        }
+                        crawlingList.append(json.dumps(oneCrawling))
+                        if len(crawlingList) == 7:
+                            return crawlingList
                 else:
                     errMsg = "newsDetailPage is not found"
                     return errMsg
@@ -257,32 +265,50 @@ async def crawling(url):
 
 
 # 번역 by Papago
-async def translation(id, secret, url, text):
+@app.get("/radio/translation")
+async def translation(id, secret, url, list):
     translationList = []
-    for news in text:
-        data = {
+
+    for news in list:
+        news = json.loads(news)  # JSON 문자열을 파이썬 객체로 변환
+        newsUrl = news["Url"]
+        newsTitle = news["Title"]
+        newsContent = news["Content"]
+        titleData = {
             "source": "en",
             "target": "ko",
-            "text": news
+            "text": newsTitle
         }
         headers = {
             "X-NCP-APIGW-API-KEY-ID": id,
             "X-NCP-APIGW-API-KEY": secret,
             "Content-Type": "application/json"
         }
-        response = requests.post(url, data=json.dumps(data).encode("utf-8"), headers=headers)
+        titleResponse = requests.post(url, data=json.dumps(titleData).encode("utf-8"), headers=headers)
+        contentData = {
+            "source": "en",
+            "target": "ko",
+            "text": newsContent
+        }
+        contentResponse = requests.post(url, data=json.dumps(contentData).encode("utf-8"), headers=headers)
 
         # JSON 문자열을 파이썬 객체로 변환
-        responseJson = response.json()
-        if (response.status_code == 200):
-            translationList.append(responseJson["message"]["result"]["translatedText"])
+        titleJson = titleResponse.json()
+        contentJson = contentResponse.json()
+        oneTranslation = {
+            "Url": newsUrl,
+            "TranslationTitle": titleJson["message"]["result"]["translatedText"],
+            "TranslationContent": contentJson["message"]["result"]["translatedText"]
+        }
+        if (titleResponse.status_code == 200 & contentResponse.status_code==200):
+            translationList.append(json.dumps(oneTranslation, ensure_ascii=False))
         else:
-            print("Error Code:" + str(responseJson) + " translation is failed")
+            print("Error Code:" + str(titleJson)+ str(contentJson) + " translation is failed")
 
-    result = {
-        "translationData": translationList
-    }
-    return result
+    # result = {
+    #     "translationData": translationList
+    # }
+    return translationList
 
 
 
@@ -334,6 +360,7 @@ async def summary(request: Request):
     clientSecret = request_body.get("clientSecret")
     clovaUrl = request_body.get("clovaUrl")
     text = request_body.get("text")
+    sentence = int(request_body.get("sentence"))
 
     # 2. 요약
     data = {
@@ -344,7 +371,7 @@ async def summary(request: Request):
             "language": "ko",
             "model": "news",
             "tone": 2,
-            "summaryCount": 2
+            "summaryCount": sentence
         }
     }
     headers = {
