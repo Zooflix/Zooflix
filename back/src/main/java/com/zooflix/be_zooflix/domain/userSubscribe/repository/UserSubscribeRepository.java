@@ -14,8 +14,8 @@ import java.util.List;
 public interface UserSubscribeRepository extends JpaRepository<UserSubscribe, Integer> {
 
     //나를 구독한 사람들을 조회
-    @Query(nativeQuery = true, value = "select * from user_subscribe s where s.subscribe_no = :subscribeNo")
-    List<UserSubscribe> findSubscribeToMe(@Param("subscribeNo") int subscribeNo);
+    @Query(nativeQuery = true, value = "select * from user_subscribe s where s.subscribe_user_no = :subscribeUserNo")
+    List<UserSubscribe> findSubscribeToMe(@Param("subscribeUserNo") int subscribeUserNo);
 
     //내가 구독한 사람들을 조회(유저 온도 DESC)
     @Query(nativeQuery = true,

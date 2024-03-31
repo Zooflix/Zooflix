@@ -17,6 +17,8 @@ public class FindListAlarmResponse {
 
     String nickname;
 
+    String content;
+
     LocalDateTime createdAt;
 
     AlarmTypeStatus type;

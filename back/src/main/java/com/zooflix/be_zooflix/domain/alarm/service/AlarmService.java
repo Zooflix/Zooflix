@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +116,7 @@ public class AlarmService {
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             // 내가 구독한 사람이 글 쓴 경우
@@ -124,6 +126,7 @@ public class AlarmService {
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             //내가 구독할 때
@@ -133,6 +136,7 @@ public class AlarmService {
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             // 내가 구독한 사람이 매매한 경우
@@ -142,6 +146,7 @@ public class AlarmService {
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             //내 글의 예측 성공 여부
@@ -151,6 +156,7 @@ public class AlarmService {
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
 
@@ -161,6 +167,7 @@ public class AlarmService {
                     .content(content)
                     .alarmType(type)
                     .isRead(false)
+                    .createdAt(LocalDateTime.now())
                     .build();
         }else{
             throw new IllegalArgumentException("Invalid alarm type: " + type);
