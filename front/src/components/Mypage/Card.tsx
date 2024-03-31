@@ -25,6 +25,7 @@ const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
 
   const date = new Date(card.stockSubscribeCreate);
   console.log(date);
+  console.log(date.getMonth());
 
   async function terminationSubscribe() {
     const result = await cancelStockSubscribe(card.stockSubscribeNo);
@@ -46,7 +47,7 @@ const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
           <Content>
             {card.stockSubscribeCreate && (
               <div>
-                {date.getFullYear()}년 {date.getMonth()}월 {date.getDate()}
+                {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}
                 일부터 구독중
               </div>
             )}
