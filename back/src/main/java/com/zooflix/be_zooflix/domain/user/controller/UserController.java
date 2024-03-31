@@ -55,7 +55,7 @@ public class UserController {
 
     @Operation(summary = "회원정보 수정")
     @PutMapping("/update")
-    public ResponseEntity<String> updateUser(UserUpdateDto userUpdateDto, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public ResponseEntity<String> updateUser(@RequestBody UserUpdateDto userUpdateDto, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         if(customUserDetails == null) {
             throw new RuntimeException("토큰이 존재하지 않습니다.");
         }

@@ -7,6 +7,7 @@ import com.zooflix.be_zooflix.domain.stockSubscribe.dto.request.AddStockSubscrib
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
+import com.zooflix.be_zooflix.global.securityAlgo.AesUtils;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,8 @@ public class StockSubscribeService {
     private final UserRepository userRepository;
     private final StockSubscribeRepository stockSubscribeRepository;
     private final AlarmService alarmService;
+
+    private final AesUtils aesUtils;
 
     /**
      * 3.1 주식 정기 구독
@@ -99,7 +102,10 @@ public class StockSubscribeService {
 
     public boolean checkApiKey(int userNo) {
         UserKeyProjection userKey = userRepository.findByUserNo(userNo);
-        return userKey.getUserAccount() != null && userKey.getUserAppKey() != null && userKey.getUserSecretKey() != null;
+        String userAppKey = aesUtils.aesCBCDecode(userKey.getUserAppKey(), "DB");
+        String userSecretKey = aesUtils.aesCBCDecode(userKey.getUserSecretKey(), "DB");
+        String userAccount = aesUtils.aesCBCDecode(userKey.getUserAccount(), "DB");
+        return !userAppKey.isEmpty() && !userSecretKey.isEmpty() && !userAccount.isEmpty();
     }
 
     private StockSubscribeDto convertToStockSubscribeDto(StockSubscribe stockSubscribe) {
