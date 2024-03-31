@@ -26,11 +26,45 @@ function DoughnutChart({
   const myInfo = useRecoilValue(myPageInfoState);
   const userInfo = useRecoilValue(userPageInfoState);
 
+  const getZbtiColor = (zbti: string) => {
+    switch (zbti) {
+      case "Zebra":
+        return "#FF7C7C";
+      case "Lion":
+        return "#68b7ff";
+      case "Cow":
+        return "#238FBD";
+      case "Pig":
+        return "#dcafff";
+      case "Sloth":
+        return "#ace498";
+      case "Monkey":
+        return "#fff72c";
+      case "Hippo":
+        return "#8d54eb";
+      case "Rabbit":
+        return "#ff6cc4";
+      case "Fox":
+        return "#fea443";
+      case "Panda":
+        return "#76c193";
+      case "Unicorn":
+        return "#6be4ff";
+      default:
+        return "#FFBE59";
+    }
+  };
+
+  const zbtiColor =
+    userName === myInfo.userName
+      ? getZbtiColor(myInfo.userZbti)
+      : getZbtiColor(userInfo.userZbti);
+
   const Data = {
     datasets: [
       {
         data: [temp, 100 - temp],
-        backgroundColor: [color, transparency],
+        backgroundColor: [zbtiColor, transparency],
         borderRadius: 10,
         circumference: 270,
         rotation: 225,
