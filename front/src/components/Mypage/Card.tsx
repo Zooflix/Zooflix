@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import { cancelStockSubscribe } from "../../apis/api/Subscribe";
 
 interface ItemProps {
   card: {
@@ -25,6 +26,10 @@ const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
   const date = new Date(card.stockSubscribeCreate);
   console.log(date);
 
+  async function terminationSubscribe() {
+    const result = await cancelStockSubscribe(card.stockSubscribeNo);
+  }
+
   return (
     <CardWrapper>
       <Wrapper color={color[cardIndex % 4]}>
@@ -46,7 +51,7 @@ const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
               </div>
             )}
 
-            <Button>구독 해지</Button>
+            <Button onClick={terminationSubscribe}>구독 해지</Button>
           </Content>
         </Back>
       </Wrapper>
