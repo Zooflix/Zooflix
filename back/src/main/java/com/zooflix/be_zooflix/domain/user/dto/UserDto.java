@@ -38,6 +38,7 @@ public class UserDto {
                 .userNo(user.getUserNo())
                 .userId(user.getUserId())
                 .userPw(user.getUserPw())
+                .userName(user.getUserName())
                 .reportCount(user.getReportCount())
                 .reportDate(user.getReportDate())
                 .predictCount(user.getPredictCount())

@@ -41,8 +41,6 @@ public class AesUtils {
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, IV);
 
             byte[] encrpytionByte = cipher.doFinal(data.getBytes("UTF-8"));
-            System.out.println(Hex.encodeHexString(encrpytionByte));
-            System.out.println(Hex.encodeHexString(encrpytionByte).length());
             return Hex.encodeHexString(encrpytionByte);
 
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
@@ -68,7 +66,6 @@ public class AesUtils {
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, IV);
 
             byte[] decodeByte = Hex.decodeHex(encodeData.toCharArray());
-            System.out.println(new String(cipher.doFinal(decodeByte), "UTF-8"));
             return new String(cipher.doFinal(decodeByte), "UTF-8");
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
                  InvalidKeyException | DecoderException | IllegalBlockSizeException | BadPaddingException |
