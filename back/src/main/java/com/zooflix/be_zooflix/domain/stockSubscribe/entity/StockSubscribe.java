@@ -44,6 +44,7 @@ public class StockSubscribe extends BaseTimeEntity {
         subscribe.stockName = stockName;
         subscribe.stockCount = stockCount;
         subscribe.stockSubscribeDay = stockSubscribeDay;
+        subscribe.stockSubscribeCreate = LocalDateTime.now();
 
         return subscribe;
     }

@@ -21,6 +21,5 @@ public class StockSubscribeDto {
     private String userAppKey;
     private String userSecretKey;
     private String userAccount;
-
 }
 
