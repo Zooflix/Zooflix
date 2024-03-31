@@ -102,9 +102,9 @@ public class StockSubscribeService {
 
     public boolean checkApiKey(int userNo) {
         UserKeyProjection userKey = userRepository.findByUserNo(userNo);
-        String userAppKey = aesUtils.aesCBCDecode(userKey.getUserAppKey(), "DB");
-        String userSecretKey = aesUtils.aesCBCDecode(userKey.getUserSecretKey(), "DB");
-        String userAccount = aesUtils.aesCBCDecode(userKey.getUserAccount(), "DB");
+        String userAppKey = aesUtils.aesCBCDecode(userKey.getUserAppKey(), "db");
+        String userSecretKey = aesUtils.aesCBCDecode(userKey.getUserSecretKey(), "db");
+        String userAccount = aesUtils.aesCBCDecode(userKey.getUserAccount(), "db");
         return !userAppKey.isEmpty() && !userSecretKey.isEmpty() && !userAccount.isEmpty();
     }
 
