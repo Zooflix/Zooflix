@@ -95,6 +95,15 @@ function PredictCreateForm() {
       //   alert("예측 날짜를 선택해 주세요.");
       return;
     }
+    const date = new Date(predictDate);
+    if (date.getDay() === 0 || date.getDay() === 6) {
+      setPriceOk(false);
+      setOpen(true);
+      setAlertOption({
+        severity: "error",
+        value: "주말 및 공휴일은 예측 불가합니다. 다시 선택해주세요",
+      });
+     }
     if (predictPrice === 0) {
       setOpen(true);
       setAlertOption({
@@ -149,7 +158,6 @@ function PredictCreateForm() {
       });
       navigate("/predict");
     } catch (error) {
-      console.log("Error deleting data:", error);
     }
   };
 
@@ -199,6 +207,18 @@ function PredictCreateForm() {
     };
     fetchDataAndCheck();
   }, [stockName]);
+
+  useEffect(() => {
+    const date = new Date(predictDate);
+    if (date.getDay() === 0 || date.getDay() === 6) {
+      setPriceOk(false);
+      setOpen(true);
+      setAlertOption({
+        severity: "error",
+        value: "주말 및 공휴일은 예측 불가합니다. 다시 선택해주세요",
+      });
+     }
+  }, [predictDate]);
 
   useEffect(() => {
     if (nowPrice * 0.9 >= predictPrice) {

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { selectPredicts } from "../../apis/api/Predict";
 import { selectUserNoState } from "../../Store/PredictState";
+import { deletePdNoState } from "../../Store/PredictState";
 import { selectStockNameState } from "../../Store/PredictState";
 import { selectUserNameState } from "../../Store/PredictState";
 import "./Page.css";
@@ -31,10 +32,16 @@ function Page(props: PageProps) {
         useRecoilState(selectStockNameState);
     const [selectUserName, setSelectUserName] =
         useRecoilState(selectUserNameState);
+    const [deletePdNo, setDeletePdNo] = useRecoilState(deletePdNoState);
 
     useEffect(() => {
         fetchData();
     }, [props.sorted, props.stockName]);
+
+    useEffect(() => {
+        setDeletePdNo(0);
+        fetchData();
+    }, [deletePdNo]);
 
     useEffect(() => {
         setSelectUserNo(0);
