@@ -54,7 +54,7 @@ function PredictList(props: PredictProps) {
     };
 
     const handleDelete = async (pdNo: number) => {
-        const isConfirmed = window.confirm("글을 삭제하시겠습니까?");
+        const isConfirmed = window.confirm("삭제 시 예측 실패로 처리됩니다.\n글을 삭제하시겠습니까?");
         if (!isConfirmed) {
             return;
         }
@@ -68,7 +68,12 @@ function PredictList(props: PredictProps) {
 
     useEffect(() => {
         setOpenItems([]);
-        const no = getJwtUserNo();
+        let no = 0;
+        try {
+            no = getJwtUserNo();
+        } catch (error) {
+            no = 0;
+        }
         setUserNo(no);
     }, [props.currentPage]);
 

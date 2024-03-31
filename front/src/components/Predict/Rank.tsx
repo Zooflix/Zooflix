@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import Character3d from "../Character/Character3d";
 import { getZoostra } from "../../apis/api/Predict";
 import Zbti from "./Zbti";
 import Crown from "../../assets/img/rank/crown.svg";
@@ -22,13 +21,11 @@ function Rank(props: RankProps) {
             .then((data) => {
                 setZoostra(data);
                 console.log(zoostra);
-                
             })
             .catch((error) => {
                 console.error("Failed to fetch zoostra:", error);
             });
-            console.log(props.stockName);
-            
+        console.log(props.stockName);
     }, [props.stockName]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,12 +37,14 @@ function Rank(props: RankProps) {
         return (
             <BigWrapper>
                 <Wrapper>
-                    <Content>이 달의 <b>주스트라다무스</b></Content>
+                    <Content>
+                        이 달의 <b>주스트라다무스</b>
+                    </Content>
                     <div
                         onClick={() =>
                             openModal(zoostra.userName, zoostra.userNo)
                         }
-                        style={{cursor: 'pointer'}}
+                        style={{ cursor: "pointer" }}
                     >
                         <Zoostra>
                             <OnCrown>
@@ -54,7 +53,10 @@ function Rank(props: RankProps) {
                                     alt="Crown"
                                     style={{ width: "42px" }}
                                 />
-                                <Zbti userZbti={zoostra.userZbti} width="69px"/>
+                                <Zbti
+                                    userZbti={zoostra.userZbti}
+                                    width="69px"
+                                />
                             </OnCrown>
                             <Name>
                                 {zoostra.userName}
@@ -84,7 +86,10 @@ function Rank(props: RankProps) {
                                 </span>
                             </Content>
                             <Zoostra>
-                                <Zbti userZbti={zoostra.userZbti} width="69px"/>
+                                <Zbti
+                                    userZbti={zoostra.userZbti}
+                                    width="69px"
+                                />
                                 <Name>
                                     {zoostra.userName}
                                     <span>{" > "}</span>
