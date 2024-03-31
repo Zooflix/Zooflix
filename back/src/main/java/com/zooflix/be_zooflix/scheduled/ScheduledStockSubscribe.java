@@ -1,7 +1,9 @@
 package com.zooflix.be_zooflix.scheduled;
 
 import ch.qos.logback.core.CoreConstants;
+import com.zooflix.be_zooflix.domain.alarm.entity.Alarm;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
+import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
@@ -32,12 +34,14 @@ public class ScheduledStockSubscribe {
     private final StockSubscribeRepository stockSubscribeRepository;
     private final AlarmService alarmService;
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
 
     @Autowired
-    public ScheduledStockSubscribe(StockSubscribeRepository stockSubscribeRepository, AlarmService alarmService, UserRepository userRepository) {
+    public ScheduledStockSubscribe(StockSubscribeRepository stockSubscribeRepository, AlarmService alarmService, UserRepository userRepository, AlarmRepository alarmRepository) {
         this.stockSubscribeRepository = stockSubscribeRepository;
         this.alarmService = alarmService;
         this.userRepository = userRepository;
+        this.alarmRepository = alarmRepository;
     }
 
     @Scheduled(cron = "0 35 16 * * ?")
@@ -128,7 +132,14 @@ public class ScheduledStockSubscribe {
 
         for(StockSubscribeDto subscriber : subscribers){
             User stockSubscriber = userRepository.findByUserId(subscriber.getUserId());
-            alarmService.send(stockSubscriber, "내일은 "+ subscriber.getStockName() + "주식을 정기 구독한 날입니다.", AlarmTypeStatus.TOMORROW);
+            String content = "내일은 "+ subscriber.getStockName() + "주식을 정기 구독한 날입니다.";
+            alarmService.send(stockSubscriber, content, AlarmTypeStatus.TOMORROW);
+
+            Alarm alarm = new Alarm();
+            alarm.setReceiverUser(stockSubscriber);
+            alarm.setContent(content);
+            alarm.setAlarmType(AlarmTypeStatus.TOMORROW);
+            alarm.setIsRead(false);
         }
     }
 

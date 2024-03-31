@@ -1,6 +1,8 @@
 package com.zooflix.be_zooflix.domain.userSubscribe.service;
 
+import com.zooflix.be_zooflix.domain.alarm.entity.Alarm;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
+import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
@@ -21,12 +23,14 @@ public class UserSubscribeService {
     private final UserSubscribeRepository userSubscribeRepository;
     private final UserRepository userRepository;
     private final AlarmService alarmService;
+    private final AlarmRepository alarmRepository;
 
     @Autowired
-    public UserSubscribeService(UserSubscribeRepository userSubscribeRepository, UserRepository userRepository, AlarmService alarmService) {
+    public UserSubscribeService(UserSubscribeRepository userSubscribeRepository, UserRepository userRepository, AlarmService alarmService, AlarmRepository alarmRepository) {
         this.userSubscribeRepository = userSubscribeRepository;
         this.userRepository = userRepository;
         this.alarmService = alarmService;
+        this.alarmRepository = alarmRepository;
     }
 
     //유저 구독 추가
@@ -39,10 +43,16 @@ public class UserSubscribeService {
                 .subscribeCreate(LocalDate.now())
                 .build();
 
-        String content = subscribingUser.getUserName() + "님이 구독했습니다.";
+        String content = subscribingUser.getUserName() + "님이 회원님을 구독했습니다.";
         alarmService.send(userSubscribe.getUser(), content, AlarmTypeStatus.USER);
 
-        System.out.println("알람 구독이 정상적으로 등록되었습니다.: " + content);
+        Alarm alarm = new Alarm();
+        alarm.setReceiverUser(userSubscribe.getUser());
+        alarm.setContent(content);
+        alarm.setAlarmType(AlarmTypeStatus.USER);
+        alarm.setIsRead(false);
+        alarmRepository.save(alarm);
+        System.out.println("성공적 알람 ok");
 
         return userSubscribeRepository.save(userSubscribe);
     }

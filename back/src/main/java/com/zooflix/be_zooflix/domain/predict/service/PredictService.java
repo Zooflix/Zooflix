@@ -136,7 +136,6 @@ public class PredictService {
 
         //나를 구독한 사람들을 조회
         List<UserSubscribe> subscribers = userSubscribeRepository.findSubscribeToMe(dto.getUserNo());
-        System.out.println(subscribers + "가 나의 구독자다.");
 
         String content = userRepository.findMyInfo(dto.getUserNo()).getUserName() + "님의 새로운 예측 글이 작성되었습니다.";
         // 그 사람들에게 알림 send
@@ -148,8 +147,8 @@ public class PredictService {
             alarm.setReceiverUser(subscriberUser);
             alarm.setContent(content);
             alarm.setAlarmType(AlarmTypeStatus.WRITE);
+            alarm.setIsRead(false);
             alarmRepository.save(alarm);
-            System.out.println("알람:" + alarm);
         }
             System.out.println("알림이 성공적으로 전송되었습니다. ->"+ content);
 
@@ -182,10 +181,26 @@ public class PredictService {
         for (Predict prediction : todayPredictions) {
             if (isSuccessful(prediction)) {
                 prediction.setPdResult("성공");
-                alarmService.send(prediction.getUser(), "예측이 성공했습니다", AlarmTypeStatus.RESULT);
+                String content = prediction.getStockName()+"의 예측이 성공했습니다";
+                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
+
+                Alarm alarm = new Alarm();
+                alarm.setReceiverUser(prediction.getUser());
+                alarm.setContent(content);
+                alarm.setAlarmType(AlarmTypeStatus.RESULT);
+                alarm.setIsRead(false);
+                alarmRepository.save(alarm);
             } else {
                 prediction.setPdResult("실패");
-                alarmService.send(prediction.getUser(), "예측이 실패했습니다.", AlarmTypeStatus.RESULT);
+                String content = prediction.getStockName() + "의 예측이 실패했습니다.";
+                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
+
+                Alarm alarm = new Alarm();
+                alarm.setReceiverUser(prediction.getUser());
+                alarm.setContent(content);
+                alarm.setAlarmType(AlarmTypeStatus.RESULT);
+                alarm.setIsRead(false);
+                alarmRepository.save(alarm);
             }
             predictRepository.save(prediction);
         }
