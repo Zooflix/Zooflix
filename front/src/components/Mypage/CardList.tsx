@@ -1,16 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "./Card";
-import { useRecoilState } from "recoil";
-import { stockSubListState } from "../../Store/StockSubscribeState";
 
-const SubscribeStockList: React.FC = () => {
-  const [myStockList, setMyStockList] = useRecoilState(stockSubListState);
+interface Props {
+  myStockList: any[];
+}
 
-  if (!myStockList || myStockList.length === 0) {
-    return <NoResultsMessage>결과를 찾을 수 없습니다</NoResultsMessage>;
-  }
-
+function CardList({ myStockList }: Props) {
   return (
     <Wrapper>
       <Container>
@@ -20,16 +16,21 @@ const SubscribeStockList: React.FC = () => {
       </Container>
     </Wrapper>
   );
-};
+}
 
-export default SubscribeStockList;
-const Wrapper = styled.div``;
-const NoResultsMessage = styled.div`
-  color: black;
+export default CardList;
+const Wrapper = styled.div`
+  width: 1000px;
+  border: none;
+  border-radius: 30px;
+  background-color: white;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 30px 30px 10px 30px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  min-height: 100px;
 `;
 
 const Container = styled.div`

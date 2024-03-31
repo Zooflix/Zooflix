@@ -1,20 +1,23 @@
 import styled from "styled-components";
 
-import Title from "../../components/Common/Title";
 import SubscribeForm from "../../components/SubscribeStock/SubscribeForm";
-import SubscribeStockList from "../../components/SubscribeStock/SubscribeStockList";
+import { useRecoilState } from "recoil";
+import { userNameState } from "../../Store/UserState";
+import MySubscribeStock from "../../components/SubscribeStock/MySubscribeStock";
+import { getJwtUserId } from "../../apis/utils/jwt";
 
 function SubscribeStock() {
+  const [userName, setUserName] = useRecoilState(userNameState);
   return (
     <Wrapper>
       <SubscribeContainer>
-        <Title text="주식 정기 구독하기" />
+        <Title>주식 정기 구독하기</Title>
         <SubscribeForm />
       </SubscribeContainer>
       <SubscribeContainer>
-        <Title text="행복한 원숭이 님이 구독 중인 주식 목록" />
+        <Title>{getJwtUserId()}님이 구독중인 주식 목록</Title>
+        <MySubscribeStock />
       </SubscribeContainer>
-      <SubscribeStockList />
     </Wrapper>
   );
 }
@@ -30,5 +33,12 @@ const Wrapper = styled.div`
 `;
 
 const SubscribeContainer = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+`;
+
+const Title = styled.div`
+  font-size: 23px;
+  font-weight: 1000;
+  margin-bottom: 20px;
+  text-align: center;
 `;
