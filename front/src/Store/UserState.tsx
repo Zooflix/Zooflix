@@ -1,14 +1,21 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
 
 // 아이디
-export const userIdState = atom({
-  key: "userIdState",
-  default: "",
+const { persistAtom } = recoilPersist({
+  key: "userIdState", //원하는 key 값 입력
+  storage: localStorage,
 });
 
-// 비번
-export const userPwState = atom({
-  key: "userPwState",
+export const userIdState = atom({
+  key: "userIdState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+//유저 이름
+export const userNameState = atom({
+  key: "userNameState",
   default: "",
 });
 
@@ -35,4 +42,4 @@ export const updateUserInfoState = atom({
     userSecretKey: "",
     userAccount: "",
   },
-})
+});

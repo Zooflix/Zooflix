@@ -1,9 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-// 이미지
-import Informationbtn from "../../assets/img/button/Informationbtn.svg";
-
 // 컴포넌트
 import SubscribeDetailModal from "./SubscribeDetailModal";
 import SearchInput from "./SearchInput";
@@ -12,18 +9,10 @@ import SquareBtn from "../Common/SquareBtn";
 import QuantityInput from "./QuantityInput";
 import GetIssued from "./GetIssued";
 import SubscribeDateInput from "./SubscribeDateInput";
-import ImgBtn from "../Common/ImgBtn";
 
 import { getUserApi } from "../../apis/api/Subscribe";
-import { access } from "fs";
 import { useRecoilState } from "recoil";
 import { userNoState } from "../../Store/UserState";
-
-// 스타일
-const informationStyle = {
-  backgroundColor: "transparent",
-  border: "none",
-};
 
 function SubscribeForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,7 +24,7 @@ function SubscribeForm() {
     stockCode: string;
   } | null>(null);
   const [subscribeDay, setSubscribeDay] = useState(1);
-  const [stockCnt, setStockCnt] = useState(1);
+  const [stockCnt, setStockCnt] = useState(0);
   const [account, setAccount] = useState("");
   const [appkey, setAppkey] = useState("");
   const [secretkey, setSecretkey] = useState("");
@@ -66,7 +55,12 @@ function SubscribeForm() {
             placeholder="구독일"
             onDayChange={setSubscribeDay}
           />
-          <QuantityInput text="수량" stockCntChange={setStockCnt} />
+          <QuantityInput
+            text="수량"
+            stockCntChange={setStockCnt}
+            stockCnt={stockCnt}
+            stockName={stock?.stockName}
+          />
         </FirstContainer>
         {!accessToken ? (
           <SecondContainer>

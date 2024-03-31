@@ -3,6 +3,7 @@ import MySubscription from "./MySubscription";
 import { useRecoilState } from "recoil";
 import { myPageSubscribeListState } from "../../Store/MyPageState";
 import CardList from "./CardList";
+import MySubscribeStock from "../SubscribeStock/MySubscribeStock";
 
 function MySubscribeList() {
   const [myPageSubscribeList, setMyPageSubScribeList] = useRecoilState(
@@ -23,7 +24,7 @@ function MySubscribeList() {
         <LeftSide>
           <h3>내가 정기 구독 중인 주식</h3>
           <CardSection>
-            <CardList />
+            <MySubscribeStock />
           </CardSection>
         </LeftSide>
         <RightSide>
