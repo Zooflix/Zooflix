@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useEffect, useState } from "react";
 
 interface userProps {
@@ -8,7 +7,7 @@ interface userProps {
   time: string;
 }
 
-function AlarmItem({ senderId, nickname, type, time }: userProps) {
+function AlarmItem({ time }: userProps) {
   const [timediff, setTimediff] = useState("");
   useEffect(() => {
     if (time !== null && time !== undefined) {

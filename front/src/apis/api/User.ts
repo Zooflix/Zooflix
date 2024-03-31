@@ -1,10 +1,9 @@
-// import { REACT_APP_HOME_URL } from "../constants";
 import { axios, axiosPrivate } from "../utils/axios";
 import { securityAesEncode } from "../../apis/utils/security";
 const REST_USER_API = `/auth`;
 
 //회원 로그인
-export async function loginUser(userId: String, userPw: String) {
+export async function loginUser(userId: string, userPw: string) {
   try {
     const response = await axios
       .post(
@@ -29,7 +28,7 @@ export async function loginUser(userId: String, userPw: String) {
 }
 
 // 수정용 회원 정보
-export async function updateUserInfo(){
+export async function updateUserInfo() {
   try {
     const response = await axiosPrivate.get(`${REST_USER_API}/update/info`);
     return response;
@@ -38,7 +37,14 @@ export async function updateUserInfo(){
   }
 }
 
-export async function updateUser(userId: String, userName:String, userPw: String, userAppKey:string, userSecretKey:string, userAccount:string) {
+export async function updateUser(
+  userId: string,
+  userName: string,
+  userPw: string,
+  userAppKey: string,
+  userSecretKey: string,
+  userAccount: string
+) {
   try {
     userAppKey = await securityAesEncode(userAppKey);
     userSecretKey = await securityAesEncode(userSecretKey);
@@ -50,25 +56,21 @@ export async function updateUser(userId: String, userName:String, userPw: String
       userAppKey,
       userSecretKey,
       userAccount,
-    })
+    });
     return response;
   } catch (error) {
     console.error(error);
   }
-
 }
 
-export async function loginCheck(userId: String, userPw: String) {
+export async function loginCheck(userId: string, userPw: string) {
   try {
     const response = await axios
-      .post(
-        `${REST_USER_API}/login`,
-        { userId, userPw },
-      )
+      .post(`${REST_USER_API}/login`, { userId, userPw })
       .then((res) => {
         return res;
       });
-    console.log(response);  
+    console.log(response);
     return response.data;
   } catch (e) {
     console.log("실패");
@@ -95,19 +97,16 @@ export async function logoutUser() {
       .catch((error) => {
         localStorage.removeItem("access");
       });
-
-    // return response.status;
   } catch (e) {
-    // localStorage.removeItem("access");
     console.log(e);
   }
 }
 
 // 회원 가입
 export async function signupUser(
-  userId: String,
-  userName: String,
-  userPw: String,
+  userId: string,
+  userName: string,
+  userPw: string,
   userAppKey: string,
   userSecretKey: string,
   userAccount: string
@@ -136,7 +135,7 @@ export async function signupUser(
 }
 
 // 아이디 체크
-export async function idCheck(userId: String) {
+export async function idCheck(userId: string) {
   try {
     const response = await axios
       .post(`${REST_USER_API}/id-check`, { userId })
@@ -151,7 +150,7 @@ export async function idCheck(userId: String) {
 }
 
 // 이름 체크
-export async function nameCheck(userName: String) {
+export async function nameCheck(userName: string) {
   try {
     const response = await axios
       .post(`${REST_USER_API}/name-check`, { userName })
@@ -170,16 +169,17 @@ export async function selectInfo(userNo: number) {
   try {
     const response = await axios.get(`${REST_USER_API}/info/${userNo}`);
     return response.data;
-   } catch (e) {
-      console.log(e);
+  } catch (e) {
+    console.log(e);
   }
 }
 
-
 // zbti 업데이트
-export async function zbtiUpdate(userZbti: String) {
+export async function zbtiUpdate(userZbti: string) {
   try {
-    const response = await axiosPrivate.put(`${REST_USER_API}/zbti/${userZbti}`);
+    const response = await axiosPrivate.put(
+      `${REST_USER_API}/zbti/${userZbti}`
+    );
     console.log(response.data);
   } catch (e) {
     console.log(e);

@@ -76,7 +76,7 @@ export async function selectStockHistory(userNo: number) {
 }
 
 //종목검색
-export async function stockSearch(stockName: String) {
+export async function stockSearch(stockName: string) {
   try {
     const response = await axios.get(`${REST_PREDICT_API}/stock/search`, {
       params: {
@@ -88,7 +88,7 @@ export async function stockSearch(stockName: String) {
 }
 
 //현재 가격 조회
-export async function selectNowPrice(stockName?: String) {
+export async function selectNowPrice(stockName?: string) {
   try {
     const response = await axios.get(`${REST_PREDICT_API}/prevalue`, {
       params: {
@@ -100,7 +100,7 @@ export async function selectNowPrice(stockName?: String) {
 }
 
 //현재 가격 조회
-export async function checkPredict(userNo: number, stockName: String) {
+export async function checkPredict(userNo: number, stockName: string) {
   try {
     const response = await axios.get(`${REST_PREDICT_API}/check`, {
       params: {
@@ -113,7 +113,7 @@ export async function checkPredict(userNo: number, stockName: String) {
 }
 
 //랭킹
-export async function getZoostra(stockName: String) {
+export async function getZoostra(stockName: string) {
   try {
     const response = await axios.get(`${REST_PREDICT_API}/rank`, {
       params: {

@@ -19,7 +19,7 @@ function formatTime(createdAt: string) {
 
 function AlarmList() {
   const [alarmList, setAlarmList] = useState<Alarm[]>([]);
-  const [userId, setUserId] = useRecoilState(userIdState);
+  const [userId] = useRecoilState(userIdState);
 
   useEffect(() => {
     handleAlarmList();

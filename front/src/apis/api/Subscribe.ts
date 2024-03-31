@@ -1,4 +1,4 @@
-import { axios, axiosPrivate } from "../utils/axios";
+import { axiosPrivate } from "../utils/axios";
 import { securityAesEncode } from "../../apis/utils/security";
 
 export async function getUserApi() {
