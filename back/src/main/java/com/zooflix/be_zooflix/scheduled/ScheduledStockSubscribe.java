@@ -7,6 +7,7 @@ import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeProjection;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
@@ -45,17 +46,17 @@ public class ScheduledStockSubscribe {
         this.alarmRepository = alarmRepository;
     }
 
-    @Scheduled(cron = "0 35 16 * * ?")
+    @Scheduled(cron = "0 35 20 * * ?")
     public void performTask() throws IOException {
         // 특정 시간에 데이터베이스에서 주식 구독한 사람들 리스트 가져오기
 
-        List<StockSubscribeDto> stockSubscribers = stockSubscribeRepository.findTomorrowSubscribe();
+        List<StockSubscribeProjection> stockSubscribers = stockSubscribeRepository.findTomorrowSubscribe();
 
         if (stockSubscribers.size() == 0) {
             System.out.println("내일 날짜에 구독한 사용자가 없습니다.");
         } else {
             System.out.println("내일 날짜에 구독한 주식을 예약구매 하고 있습니다.");
-            for (StockSubscribeDto subscriber : stockSubscribers) {
+            for (StockSubscribeProjection subscriber : stockSubscribers) {
 
                 String AccessReturn = getAccessToken(subscriber);
                 System.out.println(AccessReturn);
@@ -81,7 +82,7 @@ public class ScheduledStockSubscribe {
         }
     }
 
-    public String getAccessToken(StockSubscribeDto subscriber) {
+    public String getAccessToken(StockSubscribeProjection subscriber) {
         // HttpClient 인스턴스 생성
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // API 엔드포인트 URL
@@ -129,9 +130,9 @@ public class ScheduledStockSubscribe {
         int day = tomorrow.getDayOfMonth();
 
         //내일 구독한 사용자들 찾기
-        List<StockSubscribeDto> subscribers = stockSubscribeRepository.findSubscribersForDay(day);
+        List<StockSubscribeProjection> subscribers = stockSubscribeRepository.findTomorrowSubscribe();
 
-        for(StockSubscribeDto subscriber : subscribers){
+        for(StockSubscribeProjection subscriber : subscribers){
             User stockSubscriber = userRepository.findByUserId(subscriber.getUserId());
             String content = "내일은 "+ subscriber.getStockName() + "주식을 정기 구독한 날입니다.";
             alarmService.send(stockSubscriber, content, AlarmTypeStatus.TOMORROW);
@@ -146,7 +147,7 @@ public class ScheduledStockSubscribe {
         }
     }
 
-    public String httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeDto subscriber) throws IOException {
+    public String httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeProjection subscriber) throws IOException {
 
         String totalUrl = "";
         totalUrl = UrlData.trim().toString();
@@ -203,7 +204,7 @@ public class ScheduledStockSubscribe {
                 }
 
                 //성공하면 구매 내역 테이블에 추가
-                stockSubscribeRepository.addStockPurchase();
+//                stockSubscribeRepository.addStockPurchase();
 
                 return returnData;
 

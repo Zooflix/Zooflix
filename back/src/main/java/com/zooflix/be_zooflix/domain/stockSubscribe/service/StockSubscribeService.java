@@ -34,7 +34,7 @@ public class StockSubscribeService {
     @Transactional
     public String postSubscribe(AddStockSubscribeRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
-
+        
         String requestAppKey = aesUtils.aesCBCDecode(request.getUserAppKey(), "api");
 
         if (!requestAppKey.isEmpty()) {
