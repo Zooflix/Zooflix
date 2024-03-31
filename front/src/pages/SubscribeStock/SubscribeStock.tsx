@@ -4,7 +4,7 @@ import SubscribeForm from "../../components/SubscribeStock/SubscribeForm";
 import { useRecoilState } from "recoil";
 import { userNameState } from "../../Store/UserState";
 import MySubscribeStock from "../../components/SubscribeStock/MySubscribeStock";
-import { getJwtUserId } from "../../apis/utils/jwt";
+import { getJwtUserName } from "../../apis/utils/jwt";
 
 function SubscribeStock() {
   const [userName, setUserName] = useRecoilState(userNameState);
@@ -15,7 +15,7 @@ function SubscribeStock() {
         <SubscribeForm />
       </SubscribeContainer>
       <SubscribeContainer>
-        <Title>{getJwtUserId()}님이 구독중인 주식 목록</Title>
+        <Title>{getJwtUserName()}님이 구독중인 주식 목록</Title>
         <MySubscribeStock />
       </SubscribeContainer>
     </Wrapper>
@@ -37,8 +37,8 @@ const SubscribeContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 23px;
-  font-weight: 1000;
+  font-size: 20px;
+  font-weight: bold;
   margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
 `;
