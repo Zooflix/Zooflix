@@ -45,6 +45,7 @@ function Mypage() {
       if (!localStorage.getItem("access")) {
         alert("로그인이 필요합니다.")
         navigate("/login");
+        return ;
       }
       else {
         //내 정보
