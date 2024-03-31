@@ -2,7 +2,9 @@ package com.zooflix.be_zooflix.domain.predict.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zooflix.be_zooflix.domain.alarm.entity.Alarm;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
+import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 import com.zooflix.be_zooflix.domain.predict.dto.*;
 
@@ -55,15 +57,17 @@ public class PredictService {
     private final PredictRepository predictRepository;
     private final UserRepository userRepository;
     private final AlarmService alarmService;
+    private final AlarmRepository alarmRepository;
     private final UserSubscribeRepository userSubscribeRepository;
     private final StockListRepository stockListRepository;
 
 
     @Autowired
-    public PredictService(PredictRepository predictRepository, UserRepository userRepository, AlarmService alarmService, UserSubscribeRepository userSubscribeRepository, StockListRepository stockListRepository) {
+    public PredictService(PredictRepository predictRepository, UserRepository userRepository, AlarmService alarmService, AlarmRepository alarmRepository, UserSubscribeRepository userSubscribeRepository, StockListRepository stockListRepository) {
         this.predictRepository = predictRepository;
         this.userRepository = userRepository;
         this.alarmService = alarmService;
+        this.alarmRepository = alarmRepository;
         this.userSubscribeRepository = userSubscribeRepository;
         this.stockListRepository = stockListRepository;
     }
@@ -135,8 +139,14 @@ public class PredictService {
         for (UserSubscribe subscriber : subscribers) {
             User subscriberUser = subscriber.getUser();
             alarmService.send(subscriberUser, content, AlarmTypeStatus.WRITE);
+            System.out.println("알림이 성공적으로 전송되었습니다. ->"+ content);
+
+//            Alarm alarm = new Alarm();
+//            alarm.setReceiverUser(subscriberUser);
+//            alarm.setContent(content);
+//            alarm.setAlarmType(AlarmTypeStatus.WRITE);
+//            alarmRepository.save(alarm);
         }
-        System.out.println("알림이 성공적으로 전송되었습니다. ->"+ content);
 
         return toDto(predictRepository.save(predict));
     }

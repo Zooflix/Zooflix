@@ -23,6 +23,7 @@ public class Alarm extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no", nullable = false)
+    @Setter
     private User receiverUser; //알림을 받는 사용자 -> receiver
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,9 +32,11 @@ public class Alarm extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "alarm_type", nullable = false)
+    @Setter
     private AlarmTypeStatus alarmType; //알림 종류
 
     @Column(name = "alarm_content")
+    @Setter
     private String content; // 알림 내용
 
     @Column(name = "alarm_create")

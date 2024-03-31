@@ -93,6 +93,8 @@ public class AlarmService {
         String userId = receiver.getUserId();
         Alarm alarm = createAlarm(receiver, content, type);
 
+//        alarmRepository.save(alarm);
+
         Map<String, Object> sseEmitters = emitterRepository.findAllEventCacheStartWithByEmail(userId);
         sseEmitters.forEach(
                 (key, emitter) -> {
@@ -100,6 +102,7 @@ public class AlarmService {
                     sendToClient((SseEmitter) emitter, key, alarm);
                 }
         );
+        //알람 db에 저장
     }
 
     //=============
@@ -115,7 +118,7 @@ public class AlarmService {
                     .build();
 
             // 내가 구독한 사람이 글 쓴 경우
-        }else if(type == AlarmTypeStatus.WRITE){
+        }else if(type == AlarmTypeStatus.WRITE) {
             return Alarm.builder()
                     .receiverUser(receiver)
                     .content(content)
@@ -123,6 +126,14 @@ public class AlarmService {
                     .isRead(false)
                     .build();
 
+            //내가 구독할 때
+        }else if(type == AlarmTypeStatus.USER){
+            return Alarm.builder()
+                    .receiverUser(receiver)
+                    .content(content)
+                    .alarmType(type)
+                    .isRead(false)
+                    .build();
 
             // 내가 구독한 사람이 매매한 경우
         }else if(type == AlarmTypeStatus.TRADING){
@@ -152,7 +163,7 @@ public class AlarmService {
                     .isRead(false)
                     .build();
         }else{
-            return null;
+            throw new IllegalArgumentException("Invalid alarm type: " + type);
         }
     }
 
