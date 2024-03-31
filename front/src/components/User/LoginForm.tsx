@@ -15,15 +15,15 @@ function LoginForm() {
   const [userId, setUserId] = useRecoilState(userIdState);
   const [userPw, setUserPw] = useRecoilState(userPwState);
 
-  const [access, setAccess] = useState(localStorage.getItem("access") || "");
+  // const [access, setAccess] = useState(localStorage.getItem("access") || "");
 
   const handleSignupClick = () => {
     navigate("/signup");
   };
 
   useEffect(() => {
-    const storedAccess = localStorage.getItem("access");
-    setAccess(storedAccess || "");
+    // const storedAccess = localStorage.getItem("access");
+    // setAccess(storedAccess || "");
   }, []);
 
   const handleLogin = async () => {

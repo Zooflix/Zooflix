@@ -38,55 +38,65 @@ function Mypage() {
   };
 
   // 임의의 인덱스값 userNo 넣음
-  const fetchData = async () => {
-    //내 정보
-    const dataInfo = await getMyInfo()
-      .then(resInfo => {
-        console.log(resInfo)
-        setMyPageInfo(resInfo);
-        console.log("마이인포: " + myPageInfo.userName);
-      })
-      .catch(error => {
-        console.log("에러메세지" + error.message);
-        console.error(error);
-      });
-
-    const dataPredict = await getMyPredictList()
-      .then(resPredict => {
-        setMyPagePredictList(resPredict);
-        console.log("프리딕트: " + myPagePredictList);
-      })
-      .catch(error => {
-        console.log("에러메세지: " + error.message);
-        console.error(error);
-      });
-
-    const dataSubscribe = await getMySubscribeList()
-      .then(resSubscribe => {
-        setMyPageSubscribeList(resSubscribe);
-        console.log("내가 구독한 사람 목록 : " + myPageSubscribeList)
-      })
-      .catch(error => {
-        console.log("에러메세지: " + error.message);
-        console.error(error);
-      });
-
-    const dataStock = await getMyStockList(userId)
-      .then(resStock => {
-        setMyStockList(resStock);
-        console.log("내 주식 구독 목록 : " + myStockList);
-      })
-      .catch(error => {
-        console.log("에러메세지: " + error.message);
-        console.error(error);
-      });
-  };
+  
 
   const userId = "user1";
 
   useEffect(() => {
+    
+    const fetchData = async () => {
+      if (!localStorage.getItem("access")) {
+        alert("로그인이 필요합니다.")
+        navigate("/login");
+      }
+      else {
+        //내 정보
+        const dataInfo = await getMyInfo()
+        .then(resInfo => {
+            console.log(resInfo)
+            setMyPageInfo(resInfo);
+            console.log("마이인포: " + myPageInfo.userName);
+        })
+        .catch(error => {
+            console.log("에러메세지" + error.message);
+            console.error(error);
+        });
+
+        const dataPredict = await getMyPredictList()
+        .then(resPredict => {
+            setMyPagePredictList(resPredict);
+            console.log("프리딕트: " + myPagePredictList);
+        })
+        .catch(error => {
+            console.log("에러메세지: " + error.message);
+            console.error(error);
+        });
+
+        const dataSubscribe = await getMySubscribeList()
+        .then(resSubscribe => {
+            setMyPageSubscribeList(resSubscribe);
+            console.log("내가 구독한 사람 목록 : " + myPageSubscribeList)
+        })
+        .catch(error => {
+            console.log("에러메세지: " + error.message);
+            console.error(error);
+        });
+
+        const dataStock = await getMyStockList(userId)
+        .then(resStock => {
+            setMyStockList(resStock);
+            console.log("내 주식 구독 목록 : " + myStockList);
+        })
+        .catch(error => {
+            console.log("에러메세지: " + error.message);
+            console.error(error);
+        });
+      }
+      
+    };
+
     fetchData();
-  }, []);
+  }, [navigate]);
 
   return (
     <Wrapper>
