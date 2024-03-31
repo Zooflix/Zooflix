@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../apis/api/User";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { userIdState, userPwState } from "../../Store/UserState";
+import { userIdState } from "../../Store/UserState";
 import UserBack from "./UserBack";
 import BackBtn from "../Common/BackBtn";
 
@@ -13,7 +13,6 @@ function LoginForm() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [userId, setUserId] = useRecoilState(userIdState);
-  const [userPw, setUserPw] = useRecoilState(userPwState);
 
   const [access, setAccess] = useState(localStorage.getItem("access") || "");
 
@@ -31,7 +30,6 @@ function LoginForm() {
       const result = await loginUser(id, password);
       if (result == 200) {
         setUserId(id);
-        setUserPw(password);
         navigate("/main");
       } else {
         alert("아이디나 비밀번호를 확인해주세요.");
