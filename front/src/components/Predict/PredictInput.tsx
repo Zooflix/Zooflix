@@ -11,40 +11,42 @@ type InputProps = {
 };
 
 function PredictCostInput(props: InputProps) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value, type, min, max } = e.target;
-      if (type === "date" && (min || max)) {
-          const selectedDate = new Date(value);
-          const minDate = min ? new Date(min) : null;
-          const maxDate = max ? new Date(max) : null;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value, type, min, max } = e.target;
+        if (type === "date" && (min || max)) {
+            const selectedDate = new Date(value);
+            const minDate = min ? new Date(min) : null;
+            const maxDate = max ? new Date(max) : null;
 
-          if ((minDate && selectedDate < minDate) || (maxDate && selectedDate > maxDate)) {
-              e.target.value = "";
-              return;
-          }
-      }
+            if (
+                (minDate && selectedDate < minDate) ||
+                (maxDate && selectedDate > maxDate)
+            ) {
+                e.target.value = "";
+                return;
+            }
+        }
 
-      if (type === "date") {
-          props.onDateChange?.(e.target.value);
-          
-      } else {
-        props.onPriceChange?.(parseInt(e.target.value));
-      }
-  };
+        if (type === "date") {
+            props.onDateChange?.(e.target.value);
+        } else {
+            props.onPriceChange?.(parseInt(e.target.value));
+        }
+    };
 
-  return (
-      <Wrapper>
-          <label className="small-title">{props.text}</label>
-          <input
-              type={props.type}
-              min={props.min}
-              max={props.max}
-              required
-              aria-required="true"
-              onChange={handleChange}
-          />
-      </Wrapper>
-  );
+    return (
+        <Wrapper>
+            <label className="small-title">{props.text}</label>
+            <input
+                type={props.type}
+                min={props.min}
+                max={props.max}
+                required
+                aria-required="true"
+                onChange={handleChange}
+            />
+        </Wrapper>
+    );
 }
 
 export default PredictCostInput;

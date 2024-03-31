@@ -56,12 +56,14 @@ const Wrapper = styled.div`
   max-height: 580px;
   scrollbar-color: #a5a5a5;
   scrollbar-width: thin;
+  border: none;
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   text-align: center;
+  border: none;
 `;
 
 const LeftSide = styled.div`
@@ -70,11 +72,13 @@ const LeftSide = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border: none;
 `;
 
-const CardSection = styled.div``;
+const CardSection = styled.div`
+  border: none;
+`;
 
 const RightSide = styled.div`
-  //   width: 330px;
   flex-direction: column;
 `;

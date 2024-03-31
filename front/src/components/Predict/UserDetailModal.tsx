@@ -44,23 +44,6 @@ function UserDetailModal({
     userPageSubscribeListState
   );
 
-  // let successCnt = 0; //성공 횟수
-  // let successRate = 0;  //성공 확률
-
-  // userPagePredictList.forEach((item) => {
-  //     if (item.pdResult === "성공") {
-  //         successCnt += 1;
-  //     }
-  // });
-
-  // // 소수점 둘째 짜리까지 성공 비율 -> rate
-  // let rateOfPredict = Math.round(
-  //   successCnt / userPagePredictList.length * 100
-  // );
-
-  // let rate = Math.round(rateOfPredict * 100) / 100;
-  // successRate = rate;
-
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -118,7 +101,6 @@ function UserDetailModal({
                   transparency="rgba(122,211,255,0.1)"
                   imgWidth="200px"
                 />
-                {/* {userInfo.userTemperature}℃ */}
               </GraphContainer>
               <LineContainer>
                 <Line>

@@ -41,10 +41,11 @@ function ContentHeader(props: ContentHeaderProps) {
           </ContentTabList>
         </ContentHeaderTab>
       </ContentTabHeader>
-
-      {selectedTab === "my-predictions" && (
-        <PredictList currentPage={myPagePredictList} />
-      )}
+      <List>
+        {selectedTab === "my-predictions" && (
+          <PredictList currentPage={myPagePredictList} />
+        )}
+      </List>
       {selectedTab === "my-subscriptions" && <MySubscribeList />}
     </Wrapper>
   );
@@ -79,6 +80,11 @@ const ContentTabListItemSpan = styled.div<{ selected: boolean }>`
   color: ${({ selected }) => (selected ? "black" : "rgba(8, 8, 8, 0.5)")};
   cursor: pointer;
   -webkit-font-smoothing: antialiased;
+`;
+
+const List = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export default ContentHeader;

@@ -11,7 +11,7 @@ function CardList({ myStockList }: Props) {
     <Wrapper>
       <Container>
         {myStockList.map((card, index) => (
-          <Card key={index} card={card} />
+          <Card key={index} card={card} cardIndex={index} />
         ))}
       </Container>
     </Wrapper>
@@ -20,7 +20,6 @@ function CardList({ myStockList }: Props) {
 
 export default CardList;
 const Wrapper = styled.div`
-  width: 1000px;
   border: none;
   border-radius: 30px;
   background-color: white;
@@ -36,7 +35,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   overflow-y: auto;
-  flex-direction: column;
+  flex-direction: row;
   overflow-y: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar {

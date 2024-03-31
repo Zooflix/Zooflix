@@ -59,7 +59,7 @@ export default AlarmList;
 const Wrapper = styled.div`
   p {
     color: white;
-    padding: 10px 20px;
+    padding: 0px 20px;
   }
 
   .noalarm {

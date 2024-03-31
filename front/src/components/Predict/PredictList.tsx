@@ -13,15 +13,26 @@ import Feedbtn from "../../assets/img/button/Feedbtn.svg";
 import FeedOpenbtn from "../../assets/img/button/FeedOpenbtn.svg";
 import UserDetailModal from "./UserDetailModal";
 import ReportModal from "./ReportModal";
+import DeleteModal from "./DeleteModal";
 
-type FeedProps = {
+interface FeedProps {
     pdUpDown: boolean;
     pdResult: string;
-};
+}
 
 type PredictProps = {
     currentPage: any[];
 };
+
+const Click = styled.div`
+    display: none;
+    padding: 20px 30px 20px 30px;
+    flex-direction: column;
+`;
+
+const ClickWithOpen = styled(Click)<{ isOpen: boolean }>`
+    display: ${(props) => (props.isOpen ? "flex" : "none")};
+`;
 
 function PredictList(props: PredictProps) {
     const [userNo, setUserNo] = useState(0);
@@ -53,19 +64,6 @@ function PredictList(props: PredictProps) {
         });
     };
 
-    const handleDelete = async (pdNo: number) => {
-        const isConfirmed = window.confirm("삭제 시 예측 실패로 처리됩니다.\n글을 삭제하시겠습니까?");
-        if (!isConfirmed) {
-            return;
-        }
-        try {
-            await deletePredict(pdNo);
-            window.location.reload();
-        } catch (error) {
-            console.log("Error deleting data:", error);
-        }
-    };
-
     useEffect(() => {
         setOpenItems([]);
         let no = 0;
@@ -76,16 +74,6 @@ function PredictList(props: PredictProps) {
         }
         setUserNo(no);
     }, [props.currentPage]);
-
-    interface ClickProps {
-        isOpen: boolean;
-    }
-
-    const Click = styled.div<ClickProps>`
-        display: ${(props) => (props.isOpen ? "flex" : "none")};
-        padding: 20px 30px 20px 30px;
-        flex-direction: column;
-    `;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = (userName: string, userNo: number) => {
@@ -100,8 +88,16 @@ function PredictList(props: PredictProps) {
         setIsModalOpen2(true);
     };
 
+    //삭제 모달
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const deleteModal = (pdNo: number) => {
+        setSelectedPdNo(pdNo);
+        setIsDeleteModalOpen(true);
+    };
+
     const closeModal = () => setIsModalOpen(false);
     const closeModal2 = () => setIsModalOpen2(false);
+    const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
     return (
         <Wrapper>
@@ -179,14 +175,15 @@ function PredictList(props: PredictProps) {
                                 />
                             </button>
                         </Noncllick>
-                        <Click isOpen={openItems.includes(item.pdNo)}>
+                        <ClickWithOpen isOpen={openItems.includes(item.pdNo)}>
                             <Content>{item.pdContent}</Content>
                             <FeedIcon>
                                 {userNo === item.userNo ? (
                                     <img
                                         src={Deletebtn}
                                         alt="삭제"
-                                        onClick={() => handleDelete(item.pdNo)}
+                                        onClick={() => deleteModal(item.pdNo)}
+                                        // onClick={() => handleDelete(item.pdNo)}
                                     />
                                 ) : (
                                     <img
@@ -198,7 +195,7 @@ function PredictList(props: PredictProps) {
                                     />
                                 )}
                             </FeedIcon>
-                        </Click>
+                        </ClickWithOpen>
                     </Feed>
                 ))}
             {/* 모달 */}
@@ -214,6 +211,11 @@ function PredictList(props: PredictProps) {
                         isModalOpen={isModalOpen2}
                         closeModal={closeModal2}
                         userNo={selectUserNo}
+                        pdNo={selectedPdNo}
+                    />
+                    <DeleteModal
+                        isModalOpen={isDeleteModalOpen}
+                        closeModal={closeDeleteModal}
                         pdNo={selectedPdNo}
                     />
                 </>

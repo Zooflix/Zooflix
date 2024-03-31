@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import AlarmModal from "../Alarm/AlarmModal";
 import { logoutUser } from "../../apis/api/User";
 import { loginCheck } from "../User/IsLoginCheck";
+import { getJwtUserId } from "../../apis/utils/jwt";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +35,7 @@ function Header() {
       </ImgContainer>
       <LoginContainer>
         {isLogin ? (
-          <div
+          <LoginWrapper
             onClick={handleLogout}
             style={{
               cursor: "pointer",
@@ -42,8 +43,9 @@ function Header() {
               color: "black",
             }}
           >
-            로그아웃
-          </div>
+            <div>{getJwtUserId()}님 반가워요!</div>
+            <Button>로그아웃</Button>
+          </LoginWrapper>
         ) : (
           <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
             <div>로그인</div>
@@ -91,6 +93,7 @@ const LoginContainer = styled.div`
 const CircleContainer = styled.div`
   margin-top: 50px;
   margin-left: 10px;
+  margin-right: 10px;
 `;
 
 const CircleMotion = keyframes`
@@ -114,4 +117,18 @@ const Circle = styled.div`
   &:hover {
     // animation: ${CircleMotion} 1s infinite alternate;
   }
+`;
+
+const Button = styled.button`
+  border: none;
+  background-color: #2a4263;
+  padding: 10px;
+  color: white;
+  border-radius: 15px;
+  margin-left: 10px;
+`;
+
+const LoginWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
 `;

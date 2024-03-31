@@ -37,8 +37,8 @@ const SubscribeContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 23px;
-  font-weight: 1000;
+  font-size: 20px;
+  font-weight: bold;
   margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
 `;
