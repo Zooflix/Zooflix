@@ -15,7 +15,7 @@ const SubscribeStockList: React.FC = () => {
     <Wrapper>
       <Container>
         {userStockList.map((card, index) => (
-          <Card key={index} card={card} />
+          <Card key={index} card={card} cardIndex={index} />
         ))}
       </Container>
     </Wrapper>

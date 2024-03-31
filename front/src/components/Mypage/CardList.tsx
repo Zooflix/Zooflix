@@ -11,7 +11,7 @@ function CardList({ myStockList }: Props) {
     <Wrapper>
       <Container>
         {myStockList.map((card, index) => (
-          <Card key={index} card={card} />
+          <Card key={index} card={card} cardIndex={index} />
         ))}
       </Container>
     </Wrapper>

@@ -11,47 +11,53 @@ interface ItemProps {
     stockSubscribeCreate: Date;
     userNo: number;
   };
+  cardIndex: number;
 }
 
-const SubscribeStockListItem: React.FC<ItemProps> = ({ card }) => {
+const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
+  const color = [
+    "linear-gradient(180deg, rgba(172, 228, 152, 0.95) 6.05%, rgba(211, 249, 194, 0.95) 33.05%, rgba(196, 236, 214, 0.95) 58.05%, rgba(175, 227, 239, 0.95) 81.05%, rgba(130, 211, 228, 0.95) 106.05%)",
+    "linear-gradient(180deg, rgba(255, 124, 124, 0.95) 6.05%, rgba(255, 161, 108, 0.95) 42.05%, rgba(255, 172, 74, 0.95) 60.55%, rgba(255, 190, 89, 0.95) 75.55%, rgba(255, 225, 120, 0.95) 106.05%)",
+    "linear-gradient(180deg, rgba(255, 108, 196, 0.95) 6.05%, rgba(255, 171, 227, 0.95) 50.15%, rgba(255, 255, 255, 0.95) 106.05%)",
+    "linear-gradient(180deg, rgba(104, 183, 255, 0.95) 6.05%, rgba(128, 194, 255, 0.95) 42.05%, rgba(164, 211, 255, 0.95) 60.55%, rgba(185, 222, 255, 0.95) 75.55%, rgba(228, 242, 255, 0.95) 106.05%)",
+  ];
+
   return (
-    <div>
-      <Card>
-        <Wrapper>
-          <Front>
-            <Title>{card && card.stockName}</Title>
-            <Writer>{card.stockCount}</Writer>
-          </Front>
-          <Back>
-            <Content>pp</Content>
-          </Back>
-        </Wrapper>
-      </Card>
-    </div>
+    <CardWrapper>
+      <Wrapper color={color[cardIndex % 4]}>
+        <Front>
+          <Title>{card && card.stockName}</Title>
+          <Writer>{card.stockCount}</Writer>
+        </Front>
+        <Back>
+          <Content>
+            <div>{card.stockSubscribeCreate}</div>
+            <Button>구독 해지</Button>
+          </Content>
+        </Back>
+      </Wrapper>
+    </CardWrapper>
   );
 };
 
-export default SubscribeStockListItem;
+export default Card;
 
-const Wrapper = styled.div`
-  width: 230px;
+const Wrapper = styled.div<{ color: string }>`
+  width: 200px;
   height: 120px;
-  position: relative;
-  transition: all 0.5s;
+  margin: 10px;
+  transition: all 1s;
   transform-style: preserve-3d;
-  border: 3px solid gray;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background: ${(props) => props.color};
   border: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
 `;
-const Card = styled.div`
-  width: 200px;
-  height: 200px;
-  perspective: 1100px;
+const CardWrapper = styled.div`
   &:hover ${Wrapper} {
     transform: rotateY(180deg);
   }
@@ -61,7 +67,8 @@ const Front = styled.div`
   height: 100%;
   position: absolute;
   backface-visibility: hidden;
-  color: black;
+  color: white;
+  padding: 10px 20px;
 
   display: flex;
   flex-direction: column;
@@ -109,4 +116,15 @@ const Content = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+`;
+
+const Button = styled.button`
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  box-shadow: 4px 4px 20px -10px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 10px;
+  color: #ff5b5b;
+  font-weight: bold;
+  cursor: pointer;
 `;
