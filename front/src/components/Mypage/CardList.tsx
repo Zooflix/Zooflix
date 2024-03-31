@@ -11,7 +11,7 @@ function CardList({ myStockList }: Props) {
     <Wrapper>
       <Container>
         {myStockList.map((card, index) => (
-          <Card key={index} card={card} />
+          <Card key={index} card={card} cardIndex={index} />
         ))}
       </Container>
     </Wrapper>
@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   overflow-y: auto;
-  flex-direction: column;
+  flex-direction: row;
   overflow-y: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar {
