@@ -23,4 +23,10 @@ public class MyInfoDto {
         this.userTemperature = userTemperature;
         this.userZbti = userZbti;
     }
+
+    public MyInfoDto(int userNo, String userName, double userTemperature) {
+        this.userNo = userNo;
+        this.userName = userName;
+        this.userTemperature = userTemperature;
+    }
 }

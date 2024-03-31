@@ -30,7 +30,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     UserKeyProjection findByUserNo(int userNo);
 
     //구독한 사람의 닉네임과 온도
-    @Query("select new com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto(u.userName, u.userTemperature) from User u where u.userNo = :subscribeUserNo")
+    @Query("select new com.zooflix.be_zooflix.domain.myPage.dto.response.MyInfoDto(u.userNo, u.userName, u.userTemperature) from User u where u.userNo = :subscribeUserNo")
     MyInfoDto findByUserId(@Param("subscribeUserNo") int subscribeUserNo);
     
     //구독한 사람 목록을 온도로 내림차순 정렬
