@@ -1,17 +1,17 @@
 export function getJwtUserNo() {
-    const token = localStorage.getItem('access');
-    const decoded = require('jwt-decode').jwtDecode(token);
-    return decoded.userNo;
+  const token = localStorage.getItem("access");
+  const decoded = require("jwt-decode").jwtDecode(token);
+  return decoded.userNo;
 }
 
 export function getJwtUserId() {
-    const token = localStorage.getItem('access');
-    const decoded = require('jwt-decode').jwtDecode(token);
-    return decoded.userId;
+  const token = localStorage.getItem("access");
+  const decoded = require("jwt-decode").jwtDecode(token);
+  return decoded.userId;
 }
 
 export function getJwtUserName() {
-    const token = localStorage.getItem('access');
-    const decoded = require('jwt-decode').jwtDecode(token);
-    return decoded.userName;
+  const token = localStorage.getItem("access");
+  const decoded = require("jwt-decode").jwtDecode(token);
+  return decoded.userName;
 }
