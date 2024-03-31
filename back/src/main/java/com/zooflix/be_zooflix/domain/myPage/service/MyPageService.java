@@ -121,18 +121,17 @@ public class    MyPageService {
 
         List<MySubscribeDto> mySubscribeList = new ArrayList<>();
 
-        List<MyInfoDto> myInfoList = new ArrayList<>(); //유저 목록을 모아서 온도로 내림차순하기 위해 필요
-
         for(UserSubscribe val : userSubscribeFromMe){
-            MyInfoDto myInfoDto = userRepository.findByUserId(val.getSubscribeUserNo());
+            MyInfoDto myInfoDto = userRepository.findByUserId(val.getSubscribeUserNo());    //유저 정보 가져오기
             MySubscribeDto mySubscribeDto = new MySubscribeDto();
 
             mySubscribeDto.setSubscribeNo(val.getSubscribeNo());
-            mySubscribeDto.setSubscribeName(myInfoDto.getUserName());
-            mySubscribeDto.setSubscribeTemperature(myInfoDto.getUserTemperature());
+            mySubscribeDto.setSubscribeName(myInfoDto.getUserName());   //유저 닉네임
+            mySubscribeDto.setSubscribeTemperature(myInfoDto.getUserTemperature()); //유저 온도
 
             mySubscribeList.add(mySubscribeDto);
         }
+
         return mySubscribeList;
     }
 
