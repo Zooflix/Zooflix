@@ -6,10 +6,7 @@ import com.zooflix.be_zooflix.domain.report.entity.Report;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
 import com.zooflix.be_zooflix.domain.userSubscribe.entity.UserSubscribe;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -42,6 +39,7 @@ public class User {
     private int successCount = 0;
     @Column
     private int failCount = 0;
+    @Setter
     @Column
     private double userTemperature = 30.0;
     @Column

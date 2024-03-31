@@ -169,11 +169,13 @@ public class PredictService {
         for (Predict prediction : todayPredictions) {
             int nxtValue = getClosingPrice(prediction.getStockName(), prediction.getPdDate().toString());
             prediction.setNxtValue(nxtValue);
+                User user = prediction.getUser();
             if (isSuccessful(prediction)) {
                 prediction.setPdResult("성공");
                 String content = prediction.getStockName()+"의 예측이 성공했습니다";
-                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
+                user.setUserTemperature(prediction.getUser().getUserTemperature()+1);
 
+                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
                 Alarm alarm = new Alarm();
                 alarm.setReceiverUser(prediction.getUser());
                 alarm.setContent(content);
@@ -184,8 +186,9 @@ public class PredictService {
             } else {
                 prediction.setPdResult("실패");
                 String content = prediction.getStockName() + "의 예측이 실패했습니다.";
-                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
+                user.setUserTemperature(prediction.getUser().getUserTemperature()-0.2);
 
+                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
                 Alarm alarm = new Alarm();
                 alarm.setReceiverUser(prediction.getUser());
                 alarm.setContent(content);
@@ -194,6 +197,7 @@ public class PredictService {
                 alarm.setCreatedAt(LocalDateTime.now());
                 alarmRepository.save(alarm);
             }
+            userRepository.save(user);
             predictRepository.save(prediction);
         }
 
