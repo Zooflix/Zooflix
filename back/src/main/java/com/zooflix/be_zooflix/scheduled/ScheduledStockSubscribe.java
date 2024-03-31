@@ -18,6 +18,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.apache.http.HttpEntity;
@@ -140,6 +141,7 @@ public class ScheduledStockSubscribe {
             alarm.setContent(content);
             alarm.setAlarmType(AlarmTypeStatus.TOMORROW);
             alarm.setIsRead(false);
+            alarm.setCreatedAt(LocalDateTime.now());
             alarmRepository.save(alarm);
         }
     }

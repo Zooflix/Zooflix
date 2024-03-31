@@ -40,6 +40,7 @@ public class Alarm extends BaseTimeEntity {
     private String content; // 알림 내용
 
     @Column(name = "alarm_create")
+    @Setter
     private LocalDateTime createdAt; // 알림 발생 시점
 
     @Column(name = "is_read", nullable = false)
@@ -47,12 +48,13 @@ public class Alarm extends BaseTimeEntity {
     private Boolean isRead; // 알림 확인 여부
 
     @Builder
-    public Alarm(User receiverUser, User senderUser, AlarmTypeStatus alarmType, String content, Boolean isRead) {
+    public Alarm(User receiverUser, User senderUser, AlarmTypeStatus alarmType, String content, Boolean isRead, LocalDateTime createdAt) {
         this.receiverUser = receiverUser;
         this.senderUser = senderUser;
         this.alarmType = alarmType;
         this.content = content;
         this.isRead = isRead;
+        this.createdAt = createdAt;
     }
 
 

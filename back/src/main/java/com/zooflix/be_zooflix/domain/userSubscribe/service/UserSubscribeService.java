@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -55,6 +56,8 @@ public class UserSubscribeService {
         alarm.setContent(content);
         alarm.setAlarmType(AlarmTypeStatus.USER);
         alarm.setIsRead(false);
+        alarm.setCreatedAt(LocalDateTime.now());
+
         alarmRepository.save(alarm);
         System.out.println("성공적 알람 ok");
 

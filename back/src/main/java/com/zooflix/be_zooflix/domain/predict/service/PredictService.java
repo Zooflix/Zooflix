@@ -148,6 +148,7 @@ public class PredictService {
             alarm.setContent(content);
             alarm.setAlarmType(AlarmTypeStatus.WRITE);
             alarm.setIsRead(false);
+            alarm.setCreatedAt(LocalDateTime.now());
             alarmRepository.save(alarm);
         }
             System.out.println("알림이 성공적으로 전송되었습니다. ->"+ content);
@@ -189,6 +190,7 @@ public class PredictService {
                 alarm.setContent(content);
                 alarm.setAlarmType(AlarmTypeStatus.RESULT);
                 alarm.setIsRead(false);
+                alarm.setCreatedAt(LocalDateTime.now());
                 alarmRepository.save(alarm);
             } else {
                 prediction.setPdResult("실패");
@@ -200,6 +202,7 @@ public class PredictService {
                 alarm.setContent(content);
                 alarm.setAlarmType(AlarmTypeStatus.RESULT);
                 alarm.setIsRead(false);
+                alarm.setCreatedAt(LocalDateTime.now());
                 alarmRepository.save(alarm);
             }
             predictRepository.save(prediction);
