@@ -27,11 +27,14 @@ interface InputProps {
   placeholder?: string;
   text: string;
   stockCntChange: (stock: number) => void;
+  stockCnt: number;
+  stockName?: string;
 }
 
 function QuantityInput(props: InputProps) {
   const [currentTime, setCurrentTime] = useState<string>("");
   const [isClicked, setIsClicked] = useState(false);
+  const [nowPrice, setNowPrice] = useState(0);
 
   const setTime = async () => {
     const today = new Date();
@@ -50,6 +53,15 @@ function QuantityInput(props: InputProps) {
     setIsClicked(true); // 버튼 클릭 시 회전
     setTimeout(() => setIsClicked(false), 500);
   };
+
+  const fetchData = async () => {
+    const result = await selectNowPrice(props.stockName);
+    setNowPrice(result * props.stockCnt);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [props.stockName, props.stockCnt]);
 
   function current() {
     return (
@@ -79,25 +91,29 @@ function QuantityInput(props: InputProps) {
         />{" "}
         주
       </InputContainer>
-      <span>
-        예상가격 <br />
-        <span className="highlighter">780000원</span>
-      </span>
-      <ImgBtn
-        src={Refreshbtn}
-        style={{
-          ...refreshStyle,
-          transform: isClicked ? "rotate(-360deg)" : "rotate(0deg)",
-          transition: isClicked ? "transform 0.5s ease" : "none",
-        }}
-        onClick={refreshPrice}
-      />
-      <ImgBtn src={Informationbtn} style={informationStyle}>
-        <span className="info-highlight">
-          현재 시장가 x 수량 <br />
-          {currentTime}
-        </span>
-      </ImgBtn>
+      {nowPrice > 1 && (
+        <>
+          <span>
+            예상가격 <br />
+            <span className="highlighter">{nowPrice}원</span>
+          </span>
+          <ImgBtn
+            src={Refreshbtn}
+            style={{
+              ...refreshStyle,
+              transform: isClicked ? "rotate(-360deg)" : "rotate(0deg)",
+              transition: isClicked ? "transform 0.5s ease" : "none",
+            }}
+            onClick={refreshPrice}
+          />
+          <ImgBtn src={Informationbtn} style={informationStyle}>
+            <span className="info-highlight">
+              현재 시장가 x 수량 <br />
+              {currentTime}
+            </span>
+          </ImgBtn>
+        </>
+      )}
     </Wrapper>
   );
 }

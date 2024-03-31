@@ -24,7 +24,7 @@ function SubscribeForm() {
     stockCode: string;
   } | null>(null);
   const [subscribeDay, setSubscribeDay] = useState(1);
-  const [stockCnt, setStockCnt] = useState(1);
+  const [stockCnt, setStockCnt] = useState(0);
   const [account, setAccount] = useState("");
   const [appkey, setAppkey] = useState("");
   const [secretkey, setSecretkey] = useState("");
@@ -55,7 +55,12 @@ function SubscribeForm() {
             placeholder="구독일"
             onDayChange={setSubscribeDay}
           />
-          <QuantityInput text="수량" stockCntChange={setStockCnt} />
+          <QuantityInput
+            text="수량"
+            stockCntChange={setStockCnt}
+            stockCnt={stockCnt}
+            stockName={stock?.stockName}
+          />
         </FirstContainer>
         {!accessToken ? (
           <SecondContainer>
