@@ -5,15 +5,11 @@ import third from "../../assets/img/rank/third.svg";
 
 interface Props {
   stockRank: any[];
+  zbti: Map<string, string>;
 }
 
-function StockRank({ stockRank }: Props) {
+function StockRank({ stockRank, zbti }: Props) {
   const rankArr = [first, second, third];
-  let zbti = new Map();
-  zbti.set("Lion", "일단 다 사자");
-  zbti.set("Monkey", "재간둥이 원숭이");
-  zbti.set("Pig", "저금왕 돼지");
-  zbti.set("Rabbit", "팔랑귀 토끼");
 
   return (
     <RankWrapper>
