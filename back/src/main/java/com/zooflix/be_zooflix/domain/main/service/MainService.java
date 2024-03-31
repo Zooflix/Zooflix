@@ -56,7 +56,6 @@ public class MainService {
         List<StockRankingProjection> stockRankingList = stockSubscribeRepository.getStockRanking();
 
         double[] indices = callIndicesEndpoint();
-        System.out.println(indices);
 
         return new MainDto(indices[0], indices[1], indices[2], userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
     }
