@@ -10,7 +10,7 @@ import { loginCheck } from "../User/IsLoginCheck";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(loginCheck()); 
+  const [isLogin, setIsLogin] = useState(loginCheck());
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -20,11 +20,11 @@ function Header() {
     setIsLogin(false); // 로그인 상태 업데이트
   };
 
-  const [access, setAccess] = useState(localStorage.getItem('access') || '');
+  const [access, setAccess] = useState(localStorage.getItem("access") || "");
 
   useEffect(() => {
-    const storedAccess = localStorage.getItem('access');
-    setAccess(storedAccess || '');
+    const storedAccess = localStorage.getItem("access");
+    setAccess(storedAccess || "");
   }, []);
 
   return (
@@ -33,24 +33,32 @@ function Header() {
         <img src={Logo} alt="logo" className="logo" />
       </ImgContainer>
       <LoginContainer>
-        {
-          isLogin ? (
-            <div onClick={ handleLogout } style={{ cursor: "pointer", textDecoration: "none", color: "black" }}>
-              로그아웃
-            </div>
-          ) : (
-            <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-              <div>로그인</div>
-            </Link>
-          )
-        }
-        
-        {/* 누르면 모달 */}
+        {isLogin ? (
+          <div
+            onClick={handleLogout}
+            style={{
+              cursor: "pointer",
+              textDecoration: "none",
+              color: "black",
+            }}
+          >
+            로그아웃
+          </div>
+        ) : (
+          <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+            <div>로그인</div>
+          </Link>
+        )}
+
         <CircleContainer>
-          <Circle onClick={openModal}>
-            <img src={alarmbtn} alt="alarmbtn" />
-          </Circle>
-          <AlarmModal isModalOpen={isModalOpen} closeModal={closeModal} />
+          {isLogin ? (
+            <div>
+              <Circle onClick={openModal}>
+                <img src={alarmbtn} alt="alarmbtn" />
+              </Circle>
+              <AlarmModal isModalOpen={isModalOpen} closeModal={closeModal} />
+            </div>
+          ) : null}
         </CircleContainer>
       </LoginContainer>
     </Container>

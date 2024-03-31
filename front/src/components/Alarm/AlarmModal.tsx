@@ -21,6 +21,7 @@ function AlarmModal({ isModalOpen, closeModal }: AlarmModalProps) {
   const handleRemoveAlarm = async () => {
     try {
       await RemoveAlarm();
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
