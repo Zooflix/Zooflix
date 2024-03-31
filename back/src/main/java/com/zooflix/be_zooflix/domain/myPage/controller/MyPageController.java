@@ -35,7 +35,9 @@ public class MyPageController {
         if(customUserDetails == null) {
             throw new RuntimeException("토큰이 존재하지 않습니다.");
         }
+
         List<MyPredictionDto> myPredict = myPageService.getMyPredictByNo(customUserDetails.getUserNo());
+
         return ResponseEntity.ok(myPredict);
     }
 
