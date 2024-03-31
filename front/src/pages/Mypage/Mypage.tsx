@@ -43,7 +43,7 @@ function Mypage() {
     const dataInfo = await getMyInfo()
       .then(resInfo => {
         console.log(resInfo)
-        setMyPageInfo(resInfo?.data);
+        setMyPageInfo(resInfo);
         console.log("마이인포: " + myPageInfo.userName);
       })
       .catch(error => {
