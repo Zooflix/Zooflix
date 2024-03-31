@@ -51,23 +51,23 @@ function UserDetailModal({
         userPageSubscribeListState
     );
 
-    let successCnt = 0; //성공 횟수
-    let successRate = 0;  //성공 확률
+    // let successCnt = 0; //성공 횟수
+    // let successRate = 0;  //성공 확률
 
 
-    userPagePredictList.forEach((item) => {
-        if (item.pdResult === "성공") {
-            successCnt += 1;
-        }
-    });
+    // userPagePredictList.forEach((item) => {
+    //     if (item.pdResult === "성공") {
+    //         successCnt += 1;
+    //     }
+    // });
 
-    // 소수점 둘째 짜리까지 성공 비율 -> rate
-    let rateOfPredict = Math.round(
-      successCnt / userPagePredictList.length * 100
-    );
+    // // 소수점 둘째 짜리까지 성공 비율 -> rate
+    // let rateOfPredict = Math.round(
+    //   successCnt / userPagePredictList.length * 100
+    // );
 
-    let rate = Math.round(rateOfPredict * 100) / 100;
-    successRate = rate;
+    // let rate = Math.round(rateOfPredict * 100) / 100;
+    // successRate = rate;
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -127,13 +127,13 @@ function UserDetailModal({
                             <LineContainer>
                                 <Line>
                                     <label>총 예측 횟수</label>
-                                    {userPagePredictList.length}
+                                    {userPageInfo.predictCount}
                                 </Line>
                                 <Line>
-                                    <label>예측 성공 횟수</label> {successCnt}
+                                    <label>예측 성공 횟수</label> {userPageInfo.successCount}
                                 </Line>
                                 <Line>
-                                    <label>예측률</label> {successRate}%
+                                    <label>예측률</label> {userPageInfo.predictionRate}%
                                 </Line>
                                 <Line>
                                     <label>구독</label>{" "}

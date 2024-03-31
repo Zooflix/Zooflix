@@ -13,23 +13,23 @@ function UserInfo() {
         myPagePredictListState
     );
     
-    console.log(userPageInfo.userNo);
-    console.log(userPagePredictList.length);
+    // console.log(userPageInfo.userNo);
+    // console.log(userPagePredictList.length);
 
-    let successCnt = 0; //성공 횟수
-    let successRate = 0; //성공 확률
+    // let successCnt = 0; //성공 횟수
+    // let successRate = 0; //성공 확률
 
-    userPagePredictList.forEach((item) => {
-        if (item.pdResult === "성공") {
-            successCnt += 1;
-        }
-    });
+    // userPagePredictList.forEach((item) => {
+    //     if (item.pdResult === "성공") {
+    //         successCnt += 1;
+    //     }
+    // }); 
 
-    if(successCnt > 0) {
-      successRate = Math.round((successCnt / userPagePredictList.length) * 100) / 100;
-    } else {
-      successRate = 0;
-    }
+    // if(successCnt > 0) {
+    //   successRate = Math.round((successCnt / userPagePredictList.length) * 100) / 100;
+    // } else {
+    //   successRate = 0;
+    // }
 
     return (
         <Wrapper>
@@ -42,8 +42,8 @@ function UserInfo() {
             </LeftsideQuestion>
             <RightSideAnswer>
                 <h4>{userPagePredictList.length}</h4>
-                <h4>{successCnt}</h4>
-                <h4>{successRate} %</h4>
+                <h4>{userPageInfo.successCount}</h4>
+                <h4>{userPageInfo.predictionRate} %</h4>
                 <h4>{userPageInfo.subscribeFromMe}</h4>
                 <h4>{userPageInfo.subscribeToMe}</h4>
             </RightSideAnswer>
