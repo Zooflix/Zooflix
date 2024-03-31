@@ -81,6 +81,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         int userNo = customUserDetails.getUserNo();
         String userId = customUserDetails.getUserId();
+        System.out.println("유저 이름" + customUserDetails.getUsername());
 
         // 반복자 사용해서 authentication 에서 role 값 가져오기 가능.
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

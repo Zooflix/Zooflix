@@ -41,7 +41,8 @@ public class AesUtils {
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, IV);
 
             byte[] encrpytionByte = cipher.doFinal(data.getBytes("UTF-8"));
-
+            System.out.println(Hex.encodeHexString(encrpytionByte));
+            System.out.println(Hex.encodeHexString(encrpytionByte).length());
             return Hex.encodeHexString(encrpytionByte);
 
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |

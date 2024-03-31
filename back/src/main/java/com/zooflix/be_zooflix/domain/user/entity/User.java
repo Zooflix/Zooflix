@@ -51,11 +51,11 @@ public class User {
     @CreatedDate
     @Column
     private LocalDateTime userCreate;
-    @Column
+    @Column(length = 150)
     private String userAppKey;
-    @Column
+    @Column(length = 450)
     private String userSecretKey;
-    @Column
+    @Column(length = 200)
     private String userAccount;
     @Column
     private String userRole;
