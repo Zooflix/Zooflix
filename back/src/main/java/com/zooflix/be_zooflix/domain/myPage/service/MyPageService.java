@@ -47,19 +47,38 @@ public class MyPageService {
         // 내가 구독한 사람 목록
         List<UserSubscribe> subscribeFromMe = userSubscribeRepository.findSubscribeFromMe(userNo);
 
-        // 나를 구독한 사람의 수
+        // 나를 구독 중인 사람의 수
         int subscribeToMeCount = subscribeToMe.size();
-        // 내가 구독한 사람의 수
+        // 내가 구독 중인 사람의 수
         int subscribeFromMeCount = subscribeFromMe.size();
+
+        // 총 예측 횟수
+        int totalPredictNum = predictRepository.findMyPredictList(userNo).size();
+
+        // 성공 횟수
+        int successPredictNum = 0;
+        List<Predict> predictList = predictRepository.findMyPredictList(userNo);
+
+        for(int i = 0; i < predictList.size(); i++) {
+            if(predictList.get(i).getPdResult() == "성공") {
+                successPredictNum++;
+            }
+        }
+
+        // 성공 확률
+        double tempRate = Math.round(successPredictNum / totalPredictNum * 100);
+        double successRate = Math.round(tempRate * 100) / 100;
+
+        System.out.println("예측 성공률 : " + successRate);
 
         MyInfoDto myInfo = new MyInfoDto();
         myInfo.setUserNo(user.getUserNo());
         myInfo.setUserId(user.getUserId());
         myInfo.setUserName(user.getUserName());
         myInfo.setUserTemperature(user.getUserTemperature());
-        myInfo.setPredictCount(user.getPredictCount());
-        myInfo.setPredictionRate(Math.round((double)user.getSuccessCount()/user.getPredictCount() * 100));
-        myInfo.setSuccessCount(user.getSuccessCount());
+        myInfo.setPredictCount(totalPredictNum);
+        myInfo.setPredictionRate(successRate);
+        myInfo.setSuccessCount(successPredictNum);
         myInfo.setSubscribeFromMe(subscribeFromMeCount);
         myInfo.setSubscribeToMe(subscribeToMeCount);
 
