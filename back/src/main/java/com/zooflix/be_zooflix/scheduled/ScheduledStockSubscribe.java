@@ -140,6 +140,7 @@ public class ScheduledStockSubscribe {
             alarm.setContent(content);
             alarm.setAlarmType(AlarmTypeStatus.TOMORROW);
             alarm.setIsRead(false);
+            alarmRepository.save(alarm);
         }
     }
 
