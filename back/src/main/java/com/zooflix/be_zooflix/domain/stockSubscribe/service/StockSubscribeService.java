@@ -35,7 +35,7 @@ public class StockSubscribeService {
     public String postSubscribe(AddStockSubscribeRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
 
-        if (user.getUserAppKey() == null) {
+        if (request.getUserAppKey() != null) {
             user.userUpdateKey(
                     user.getUserId(),   //추가됨
                     user.getUserName(),

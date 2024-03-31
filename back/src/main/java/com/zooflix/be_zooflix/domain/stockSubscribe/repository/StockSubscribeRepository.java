@@ -4,6 +4,7 @@ import com.zooflix.be_zooflix.domain.main.dto.StockRankingProjection;
 import com.zooflix.be_zooflix.domain.main.dto.UserRankingKeyProjection;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockRankingDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeProjection;
 import com.zooflix.be_zooflix.domain.stockSubscribe.entity.StockSubscribe;
 import com.zooflix.be_zooflix.domain.user.dto.UserRankingDto;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,11 +27,11 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
 
     //주식 구독 테이블에서 내일 날짜의 모든 주식 구독 내역 리스트
     @Query(nativeQuery = true,
-            value = "select s.stock_code,s.stock_count, u.user_app_key, u.user_secret_key, u.user_account " +
+            value = "select s.stock_code as stockCode, s.stock_name as stockName, s.stock_count as stockCount, u.user_id as userId, u.user_app_key as userAppKey, u.user_secret_key as userSecretKey, u.user_account as userAccount " +
                     "from stock_subscribe s join user u " +
                     "on s.user_no = u.user_no " +
                     "where DAY(ADDDATE(NOW(),1))=s.stock_subscribe_day")
-    List<StockSubscribeDto> findTomorrowSubscribe();
+    List<StockSubscribeProjection> findTomorrowSubscribe();
 
     @Query(nativeQuery = true, value = "select * from stock_subscribe s where s.user_no = :userNo")
     void addStockPurchase();
@@ -68,6 +69,6 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
 
 
     @Query(nativeQuery = true, value = "SELECT * FROM stock_subscribe where stock_subscribe_day = :day")
-    List<StockSubscribeDto> findSubscribersForDay(@Param("day") int day);
+    List<StockSubscribe> findSubscribersForDay(@Param("day") int day);
 }
 
