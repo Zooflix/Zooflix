@@ -37,15 +37,15 @@ public class AlarmService {
 
         if(emitterRepository.get(userId) != null){
             emitterRepository.deleteById(userId);
-            emitterRepository.save(userId, new SseEmitter(DEFAULT_TIMEOUT));
+            emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
         }else{
             emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
         }
 
         //연결 종료 처리
-        emitter.onCompletion(() -> emitterRepository.deleteById(userId));
-        emitter.onTimeout(() -> emitterRepository.deleteById(userId));
-        emitter.onError((e) -> emitterRepository.deleteById(userId));
+        emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
+        emitter.onTimeout(() -> emitterRepository.deleteById(emitterId));
+        emitter.onError((e) -> emitterRepository.deleteById(emitterId));
         
         //503오류가 발생하지 않도록 더미데이터 보내기
         String eventId = makeTimeIncludeId(userId);
@@ -201,20 +201,8 @@ public class AlarmService {
         alarmRepository.save(alarm);
     }
 
-    private User validUser (String userId){
-        User byUserId = userRepository.findByUserId(userId);
-        if(byUserId != null){
-            return byUserId;
-        }else{
-            throw new RuntimeException("일치하는 사용자가 없습니다.");
-        }
-    }
-
     //receiver에게 온 모든 알림 목록 보여주기
     public List<FindListAlarmKeyProjectionResponse> findListAlarm(String userId) {
-        // 유저존재하는지 확인
-        User receiverUser = validUser(userId);
-
         List<FindListAlarmKeyProjectionResponse> alarmResponseList = alarmRepository.findAlarmsByUserIdWithSubscribeName(userId);
 
         return alarmResponseList;

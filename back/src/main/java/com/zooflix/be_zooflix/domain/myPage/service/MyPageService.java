@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class MyPageService {
+public class    MyPageService {
 
     private final PredictRepository predictRepository;
     private final UserRepository userRepository;

@@ -43,7 +43,10 @@ async def get_indices():
     now = datetime.datetime.now()
     today = now.strftime('%Y-%m-%d')
 
-    if now.hour < 9 or (now.hour == 9 and now.minute < 20):
+    if datetime.datetime.today().weekday() == 6:
+        yesterday = now - timedelta(days=2)
+        today = yesterday.strftime('%Y-%m-%d')
+    elif (now.hour < 9 or (now.hour == 9 and now.minute < 20)) or (datetime.datetime.today().weekday() == 5):
         yesterday = now - timedelta(days=1)
         today = yesterday.strftime('%Y-%m-%d')
 

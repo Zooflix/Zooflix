@@ -19,13 +19,10 @@ public class StockSubscribe extends BaseTimeEntity {
     private String stockCode;
     @Column
     private String stockName;
-
     @Column
     private int stockCount;
-
     @Column
     private int stockSubscribeDay;
-
     @CreatedDate
     @Column
     private LocalDateTime stockSubscribeCreate;
