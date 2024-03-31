@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class MyPageService {
+public class    MyPageService {
 
     private final PredictRepository predictRepository;
     private final UserRepository userRepository;
@@ -81,6 +81,7 @@ public class MyPageService {
         myInfo.setSuccessCount(successPredictNum);
         myInfo.setSubscribeFromMe(subscribeFromMeCount);
         myInfo.setSubscribeToMe(subscribeToMeCount);
+        myInfo.setUserZbti((user.getUserZbti()));
 
         return myInfo;
     }

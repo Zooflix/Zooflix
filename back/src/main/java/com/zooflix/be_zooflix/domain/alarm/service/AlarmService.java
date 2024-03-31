@@ -37,15 +37,15 @@ public class AlarmService {
 
         if(emitterRepository.get(userId) != null){
             emitterRepository.deleteById(userId);
-            emitterRepository.save(userId, new SseEmitter(DEFAULT_TIMEOUT));
+            emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
         }else{
             emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
         }
 
         //연결 종료 처리
-        emitter.onCompletion(() -> emitterRepository.deleteById(userId));
-        emitter.onTimeout(() -> emitterRepository.deleteById(userId));
-        emitter.onError((e) -> emitterRepository.deleteById(userId));
+        emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
+        emitter.onTimeout(() -> emitterRepository.deleteById(emitterId));
+        emitter.onError((e) -> emitterRepository.deleteById(emitterId));
         
         //503오류가 발생하지 않도록 더미데이터 보내기
         String eventId = makeTimeIncludeId(userId);
@@ -93,6 +93,8 @@ public class AlarmService {
         String userId = receiver.getUserId();
         Alarm alarm = createAlarm(receiver, content, type);
 
+//        alarmRepository.save(alarm);
+
         Map<String, Object> sseEmitters = emitterRepository.findAllEventCacheStartWithByEmail(userId);
         sseEmitters.forEach(
                 (key, emitter) -> {
@@ -100,6 +102,7 @@ public class AlarmService {
                     sendToClient((SseEmitter) emitter, key, alarm);
                 }
         );
+        //알람 db에 저장
     }
 
     //=============
@@ -115,7 +118,7 @@ public class AlarmService {
                     .build();
 
             // 내가 구독한 사람이 글 쓴 경우
-        }else if(type == AlarmTypeStatus.WRITE){
+        }else if(type == AlarmTypeStatus.WRITE) {
             return Alarm.builder()
                     .receiverUser(receiver)
                     .content(content)
@@ -123,6 +126,14 @@ public class AlarmService {
                     .isRead(false)
                     .build();
 
+            //내가 구독할 때
+        }else if(type == AlarmTypeStatus.USER){
+            return Alarm.builder()
+                    .receiverUser(receiver)
+                    .content(content)
+                    .alarmType(type)
+                    .isRead(false)
+                    .build();
 
             // 내가 구독한 사람이 매매한 경우
         }else if(type == AlarmTypeStatus.TRADING){
@@ -152,7 +163,7 @@ public class AlarmService {
                     .isRead(false)
                     .build();
         }else{
-            return null;
+            throw new IllegalArgumentException("Invalid alarm type: " + type);
         }
     }
 
@@ -201,20 +212,8 @@ public class AlarmService {
         alarmRepository.save(alarm);
     }
 
-    private User validUser (String userId){
-        User byUserId = userRepository.findByUserId(userId);
-        if(byUserId != null){
-            return byUserId;
-        }else{
-            throw new RuntimeException("일치하는 사용자가 없습니다.");
-        }
-    }
-
     //receiver에게 온 모든 알림 목록 보여주기
     public List<FindListAlarmKeyProjectionResponse> findListAlarm(String userId) {
-        // 유저존재하는지 확인
-        User receiverUser = validUser(userId);
-
         List<FindListAlarmKeyProjectionResponse> alarmResponseList = alarmRepository.findAlarmsByUserIdWithSubscribeName(userId);
 
         return alarmResponseList;

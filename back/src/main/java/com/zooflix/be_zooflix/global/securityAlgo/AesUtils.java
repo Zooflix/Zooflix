@@ -67,7 +67,7 @@ public class AesUtils {
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, IV);
 
             byte[] decodeByte = Hex.decodeHex(encodeData.toCharArray());
-
+            System.out.println(new String(cipher.doFinal(decodeByte), "UTF-8"));
             return new String(cipher.doFinal(decodeByte), "UTF-8");
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
                  InvalidKeyException | DecoderException | IllegalBlockSizeException | BadPaddingException |
@@ -78,12 +78,10 @@ public class AesUtils {
     }
 
     public String APItoDB(String data) {
-        if (data.isEmpty()) return null;
         return aesCBCEncode(aesCBCDecode(data, "api"), "db");
     }
 
     public String DBtoAPI(String data) {
-        if (data.isEmpty()) return null;
         return aesCBCEncode(aesCBCDecode(data, "db"), "api");
     }
 }

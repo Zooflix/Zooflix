@@ -14,7 +14,6 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class ReportController {
 
     private final ReportService reportService;

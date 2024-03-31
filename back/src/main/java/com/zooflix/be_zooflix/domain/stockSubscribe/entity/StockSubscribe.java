@@ -16,16 +16,13 @@ public class StockSubscribe extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int stockSubscribeNo;
     @Column
-    private int stockCode;
+    private String stockCode;
     @Column
     private String stockName;
-
     @Column
     private int stockCount;
-
     @Column
     private int stockSubscribeDay;
-
     @CreatedDate
     @Column
     private LocalDateTime stockSubscribeCreate;
@@ -36,7 +33,7 @@ public class StockSubscribe extends BaseTimeEntity {
 
     public static StockSubscribe createStockSubscribe(
             User user,
-            int stockCode,
+            String stockCode,
             String stockName,
             int stockCount,
             int stockSubscribeDay

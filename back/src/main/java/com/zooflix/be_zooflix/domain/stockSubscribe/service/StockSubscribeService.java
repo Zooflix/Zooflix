@@ -7,6 +7,7 @@ import com.zooflix.be_zooflix.domain.stockSubscribe.dto.request.AddStockSubscrib
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.dto.UserKeyProjection;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
+import com.zooflix.be_zooflix.global.securityAlgo.AesUtils;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +25,14 @@ public class StockSubscribeService {
     private final StockSubscribeRepository stockSubscribeRepository;
     private final AlarmService alarmService;
 
+    private final AesUtils aesUtils;
+
     /**
      * 3.1 주식 정기 구독
      *
      */
     @Transactional
-    public int postSubscribe(AddStockSubscribeRequest request) {
+    public String postSubscribe(AddStockSubscribeRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
 
         if (user.getUserAppKey() == null) {
@@ -97,10 +100,12 @@ public class StockSubscribeService {
         return response;
     }
 
-    public boolean checkApiKey(int userNo){
+    public boolean checkApiKey(int userNo) {
         UserKeyProjection userKey = userRepository.findByUserNo(userNo);
-        // 값이 비어있거나 null 이면 false 반환.
-        return !userKey.getUserAppKey().isEmpty() && userKey.getUserAppKey() != null;
+        String userAppKey = aesUtils.aesCBCDecode(userKey.getUserAppKey(), "DB");
+        String userSecretKey = aesUtils.aesCBCDecode(userKey.getUserSecretKey(), "DB");
+        String userAccount = aesUtils.aesCBCDecode(userKey.getUserAccount(), "DB");
+        return !userAppKey.isEmpty() && !userSecretKey.isEmpty() && !userAccount.isEmpty();
     }
 
     private StockSubscribeDto convertToStockSubscribeDto(StockSubscribe stockSubscribe) {

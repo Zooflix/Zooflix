@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class AddStockSubscribeRequest {
     @NotNull(message = "주식 코드는 필수 항목입니다.")
-    int stockCode;
+    String stockCode;
 
     @NotNull(message = "주식 종목은 필수 항목입니다.")
     String stockName;
@@ -22,9 +22,6 @@ public class AddStockSubscribeRequest {
     @NotNull(message = "주식 구독일은 필수 항목입니다.")
     int stockSubscribeDay;
 
-    @NotNull(message = "User Id는 필수 항목입니다.")
-    String userId;
-
     @NotNull(message = "User AppKey는 필수 항목입니다.")
     String userAppKey;
 
@@ -33,5 +30,8 @@ public class AddStockSubscribeRequest {
 
     @NotNull(message = "User 계좌는 필수 항목입니다.")
     String userAccount;
+
+    String userId;
+
 }
 

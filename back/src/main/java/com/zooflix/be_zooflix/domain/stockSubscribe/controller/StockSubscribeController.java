@@ -35,12 +35,12 @@ public class StockSubscribeController {
      */
     @PostMapping("/subscribe")
     @Operation(summary = "주식 정기 구독")
-    public ResponseEntity<ResultResponse<Integer>> insertStockSubscribe(@RequestBody @Valid AddStockSubscribeRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public ResponseEntity<ResultResponse<String>> insertStockSubscribe(@RequestBody @Valid AddStockSubscribeRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         if(customUserDetails == null) {
             throw new RuntimeException("토큰이 존재하지 않습니다.");
         }
         request.setUserId(customUserDetails.getUserId());
-        int result =  service.postSubscribe(request);
+        String result =  service.postSubscribe(request);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), result));
     }
 
@@ -84,5 +84,4 @@ public class StockSubscribeController {
         boolean apiKeyExists = service.checkApiKey(customUserDetails.getUserNo());
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), apiKeyExists));
     }
-
 }
