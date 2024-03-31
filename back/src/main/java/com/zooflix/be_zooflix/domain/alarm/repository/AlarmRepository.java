@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
-    @Query(value = "SELECT a.subscribe_no AS senederId, u.user_name AS nickname, a.created_at AS createdAt, a.alarm_type AS type, a.is_read AS isRead " +
+    @Query(value = "SELECT a.subscribe_no AS senederId, u.user_name AS nickname, a.created_at AS createdAt, a.alarm_type AS type, a.is_read AS isRead, a.alarm_content AS content " +
             "FROM alarm a " +
             "LEFT JOIN user u ON a.subscribe_no = u.user_no " +
             "WHERE a.user_no = (SELECT user_no FROM user WHERE user_id = :userId)", nativeQuery = true)
