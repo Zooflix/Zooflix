@@ -1,6 +1,6 @@
 // import { REACT_APP_HOME_URL } from "../constants";
 import { axios, axiosPrivate } from "../utils/axios";
-
+import { securityAesEncode } from "../../apis/utils/security";
 const REST_USER_API = `/auth`;
 
 //회원 로그인
@@ -32,9 +32,47 @@ export async function loginUser(userId: String, userPw: String) {
 export async function updateUserInfo(){
   try {
     const response = await axiosPrivate.get(`${REST_USER_API}/update/info`);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function updateUser(userId: String, userName:String, userPw: String, userAppKey:string, userSecretKey:string, userAccount:string) {
+  try {
+    userAppKey = await securityAesEncode(userAppKey);
+    userSecretKey = await securityAesEncode(userSecretKey);
+    userAccount = await securityAesEncode(userAccount);
+    const response = await axiosPrivate.put(`${REST_USER_API}/update`, {
+      userId,
+      userName,
+      userPw,
+      userAppKey,
+      userSecretKey,
+      userAccount,
+    })
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+
+}
+
+export async function loginCheck(userId: String, userPw: String) {
+  try {
+    const response = await axios
+      .post(
+        `${REST_USER_API}/login`,
+        { userId, userPw },
+      )
+      .then((res) => {
+        return res;
+      });
+    console.log(response);  
+    return response.data;
+  } catch (e) {
+    console.log("실패");
+    console.log(e);
   }
 }
 
@@ -70,11 +108,14 @@ export async function signupUser(
   userId: String,
   userName: String,
   userPw: String,
-  userAppKey: String,
-  userSecretKey: String,
-  userAccount: String
+  userAppKey: string,
+  userSecretKey: string,
+  userAccount: string
 ) {
   try {
+    userAppKey = await securityAesEncode(userAppKey);
+    userSecretKey = await securityAesEncode(userSecretKey);
+    userAccount = await securityAesEncode(userAccount);
     const response = await axios
       .post(`${REST_USER_API}/signup`, {
         userId,

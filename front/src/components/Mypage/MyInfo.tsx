@@ -1,10 +1,10 @@
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import {
     myPageInfoState,
     myPagePredictListState,
 } from "../../Store/MyPageState";
-import { useState } from "react";
 
 function MyInfo() {
     const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
@@ -45,6 +45,7 @@ function MyInfo() {
             </RightSideAnswer>
         </Wrapper>
     );
+
 }
 
 export default MyInfo;

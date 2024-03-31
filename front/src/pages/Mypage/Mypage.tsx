@@ -37,9 +37,6 @@ function Mypage() {
     navigate("/zbti");
   };
 
-  // 임의의 인덱스값 userNo 넣음
-  
-
   const userId = "user1";
 
   useEffect(() => {
@@ -94,7 +91,6 @@ function Mypage() {
       }
       
     };
-
     fetchData();
   }, [navigate]);
 

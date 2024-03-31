@@ -27,6 +27,14 @@ function SignupForm() {
 
   const handleSignup = async () => {
     try {
+      if (!userName.trim() || !userPw.trim() || !userId.trim() || !userPwCheck.trim()) {
+        alert("필수 항목을 모두 입력해주세요.");
+        return;
+      }
+      if (userPw.length < 4) {
+        alert("비밀번호는 4자 이상 입력해주세요.");
+        return;
+      }
 
       if (userPw === userPwCheck) {
         const idCheckResult = await idCheck(userId);
@@ -46,9 +54,9 @@ function SignupForm() {
                     alert("APP KEY 정보를 전부 입력해주세요.");
                     return;
                   }
-                  setUserAppKey(await securityAesEncode(userAppKey));
-                  setUserSecretKey(await securityAesEncode(userSecretKey));
-                  setUserAccount(await securityAesEncode(userAccount));
+                  setUserAppKey(userAppKey);
+                  setUserSecretKey(userSecretKey);
+                  setUserAccount(userAccount);
                 }
                 const signupResult = await signupUser(userId, userName, userPw, 
                   userAppKey, userSecretKey, userAccount);
