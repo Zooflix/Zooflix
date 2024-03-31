@@ -1,4 +1,11 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist({
+    key: 'persist-atom-key',
+    storage: sessionStorage,
+})
+
 
 // my page/내 정보
 export const myPageInfoState = atom({
@@ -16,6 +23,7 @@ export const myPageInfoState = atom({
         subscribeFromMe: 0,
         userZbti: "Bear",
     },
+    // effects_UNSTABLE: [persistAtom],
 });
 
 // my page / 내가 쓴 예측 글 목록
@@ -33,6 +41,7 @@ export interface myPredict {
 export const myPagePredictListState = atom<myPredict[]>({
     key: "myPagePredictList",
     default: [],
+    // effects_UNSTABLE: [persistAtom],
 });
 
 export interface Subscription {
@@ -45,6 +54,7 @@ export interface Subscription {
 export const myPageSubscribeListState = atom<Subscription[]>({
     key: "myPageSubscribeList",
     default: [],
+    // effects_UNSTABLE: [persistAtom],
 });
 // interface MyPredictionDto {
 //   stockName: string;

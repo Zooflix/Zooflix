@@ -2,12 +2,9 @@ import styled from "styled-components";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import Zbti from "../Predict/Zbti";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { zbtiQuestionState } from "../../Store/ZbtiState";
+import { useRecoilValue } from "recoil";
 import { myPageInfoState } from "../../Store/MyPageState";
 import { userPageInfoState } from "../../Store/UserPageState";
-import { useEffect } from "react";
-import { getMyInfo } from "../../apis/api/MyPage";
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -19,7 +16,13 @@ interface ChartProps {
   imgWidth: string;
 }
 
-function DoughnutChart({ userName, temp, color, transparency, imgWidth }: ChartProps) {
+function DoughnutChart({
+  userName,
+  temp,
+  color,
+  transparency,
+  imgWidth,
+}: ChartProps) {
   const myInfo = useRecoilValue(myPageInfoState);
   const userInfo = useRecoilValue(userPageInfoState);
 
@@ -45,14 +48,14 @@ function DoughnutChart({ userName, temp, color, transparency, imgWidth }: ChartP
     },
   };
 
-  // console.log(myInfo.userZbti);
-
   //로그인 한 zbti
   return (
     <ChartWrapper>
       <Doughnut data={Data} options={Options}></Doughnut>
       <Zbti
-        userZbti={userName===myInfo.userName? myInfo.userZbti:userInfo.userZbti}
+        userZbti={
+          userName === myInfo.userName ? myInfo.userZbti : userInfo.userZbti
+        }
         width={imgWidth}
         className="ZbtiImg"
       ></Zbti>
