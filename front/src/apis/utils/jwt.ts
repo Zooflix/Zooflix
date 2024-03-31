@@ -9,3 +9,9 @@ export function getJwtUserId() {
     const decoded = require('jwt-decode').jwtDecode(token);
     return decoded.userId;
 }
+
+export function getJwtUserName() {
+    const token = localStorage.getItem('access');
+    const decoded = require('jwt-decode').jwtDecode(token);
+    return decoded.userName;
+}
