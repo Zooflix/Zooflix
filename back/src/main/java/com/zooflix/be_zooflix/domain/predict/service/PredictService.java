@@ -133,20 +133,22 @@ public class PredictService {
 
         //나를 구독한 사람들을 조회
         List<UserSubscribe> subscribers = userSubscribeRepository.findSubscribeToMe(dto.getUserNo());
+        System.out.println(subscribers + "가 나의 구독자다.");
 
         String content = userRepository.findMyInfo(dto.getUserNo()).getUserName() + "님의 새로운 예측 글이 작성되었습니다.";
         // 그 사람들에게 알림 send
         for (UserSubscribe subscriber : subscribers) {
             User subscriberUser = subscriber.getUser();
             alarmService.send(subscriberUser, content, AlarmTypeStatus.WRITE);
-            System.out.println("알림이 성공적으로 전송되었습니다. ->"+ content);
 
-//            Alarm alarm = new Alarm();
-//            alarm.setReceiverUser(subscriberUser);
-//            alarm.setContent(content);
-//            alarm.setAlarmType(AlarmTypeStatus.WRITE);
-//            alarmRepository.save(alarm);
+            Alarm alarm = new Alarm();
+            alarm.setReceiverUser(subscriberUser);
+            alarm.setContent(content);
+            alarm.setAlarmType(AlarmTypeStatus.WRITE);
+            alarmRepository.save(alarm);
+            System.out.println("알람:" + alarm);
         }
+            System.out.println("알림이 성공적으로 전송되었습니다. ->"+ content);
 
         return toDto(predictRepository.save(predict));
     }
