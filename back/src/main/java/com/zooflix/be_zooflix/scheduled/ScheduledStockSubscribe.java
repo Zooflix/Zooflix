@@ -11,6 +11,7 @@ import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeProjection
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
+import com.zooflix.be_zooflix.global.securityAlgo.AesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -37,13 +38,15 @@ public class ScheduledStockSubscribe {
     private final AlarmService alarmService;
     private final UserRepository userRepository;
     private final AlarmRepository alarmRepository;
+    private final AesUtils aesUtils;
 
     @Autowired
-    public ScheduledStockSubscribe(StockSubscribeRepository stockSubscribeRepository, AlarmService alarmService, UserRepository userRepository, AlarmRepository alarmRepository) {
+    public ScheduledStockSubscribe(StockSubscribeRepository stockSubscribeRepository, AlarmService alarmService, UserRepository userRepository, AlarmRepository alarmRepository, AesUtils aesUtils) {
         this.stockSubscribeRepository = stockSubscribeRepository;
         this.alarmService = alarmService;
         this.userRepository = userRepository;
         this.alarmRepository = alarmRepository;
+        this.aesUtils = aesUtils;
     }
 
     @Scheduled(cron = "0 35 20 * * ?")
@@ -63,7 +66,7 @@ public class ScheduledStockSubscribe {
 
                 // 주문 가능 수량 조회
                 //필요한 것 - 계좌번호, 종목코드, 주문수량, OAUTH API ACCESS TOKEN, 발급받은 APPKEY, 앱 시크릿키,
-                String account = subscriber.getUserAccount();
+                String account = aesUtils.aesCBCDecode(subscriber.getUserAccount(), "db");
                 // 국내 주식 예약 주문
                 String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/order-resv";
                 String tr_id = "CTSC0008U";
@@ -94,8 +97,8 @@ public class ScheduledStockSubscribe {
             // 요청 본문 데이터
             String accessData = "{\n" +
                     "    \"grant_type\": \"client_credentials\",\n" +
-                    "    \"appkey\": \"" + subscriber.getUserAppKey() + "\",\n" +
-                    "    \"appsecret\": \"" + subscriber.getUserSecretKey() + "\"\n" +
+                    "    \"appkey\": \"" + aesUtils.aesCBCDecode(subscriber.getUserAppKey(), "db") + "\",\n" +
+                    "    \"appsecret\": \"" + aesUtils.aesCBCDecode(subscriber.getUserSecretKey(), "db") + "\"\n" +
                     "}";
             StringEntity requestBody = new StringEntity(accessData);
             httpPost.setEntity(requestBody);
@@ -167,8 +170,8 @@ public class ScheduledStockSubscribe {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("authorization", "Bearer ");
-            conn.setRequestProperty("appKey", subscriber.getUserAppKey());
-            conn.setRequestProperty("appSecret", subscriber.getUserSecretKey());
+            conn.setRequestProperty("appKey", aesUtils.aesCBCDecode(subscriber.getUserAppKey(), "db"));
+            conn.setRequestProperty("appSecret", aesUtils.aesCBCDecode(subscriber.getUserSecretKey(), "db"));
             conn.setRequestProperty("tr_id", TrId);
             conn.setDoOutput(true);
 
