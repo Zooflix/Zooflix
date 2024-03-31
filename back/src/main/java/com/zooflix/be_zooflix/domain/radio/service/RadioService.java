@@ -172,10 +172,18 @@ public class RadioService {
     public byte[] callTtsEndpoint() {
         try {
             List<String> cachedDataList = redisTemplate.opsForList().range("cachedNews", 0, -1);
-            String text = "";
-            for(String str:cachedDataList) {
-                text += str;
+
+            if (cachedDataList==null || cachedDataList.isEmpty()) {
+                System.out.println("캐시된 데이터가 없습니다.");
+                return null;
             }
+
+            StringBuilder sb = new StringBuilder();
+            for(String str:cachedDataList) {
+                sb.append(str);
+            }
+            String text = sb.toString();
+
             System.out.println("cachedNews: "+text);
             String encodeText = URLEncoder.encode(text, StandardCharsets.UTF_8.toString());
             URL url = new URL(pythonTtsUrl);
