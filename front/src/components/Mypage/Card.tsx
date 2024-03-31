@@ -22,16 +22,30 @@ const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
     "linear-gradient(180deg, rgba(104, 183, 255, 0.95) 6.05%, rgba(128, 194, 255, 0.95) 42.05%, rgba(164, 211, 255, 0.95) 60.55%, rgba(185, 222, 255, 0.95) 75.55%, rgba(228, 242, 255, 0.95) 106.05%)",
   ];
 
+  const date = new Date(card.stockSubscribeCreate);
+  console.log(date);
+
   return (
     <CardWrapper>
       <Wrapper color={color[cardIndex % 4]}>
         <Front>
           <Title>{card && card.stockName}</Title>
-          <Writer>{card.stockCount}</Writer>
+          <Writer>
+            매월 {card.stockSubscribeDay}일<br />
+            수량 {card.stockCount}주씩
+            <br />
+            구독중
+          </Writer>
         </Front>
         <Back>
           <Content>
-            <div>{card.stockSubscribeCreate}</div>
+            {card.stockSubscribeCreate && (
+              <div>
+                {date.getFullYear()}년 {date.getMonth()}월 {date.getDate()}
+                일부터 구독중
+              </div>
+            )}
+
             <Button>구독 해지</Button>
           </Content>
         </Back>
@@ -100,7 +114,8 @@ const Title = styled.div`
   display: flex;
   text-align: start;
   justify-content: center;
-  padding: 0 12px;
+  padding: 0 15px;
+  font-size: 20px;
 
   overflow: hidden;
   text-overflow: ellipsis;
@@ -108,23 +123,23 @@ const Title = styled.div`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 `;
-const Writer = styled.p``;
+const Writer = styled.div`
+  font-size: 13px;
+`;
 const Content = styled.div`
   padding: 0 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  color: white;
+  font-size: 12px;
+  margin-bottom: 10px;
 `;
 
 const Button = styled.button`
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
   border: none;
   box-shadow: 4px 4px 20px -10px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-  padding: 10px;
-  color: #ff5b5b;
+  padding: 5px 20px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 10px;
 `;
