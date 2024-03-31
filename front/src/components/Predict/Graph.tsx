@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
-
+import { selectGraph } from "../../apis/api/Predict";
 import { selectCompareGraph } from "../../apis/api/Predict";
 import { selectUserNoState } from "../../Store/PredictState";
 import { selectStockNameState } from "../../Store/PredictState";
 import { selectUserNameState } from "../../Store/PredictState";
 
-function Graph() {
+type GraphProps = {
+    stockName: string;
+};
+
+function Graph(props: GraphProps) {
     const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
     const [selectStockName, setSelectStockName] =
         useRecoilState(selectStockNameState);
@@ -16,9 +20,18 @@ function Graph() {
     const [graphImage, setGraphImage] = useState<string>("");
 
     useEffect(() => {
-        if(selectStockName ===""){
+        selectGraph(props.stockName).then((imageUrl: string) => {
+            setGraphImage(imageUrl);
+        });
+        console.log(props.stockName);
+        console.log(graphImage);
+        
+    }, [props.stockName]);
+
+    useEffect(() => {
+        if (selectStockName === "") {
             return;
-        }       
+        }
         selectCompareGraph(selectUserNo, selectStockName).then(
             (imageUrl: string) => {
                 setGraphImage(imageUrl);

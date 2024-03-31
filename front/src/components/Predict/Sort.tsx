@@ -37,5 +37,6 @@ const Wrapper = styled.div`
         box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
         text-align: center;
+        cursor: pointer;
     }
 `;

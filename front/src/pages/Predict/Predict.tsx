@@ -71,7 +71,7 @@ function Predict() {
         </LeftContainer>
         <RightContainer>
           <Rank stockName={stockName} />
-          <Graph />
+          <Graph stockName={stockName}/>
           <StockHistory />
         </RightContainer>
       </UpperContainer>
