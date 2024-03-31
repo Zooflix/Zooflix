@@ -9,6 +9,8 @@ public interface FindListAlarmKeyProjectionResponse {
 
     String getNickname();
 
+    String getContent();
+
     LocalDateTime getCreatedAt();
 
     AlarmTypeStatus getType();

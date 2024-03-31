@@ -35,6 +35,7 @@ public class UserSubscribeService {
 
     //유저 구독 추가
     public UserSubscribe postUserSubscribe(UserSubscribeReqDto dto) {
+        //구독하는 사용자 정보 가져오기
         User subscribingUser = userRepository.findMyInfo(dto.getUserNo());
 
         UserSubscribe userSubscribe = UserSubscribe.builder()
@@ -43,11 +44,14 @@ public class UserSubscribeService {
                 .subscribeCreate(LocalDate.now())
                 .build();
 
-        String content = subscribingUser.getUserName() + "님이 회원님을 구독했습니다.";
-        alarmService.send(userSubscribe.getUser(), content, AlarmTypeStatus.USER);
+        User alarmReceiver = userRepository.findMyInfo(userSubscribe.getSubscribeUserNo());
+
+        String content = userSubscribe.getUser().getUserName() + "님이 회원님을 구독했습니다.";
+//        String content = userSubscribe.getUser() + "님이 회원님을 구독했습니다.";
+        alarmService.send(alarmReceiver, content, AlarmTypeStatus.USER);
 
         Alarm alarm = new Alarm();
-        alarm.setReceiverUser(userSubscribe.getUser());
+        alarm.setReceiverUser(alarmReceiver);
         alarm.setContent(content);
         alarm.setAlarmType(AlarmTypeStatus.USER);
         alarm.setIsRead(false);
