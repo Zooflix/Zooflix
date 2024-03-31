@@ -53,9 +53,12 @@ export async function logoutUser() {
       .then((res) => {
         localStorage.removeItem("access");
         return res;
+      })
+      .catch((error) => {
+        localStorage.removeItem("access");
       });
 
-    return response.status;
+    // return response.status;
   } catch (e) {
     // localStorage.removeItem("access");
     console.log(e);
