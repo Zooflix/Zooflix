@@ -23,13 +23,13 @@ interface subscribeProps {
 
 export async function insertStockSubscribe(subscribe: subscribeProps) {
   try {
-    if (subscribe.userAppKey !== undefined)
+    if (subscribe.userAppKey !== undefined && subscribe.userAppKey !== "")
       subscribe.userAppKey = await securityAesEncode(subscribe.userAppKey);
-    if (subscribe.userSecretKey !== undefined)
+    if (subscribe.userSecretKey !== undefined && subscribe.userSecretKey !== "")
       subscribe.userSecretKey = await securityAesEncode(
         subscribe.userSecretKey
       );
-    if (subscribe.userAccount !== undefined)
+    if (subscribe.userAccount !== undefined && subscribe.userAccount! !== "")
       subscribe.userAccount = await securityAesEncode(subscribe.userAccount);
 
     const response = await axiosPrivate.post(`/stock/subscribe`, subscribe);

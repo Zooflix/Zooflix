@@ -113,6 +113,21 @@ function Main() {
     setMainData(list || []);
   };
 
+  let zbti = new Map();
+  //Bear, Cow, Fox, Hippo, Lion, Monkey, Pig, Rabbit, Rhino, Sloth, Unicon, Zebra
+  zbti.set("Lion", "일단 다 사자");
+  zbti.set("Monkey", "재간둥이 원숭이");
+  zbti.set("Pig", "저금왕 돼지");
+  zbti.set("Rabbit", "팔랑귀 단타마스터 토끼");
+  zbti.set("Unicon", "공모주 러버 유니콘");
+  zbti.set("Hippo", "큰 손 투자자 하마");
+  zbti.set("Cow", "느긋한 젖소");
+  zbti.set("Zebra", "호기심 많은 얼룩말");
+  zbti.set("Panda", "하나만 판다");
+  zbti.set("Bear", "검사 결과 없음");
+  zbti.set("Fox", "재빠른 여우");
+  zbti.set("Sloth", "게으른 나무늘보");
+
   return (
     <MainWrapper>
       <FlowBar
@@ -121,8 +136,8 @@ function Main() {
         usd={mainData.usd}
       />
       <Rank>
-        <ZustraRank rankData={mainData.zustraRank} />
-        <StockRank stockRank={mainData.stockRank} />
+        <ZustraRank rankData={mainData.zustraRank} zbti={zbti} />
+        <StockRank stockRank={mainData.stockRank} zbti={zbti} />
       </Rank>
       <BelowDiv>
         <MoreRank
