@@ -17,15 +17,9 @@ function Rank(props: RankProps) {
     });
 
     useEffect(() => {
-        getZoostra(props.stockName)
-            .then((data) => {
-                setZoostra(data);
-                console.log(zoostra);
-            })
-            .catch((error) => {
-                console.error("Failed to fetch zoostra:", error);
-            });
-        console.log(props.stockName);
+        getZoostra(props.stockName).then((data) => {
+            setZoostra(data);
+        });
     }, [props.stockName]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);

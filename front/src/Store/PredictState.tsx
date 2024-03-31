@@ -19,3 +19,8 @@ export const selectedPdNoState = atom({
   key: "selectedPdNoState",
   default: 0,
 });
+
+export const deletePdNoState = atom({
+  key: "deletePdNoState",
+  default: 0,
+});

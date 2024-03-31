@@ -23,9 +23,6 @@ function Graph(props: GraphProps) {
         selectGraph(props.stockName).then((imageUrl: string) => {
             setGraphImage(imageUrl);
         });
-        console.log(props.stockName);
-        console.log(graphImage);
-        
     }, [props.stockName]);
 
     useEffect(() => {
@@ -44,7 +41,15 @@ function Graph(props: GraphProps) {
             <Wrapper>
                 <Title>차트 비교</Title>
                 <Container>
-                    <Content>피드를 선택해 보세요 !</Content>
+                    {props.stockName !== "" && props.stockName !== "null" ? (
+                        graphImage ? (
+                            <img src={graphImage} alt="Graph" />
+                        ) : (
+                            <Content>Loading...</Content>
+                        )
+                    ) : (
+                        <Content>피드를 선택해 보세요 !</Content>
+                    )}
                 </Container>
             </Wrapper>
         );
