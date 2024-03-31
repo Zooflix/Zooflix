@@ -61,7 +61,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
         //refresh null check 쿠키에 리프레쉬토큰이 없으면 에러
         if (refresh == null) {
 
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(HttpServletResponse.SC_OK);
             return;
         }
 
