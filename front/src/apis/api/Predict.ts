@@ -1,6 +1,6 @@
 import { axios, axiosPrivate } from "../utils/axios";
 
-const REST_PREDICT_API = "http://localhost:8089/predict";
+const REST_PREDICT_API = "/predict";
 
 //전체 예측 글 조회
 export async function selectPredicts(sorted: string, stockName: string) {

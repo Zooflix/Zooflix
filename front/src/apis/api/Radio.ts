@@ -1,6 +1,6 @@
 import { axios } from "../utils/axios";
 
-const REST_RADIO_API = "http://localhost:8089/radio";
+const REST_RADIO_API = "/radio";
 
 // 라디오
 export async function playRadio() {
