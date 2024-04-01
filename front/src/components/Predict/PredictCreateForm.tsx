@@ -56,7 +56,6 @@ function PredictCreateForm() {
   const [upDown, setUpDown] = useState<string>("");
   const [open, setOpen] = useState(false);
 
-  //알럿창 초기값 세팅
   const [alertOption, setAlertOption] = useState<{
     severity: AlertColor;
     value: String;
@@ -83,7 +82,6 @@ function PredictCreateForm() {
         severity: "error",
         value: "종목명을 선택해 주세요.",
       });
-      //   alert("종목명을 선택해 주세요.");
       return;
     }
     if (predictDate === "") {
@@ -92,7 +90,6 @@ function PredictCreateForm() {
         severity: "error",
         value: "예측 날짜를 선택해 주세요.",
       });
-      //   alert("예측 날짜를 선택해 주세요.");
       return;
     }
     const date = new Date(predictDate);
@@ -110,14 +107,13 @@ function PredictCreateForm() {
         severity: "error",
         value: "예측 가격을 선택해 주세요.",
       });
-      //   alert("예측 가격을 입력해 주세요.");
       return;
     }
     if (nowPrice * 0.9 < predictPrice && predictPrice < nowPrice * 1.1) {
       setOpen(true);
       setAlertOption({
         severity: "error",
-        value: "현재가와 5% 이상 차이나도록 값을 입력하세요.",
+        value: "현재가와 10% 이상 차이나도록 값을 입력하세요.",
       });
       return;
     }
@@ -127,7 +123,6 @@ function PredictCreateForm() {
         severity: "error",
         value: "예측 근거를 입력해 주세요.",
       });
-      //   alert("예측 근거를 입력해 주세요.");
       return;
     }
     if (predictReason.length < 10) {
@@ -136,7 +131,6 @@ function PredictCreateForm() {
         severity: "error",
         value: "예측 근거는 10자 이상 입력해 주세요.",
       });
-      //   alert("예측 근거는 10자 이상 입력해 주세요.");
       return;
     }
 
@@ -234,14 +228,13 @@ function PredictCreateForm() {
         severity: "error",
         value: "현재가와 10% 이상 차이나도록 값을 입력하세요.",
       });
-      //   alert("현재가와 5% 이상 차이나도록 값을 입력하세요.");
     }
   }, [predictPrice]);
 
   const refreshPrice = async () => {
     fetchData();
     setTime();
-    setIsClicked(true); // 버튼 클릭 시 회전
+    setIsClicked(true);
     setTimeout(() => setIsClicked(false), 500);
   };
 

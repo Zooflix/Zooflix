@@ -16,14 +16,17 @@ function MyPredictList() {
 
   return (
     <Wrapper>
-      {myPagePredictList &&
+      {myPagePredictList.length === 0 ? (
+        <NoPredictMessage>지금 예측글이 없습니다.</NoPredictMessage>
+      ) : (
         myPagePredictList.map((predict) => (
           <MyPrediction
             key={predict.pdNo}
             prediction={predict}
             onDelete={() => deletePredict(predict.pdNo)}
           />
-        ))}
+        ))
+      )}
     </Wrapper>
   );
 }
@@ -41,3 +44,5 @@ const Wrapper = styled.div`
   scrollbar-color: #a5a5a5;
   scrollbar-width: thin;
 `;
+
+const NoPredictMessage = styled.div``;

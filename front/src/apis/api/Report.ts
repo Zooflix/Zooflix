@@ -1,6 +1,6 @@
 import { axios } from "../utils/axios";
 
-const REST_REPOERT_API = "http://localhost:8089/report";
+const REST_REPOERT_API = "/report";
 
 //신고하기
 export async function report(userNo: number, pdNo: number, reason: string) {
