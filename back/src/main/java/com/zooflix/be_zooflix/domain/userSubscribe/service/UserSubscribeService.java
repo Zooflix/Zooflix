@@ -48,7 +48,6 @@ public class UserSubscribeService {
         User alarmReceiver = userRepository.findMyInfo(userSubscribe.getSubscribeUserNo());
 
         String content = userSubscribe.getUser().getUserName() + "님이 회원님을 구독했습니다.";
-//        String content = userSubscribe.getUser() + "님이 회원님을 구독했습니다.";
         alarmService.send(alarmReceiver, content, AlarmTypeStatus.USER);
 
         Alarm alarm = new Alarm();
