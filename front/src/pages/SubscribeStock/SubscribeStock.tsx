@@ -1,24 +1,24 @@
 import styled from "styled-components";
 
 import SubscribeForm from "../../components/SubscribeStock/SubscribeForm";
-import { useRecoilState } from "recoil";
-import { userNameState } from "../../Store/UserState";
 import MySubscribeStock from "../../components/SubscribeStock/MySubscribeStock";
 import { getJwtUserName } from "../../apis/utils/jwt";
+import CommonPageTransition from "../../components/Common/CommonPageTransition";
 
 function SubscribeStock() {
-  const [userName, setUserName] = useRecoilState(userNameState);
   return (
-    <Wrapper>
-      <SubscribeContainer>
-        <Title>주식 정기 구독하기</Title>
-        <SubscribeForm />
-      </SubscribeContainer>
-      <SubscribeContainer>
-        <Title>{getJwtUserName()}님이 구독중인 주식 목록</Title>
-        <MySubscribeStock />
-      </SubscribeContainer>
-    </Wrapper>
+    <CommonPageTransition>
+      <Wrapper>
+        <SubscribeContainer>
+          <Title>주식 정기 구독하기</Title>
+          <SubscribeForm />
+        </SubscribeContainer>
+        <SubscribeContainer>
+          <Title>{getJwtUserName()}님이 구독중인 주식 목록</Title>
+          <MySubscribeStock />
+        </SubscribeContainer>
+      </Wrapper>
+    </CommonPageTransition>
   );
 }
 

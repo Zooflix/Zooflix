@@ -8,6 +8,7 @@ import Character3d from "../../components/Character/Character3d";
 import zooflix from "../../assets/img/Zooflix.svg";
 import { Link } from "react-router-dom";
 import { getRankingList } from "../../apis/api/Main";
+import CommonPageTransition from "../../components/Common/CommonPageTransition";
 
 function Main() {
   const [mainData, setMainData] = useState({
@@ -129,41 +130,43 @@ function Main() {
   zbti.set("Sloth", "게으른 나무늘보");
 
   return (
-    <MainWrapper>
-      <FlowBar
-        kospi={mainData.kospi}
-        kosdaq={mainData.kosdaq}
-        usd={mainData.usd}
-      />
-      <Rank>
-        <ZustraRank rankData={mainData.zustraRank} zbti={zbti} />
-        <StockRank stockRank={mainData.stockRank} zbti={zbti} />
-      </Rank>
-      <BelowDiv>
-        <MoreRank
-          topFailUser={mainData.topFailUser}
-          topStreakUser={mainData.topStreakUser}
-          topStock={mainData.topStockUser}
+    <CommonPageTransition>
+      <MainWrapper>
+        <FlowBar
+          kospi={mainData.kospi}
+          kosdaq={mainData.kosdaq}
+          usd={mainData.usd}
         />
-        <SubscribeDiv>
-          <Link to="/stocksub">
-            <Bubble>
-              <div>
-                <img src={zooflix} width="140px" alt="zooflix" />
-              </div>
-              <div>주식 구독하러가기</div>
-            </Bubble>
-          </Link>
-          <Character3d
-            name="Bear"
-            characterScale={0.45}
-            canvasHeight={240}
-            canvasWidth={200}
-            toBelow={24}
+        <Rank>
+          <ZustraRank rankData={mainData.zustraRank} zbti={zbti} />
+          <StockRank stockRank={mainData.stockRank} zbti={zbti} />
+        </Rank>
+        <BelowDiv>
+          <MoreRank
+            topFailUser={mainData.topFailUser}
+            topStreakUser={mainData.topStreakUser}
+            topStock={mainData.topStockUser}
           />
-        </SubscribeDiv>
-      </BelowDiv>
-    </MainWrapper>
+          <SubscribeDiv>
+            <Link to="/stocksub">
+              <Bubble>
+                <div>
+                  <img src={zooflix} width="140px" alt="zooflix" />
+                </div>
+                <div>주식 구독하러가기</div>
+              </Bubble>
+            </Link>
+            <Character3d
+              name="Bear"
+              characterScale={0.45}
+              canvasHeight={240}
+              canvasWidth={200}
+              toBelow={24}
+            />
+          </SubscribeDiv>
+        </BelowDiv>
+      </MainWrapper>
+    </CommonPageTransition>
   );
 }
 
