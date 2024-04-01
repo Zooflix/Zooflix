@@ -17,7 +17,7 @@ import {
     getUserSubscribeList,
 } from "../../apis/api/UserPage";
 import TempWithImage from "../../components/UserPage/TempWithImage";
-import SubscribeButton from "../../components/UserPage/SubscribeButton";
+import SubscribeButton from "../../components/Common/SubscribeButton";
 import UserContentHeader from "../../components/UserPage/UserContentHeader";
 import UserInfo from "../../components/UserPage/UserInfo";
 import { myPageInfoState } from "../../Store/MyPageState";

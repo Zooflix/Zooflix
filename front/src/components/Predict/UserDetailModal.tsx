@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Modal from "@mui/material/Modal";
 import SquareBtn from "../Common/SquareBtn";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DoughnutChart from "../Mypage/DoughnutChart";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,13 @@ import {
     getUserPredictList,
     getUserSubscribeList,
 } from "../../apis/api/UserPage";
-import SubscribeButton from "../UserPage/SubscribeButton";
-import { myPageInfoState } from "../../Store/MyPageState";
+import SubscribeButton from "../Common/SubscribeButton";
+import {
+    myPageInfoState,
+    myPageSubscribeListState,
+} from "../../Store/MyPageState";
+import { getMySubscribeList } from "../../apis/api/MyPage";
+import DeleteSubBtn from "../Common/DeleteSubBtn";
 
 interface ModalProps {
     isModalOpen: boolean;
@@ -32,25 +37,42 @@ const StyledModal = styled(Modal)`
 `;
 
 function UserDetailModal({
-  isModalOpen,
-  closeModal,
-  userName,
-  userNo,
+    isModalOpen,
+    closeModal,
+    userName,
+    userNo,
 }: ModalProps) {
     const navigate = useNavigate();
+
+    // 내 정보
     const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+
+    // 유저 정보
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
+
+    // 유저 예측 리스트
     const [userPagePredictList, setUserPagePredictList] = useRecoilState(
         userPagePredictListState
     );
+
+    // 유저 구독 리스트
     const [userPageSubscribeList, setUserPageSubscribeList] = useRecoilState(
         userPageSubscribeListState
     );
+    // 나의 구독 리스트 저장
+    const [myPageSubscribeList, setMyPageSubscribeList] = useRecoilState(
+        myPageSubscribeListState
+    );
 
-    // console.log(userNo + " " + userPageInfo.userNo);
+    // 구독했는지 확인
+    const [isSubscribe, setIsSubscribe] = useState(false);
+
+    // 구독을 했으면 그 번호를 저장
+    const [subNo, setSubNo] = useState(0);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
+            // 유저 정보
             try {
                 const info = await getUserInfo(userNo);
                 console.log(info);
@@ -75,11 +97,31 @@ function UserDetailModal({
             } catch (error) {
                 console.error(error);
             }
-        };
 
+            //내가 구독한 사람 목록
+            try {
+                const data = await getMySubscribeList();
+                setMyPageSubscribeList(data);
+            } catch (error) {
+                console.log("내가 구독한 사람 목록 불러오기 실패");
+                console.error(error);
+            }
+        };
+        if (myPageSubscribeList.length > 0) {
+            for (let i = 0; i < myPageSubscribeList.length; i++) {
+                if (myPageSubscribeList[i].subscribeName === userName) {
+                    setIsSubscribe(true);
+                    setSubNo(i);
+                    break;
+                } else {
+                    setIsSubscribe(false);
+                }
+            }
+        }
         if (isModalOpen) {
             fetchUserInfo();
         }
+        console.log("isSubscribe? : " + isSubscribe);
     }, [isModalOpen, userNo]);
 
     const navToUserPage = async () => {
@@ -88,6 +130,13 @@ function UserDetailModal({
         } else {
             navigate("/user-page");
         }
+    };
+    const deleteSubscription = (subscribeNo: number) => {
+        setMyPageSubscribeList(
+            myPageSubscribeList.filter(
+                (subscribe) => subscribe.subscribeNo !== subscribeNo
+            )
+        );
     };
 
     return (
@@ -136,6 +185,12 @@ function UserDetailModal({
                         <ButtonContainer className="btn-container">
                             {myPageInfo.userNo === userNo ? (
                                 <></>
+                            ) : isSubscribe ? (
+                                <DeleteSubBtn
+                                    onSubscribe={myPageSubscribeList[subNo]}
+                                    onDelete={deleteSubscription}
+                                    text={"구독 취소"}
+                                />
                             ) : (
                                 <SubscribeButton
                                     userNo={myPageInfo.userNo}
@@ -179,6 +234,10 @@ const Container = styled.div`
 const TitleContainer = styled.div``;
 
 const ButtonContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     button {
         margin: 20px;
     }
