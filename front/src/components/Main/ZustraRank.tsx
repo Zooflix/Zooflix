@@ -9,6 +9,8 @@ import styled, { css, keyframes } from "styled-components";
 import first from "../../assets/img/rank/first.svg";
 import second from "../../assets/img/rank/second.svg";
 import third from "../../assets/img/rank/third.svg";
+import { subscribeUser } from "../../apis/api/MyPage";
+import { getJwtUserNo } from "../../apis/utils/jwt";
 
 interface InnerGraphProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -39,6 +41,11 @@ function ZustraRank({ rankData, zbti }: Props) {
     } else {
       setExpandedIndex(index); // 그 외의 경우 확장
     }
+  }
+
+  async function subscribe(subscribeUserNo: number) {
+    const result = await subscribeUser(getJwtUserNo(), subscribeUserNo);
+    alert("유저 구독이 완료되었습니다.");
   }
 
   return (
@@ -120,7 +127,9 @@ function ZustraRank({ rankData, zbti }: Props) {
                     </div>
                     <ButtonDiv>
                       <Button>프로필 가기</Button>
-                      <Button>구독하기</Button>
+                      <Button onClick={() => subscribe(item.userNo)}>
+                        구독하기
+                      </Button>
                     </ButtonDiv>
                   </InfoDiv>
                 )}
