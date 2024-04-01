@@ -23,13 +23,26 @@ function SubscribeForm() {
     stockName: string;
     stockCode: string;
   } | null>(null);
-  const [subscribeDay, setSubscribeDay] = useState(1);
+  const [subscribeDay, setSubscribeDay] = useState(0);
   const [stockCnt, setStockCnt] = useState(0);
   const [account, setAccount] = useState("");
   const [appkey, setAppkey] = useState("");
   const [secretkey, setSecretkey] = useState("");
 
-  const openModal = () => setIsModalOpen(true);
+  function openModal() {
+    if (
+      stock !== undefined &&
+      subscribeDay !== 0 &&
+      stockCnt !== 0 &&
+      account !== "" &&
+      appkey !== "" &&
+      secretkey !== ""
+    ) {
+      setIsModalOpen(true);
+    } else {
+      alert("필수항목을 모두 입력해주세요.");
+    }
+  }
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
