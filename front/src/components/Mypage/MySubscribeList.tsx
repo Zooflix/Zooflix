@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import MySubscription from "./MySubscription";
+import DeleteSubButton from "./DeleteSubButton";
 import { useRecoilState } from "recoil";
 import { myPageSubscribeListState } from "../../Store/MyPageState";
 import CardList from "./CardList";
@@ -32,10 +32,11 @@ function MySubscribeList() {
           <div>
             {myPageSubscribeList &&
               myPageSubscribeList.map((subscribe) => (
-                <MySubscription
+                <DeleteSubButton
                   key={subscribe.subscribeNo}
                   onSubscribe={subscribe}
                   onDelete={deleteSubscription}
+                  text={"X"}
                 />
               ))}
           </div>
