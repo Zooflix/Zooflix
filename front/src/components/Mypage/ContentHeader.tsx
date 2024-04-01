@@ -43,8 +43,8 @@ function ContentHeader() {
         {selectedTab === "my-predictions" && (
           <PredictList currentPage={myPagePredictList} />
         )}
+        {selectedTab === "my-subscriptions" && <MySubscribeList />}
       </List>
-      {selectedTab === "my-subscriptions" && <MySubscribeList />}
     </Wrapper>
   );
 }
@@ -54,7 +54,6 @@ const Wrapper = styled.div`
 `;
 const ContentTabHeader = styled.div`
   display: flex;
-  border: 1px solid black;
 `;
 const ContentHeaderTab = styled.nav`
   flex: 1;
@@ -78,21 +77,30 @@ const ContentTabListItemSpan = styled.div<{ selected: boolean }>`
   vertical-align: top;
   color: ${({ selected }) => (selected ? "black" : "rgba(8, 8, 8, 0.5)")};
   cursor: pointer;
-  -webkit-font-smoothing: antialiased;
 `;
 
 const List = styled.div`
   display: flex;
   justify-content: center;
+  border: 1px solid #e7e7e7;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 10px;
+  height: 550px;
 `;
 
 const Button = styled.button`
   margin: 0 10px;
-  border: 2px solid black;
+  border: 1px solid #e7e7e7;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-bottom: none;
   padding: 10px 7px;
   border-radius: 10px 10px 0 0;
   background-color: transparent;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
 `;
 
 export default ContentHeader;
