@@ -10,7 +10,7 @@ export async function loginUser(userId: string, userPw: string) {
         `/login`,
         { userId, userPw },
         {
-          headers: { access: localStorage.getItem("access") },
+          // headers: { access: localStorage.getItem("access") },
           withCredentials: true,
         }
       )
