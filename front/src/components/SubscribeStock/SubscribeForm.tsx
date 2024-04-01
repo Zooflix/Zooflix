@@ -29,8 +29,6 @@ function SubscribeForm() {
   const [appkey, setAppkey] = useState("");
   const [secretkey, setSecretkey] = useState("");
 
-  const [input, setInput] = useState(false);
-
   function openModal() {
     if (
       stock !== undefined &&
