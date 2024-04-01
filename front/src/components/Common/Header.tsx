@@ -30,21 +30,20 @@ function Header() {
 
   return (
     <Container>
+      <Space></Space>
       <ImgContainer>
         <img src={Logo} alt="logo" className="logo" />
       </ImgContainer>
       <LoginContainer>
         {isLogin ? (
           <LoginWrapper
-            onClick={handleLogout}
             style={{
-              cursor: "pointer",
               textDecoration: "none",
               color: "black",
             }}
           >
             <div>{getJwtUserId()}님 반가워요!</div>
-            <Button>로그아웃</Button>
+            <Button onClick={handleLogout}>로그아웃</Button>
           </LoginWrapper>
         ) : (
           <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
@@ -73,27 +72,29 @@ const Container = styled.div`
   margin-left: 6vw;
   .logo {
     width: 150px;
-    margin: 0 500px;
   }
   display: flex;
   justify-content: center;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const ImgContainer = styled.div`
-  display: flex;
-  justify-content: center;
+  // display: flex;
+  // justify-content: center;
 `;
 
 const LoginContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const CircleContainer = styled.div`
   margin-top: 50px;
   margin-left: 10px;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 const CircleMotion = keyframes`
@@ -126,9 +127,14 @@ const Button = styled.button`
   color: white;
   border-radius: 15px;
   margin-left: 10px;
+  cursor: pointer;
 `;
 
 const LoginWrapper = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+const Space = styled.div`
+  width: 11vw;
 `;
