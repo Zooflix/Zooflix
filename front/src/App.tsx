@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
-import MyPage from "./pages/MyPage/Mypage";
+import Mypage from "./pages/Mypage/Mypage";
 import Radio from "./pages/Radio/Radio";
 import Main from "./pages/Main/Main";
 import SideNavBar from "./components/Common/SideNavBar";
@@ -72,7 +72,7 @@ function App() {
             <Route path="/main" element={<Main />} />
             <Route path="/stocksub" element={<SubscribeStock />} />
 
-            <Route path="/my-page" element={<MyPage />} />
+            <Route path="/my-page" element={<Mypage />} />
             <Route path="/my-page/update" element={<UpdateMyInfo />} />
 
             <Route path="/zbti" element={<ZbtiStart />} />
