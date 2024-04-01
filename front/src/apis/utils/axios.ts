@@ -1,14 +1,14 @@
 import Axios from "axios";
 
 export const axios = Axios.create({
-  baseURL: `http://localhost:8089`,
+  baseURL: `${process.env.REACT_APP_HOME_URL}`,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 export const axiosPrivate = Axios.create({
-  baseURL: `http://localhost:8089`,
+  baseURL: `${process.env.REACT_APP_HOME_URL}`,
   headers: {
     "Content-Type": "application/json",
   },
