@@ -10,6 +10,21 @@ import Mypage from "../../assets/img/SidebarIcon/Mypage.svg";
 import Predict from "../../assets/img/SidebarIcon/Predict.svg";
 import Radio from "../../assets/img/SidebarIcon/Radio.svg";
 
+
+// 스타일
+const activeStyle = {
+  backgroundColor: "rgba(255,255,255,0.3)",
+  borderRadius: "50%",
+  textDecoration: "none",
+  width: "55px",
+  height: "55px",
+  
+}
+const nonActiveStyle = {
+  textDecoration: "none",
+}
+
+
 function SideNavBar() {
   const menus = [
     { name: "홈", path: "/main", icon: Home },
@@ -26,15 +41,15 @@ function SideNavBar() {
       <Menu>
         {menus.map((menu, index) => {
           return (
-            <NavLink
-              to={menu.path}
-              key={index}
-              style={{ textDecoration: "none" }}
-            >
-              <IconContainer>
-                <BarIcon img={menu.icon} text={menu.name} />
-              </IconContainer>
+            <IconContainer>
+                <NavLink
+                  to={menu.path}
+                  key={index}
+                  style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
+                >
+                <BarIcon img={menu.icon} text={menu.name}/>
             </NavLink>
+              </IconContainer>
           );
         })}
       </Menu>
@@ -64,7 +79,7 @@ const Side = styled.div`
 `;
 
 const Menu = styled.div`
-  margin-top: 30px;
+  margin-top: 25px;
   width: 200px;
   display: flex;
   flex-direction: column;
@@ -75,5 +90,5 @@ const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 13px;
+  margin: 15px;
 `;

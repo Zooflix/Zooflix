@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 
 type BarIconProps = {
   img: string;
@@ -20,6 +21,7 @@ const MenuWrapper = styled.div`
   width: 100%;
   text-align: center;
 `;
+
 
 const IconImg = styled.img``;
 
