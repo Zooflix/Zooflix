@@ -65,9 +65,16 @@ public class    MyPageService {
             }
         }
 
+        double tempRate = 0;
+        double successRate = 0;
         // 성공 확률
-        double tempRate = Math.round(successPredictNum / totalPredictNum * 100);
-        double successRate = Math.round(tempRate * 100) / 100;
+        if(totalPredictNum != 0  && successPredictNum != 0) {
+            tempRate = Math.round((double) successPredictNum / totalPredictNum * 100);
+            successRate = (double) Math.round(tempRate * 100) / 100;
+        } else {
+            successRate = 0;
+        }
+
 
         System.out.println("예측 성공률 : " + successRate);
 
