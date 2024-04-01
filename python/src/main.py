@@ -212,7 +212,6 @@ async def getCrawlingData(request: Request):
     ppgUrl = request_body.get("ppgUrl")
     crawlingNews = await crawling(webUrl)
     transNews = await translation(clientId, clientSecret, ppgUrl, crawlingNews)
-    print("번역 완료: ",transNews)
     return transNews
 
 
@@ -304,48 +303,7 @@ async def translation(id, secret, url, list):
             translationList.append(json.dumps(oneTranslation, ensure_ascii=False))
         else:
             print("Error Code:" + str(titleJson)+ str(contentJson) + " translation is failed")
-
-    # result = {
-    #     "translationData": translationList
-    # }
     return translationList
-
-
-
-
-# #
-# # 요약 by KoBART
-# #
-# @app.post("/radio/summary/endpoint")
-# def summary(item: Item):
-#     # 요청 바디에서 전달된 텍스트 추출
-#     text = item.text
-#
-#     # 1. 모델과 문장 분리를 위한 토크나이저 호출
-#     model = BartForConditionalGeneration.from_pretrained("ainize/kobart-news")
-#     tokenizer = PreTrainedTokenizerFast.from_pretrained("ainize/kobart-news")
-#
-#     # 2. 토크나이저를 사용하여 뉴스기사 원문을 모델이 인식할 수 있는 토큰 형태로 변환
-#     # => 기사 본문이 토큰 단위로 쪼개진 뒤 모두 id형태의 숫자로 변환됨
-#     # "0" : 문장 시작을 나타내는 토큰id, "1" : 문장 끝을 나타내는 토큰id
-#     input_ids = tokenizer.encode(text, return_tensors="pt")
-#
-#     # 3. 요약
-#     summary_content_ids = model.generate(
-#         input_ids=input_ids,
-#         bos_token_id=model.config.bos_token_id,  # 문장의 시작 special토큰
-#         eos_token_id=model.config.eos_token_id,  # 문장의 종료 special토큰
-#         length_penalty=1.0,  # 길이에 대한 제한. 짧은문장<1. 긴문장>1
-#         max_length=128,  # 요약문의 최대 길이
-#         min_length=32,  # 요약문의 최소 길이
-#         num_beams=4,  # 문장 생성시 다음 단어를 탐색하는 영역의 개수
-#     )
-#
-#     # 4. 텍스트로 환원
-#     summary_content = tokenizer.decode(summary_content_ids[0], skip_special_tokens=True)
-#     print(summary_content)
-#
-#     return summary_content
 
 
 
@@ -388,6 +346,8 @@ async def summary(request: Request):
         return result
     else:
         print("Error Code:" + str(responseJson)+" summary is failed")
+
+
 
 
 
