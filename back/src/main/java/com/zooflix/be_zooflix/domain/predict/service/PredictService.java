@@ -261,19 +261,19 @@ public class PredictService {
         }
     }
 
-    @Value("http://127.0.0.1:8000/get_closing_price")
+    @Value("${python.endpoint.predict.value}")
     private String pythonPredictValue;
 
-    @Value("http://127.0.0.1:8000/generate_stock_graph")
+    @Value("${python.endpoint.predict.graph}")
     private String pythonGraph;
 
-    @Value("http://127.0.0.1:8000/compare_graph")
+    @Value("${python.endpoint.predict.compare}")
     private String pythonCompareGraph;
 
-    @Value("http://127.0.0.1:8000/get_stock_search")
+    @Value("${python.endpoint.predict.search}")
     private String pythonStockSearch;
 
-    @Value("http://127.0.0.1:8000/get_now_price")
+    @Value("${python.endpoint.predict.price}")
     private String pythonNowPrice;
 
     public int getClosingPrice(String stockName, String date) {
