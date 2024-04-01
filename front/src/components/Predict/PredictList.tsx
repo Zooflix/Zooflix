@@ -39,6 +39,7 @@ const ClickWithOpen = styled(Click)<{ isOpen: boolean }>`
 function PredictList(props: PredictProps) {
     const [userNo, setUserNo] = useState(0);
     const [openItems, setOpenItems] = useState<number[]>([]);
+    const [deletePdResult, setDeletePdResult] = useState(true);
     const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
     const [selectStockName, setSelectStockName] =
         useRecoilState(selectStockNameState);
@@ -96,8 +97,13 @@ function PredictList(props: PredictProps) {
 
     //삭제 모달
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const deleteModal = (pdNo: number) => {
+    const deleteModal = (pdNo: number, pdResult: string) => {
         setSelectedPdNo(pdNo);
+        if(pdResult === null){
+            setDeletePdResult(false);
+        }else{
+            setDeletePdResult(true);
+        }
         setIsDeleteModalOpen(true);
     };
 
@@ -188,8 +194,7 @@ function PredictList(props: PredictProps) {
                                     <img
                                         src={Deletebtn}
                                         alt="삭제"
-                                        onClick={() => deleteModal(item.pdNo)}
-                                        // onClick={() => handleDelete(item.pdNo)}
+                                        onClick={() => deleteModal(item.pdNo, item.pdResult)}
                                     />
                                 ) : (
                                     <img
@@ -223,6 +228,7 @@ function PredictList(props: PredictProps) {
                         isModalOpen={isDeleteModalOpen}
                         closeModal={closeDeleteModal}
                         pdNo={selectedPdNo}
+                        pdResult={deletePdResult}
                     />
                 </>
             )}
