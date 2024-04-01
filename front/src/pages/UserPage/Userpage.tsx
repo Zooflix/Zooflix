@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import MyInfo from "../../components/Mypage/MyInfo";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
@@ -21,18 +20,29 @@ import TempWithImage from "../../components/UserPage/TempWithImage";
 import SubscribeButton from "../../components/UserPage/SubscribeButton";
 import UserContentHeader from "../../components/UserPage/UserContentHeader";
 import UserInfo from "../../components/UserPage/UserInfo";
+import { myPageInfoState } from "../../Store/MyPageState";
 
 function UserPage() {
+    // 내 정보
+    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+    
+    // 유저 정보
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
+    
+    // 유저 예측 리스트
     const [userPagePredictList, setUserPagePredictList] = useRecoilState(
         userPagePredictListState
     );
+
+    // 유저 구독 리스트
     const [userPageSubscribeList, setUserPageSubscribeList] = useRecoilState(
         userPageSubscribeListState
     );
 
+    // 유저 주식 리스트
     const [userStockList, setUserStockList] = useRecoilState(stockSubListState);
 
+    // 유저 인덱스 값
     const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
 
     const navigate = useNavigate();
@@ -100,7 +110,10 @@ function UserPage() {
                     {userPageInfo.userName + " 님의 정보"}
                     <TempWithImage />
                     <UserInfo />
-                    <SubscribeButton />
+                    <SubscribeButton 
+                        userNo={myPageInfo.userNo}
+                        subscribeNo={selectUserNo}
+                    />
                 </LeftSideMyInfo>
                 <RightSideMyInfo>
                     <UserContentHeader />

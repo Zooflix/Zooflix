@@ -13,7 +13,6 @@ export const myPageInfoState = atom({
     default: {
         userNo: 0,
         userId: "",
-        userPw: "",
         userName: "",
         userTemperature: 30,
         predictCount: 0,

@@ -22,6 +22,7 @@ import {
     getUserPredictList,
     getUserSubscribeList,
 } from "../../apis/api/UserPage";
+import SubscribeButton from "../UserPage/SubscribeButton";
 
 interface ModalProps {
     isModalOpen: boolean;
@@ -43,6 +44,7 @@ function UserDetailModal({
     userNo,
 }: ModalProps) {
     const navigate = useNavigate();
+    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
     const [userPagePredictList, setUserPagePredictList] = useRecoilState(
         userPagePredictListState
@@ -146,9 +148,10 @@ function UserDetailModal({
                             </LineContainer>
                         </InfoContainer>
                         <ButtonContainer className="btn-container">
-                            <SubscribeButton type="button">
-                                구독하기
-                            </SubscribeButton>
+                            <SubscribeButton 
+                                userNo={myPageInfo.userNo} 
+                                subscribeNo={userPageInfo.userNo}
+                            />
                             <SquareBtn
                                 text="글 보러가기"
                                 onClick={navToUserPage}
@@ -187,21 +190,21 @@ const ButtonContainer = styled.div`
         margin: 20px;
     }
 `;
-const SubscribeButton = styled.button`
-    background-color: #f84646;
-    width: 90px;
-    border-radius: 10px;
-    cursor: pointer;
-    padding: 7px 0;
-    border: none;
-    color: white;
-    &:hover {
-        background-color: white;
-        box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-        color: #f84646;
-        font-weight: bold;
-    }
-`;
+// const SubscribeButton = styled.button`
+//     background-color: #f84646;
+//     width: 90px;
+//     border-radius: 10px;
+//     cursor: pointer;
+//     padding: 7px 0;
+//     border: none;
+//     color: white;
+//     &:hover {
+//         background-color: white;
+//         box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+//         color: #f84646;
+//         font-weight: bold;
+//     }
+// `;
 
 const InfoContainer = styled.div`
     display: flex;

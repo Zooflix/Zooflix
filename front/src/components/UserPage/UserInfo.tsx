@@ -1,35 +1,9 @@
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import {
-    myPageInfoState,
-    myPagePredictListState,
-} from "../../Store/MyPageState";
-import { useState } from "react";
-import { userPageInfoState } from "../../Store/UserPageState";
+import { userPageInfoState, userPagePredictListState } from "../../Store/UserPageState";
 
 function UserInfo() {
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
-    const [userPagePredictList, setUserPagePredictList] = useRecoilState(
-        myPagePredictListState
-    );
-    
-    // console.log(userPageInfo.userNo);
-    // console.log(userPagePredictList.length);
-
-    // let successCnt = 0; //성공 횟수
-    // let successRate = 0; //성공 확률
-
-    // userPagePredictList.forEach((item) => {
-    //     if (item.pdResult === "성공") {
-    //         successCnt += 1;
-    //     }
-    // }); 
-
-    // if(successCnt > 0) {
-    //   successRate = Math.round((successCnt / userPagePredictList.length) * 100) / 100;
-    // } else {
-    //   successRate = 0;
-    // }
 
     return (
         <Wrapper>
@@ -41,7 +15,7 @@ function UserInfo() {
                 <h4>구독자</h4>
             </LeftsideQuestion>
             <RightSideAnswer>
-                <h4>{userPagePredictList.length}</h4>
+                <h4>{userPageInfo.predictCount}</h4>
                 <h4>{userPageInfo.successCount}</h4>
                 <h4>{userPageInfo.predictionRate} %</h4>
                 <h4>{userPageInfo.subscribeFromMe}</h4>

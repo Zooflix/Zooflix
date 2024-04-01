@@ -11,7 +11,7 @@ import { getMyInfo } from "../../apis/api/MyPage";
 ChartJS.register(ArcElement, Tooltip);
 
 interface ChartProps {
-  temp: number;
+  temp: Number;
   color: string;
   transparency: string;
 }
@@ -22,7 +22,7 @@ function DoughnutChart({ temp, color, transparency }: ChartProps) {
   const Data = {
     datasets: [
       {
-        data: [temp, 100 - temp],
+        data: [temp, +100 - +temp], // 이해할 수 없는 typescript 오류
         backgroundColor: [color, transparency],
         borderRadius: 10,
         circumference: 270,
@@ -52,7 +52,7 @@ function DoughnutChart({ temp, color, transparency }: ChartProps) {
         width="250px"
         className="ZbtiImg"
       ></Zbti>
-      <Temp>{temp}℃</Temp>
+      <Temp>{+temp}℃</Temp>
     </ChartWrapper>
   );
 }
