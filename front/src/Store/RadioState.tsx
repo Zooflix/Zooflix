@@ -8,7 +8,7 @@ export const isPausedState = atom({
 export const characterState = atom({
     key: "characterState",
     default: {
-        name: "Bear",
+        name: "",
         characterScale: 0.58,
         canvasWidth: 400,
         canvasHeight: 440,
