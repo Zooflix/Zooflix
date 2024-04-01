@@ -20,6 +20,7 @@ function CardList({ myStockList }: Props) {
 
 export default CardList;
 const Wrapper = styled.div`
+  width: 100%;
   border: none;
   border-radius: 30px;
   background-color: white;

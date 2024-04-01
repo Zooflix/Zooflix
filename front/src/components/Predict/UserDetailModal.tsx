@@ -6,29 +6,29 @@ import DoughnutChart from "../Mypage/DoughnutChart";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import {
-  userPageInfoState,
-  userPagePredictListState,
-  userPageSubscribeListState,
+    userPageInfoState,
+    userPagePredictListState,
+    userPageSubscribeListState,
 } from "../../Store/UserPageState";
 import {
-  getUserInfo,
-  getUserPredictList,
-  getUserSubscribeList,
+    getUserInfo,
+    getUserPredictList,
+    getUserSubscribeList,
 } from "../../apis/api/UserPage";
 import SubscribeButton from "../UserPage/SubscribeButton";
 import { myPageInfoState } from "../../Store/MyPageState";
 
 interface ModalProps {
-  isModalOpen: boolean;
-  closeModal: () => void;
-  userName: string;
-  userNo: number;
+    isModalOpen: boolean;
+    closeModal: () => void;
+    userName: string;
+    userNo: number;
 }
 
 const StyledModal = styled(Modal)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 function UserDetailModal({
@@ -47,7 +47,7 @@ function UserDetailModal({
         userPageSubscribeListState
     );
 
-    console.log(myPageInfo.userNo + " " + userPageInfo.userNo);
+    // console.log(userNo + " " + userPageInfo.userNo);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -83,7 +83,11 @@ function UserDetailModal({
     }, [isModalOpen, userNo]);
 
     const navToUserPage = async () => {
-        navigate("/user-page");
+        if (myPageInfo.userNo === userNo) {
+            navigate("/my-page");
+        } else {
+            navigate("/user-page");
+        }
     };
 
     return (
@@ -112,10 +116,12 @@ function UserDetailModal({
                                     {userPageInfo.predictCount}
                                 </Line>
                                 <Line>
-                                    <label>예측 성공 횟수</label> {userPageInfo.successCount}
+                                    <label>예측 성공 횟수</label>{" "}
+                                    {userPageInfo.successCount}
                                 </Line>
                                 <Line>
-                                    <label>예측률</label> {userPageInfo.predictionRate}%
+                                    <label>예측률</label>{" "}
+                                    {userPageInfo.predictionRate}%
                                 </Line>
                                 <Line>
                                     <label>구독</label>{" "}
@@ -128,10 +134,14 @@ function UserDetailModal({
                             </LineContainer>
                         </InfoContainer>
                         <ButtonContainer className="btn-container">
-                            <SubscribeButton 
-                                userNo={myPageInfo.userNo} 
-                                subscribeNo={userPageInfo.userNo}
-                            />
+                            {myPageInfo.userNo === userNo ? (
+                                <></>
+                            ) : (
+                                <SubscribeButton
+                                    userNo={myPageInfo.userNo}
+                                    subscribeNo={userPageInfo.userNo}
+                                />
+                            )}
                             <SquareBtn
                                 text="글 보러가기"
                                 onClick={navToUserPage}
@@ -147,31 +157,31 @@ function UserDetailModal({
 export default UserDetailModal;
 
 const Container = styled.div`
-  width: 600px;
-  height: 400px;
-  background-color: white;
-  border: none;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  span {
-    font-weight: bold;
-    font-size: 23px;
-  }
-  .user-name {
-    color: orange;
-  }
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    border: none;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    span {
+        font-weight: bold;
+        font-size: 23px;
+    }
+    .user-name {
+        color: orange;
+    }
 `;
 
 const TitleContainer = styled.div``;
 
 const ButtonContainer = styled.div`
-  button {
-    margin: 20px;
-  }
+    button {
+        margin: 20px;
+    }
 `;
 // const SubscribeButton = styled.button`
 //     background-color: #f84646;
@@ -190,31 +200,31 @@ const ButtonContainer = styled.div`
 // `;
 
 const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
 `;
 
 const GraphContainer = styled.div`
-  width: 70%;
+    width: 70%;
 `;
 
 const Line = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-  label {
-    font-weight: bold;
-  }
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    label {
+        font-weight: bold;
+    }
 `;
 
 const LineContainer = styled.div`
-  width: 50%;
-  padding-top: 10%;
-  span {
-    font-size: 15px;
-    color: #0099e8;
-  }
-  margin-right: 40px;
+    width: 50%;
+    padding-top: 10%;
+    span {
+        font-size: 15px;
+        color: #0099e8;
+    }
+    margin-right: 40px;
 `;

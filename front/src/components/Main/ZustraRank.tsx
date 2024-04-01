@@ -9,6 +9,11 @@ import styled, { css, keyframes } from "styled-components";
 import first from "../../assets/img/rank/first.svg";
 import second from "../../assets/img/rank/second.svg";
 import third from "../../assets/img/rank/third.svg";
+import { useRecoilState } from "recoil";
+import { subscribeUser } from "../../apis/api/MyPage";
+import { getJwtUserNo } from "../../apis/utils/jwt";
+import { selectUserNoState } from "../../Store/PredictState";
+import { useNavigate } from "react-router-dom";
 
 interface InnerGraphProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -30,6 +35,8 @@ function ZustraRank({ rankData, zbti }: Props) {
   ];
 
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
+  const navigate = useNavigate();
 
   useEffect(() => {});
 
@@ -39,6 +46,16 @@ function ZustraRank({ rankData, zbti }: Props) {
     } else {
       setExpandedIndex(index); // 그 외의 경우 확장
     }
+  }
+
+  async function subscribe(subscribeUserNo: number) {
+    const result = await subscribeUser(getJwtUserNo(), subscribeUserNo);
+    alert("유저 구독이 완료되었습니다.");
+  }
+
+  function linkProfile(userNo: number) {
+    setSelectUserNo(userNo);
+    navigate("/user-page");
   }
 
   return (
@@ -56,14 +73,14 @@ function ZustraRank({ rankData, zbti }: Props) {
                     <Character3d
                       name={item.userZbti || "Bear"}
                       characterScale={0.35}
-                      canvasWidth={70}
+                      canvasWidth={50}
                       canvasHeight={100}
                     />
                   ) : (
                     <Character3d
                       name={item.userZbti || "Bear"}
                       characterScale={0.35}
-                      canvasWidth={70}
+                      canvasWidth={50}
                       canvasHeight={100}
                       action="turn"
                     />
@@ -119,8 +136,12 @@ function ZustraRank({ rankData, zbti }: Props) {
                       <Num>{item.failCount}</Num>
                     </div>
                     <ButtonDiv>
-                      <Button>프로필 가기</Button>
-                      <Button>구독하기</Button>
+                      <Button onClick={() => linkProfile(item.userNo)}>
+                        프로필 가기
+                      </Button>
+                      <Button onClick={() => subscribe(item.userNo)}>
+                        구독하기
+                      </Button>
                     </ButtonDiv>
                   </InfoDiv>
                 )}
