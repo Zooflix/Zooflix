@@ -10,7 +10,7 @@ import {
   myPagePredictListState,
   myPageSubscribeListState,
 } from "../../Store/MyPageState";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   getMyInfo,
   getMyPredictList,
@@ -167,6 +167,5 @@ const RightSideMyInfo = styled.div`
 const GotoZbtiButton = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 20px;
   }
 `;
