@@ -30,15 +30,17 @@ function SubscribeForm() {
   const [secretkey, setSecretkey] = useState("");
 
   function openModal() {
-    if (
-      stock !== undefined &&
-      subscribeDay !== 0 &&
-      stockCnt !== 0 &&
-      account !== "" &&
-      appkey !== "" &&
-      secretkey !== ""
-    ) {
-      setIsModalOpen(true);
+    if (stock !== undefined && subscribeDay !== 0 && stockCnt !== 0) {
+      if (
+        accessToken === true ||
+        (account !== undefined &&
+          appkey !== undefined &&
+          secretkey !== undefined)
+      ) {
+        setIsModalOpen(true);
+      } else {
+        alert("필수항목을 모두 입력해주세요.");
+      }
     } else {
       alert("필수항목을 모두 입력해주세요.");
     }
