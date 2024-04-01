@@ -7,9 +7,7 @@ import { myPagePredictListState } from "../../Store/MyPageState";
 
 function ContentHeader() {
   const [selectedTab, setSelectedTab] = useState<string>("my-predictions");
-  const [myPagePredictList, setMyPagePredictList] = useRecoilState(
-    myPagePredictListState
-  );
+  const [myPagePredictList] = useRecoilState(myPagePredictListState);
 
   const handleTabClick = (tabName: string) => {
     setSelectedTab(tabName);
@@ -25,7 +23,9 @@ function ContentHeader() {
                 onClick={() => handleTabClick("my-predictions")}
                 selected={selectedTab === "my-predictions"}
               >
-                <Button>내가 쓴 예측 글</Button>
+                <Button selected={selectedTab === "my-predictions"}>
+                  내가 쓴 예측 글
+                </Button>
               </ContentTabListItemSpan>
             </ContentTabListItem>
             <ContentTabListItem>
@@ -33,7 +33,9 @@ function ContentHeader() {
                 onClick={() => handleTabClick("my-subscriptions")}
                 selected={selectedTab === "my-subscriptions"}
               >
-                <Button>내 구독 정보</Button>
+                <Button selected={selectedTab === "my-subscriptions"}>
+                  내 구독 정보
+                </Button>
               </ContentTabListItemSpan>
             </ContentTabListItem>
           </ContentTabList>
@@ -59,7 +61,7 @@ const ContentHeaderTab = styled.nav`
   flex: 1;
   display: block;
 `;
-const ContentTabList = styled.ul`
+const ContentTabList = styled.div`
   display: flex;
   list-style: none;
 `;
@@ -89,14 +91,15 @@ const List = styled.div`
   height: 550px;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ selected: boolean }>`
   margin: 0 10px;
   border: 1px solid #e7e7e7;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-bottom: none;
   padding: 10px 7px;
   border-radius: 10px 10px 0 0;
-  background-color: transparent;
+  background-color: ${({ selected }) => (selected ? "black" : "transparent")};
+  color: ${({ selected }) => (selected ? "white" : "black")};
   &:hover {
     background-color: black;
     color: white;

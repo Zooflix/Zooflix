@@ -28,17 +28,21 @@ function MySubscribeList() {
         </LeftSide>
         <RightSide>
           <h3>내가 구독 중인 회원</h3>
-          <div>
-            {myPageSubscribeList &&
-              myPageSubscribeList.map((subscribe) => (
-                <DeleteSubButton
-                  key={subscribe.subscribeNo}
-                  onSubscribe={subscribe}
-                  onDelete={deleteSubscription}
-                  text={"X"}
-                />
+          {myPageSubscribeList.length > 0 ? (
+            <SubscriberList>
+              {myPageSubscribeList.map((subscribe) => (
+                <SubscriberOne key={subscribe.subscribeNo}>
+                  <DeleteSubButton
+                    onSubscribe={subscribe}
+                    onDelete={deleteSubscription}
+                    text={"X"}
+                  />
+                </SubscriberOne>
               ))}
-          </div>
+            </SubscriberList>
+          ) : (
+            <NoSubscription>구독하는 회원이 없습니다.</NoSubscription>
+          )}
         </RightSide>
       </Container>
     </Wrapper>
@@ -51,23 +55,20 @@ const Wrapper = styled.div`
   background: #ffffff;
   border: 1px solid #e7e7e7;
   border-radius: 12px;
-  overflow: auto;
-  max-height: 580px;
+  width: 100%;
   border: none;
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 `;
 
 const LeftSide = styled.div`
-  // width: 50%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   border: none;
   h3 {
     text-align: center;
@@ -75,13 +76,28 @@ const LeftSide = styled.div`
 `;
 
 const CardSection = styled.div`
+  display: flex;
+  justify-content: center;
   border: none;
 `;
 
 const RightSide = styled.div`
+  width: 50%;
   flex-direction: column;
   justify-content: center;
   h3 {
     text-align: center;
   }
+`;
+
+const SubscriberList = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+`;
+
+const SubscriberOne = styled.div``;
+
+const NoSubscription = styled.h3`
+  text-align: center;
 `;

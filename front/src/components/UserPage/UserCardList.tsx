@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 
 const SubscribeStockList: React.FC = () => {
-  const [userStockList, setUserStockList] = useRecoilState(stockSubListState);
+  const [userStockList] = useRecoilState(stockSubListState);
 
   if (!userStockList || userStockList.length === 0) {
     return <NoResultsMessage>결과를 찾을 수 없습니다</NoResultsMessage>;
