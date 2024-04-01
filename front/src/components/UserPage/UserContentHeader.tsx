@@ -29,7 +29,9 @@ function UserContentHeader() {
                                 onClick={() => handleTabClick("user-predictions")}
                                 selected={selectedTab === "user-predictions"}
                             >
-                                <Button>{userPageInfo.userName} 님이 쓴 예측글</Button>
+                                <Button selected={selectedTab === "user-predictions"}>
+                                    {userPageInfo.userName} 님이 쓴 예측글
+                                </Button>
                             </ContentTabListItemSpan>
                         </ContentTabListItem>
                         <ContentTabListItem>
@@ -37,7 +39,9 @@ function UserContentHeader() {
                                 onClick={() =>handleTabClick("user-subscriptions")}
                                 selected={selectedTab === "user-subscriptions"}
                             >
-                                <Button>{userPageInfo.userName} 님의  구독 정보</Button>
+                                <Button selected={selectedTab === "user-subscriptions"}>
+                                    {userPageInfo.userName} 님의  구독 정보
+                                </Button>
                             </ContentTabListItemSpan>
                         </ContentTabListItem>
                     </ContentTabList>
@@ -47,8 +51,8 @@ function UserContentHeader() {
             {selectedTab === "user-predictions" && (
                 <PredictList currentPage={userPagePredictList} />
             )}
-            </List>
             {selectedTab === "user-subscriptions" && <UserSubscribeList />}
+            </List>
         </Wrapper>
     );
 }
@@ -64,7 +68,7 @@ const ContentHeaderTab = styled.nav`
     flex: 1;
     display: block;
 `;
-const ContentTabList = styled.ul`
+const ContentTabList = styled.div`
     display: flex;
     list-style: none;
 `;
@@ -75,7 +79,7 @@ const ContentTabListItem = styled.li`
     margin: 0;
     padding: 0;
 `;
-const ContentTabListItemSpan = styled.span<{ selected: boolean }>`
+const ContentTabListItemSpan = styled.div<{ selected: boolean }>`
     display: inline-block;
     line-height: 23px;
     font-weight: 800;
@@ -87,15 +91,26 @@ const ContentTabListItemSpan = styled.span<{ selected: boolean }>`
 const List = styled.div`
   display: flex;
   justify-content: center;
+  border: 1px solid #e7e7e7;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 10px;
+  height: 550px;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ selected: boolean }>`
   margin: 0 10px;
-  border: 2px solid black;
+  border: 1px solid #e7e7e7;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-bottom: none;
   padding: 10px 7px;
   border-radius: 10px 10px 0 0;
-  background-color: transparent;
+  background-color: ${({ selected }) => (selected ? "black" : "transparent")};
+  color: ${({ selected }) => (selected ? "white" : "black")};
+  &:hover {
+    background-color: black;
+    color: white;
+  }
 `;
 
 export default UserContentHeader;

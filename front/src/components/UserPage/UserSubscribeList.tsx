@@ -33,16 +33,14 @@ function UserSubscribeList() {
                 </LeftSide>
                 <RightSide>
                     <h3>{userPageInfo.userName} 님이 구독 중인 회원</h3>
-                    <div>
-                        {userPageSubscribeList &&
-                            userPageSubscribeList.map((subscribe) => (
-                                <UserSubscription
-                                    key={subscribe.subscribeNo}
-                                    onSubscribe={subscribe}
-                                />
-                            ))}
-                    </div>
-                </RightSide>
+                    {userPageSubscribeList &&
+                        userPageSubscribeList.map((subscribe) => (
+                            <UserSubscription
+                                key={subscribe.subscribeNo}
+                                onSubscribe={subscribe}
+                            />
+                        ))}
+                </RightSide>    
             </Container>
         </Wrapper>
     );
@@ -51,34 +49,39 @@ function UserSubscribeList() {
 export default UserSubscribeList;
 
 const Wrapper = styled.div`
-    //   margin: 10px;
     background: #ffffff;
-    border: 0.917219px solid #e7e7e7;
-    box-shadow: 3.1002px 3.1002px 15.4918px -7.7505px rgba(0, 0, 0, 0.4);
-    border-radius: 12.8411px;
-    overflow: auto;
-    max-height: 580px;
-    scrollbar-color: #a5a5a5;
-    scrollbar-width: thin;
+    border: 1px solid #e7e7e7;
+    border-radius: 12px;
+    width: 100%;
+    border: none;
 `;
 
 const Container = styled.div`
     display: flex;
     flex-direction: row;
-    text-align: center;
 `;
 
 const LeftSide = styled.div`
     width: 50%;
-    flex-direction: column;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    border: none;
+    h3 {
+        text-align: center;
+    }
 `;
 
-const CardSection = styled.div``;
-
+const CardSection = styled.div`
+    display: flex;
+    justify-content: center;
+    border: none;
+`;
 const RightSide = styled.div`
-    //   width: 330px;
+    width: 50%;
     flex-direction: column;
+    justify-content: center;
+    h3 {
+        text-align: center;
+    }
 `;
