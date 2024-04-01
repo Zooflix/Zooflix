@@ -1,8 +1,4 @@
-import { useState } from "react";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { userPageInfoState } from "../../Store/UserPageState";
-import { myPageInfoState } from "../../Store/MyPageState";
 import { subscribeUser } from "../../apis/api/MyPage";
 
 interface SubscribeButtonProps {
@@ -11,14 +7,18 @@ interface SubscribeButtonProps {
 }
 
 function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
-    // 나의 userNo , 상대 유저의 userNo -> subscribeNo
-    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
-    const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
 
     function handleClickToSubscribe() {
+        if(userNo === subscribeNo) {
+            alert("본인 구독은 안됩니다.");
+            return;
+        }
+
         subscribeUser(userNo, subscribeNo);
         alert("구독 완료");
     }
+
+    
 
     return (
         <GoToUpdateUser onClick={() => handleClickToSubscribe()}>
