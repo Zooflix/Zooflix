@@ -10,7 +10,7 @@ import {
     userPagePredictListState,
     userPageSubscribeListState,
 } from "../../Store/UserPageState";
-import { selectUserNoState } from "../../Store/PredictState";
+import { ModalUserNoState } from "../../Store/PredictState";
 import {
     getUserInfo,
     getUserPredictList,
@@ -42,8 +42,7 @@ function UserPage() {
     // 유저 주식 리스트
     const [userStockList, setUserStockList] = useRecoilState(stockSubListState);
 
-    // 유저 인덱스 값
-    const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
+    const [ModalUserNo, setModalUserNo] = useRecoilState(ModalUserNoState);
 
     const navigate = useNavigate();
 
@@ -55,7 +54,7 @@ function UserPage() {
         const fetchData = async () => {
             //유저 정보
             try {
-                const data = await getUserInfo(selectUserNo);
+                const data = await getUserInfo(ModalUserNo);
                 setUserPageInfo(data);
                 console.log(data);
             } catch (error) {
@@ -65,7 +64,7 @@ function UserPage() {
 
             //유저 예측 글 목록
             try {
-                const data = await getUserPredictList(selectUserNo);
+                const data = await getUserPredictList(ModalUserNo);
                 setUserPagePredictList(data);
                 console.log(data);
             } catch (error) {
@@ -75,7 +74,7 @@ function UserPage() {
 
             //유저가 구독한 사람 목록
             try {
-                const data = await getUserSubscribeList(selectUserNo);
+                const data = await getUserSubscribeList(ModalUserNo);
                 setUserPageSubscribeList(data);
             } catch (error) {
                 console.log("유저 구독한 사람 목록 불러오기 실패");
@@ -112,7 +111,7 @@ function UserPage() {
                     <UserInfo />
                     <SubscribeButton
                         userNo={myPageInfo.userNo}
-                        subscribeNo={selectUserNo}
+                        subscribeNo={ModalUserNo}
                     />
                 </LeftSideMyInfo>
                 <RightSideMyInfo>

@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
-import MyPage from "./pages/MyPage/Mypage";
+import MyPage from "./pages/Mypage/Mypage";
 import Radio from "./pages/Radio/Radio";
 import Main from "./pages/Main/Main";
 import SideNavBar from "./components/Common/SideNavBar";
