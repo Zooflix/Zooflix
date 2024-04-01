@@ -5,7 +5,11 @@ import com.zooflix.be_zooflix.domain.radio.service.RadioService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,15 +35,18 @@ public class RadioController {
                 .body(list);
     }
 
-    @GetMapping(value = "/radio/tts", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/radio/tts", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "tts 출력")
-    public ResponseEntity<List<byte[]>> playRadio() {
-        List<String[]> list = radioService.getCachedList();
-        List<byte[]> audioList = radioService.callTtsEndpoint(list);
+    public ResponseEntity<List<String>> playRadio() {
+        List<byte[]> audioList = radioService.getAudioList();
+        List<String> base64List = audioList
+                .stream()
+                .map(Base64.getEncoder()::encodeToString)
+                .collect(Collectors.toList());
+        System.out.println("audioList 완료");
         return ResponseEntity
                 .status(HttpStatus.OK)
-//                .contentType(MediaType.valueOf("audio/mpeg"))
-                .body(audioList);
+                .body(base64List);
     }
 
 }

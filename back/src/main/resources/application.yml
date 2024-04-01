@@ -19,7 +19,8 @@ spring:
     type: redis
   redis:
     host: 13.124.215.149
-    port: 6379
+    port: 6000
+    password: malanggnalam
 
 server:
   port: 8089
@@ -42,6 +43,12 @@ python:
       summary: http://127.0.0.1:8000/radio/summary/endpoint
       tts: http://127.0.0.1:8000/radio/tts/endpoint
     indices: http://127.0.0.1:8000/get_indices
+    predict:
+      value: http://127.0.0.1:8000/get_closing_price
+      graph: http://127.0.0.1:8000/generate_stock_graph
+      compare: http://127.0.0.1:8000/compare_graph
+      search: http://127.0.0.1:8000/get_stock_search
+      price: http://127.0.0.1:8000/get_now_price
   news:
     url: https://www.cnbc.com/world-markets/
   ppg:
