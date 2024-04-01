@@ -33,10 +33,13 @@ public class User {
     private int reportCount = 0;
     @Column
     private LocalDateTime reportDate;
+    @Setter
     @Column
     private int predictCount = 0;
+    @Setter
     @Column
     private int successCount = 0;
+    @Setter
     @Column
     private int failCount = 0;
     @Setter
