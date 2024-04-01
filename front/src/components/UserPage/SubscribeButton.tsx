@@ -1,28 +1,29 @@
-import { useState } from "react";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { userPageInfoState } from "../../Store/UserPageState";
-import { myPageInfoState } from "../../Store/MyPageState";
 import { subscribeUser } from "../../apis/api/MyPage";
 
-function SubscribeButton() {
-    // 나의 userNo , 상대 유저의 userNo -> subscribeNo
-    const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
-    const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
-    
+interface SubscribeButtonProps {
+    userNo: number; // 유저 번호
+    subscribeNo: number; // 구독할 유저의 번호
+}
+
+function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
+
     function handleClickToSubscribe() {
-        subscribeUser(myPageInfo.userNo, userPageInfo.userNo);
-        alert(userPageInfo.userName +" 님을 구독하셨습니다.");
+        if(userNo === subscribeNo) {
+            alert("본인 구독은 안됩니다.");
+            return;
+        }
+
+        subscribeUser(userNo, subscribeNo);
+        alert("구독 완료");
     }
 
+    
+
     return (
-        <Wrapper>
-            <Container>
-                <GoToUpdateUser onClick={() => handleClickToSubscribe()}>
-                    구독
-                </GoToUpdateUser>
-            </Container>
-        </Wrapper>
+        <GoToUpdateUser onClick={() => handleClickToSubscribe()}>
+            구독
+        </GoToUpdateUser>
     );
 }
 
@@ -30,23 +31,18 @@ export default SubscribeButton;
 
 const Wrapper = styled.div``;
 
-const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-`;
-
-const GoToPortfolio = styled.div`
-    font-family: "Noto Sans KR", "Noto Sans", sans-serif;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 10px;
-`;
-
-const GoToUpdateUser = styled.div`
-    font-family: "Noto Sans KR", "Noto Sans", sans-serif;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 10px;
+const GoToUpdateUser = styled.button`
+    background-color: #f84646;
+    width: 90px;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 7px 0;
+    border: none;
+    color: white;
+    &:hover {
+        background-color: white;
+        box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+        color: #f84646;
+        font-weight: bold;
+    }
 `;

@@ -1,15 +1,22 @@
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { getZoostra } from "../../apis/api/Predict";
 import Zbti from "./Zbti";
 import Crown from "../../assets/img/rank/crown.svg";
 import UserDetailModal from "./UserDetailModal";
+import { ModalUserNoState } from "../../Store/PredictState";
+import { ModalUserNameState } from "../../Store/PredictState";
 
 type RankProps = {
     stockName: string;
 };
 
 function Rank(props: RankProps) {
+    const [ModalUserNo, setModalUserNo] = useRecoilState(ModalUserNoState);
+    const [ModalUserName, setModalUserName] =
+        useRecoilState(ModalUserNameState);
+
     const [zoostra, setZoostra] = useState({
         userNo: 0,
         userName: "",
@@ -24,8 +31,11 @@ function Rank(props: RankProps) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = (userName: string, userNo: number) => {
+        setModalUserName(userName);
+        setModalUserNo(userNo);
         setIsModalOpen(true);
     };
+
     const closeModal = () => setIsModalOpen(false);
     if (props.stockName === "null") {
         return (
@@ -52,8 +62,8 @@ function Rank(props: RankProps) {
                                     width="69px"
                                 />
                             </OnCrown>
+                            <Name>{zoostra.userName}</Name>
                             <Name>
-                                {zoostra.userName}
                                 <span>{">"}</span>
                             </Name>
                         </Zoostra>
@@ -62,8 +72,8 @@ function Rank(props: RankProps) {
                 <UserDetailModal
                     isModalOpen={isModalOpen}
                     closeModal={closeModal}
-                    userName={zoostra.userName}
-                    userNo={zoostra.userNo}
+                    userName={ModalUserName}
+                    userNo={ModalUserNo}
                 />
             </BigWrapper>
         );
@@ -79,16 +89,23 @@ function Rank(props: RankProps) {
                                     가장 잘해요!
                                 </span>
                             </Content>
-                            <Zoostra>
-                                <Zbti
-                                    userZbti={zoostra.userZbti}
-                                    width="69px"
-                                />
-                                <Name>
-                                    {zoostra.userName}
-                                    <span>{" > "}</span>
-                                </Name>
-                            </Zoostra>
+                            <div
+                                onClick={() =>
+                                    openModal(zoostra.userName, zoostra.userNo)
+                                }
+                                style={{ cursor: "pointer" }}
+                            >
+                                <Zoostra>
+                                    <Zbti
+                                        userZbti={zoostra.userZbti}
+                                        width="69px"
+                                    />
+                                    <Name>{zoostra.userName}</Name>
+                                    <Name>
+                                        <span>{">"}</span>
+                                    </Name>
+                                </Zoostra>
+                            </div>
                         </>
                     ) : (
                         <NoContent>
@@ -101,8 +118,8 @@ function Rank(props: RankProps) {
                 <UserDetailModal
                     isModalOpen={isModalOpen}
                     closeModal={closeModal}
-                    userName={zoostra.userName}
-                    userNo={zoostra.userNo}
+                    userName={ModalUserName}
+                    userNo={ModalUserNo}
                 />
             </BigWrapper>
         );
@@ -141,6 +158,7 @@ const NoContent = styled.div`
 const Zoostra = styled.div`
     display: flex;
     padding-top: 10px;
+    justify-content: space-around;
 `;
 const Name = styled.div`
     display: flex;

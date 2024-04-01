@@ -6,6 +6,8 @@ import { deletePredict } from "../../apis/api/Predict";
 import { selectedPdNoState, selectUserNoState } from "../../Store/PredictState";
 import { selectStockNameState } from "../../Store/PredictState";
 import { selectUserNameState } from "../../Store/PredictState";
+import { ModalUserNoState } from "../../Store/PredictState";
+import { ModalUserNameState } from "../../Store/PredictState";
 
 import Deletebtn from "../../assets/img/button/Deletebtn.svg";
 import Reportbtn from "../../assets/img/button/Reportbtn.svg";
@@ -43,6 +45,10 @@ function PredictList(props: PredictProps) {
     const [selectUserName, setSelectUserName] =
         useRecoilState(selectUserNameState);
 
+    const [ModalUserNo, setModalUserNo] = useRecoilState(ModalUserNoState);
+    const [ModalUserName, setModalUserName] =
+        useRecoilState(ModalUserNameState);
+
     const [selectedPdNo, setSelectedPdNo] = useRecoilState(selectedPdNoState);
 
     const toggleContent = (
@@ -77,8 +83,8 @@ function PredictList(props: PredictProps) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = (userName: string, userNo: number) => {
-        setSelectUserName(userName);
-        setSelectUserNo(userNo);
+        setModalUserName(userName);
+        setModalUserNo(userNo);
         setIsModalOpen(true);
     };
 
@@ -204,8 +210,8 @@ function PredictList(props: PredictProps) {
                     <UserDetailModal
                         isModalOpen={isModalOpen}
                         closeModal={closeModal}
-                        userName={selectUserName}
-                        userNo={selectUserNo}
+                        userName={ModalUserName}
+                        userNo={ModalUserNo}
                     />
                     <ReportModal
                         isModalOpen={isModalOpen2}

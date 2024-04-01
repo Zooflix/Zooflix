@@ -53,6 +53,7 @@ export const deleteMySubscribe = async (subscribeNo: number) => {
     const response = await axiosPrivate.delete(
       `${REST_MYPAGE_API}/subscribe/delete/${subscribeNo}`
     );
+    
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -64,6 +65,9 @@ export const deleteMySubscribe = async (subscribeNo: number) => {
 export const getMyStockList = async (userId: string) => {
   try {
     const response = await axiosPrivate.get(`/stock/subscribe/list/${userId}`);
+    if(response.status === 500) {
+      return null;
+    }
     console.log(response.data.resultData);
     return response.data.resultData;
   } catch (error) {

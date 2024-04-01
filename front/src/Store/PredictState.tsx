@@ -24,3 +24,13 @@ export const deletePdNoState = atom({
   key: "deletePdNoState",
   default: 0,
 });
+
+export const ModalUserNoState = atom({
+  key: "ModalUserNoState",
+  default: 0,
+});
+
+export const ModalUserNameState = atom({
+  key: "ModalUserNameState",
+  default: "",
+});
