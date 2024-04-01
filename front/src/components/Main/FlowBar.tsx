@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { useState, useEffect, ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface Props {
   kospi: ReactNode;

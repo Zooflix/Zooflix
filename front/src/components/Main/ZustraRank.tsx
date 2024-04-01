@@ -9,6 +9,11 @@ import styled, { css, keyframes } from "styled-components";
 import first from "../../assets/img/rank/first.svg";
 import second from "../../assets/img/rank/second.svg";
 import third from "../../assets/img/rank/third.svg";
+import { useRecoilState } from "recoil";
+import { subscribeUser } from "../../apis/api/MyPage";
+import { getJwtUserNo } from "../../apis/utils/jwt";
+import { selectUserNoState } from "../../Store/PredictState";
+import { useNavigate } from "react-router-dom";
 
 interface InnerGraphProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -18,27 +23,20 @@ interface InnerGraphProps
 
 interface Props {
   rankData: any[];
+  zbti: Map<string, string>;
 }
 
-function ZustraRank({ rankData }: Props) {
+function ZustraRank({ rankData, zbti }: Props) {
   const rankArr = [first, second, third];
   const color = [
     "linear-gradient(90deg, rgba(255, 124, 124, 0.95) 0%, rgba(255, 161, 108, 0.95) 36%, rgba(255, 172, 74, 0.95) 54.5%, rgba(255, 190, 89, 0.95) 69.5%, rgba(255, 225, 120, 0.95) 100%)",
     "linear-gradient(90deg, rgba(104, 183, 255, 0.95) 0%, rgba(128, 194, 255, 0.95) 36%, rgba(164, 211, 255, 0.95) 54.5%, rgba(185, 222, 255, 0.95) 69.5%, rgba(228, 242, 255, 0.95) 100%)",
     "linear-gradient(90deg, rgba(251, 77, 161, 0.95) 0%, rgba(255, 113, 182, 0.95) 35%, rgba(255, 165, 209, 0.95) 54.5%, rgba(255, 184, 218, 0.95) 68.5%, rgba(255, 217, 235, 0.95) 100%)",
   ];
-  let zbti = new Map();
-  //Bear, Cow, Fox, Hippo, Lion, Monkey, Pig, Rabbit, Rhino, Sloth, Unicon, Zebra
-  zbti.set("Lion", "일단 다 사자");
-  zbti.set("Monkey", "재간둥이 원숭이");
-  zbti.set("Pig", "저금왕 돼지");
-  zbti.set("Rabbit", "팔랑귀 토끼");
-  zbti.set("Unicon", "공모주 러버 유니콘");
-  zbti.set("Hippo", "큰 손 투자자 하마");
-  zbti.set("Cow", "느긋한 젖소");
-  zbti.set("Zebra", "호기심 많은 얼룩말");
 
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
+  const navigate = useNavigate();
 
   useEffect(() => {});
 
@@ -48,6 +46,16 @@ function ZustraRank({ rankData }: Props) {
     } else {
       setExpandedIndex(index); // 그 외의 경우 확장
     }
+  }
+
+  async function subscribe(subscribeUserNo: number) {
+    const result = await subscribeUser(getJwtUserNo(), subscribeUserNo);
+    alert("유저 구독이 완료되었습니다.");
+  }
+
+  function linkProfile(userNo: number) {
+    setSelectUserNo(userNo);
+    navigate("/user-page");
   }
 
   return (
@@ -65,14 +73,14 @@ function ZustraRank({ rankData }: Props) {
                     <Character3d
                       name={item.userZbti || "Bear"}
                       characterScale={0.35}
-                      canvasWidth={70}
+                      canvasWidth={50}
                       canvasHeight={100}
                     />
                   ) : (
                     <Character3d
                       name={item.userZbti || "Bear"}
                       characterScale={0.35}
-                      canvasWidth={70}
+                      canvasWidth={50}
                       canvasHeight={100}
                       action="turn"
                     />
@@ -128,8 +136,12 @@ function ZustraRank({ rankData }: Props) {
                       <Num>{item.failCount}</Num>
                     </div>
                     <ButtonDiv>
-                      <Button>프로필 가기</Button>
-                      <Button>구독하기</Button>
+                      <Button onClick={() => linkProfile(item.userNo)}>
+                        프로필 가기
+                      </Button>
+                      <Button onClick={() => subscribe(item.userNo)}>
+                        구독하기
+                      </Button>
                     </ButtonDiv>
                   </InfoDiv>
                 )}

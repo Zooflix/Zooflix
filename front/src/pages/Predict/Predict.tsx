@@ -13,6 +13,7 @@ import Graph from "../../components/Predict/Graph";
 import StockHistory from "../../components/Predict/StockHistory";
 import ListHeader from "../../components/Predict/ListHeader";
 import Page from "../../components/Predict/Page";
+import CommonPageTransition from "../../components/Common/CommonPageTransition";
 
 const buttonStyleDark = {
   backgroundColor: "#1E3659",
@@ -53,41 +54,43 @@ function Predict() {
   };
 
   return (
-    <Wrapper>
-      <UpperContainer>
-        <LeftContainer>
-          <FirstContainer>
-            <Title text="주식 예측하기" />
-            <Link to="/predict/create">
-              <SquareBtn text="나도 예측하기" style={buttonStyleDark} />
-            </Link>
-          </FirstContainer>
-          <SecondContainer>
-            <Search
-              type="text"
-              placeholder="종목명을 입력하세요."
-              onSearchChange={handleSearchChange}
-              style={searchInputStyle}
-            />
-            <Sort onSortChange={handleSortChange} />
-          </SecondContainer>
-          <ListHeader />
-          <PredictList currentPage={currentPage} />
-        </LeftContainer>
-        <RightContainer>
-          <Rank stockName={stockName} />
-          <Graph stockName={stockName}/>
-          <StockHistory />
-        </RightContainer>
-      </UpperContainer>
-      <LowerContainer>
-        <Page
-          sorted={sorted}
-          stockName={stockName}
-          onCurrentPageChange={handleCurrentPageChange}
-        />
-      </LowerContainer>
-    </Wrapper>
+    <CommonPageTransition>
+      <Wrapper>
+        <UpperContainer>
+          <LeftContainer>
+            <FirstContainer>
+              <Title text="주식 예측하기" />
+              <Link to="/predict/create">
+                <SquareBtn text="나도 예측하기" style={buttonStyleDark} />
+              </Link>
+            </FirstContainer>
+            <SecondContainer>
+              <Search
+                type="text"
+                placeholder="종목명을 입력하세요."
+                onSearchChange={handleSearchChange}
+                style={searchInputStyle}
+              />
+              <Sort onSortChange={handleSortChange} />
+            </SecondContainer>
+            <ListHeader />
+            <PredictList currentPage={currentPage} />
+          </LeftContainer>
+          <RightContainer>
+            <Rank stockName={stockName} />
+            <Graph stockName={stockName} />
+            <StockHistory />
+          </RightContainer>
+        </UpperContainer>
+        <LowerContainer>
+          <Page
+            sorted={sorted}
+            stockName={stockName}
+            onCurrentPageChange={handleCurrentPageChange}
+          />
+        </LowerContainer>
+      </Wrapper>
+    </CommonPageTransition>
   );
 }
 

@@ -2,6 +2,7 @@ import { getMyStockList } from "../../apis/api/MyPage";
 import React, { useEffect, useState } from "react";
 import CardList from "../Mypage/CardList";
 import styled from "styled-components";
+
 import { useRecoilState } from "recoil";
 import { userIdState } from "../../Store/UserState";
 

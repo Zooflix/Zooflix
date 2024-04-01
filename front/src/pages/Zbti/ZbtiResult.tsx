@@ -27,6 +27,7 @@ import Refresh from "../../assets/img/button/Refresh.svg";
 // 컴포넌트
 import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
 import { useEffect, useRef } from "react";
+import { getJwtUserName } from "../../apis/utils/jwt";
 
 interface ImgMap {
   [key: string]: string;
@@ -128,7 +129,7 @@ function ZbtiResult() {
         ...prevMyInfo,
         userZbti: "Panda",
       }));
-    };
+    }
     console.log(myInfo.userZbti);
   };
 
@@ -136,7 +137,7 @@ function ZbtiResult() {
     setZbti();
   }, []);
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log(myInfo.userZbti);
     zbtiUpdate(myInfo.userZbti);
   }, [myInfo.userZbti]);
@@ -170,7 +171,7 @@ function ZbtiResult() {
         <ZbtiHeader backLink="/my-page" />
       </ZbtiHeaderContainer>
       <Header>
-        <h1>다라란님의 투자 성향은?</h1>
+        <h1>{getJwtUserName()}님의 투자 성향은?</h1>
       </Header>
       <PortfolioImg src={imgList[myInfo.userZbti]} />
       <ButtonContainer>

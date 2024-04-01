@@ -25,7 +25,6 @@ export async function getAlarmList(userId: string) {
 // 알람 읽음 여부 수정
 export async function UpdateIsRead(alarmNo: number) {
   try {
-    // const data = {}
     const response = await axios.put(`/alarm/${alarmNo}`);
     console.log(response.data);
     return response.data;
