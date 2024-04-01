@@ -71,15 +71,16 @@ public class ScheduledStockSubscribe {
                 String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/order-resv";
                 String tr_id = "CTSC0008U";
                 String data = "{\n" +
-                        "    \"CANO\":" + account.substring(0, 8) + ",\n" + // 계좌번호 앞 8자리
-                        "    \"ACNT_PRDT_CD\":" + account.substring(8) + ",\n" + // 계좌번호 뒤 2자리
-                        "    \"PDNO\":" + subscriber.getStockCode() + ",\n" +
-                        "    \"ORD_QTY\": " + subscriber.getStockCount() + ",\n" +
-                        "    \"ORD_UNPR\": 0,\n" + // 시장가로 구매
-                        "    \"SLL_BUY_DVSN_CD\": 02,\n" + // 매수
-                        "    \"ORD_DVSN_CD\": 01,\n" + // 시장가 구매
-                        "    \"ORD_OBJT_CBLC_DVSN_CD\": 10,\n" +
+                        "    \"CANO\": \"" + account.substring(0, 8) + "\",\n" + // 계좌번호 앞 8자리
+                        "    \"ACNT_PRDT_CD\": \"" + account.substring(8) + "\",\n" + // 계좌번호 뒤 2자리
+                        "    \"PDNO\": \"" + subscriber.getStockCode() + "\",\n" +
+                        "    \"ORD_QTY\": \"" + subscriber.getStockCount() + "\",\n" +
+                        "    \"ORD_UNPR\": \"0\",\n" + // 시장가로 구매
+                        "    \"SLL_BUY_DVSN_CD\": \"02\",\n" + // 매수
+                        "    \"ORD_DVSN_CD\": \"01\",\n" + // 시장가 구매
+                        "    \"ORD_OBJT_CBLC_DVSN_CD\": \"10\",\n" +
                         "}";
+                System.out.println(data.toString());
                 httpPostBodyConnection(url, data, tr_id, subscriber);
             }
         }
@@ -89,7 +90,7 @@ public class ScheduledStockSubscribe {
         // HttpClient 인스턴스 생성
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // API 엔드포인트 URL
-            String accessUrl = "https://openapivts.koreainvestment.com:29443/oauth2/tokenP";
+            String accessUrl = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";
 
             // POST 요청 생성
             HttpPost httpPost = new HttpPost(accessUrl);
