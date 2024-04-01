@@ -109,11 +109,11 @@ function PredictCreateForm() {
       });
       return;
     }
-    if (nowPrice * 0.9 < predictPrice && predictPrice < nowPrice * 1.1) {
+    if (nowPrice * 0.95 < predictPrice && predictPrice < nowPrice * 1.05) {
       setOpen(true);
       setAlertOption({
         severity: "error",
-        value: "현재가와 10% 이상 차이나도록 값을 입력하세요.",
+        value: "현재가와 5% 이상 차이나도록 값을 입력하세요.",
       });
       return;
     }
@@ -215,18 +215,18 @@ function PredictCreateForm() {
   }, [predictDate]);
 
   useEffect(() => {
-    if (nowPrice * 0.9 >= predictPrice) {
+    if (nowPrice * 0.95 >= predictPrice) {
       setUpDown("하락");
       setPriceOk(true);
-    } else if (nowPrice * 1.1 <= predictPrice) {
+    } else if (nowPrice * 1.05 <= predictPrice) {
       setUpDown("상승");
       setPriceOk(true);
-    } else if (nowPrice * 0.9 < predictPrice && predictPrice < nowPrice * 1.1) {
+    } else if (nowPrice * 0.95 < predictPrice && predictPrice < nowPrice * 1.05) {
       setPriceOk(false);
       setOpen(true);
       setAlertOption({
         severity: "error",
-        value: "현재가와 10% 이상 차이나도록 값을 입력하세요.",
+        value: "현재가와 5% 이상 차이나도록 값을 입력하세요.",
       });
     }
   }, [predictPrice]);

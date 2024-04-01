@@ -4,7 +4,7 @@ import CardList from "./UserCardList";
 import { userPageInfoState, userPageSubscribeListState } from "../../Store/UserPageState";
 import UserSubscription from "./UserSubscription";
 
-function MySubscribeList() {
+function UserSubscribeList() {
 
   const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
 
@@ -46,7 +46,7 @@ function MySubscribeList() {
   );
 }
 
-export default MySubscribeList;
+export default UserSubscribeList;
 
 const Wrapper = styled.div`
   //   margin: 10px;

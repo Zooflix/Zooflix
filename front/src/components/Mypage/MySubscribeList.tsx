@@ -2,7 +2,6 @@ import styled from "styled-components";
 import DeleteSubButton from "./DeleteSubButton";
 import { useRecoilState } from "recoil";
 import { myPageSubscribeListState } from "../../Store/MyPageState";
-import CardList from "./CardList";
 import MySubscribeStock from "../SubscribeStock/MySubscribeStock";
 
 function MySubscribeList() {
@@ -50,25 +49,23 @@ export default MySubscribeList;
 
 const Wrapper = styled.div`
   background: #ffffff;
-  border: 0.917219px solid #e7e7e7;
-  border-radius: 12.8411px;
+  border: 1px solid #e7e7e7;
+  border-radius: 12px;
   overflow: auto;
   max-height: 580px;
-  scrollbar-color: #a5a5a5;
   border: none;
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  text-align: center;
-  border: none;
+  justify-content: space-between;
 `;
 
 const LeftSide = styled.div`
-  width: 50%;
-  flex-direction: column;
+  // width: 50%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border: none;
@@ -82,9 +79,7 @@ const CardSection = styled.div`
 `;
 
 const RightSide = styled.div`
-  width: 50%;
   flex-direction: column;
-  display: flex;
   justify-content: center;
   h3 {
     text-align: center;

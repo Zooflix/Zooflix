@@ -8,20 +8,20 @@ const { persistAtom } = recoilPersist({
 
 // my page/내 정보
 export const myPageInfoState = atom({
-  key: "myPageInfoState",
-  default: {
-    userNo: 0,
-    userId: "",
-    userName: "",
-    userTemperature: 30,
-    predictCount: 0,
-    successCount: 0,
-    predictionRate: 0,
-    subscribeToMe: 0,
-    subscribeFromMe: 0,
-    userZbti: "Bear",
-  },
-  // effects_UNSTABLE: [persistAtom],
+    key: "myPageInfoState",
+    default: {
+        userNo: 0,
+        userId: "",
+        userPw: "",
+        userName: "",
+        userTemperature: 30,
+        predictCount: 0,
+        successCount: 0,
+        predictionRate: 0,
+        subscribeToMe: 0,
+        subscribeFromMe: 0,
+        userZbti: "",
+    },
 });
 
 // my page / 내가 쓴 예측 글 목록
