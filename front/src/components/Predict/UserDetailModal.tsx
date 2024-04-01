@@ -30,9 +30,9 @@ const StyledModal = styled(Modal)`
 `;
 
 function UserDetailModal({
-  userName,
   isModalOpen,
   closeModal,
+  userName,
   userNo,
 }: ModalProps) {
   const navigate = useNavigate();
