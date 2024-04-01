@@ -306,8 +306,6 @@ public class PredictService {
         List<String> dateList = predictRepository.findPdDateByUserNo(userNo, stockName);
         List<String> valueList = predictRepository.findPdValueByUserNo(userNo, stockName);
         List<String> resultList = predictRepository.findPdResultByUserNo(userNo, stockName);
-        System.out.println(valueList);
-        System.out.println(resultList);
         if (resultList.isEmpty()) {
             return getGraph(stockName);
         }
