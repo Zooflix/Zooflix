@@ -85,7 +85,6 @@ public class RadioService {
         requestBody.put("ppgUrl", pythonPpgUrl);
 
         List<String> result = restTemplate.postForObject(pythonEndpointNewsCrawling, requestBody, List.class);
-        System.out.println("크롤링+번역: "+result);
         return result;
     }
 
@@ -98,8 +97,8 @@ public class RadioService {
     public List<String[]> callSummaryEndpoint(List<String> data) {
         List<String[]> summaries = new ArrayList<>(); // 요약 리스트
 
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> requestBody = new HashMap<>();
+        RestTemplate restTemplate;
+        Map<String, String> requestBody;
 
         for (String js : data) {
             JsonParser parser = new JsonParser(); // JSONParser로 JSONObject로 변환
@@ -145,16 +144,15 @@ public class RadioService {
                 summaries.add(new String[]{url, title, summary});
             }
         }
-        for(String[] str:summaries)
-            System.out.print("요약: "+ Arrays.toString(str));
         System.out.println();
         return summaries;
 
     }
 
 
+
     /*
-    *  캐싱 in Redis
+    *  뉴스 캐싱 in Redis
     * */
     public List<String[]> getCachedList() {
         /* 1. 캐싱된 데이터 확인 */
@@ -178,7 +176,8 @@ public class RadioService {
         List<String[]> cachedDataList = new ArrayList<>();
         for (String serialized : cachedList) {
             String[] arr = serialized.split(" @@@ "); // 직렬화된 문자열을 @@@로 분할하여 다시 배열로 변환
-            cachedDataList.add(arr);
+            if (arr.length>2)
+                cachedDataList.add(arr);
         }
         return cachedDataList;
 
@@ -192,37 +191,39 @@ public class RadioService {
         try {
             List<byte[]> byteList = new ArrayList<>();
             for (String[] str : data) {
-                String text = str[2]; // 기사 본문
-                System.out.println("cachedNews: " + text);
-                String encodeText = URLEncoder.encode(text, StandardCharsets.UTF_8.toString());
+                if (str.length>2) {
+                    String text = str[2]; // 기사 본문
+                    System.out.println("cachedNews: " + text);
+                    String encodeText = URLEncoder.encode(text, StandardCharsets.UTF_8.toString());
 
-                URL url = new URL(pythonTtsUrl);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("POST");
-                con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", pythonTtsClientId);
-                con.setRequestProperty("X-NCP-APIGW-API-KEY", pythonTtsClientSecret);
-                con.setDoOutput(true);
+                    URL url = new URL(pythonTtsUrl);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", pythonTtsClientId);
+                    con.setRequestProperty("X-NCP-APIGW-API-KEY", pythonTtsClientSecret);
+                    con.setDoOutput(true);
 
-                String postParams = "speaker=vgoeun&volume=4&speed=0&pitch=0&text=" + encodeText;
-                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                wr.writeBytes(postParams);
-                wr.flush();
-                wr.close();
-                int responseCode = con.getResponseCode();
-                if (responseCode == 200) { // 정상 호출
-                    InputStream is = con.getInputStream();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = is.read(buffer)) != -1) {
-                        baos.write(buffer, 0, bytesRead);
+                    String postParams = "speaker=vgoeun&volume=4&speed=0&pitch=0&text=" + encodeText;
+                    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                    wr.writeBytes(postParams);
+                    wr.flush();
+                    wr.close();
+                    int responseCode = con.getResponseCode();
+                    if (responseCode == 200) { // 정상 호출
+                        InputStream is = con.getInputStream();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        while ((bytesRead = is.read(buffer)) != -1) {
+                            baos.write(buffer, 0, bytesRead);
+                        }
+                        is.close();
+                        byteList.add(baos.toByteArray());
+                        System.out.println("하나씩 저장 완료");
+                    } else { // 오류 발생
+                        System.out.println("tts 오류");
+                        return null;
                     }
-                    is.close();
-                    byteList.add(baos.toByteArray());
-                    System.out.println("하나씩 저장 완료");
-                } else { // 오류 발생
-                    System.out.println("tts 오류");
-                    return null;
                 }
             }
             System.out.println("byteList add 완료");
@@ -233,6 +234,38 @@ public class RadioService {
         }
     }
 
+
+    /*
+     *  오디오 캐싱 in Redis
+     * */
+    public List<byte[]> getAudioList() {
+        /* 1. 캐싱된 데이터 확인 */
+        List<String> cachedList = redisTemplate.opsForList().range("audioList", 0, -1); // 리스트에서 모든 요소 가져오기
+        if (cachedList == null || cachedList.isEmpty()) {
+            System.out.println("오디오 새로 캐싱하기");
+            /* 2. 없다면 크롤링된 캐싱 가져오기 */
+            List<String[]> summaryResult = getCachedList();
+            List<byte[]> audioResult = callTtsEndpoint(summaryResult); // tts
+
+            /* 3. 레디스에 저장 */
+            if (!audioResult.isEmpty()) {
+                for(byte[] arr:audioResult) {
+                    String serialized = new String(arr);
+                    redisTemplate.opsForList().rightPush("audioList", serialized);
+                    redisTemplate.expire("audioList", Duration.ofDays(1));
+                }
+            }
+        }
+        System.out.println(cachedList);
+        cachedList = redisTemplate.opsForList().range("audioList", 0, -1);
+        List<byte[]> cachedDataList = new ArrayList<>();
+        for (String serialized : cachedList) {
+            byte[] arr = serialized.getBytes();
+            cachedDataList.add(arr);
+        }
+        return cachedDataList;
+
+    }
 
 
 }
