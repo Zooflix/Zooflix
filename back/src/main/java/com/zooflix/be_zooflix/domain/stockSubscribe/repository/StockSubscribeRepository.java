@@ -49,22 +49,44 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
                     "LIMIT 3")
     List<StockRankingProjection> getStockRanking();
 
+//    @Query(nativeQuery = true, value = "SELECT " +
+//                    "u.user_no AS userNo, " +
+//                    "u.user_name AS userName, " +
+//                    "u.predict_count AS predictCount, " +
+//                    "u.success_count AS successCount, " +
+//                    "u.fail_count AS failCount, " +
+//                    "u.user_temperature AS userTemperature, " +
+//                    "u.user_zbti AS userZbti, " +
+//                    "u.success_streak AS successStreak, " +
+//                    "count(*) AS cnt " +
+//                    "FROM user u " +
+//                    "JOIN (SELECT user_no, COUNT(*) c FROM predict GROUP BY stock_name ORDER BY c DESC LIMIT 1) p " +
+//                    "ON u.user_no = p.user_no " +
+//                    "GROUP BY u.user_no, u.user_name, u.predict_count, u.success_count, u.fail_count, u.user_temperature, u.user_zbti, u.success_streak " +
+//                    "ORDER BY COUNT(*) DESC " +
+//                    "LIMIT 1")
+//    UserRankingKeyProjection getStockCodeMostPredictUSer();
+    //제일 예측이 많은 주식
+    // 주식 코드 가져와서 예측 테이블에서 해당 주식 가장 많이 성공한 user
+
     @Query(nativeQuery = true, value = "SELECT " +
-                    "u.user_no AS userNo, " +
-                    "u.user_name AS userName, " +
-                    "u.predict_count AS predictCount, " +
-                    "u.success_count AS successCount, " +
-                    "u.fail_count AS failCount, " +
-                    "u.user_temperature AS userTemperature, " +
-                    "u.user_zbti AS userZbti, " +
-                    "u.success_streak AS successStreak, " +
-                    "count(*) AS cnt " +
-                    "FROM user u " +
-                    "JOIN (SELECT user_no, COUNT(*) c FROM predict WHERE pd_result = '성공' GROUP BY stock_name, user_no ORDER BY c DESC LIMIT 1) p " +
-                    "ON u.user_no = p.user_no " +
-                    "GROUP BY u.user_no, u.user_name, u.predict_count, u.success_count, u.fail_count, u.user_temperature, u.user_zbti, u.success_streak " +
-                    "ORDER BY COUNT(*) DESC " +
-                    "LIMIT 1")
+            "u.user_no AS userNo, " +
+            "u.user_name AS userName, " +
+            "u.predict_count AS predictCount, " +
+            "u.success_count AS successCount, " +
+            "u.fail_count AS failCount, " +
+            "u.user_temperature AS userTemperature, " +
+            "u.user_zbti AS userZbti, " +
+            "u.success_streak AS successStreak, " +
+            "count(*) AS cnt " +
+            "FROM user u " +
+            "JOIN predict p " +
+            "ON u.user_no = p.user_no " +
+            "where p.stock_name = (SELECT stock_name FROM predict GROUP BY stock_name ORDER BY count(*) DESC LIMIT 1) " +
+            "and p.pd_result = '성공' "+
+            "GROUP BY u.user_no " +
+            "ORDER BY COUNT(*) DESC " +
+            "LIMIT 1")
     UserRankingKeyProjection getStockCodeMostPredictUSer();
 
 
