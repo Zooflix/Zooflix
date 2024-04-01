@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 
 __pycache__/
+application.yml
 
 ### STS ###
 .apt_generated

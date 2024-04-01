@@ -151,7 +151,7 @@ public class PredictService {
             alarm.setCreatedAt(LocalDateTime.now());
             alarmRepository.save(alarm);
         }
-            System.out.println("알림이 성공적으로 전송되었습니다. ->"+ content);
+        System.out.println("알림이 성공적으로 전송되었습니다. ->" + content);
 
         return toDto(predictRepository.save(predict));
     }
@@ -169,11 +169,11 @@ public class PredictService {
         for (Predict prediction : todayPredictions) {
             int nxtValue = getClosingPrice(prediction.getStockName(), prediction.getPdDate().toString());
             prediction.setNxtValue(nxtValue);
-                User user = prediction.getUser();
+            User user = prediction.getUser();
             if (isSuccessful(prediction)) {
                 prediction.setPdResult("성공");
-                String content = prediction.getStockName()+"의 예측이 성공했습니다";
-                user.setUserTemperature(prediction.getUser().getUserTemperature()+1);
+                String content = prediction.getStockName() + "의 예측이 성공했습니다";
+                user.setUserTemperature(user.getUserTemperature() + 1);
 
                 alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
                 Alarm alarm = new Alarm();
@@ -186,7 +186,7 @@ public class PredictService {
             } else {
                 prediction.setPdResult("실패");
                 String content = prediction.getStockName() + "의 예측이 실패했습니다.";
-                user.setUserTemperature(prediction.getUser().getUserTemperature()-0.2);
+                user.setUserTemperature(user.getUserTemperature() - 0.2);
 
                 alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
                 Alarm alarm = new Alarm();
@@ -212,6 +212,12 @@ public class PredictService {
 
     //예측 글 삭제
     public void deletePredict(int pdNo) {
+        Predict predict = predictRepository.findByPdNo(pdNo);
+        if (predict.getPdResult() == null) {
+            User user = predict.getUser();
+            user.setUserTemperature(user.getUserTemperature() - 0.2);
+            userRepository.save(user);
+        }
         predictRepository.deleteById(pdNo);
     }
 
@@ -235,10 +241,10 @@ public class PredictService {
 
     public PredictRankDto getZoostra() {
         int userNo = predictRepository.findZoostra();
-            String name = predictRepository.findUserNameByUserNo(userNo);
-            String zbti = predictRepository.findUserZbtiByUserNo(userNo);
-            PredictRankDto rank = new PredictRankDto(userNo, name, zbti);
-            return rank;
+        String name = predictRepository.findUserNameByUserNo(userNo);
+        String zbti = predictRepository.findUserZbtiByUserNo(userNo);
+        PredictRankDto rank = new PredictRankDto(userNo, name, zbti);
+        return rank;
     }
 
     public PredictRankDto getZoostraByStockName(String stockName) {
@@ -281,7 +287,7 @@ public class PredictService {
     }
 
     public String getGraph(String stockName) {
-        if(stockName == null) return null;
+        if (stockName == null) return null;
         String date = String.valueOf(LocalDate.now());
         String code = stockListRepository.findStockCode(stockName);
         // 쿼리 문자열로 요청 데이터 구성

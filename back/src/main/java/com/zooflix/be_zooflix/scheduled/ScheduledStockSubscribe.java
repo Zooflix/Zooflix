@@ -7,9 +7,11 @@ import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
+import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeProjection;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
+import com.zooflix.be_zooflix.global.securityAlgo.AesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -36,33 +38,35 @@ public class ScheduledStockSubscribe {
     private final AlarmService alarmService;
     private final UserRepository userRepository;
     private final AlarmRepository alarmRepository;
+    private final AesUtils aesUtils;
 
     @Autowired
-    public ScheduledStockSubscribe(StockSubscribeRepository stockSubscribeRepository, AlarmService alarmService, UserRepository userRepository, AlarmRepository alarmRepository) {
+    public ScheduledStockSubscribe(StockSubscribeRepository stockSubscribeRepository, AlarmService alarmService, UserRepository userRepository, AlarmRepository alarmRepository, AesUtils aesUtils) {
         this.stockSubscribeRepository = stockSubscribeRepository;
         this.alarmService = alarmService;
         this.userRepository = userRepository;
         this.alarmRepository = alarmRepository;
+        this.aesUtils = aesUtils;
     }
 
-    @Scheduled(cron = "0 35 16 * * ?")
+    @Scheduled(cron = "0 35 20 * * ?")
     public void performTask() throws IOException {
         // 특정 시간에 데이터베이스에서 주식 구독한 사람들 리스트 가져오기
 
-        List<StockSubscribeDto> stockSubscribers = stockSubscribeRepository.findTomorrowSubscribe();
+        List<StockSubscribeProjection> stockSubscribers = stockSubscribeRepository.findTomorrowSubscribe();
 
         if (stockSubscribers.size() == 0) {
             System.out.println("내일 날짜에 구독한 사용자가 없습니다.");
         } else {
             System.out.println("내일 날짜에 구독한 주식을 예약구매 하고 있습니다.");
-            for (StockSubscribeDto subscriber : stockSubscribers) {
+            for (StockSubscribeProjection subscriber : stockSubscribers) {
 
                 String AccessReturn = getAccessToken(subscriber);
                 System.out.println(AccessReturn);
 
                 // 주문 가능 수량 조회
                 //필요한 것 - 계좌번호, 종목코드, 주문수량, OAUTH API ACCESS TOKEN, 발급받은 APPKEY, 앱 시크릿키,
-                String account = subscriber.getUserAccount();
+                String account = aesUtils.aesCBCDecode(subscriber.getUserAccount(), "db");
                 // 국내 주식 예약 주문
                 String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/order-resv";
                 String tr_id = "CTSC0008U";
@@ -81,7 +85,7 @@ public class ScheduledStockSubscribe {
         }
     }
 
-    public String getAccessToken(StockSubscribeDto subscriber) {
+    public String getAccessToken(StockSubscribeProjection subscriber) {
         // HttpClient 인스턴스 생성
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // API 엔드포인트 URL
@@ -93,8 +97,8 @@ public class ScheduledStockSubscribe {
             // 요청 본문 데이터
             String accessData = "{\n" +
                     "    \"grant_type\": \"client_credentials\",\n" +
-                    "    \"appkey\": \"" + subscriber.getUserAppKey() + "\",\n" +
-                    "    \"appsecret\": \"" + subscriber.getUserSecretKey() + "\"\n" +
+                    "    \"appkey\": \"" + aesUtils.aesCBCDecode(subscriber.getUserAppKey(), "db") + "\",\n" +
+                    "    \"appsecret\": \"" + aesUtils.aesCBCDecode(subscriber.getUserSecretKey(), "db") + "\"\n" +
                     "}";
             StringEntity requestBody = new StringEntity(accessData);
             httpPost.setEntity(requestBody);
@@ -129,9 +133,9 @@ public class ScheduledStockSubscribe {
         int day = tomorrow.getDayOfMonth();
 
         //내일 구독한 사용자들 찾기
-        List<StockSubscribeDto> subscribers = stockSubscribeRepository.findSubscribersForDay(day);
+        List<StockSubscribeProjection> subscribers = stockSubscribeRepository.findTomorrowSubscribe();
 
-        for(StockSubscribeDto subscriber : subscribers){
+        for(StockSubscribeProjection subscriber : subscribers){
             User stockSubscriber = userRepository.findByUserId(subscriber.getUserId());
             String content = "내일은 "+ subscriber.getStockName() + "주식을 정기 구독한 날입니다.";
             alarmService.send(stockSubscriber, content, AlarmTypeStatus.TOMORROW);
@@ -146,7 +150,7 @@ public class ScheduledStockSubscribe {
         }
     }
 
-    public String httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeDto subscriber) throws IOException {
+    public String httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeProjection subscriber) throws IOException {
 
         String totalUrl = "";
         totalUrl = UrlData.trim().toString();
@@ -166,8 +170,8 @@ public class ScheduledStockSubscribe {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("authorization", "Bearer ");
-            conn.setRequestProperty("appKey", subscriber.getUserAppKey());
-            conn.setRequestProperty("appSecret", subscriber.getUserSecretKey());
+            conn.setRequestProperty("appKey", aesUtils.aesCBCDecode(subscriber.getUserAppKey(), "db"));
+            conn.setRequestProperty("appSecret", aesUtils.aesCBCDecode(subscriber.getUserSecretKey(), "db"));
             conn.setRequestProperty("tr_id", TrId);
             conn.setDoOutput(true);
 
@@ -203,7 +207,7 @@ public class ScheduledStockSubscribe {
                 }
 
                 //성공하면 구매 내역 테이블에 추가
-                stockSubscribeRepository.addStockPurchase();
+//                stockSubscribeRepository.addStockPurchase();
 
                 return returnData;
 

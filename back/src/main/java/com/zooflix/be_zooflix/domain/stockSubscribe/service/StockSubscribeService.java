@@ -34,15 +34,20 @@ public class StockSubscribeService {
     @Transactional
     public String postSubscribe(AddStockSubscribeRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
+        
+        String requestAppKey = aesUtils.aesCBCDecode(request.getUserAppKey(), "api");
 
-        if (user.getUserAppKey() == null) {
+        if (!requestAppKey.isEmpty()) {
+            requestAppKey = aesUtils.APItoDB(request.getUserAppKey());
+            String requestSecretKey = aesUtils.APItoDB(request.getUserSecretKey());
+            String requestAccount = aesUtils.APItoDB(request.getUserAccount());
             user.userUpdateKey(
                     user.getUserId(),   //추가됨
                     user.getUserName(),
                     user.getUserPw(),
-                    request.getUserAppKey(),
-                    request.getUserSecretKey(),
-                    request.getUserAccount()
+                    requestAppKey,
+                    requestSecretKey,
+                    requestAccount
             );
         }
         userRepository.save(user);
