@@ -133,7 +133,9 @@ public class PredictService {
                 .pdUpDown(dto.isPdUpDown())
                 .build();
 
-
+        User user = predict.getUser();
+        user.setPredictCount(user.getPredictCount()+1);
+        userRepository.save(user);
         //나를 구독한 사람들을 조회
         List<UserSubscribe> subscribers = userSubscribeRepository.findSubscribeToMe(dto.getUserNo());
 
@@ -174,7 +176,7 @@ public class PredictService {
                 prediction.setPdResult("성공");
                 String content = prediction.getStockName() + "의 예측이 성공했습니다";
                 user.setUserTemperature(user.getUserTemperature() + 1);
-
+                user.setSuccessCount(user.getSuccessCount()+1);
                 alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
                 Alarm alarm = new Alarm();
                 alarm.setReceiverUser(prediction.getUser());
@@ -187,7 +189,7 @@ public class PredictService {
                 prediction.setPdResult("실패");
                 String content = prediction.getStockName() + "의 예측이 실패했습니다.";
                 user.setUserTemperature(user.getUserTemperature() - 0.2);
-
+                user.setFailCount(user.getFailCount()+1);
                 alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
                 Alarm alarm = new Alarm();
                 alarm.setReceiverUser(prediction.getUser());
@@ -216,6 +218,7 @@ public class PredictService {
         if (predict.getPdResult() == null) {
             User user = predict.getUser();
             user.setUserTemperature(user.getUserTemperature() - 0.2);
+            user.setFailCount(user.getFailCount()+1);
             userRepository.save(user);
         }
         predictRepository.deleteById(pdNo);
@@ -303,6 +306,8 @@ public class PredictService {
         List<String> dateList = predictRepository.findPdDateByUserNo(userNo, stockName);
         List<String> valueList = predictRepository.findPdValueByUserNo(userNo, stockName);
         List<String> resultList = predictRepository.findPdResultByUserNo(userNo, stockName);
+        System.out.println(valueList);
+        System.out.println(resultList);
         if (resultList.isEmpty()) {
             return getGraph(stockName);
         }
