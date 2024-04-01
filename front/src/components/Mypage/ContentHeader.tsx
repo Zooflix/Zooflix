@@ -5,9 +5,7 @@ import PredictList from "../../components/Predict/PredictList";
 import { useRecoilState } from "recoil";
 import { myPagePredictListState } from "../../Store/MyPageState";
 
-interface ContentHeaderProps {}
-
-function ContentHeader(props: ContentHeaderProps) {
+function ContentHeader() {
   const [selectedTab, setSelectedTab] = useState<string>("my-predictions");
   const [myPagePredictList, setMyPagePredictList] = useRecoilState(
     myPagePredictListState
@@ -27,7 +25,7 @@ function ContentHeader(props: ContentHeaderProps) {
                 onClick={() => handleTabClick("my-predictions")}
                 selected={selectedTab === "my-predictions"}
               >
-                내가 쓴 예측 글
+                <Button>내가 쓴 예측 글</Button>
               </ContentTabListItemSpan>
             </ContentTabListItem>
             <ContentTabListItem>
@@ -35,7 +33,7 @@ function ContentHeader(props: ContentHeaderProps) {
                 onClick={() => handleTabClick("my-subscriptions")}
                 selected={selectedTab === "my-subscriptions"}
               >
-                내 구독 정보
+                <Button>내 구독 정보</Button>
               </ContentTabListItemSpan>
             </ContentTabListItem>
           </ContentTabList>
@@ -56,6 +54,7 @@ const Wrapper = styled.div`
 `;
 const ContentTabHeader = styled.div`
   display: flex;
+  border: 1px solid black;
 `;
 const ContentHeaderTab = styled.nav`
   flex: 1;
@@ -85,6 +84,15 @@ const ContentTabListItemSpan = styled.div<{ selected: boolean }>`
 const List = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const Button = styled.button`
+  margin: 0 10px;
+  border: 2px solid black;
+  border-bottom: none;
+  padding: 10px 7px;
+  border-radius: 10px 10px 0 0;
+  background-color: transparent;
 `;
 
 export default ContentHeader;

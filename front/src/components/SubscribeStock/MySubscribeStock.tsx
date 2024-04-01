@@ -47,10 +47,10 @@ function MySubscribeStock() {
 export default MySubscribeStock;
 
 const Wrapper = styled.div`
-  width: 1000px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 50px;
+  // width: 1000px;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  // min-height: 50px;
 `;

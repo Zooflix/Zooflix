@@ -19,19 +19,7 @@ function CardList({ myStockList }: Props) {
 }
 
 export default CardList;
-const Wrapper = styled.div`
-  width: 100%;
-  border: none;
-  border-radius: 30px;
-  background-color: white;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 30px 30px 10px 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100px;
-`;
+const Wrapper = styled.div``;
 
 const Container = styled.div`
   display: flex;
