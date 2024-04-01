@@ -74,13 +74,6 @@ public class PredictController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "예측 성공 업데이트")
-    @PostMapping("predict/result")
-    public ResponseEntity<?> updatePredictResult() {
-        predictService.postPredictResult();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @Operation(summary = "예측 글 삭제")
     @DeleteMapping("/predict/{pdNo}")
     public ResponseEntity<?> deletePredict(@PathVariable int pdNo) {

@@ -34,15 +34,20 @@ public class StockSubscribeService {
     @Transactional
     public String postSubscribe(AddStockSubscribeRequest request) {
         User user = userRepository.findByUserId(request.getUserId());
+        
+        String requestAppKey = aesUtils.aesCBCDecode(request.getUserAppKey(), "api");
 
-        if (user.getUserAppKey() == null) {
+        if (!requestAppKey.isEmpty()) {
+            requestAppKey = aesUtils.APItoDB(request.getUserAppKey());
+            String requestSecretKey = aesUtils.APItoDB(request.getUserSecretKey());
+            String requestAccount = aesUtils.APItoDB(request.getUserAccount());
             user.userUpdateKey(
                     user.getUserId(),   //추가됨
                     user.getUserName(),
                     user.getUserPw(),
-                    request.getUserAppKey(),
-                    request.getUserSecretKey(),
-                    request.getUserAccount()
+                    requestAppKey,
+                    requestSecretKey,
+                    requestAccount
             );
         }
         userRepository.save(user);
@@ -102,9 +107,9 @@ public class StockSubscribeService {
 
     public boolean checkApiKey(int userNo) {
         UserKeyProjection userKey = userRepository.findByUserNo(userNo);
-        String userAppKey = aesUtils.aesCBCDecode(userKey.getUserAppKey(), "DB");
-        String userSecretKey = aesUtils.aesCBCDecode(userKey.getUserSecretKey(), "DB");
-        String userAccount = aesUtils.aesCBCDecode(userKey.getUserAccount(), "DB");
+        String userAppKey = aesUtils.aesCBCDecode(userKey.getUserAppKey(), "db");
+        String userSecretKey = aesUtils.aesCBCDecode(userKey.getUserSecretKey(), "db");
+        String userAccount = aesUtils.aesCBCDecode(userKey.getUserAccount(), "db");
         return !userAppKey.isEmpty() && !userSecretKey.isEmpty() && !userAccount.isEmpty();
     }
 

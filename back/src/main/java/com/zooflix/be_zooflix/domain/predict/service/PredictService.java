@@ -169,22 +169,13 @@ public class PredictService {
         for (Predict prediction : todayPredictions) {
             int nxtValue = getClosingPrice(prediction.getStockName(), prediction.getPdDate().toString());
             prediction.setNxtValue(nxtValue);
-            predictRepository.save(prediction);
-        }
-
-    }
-
-    //예측 글 성공여부 업데이트
-    @Scheduled(cron = "30 30 15 ? * MON-FRI")
-    public void postPredictResult() {
-        LocalDate today = LocalDate.now();
-        List<Predict> todayPredictions = predictRepository.findByPdDate(today);
-        for (Predict prediction : todayPredictions) {
+                User user = prediction.getUser();
             if (isSuccessful(prediction)) {
                 prediction.setPdResult("성공");
                 String content = prediction.getStockName()+"의 예측이 성공했습니다";
-                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
+                user.setUserTemperature(prediction.getUser().getUserTemperature()+1);
 
+                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
                 Alarm alarm = new Alarm();
                 alarm.setReceiverUser(prediction.getUser());
                 alarm.setContent(content);
@@ -195,8 +186,9 @@ public class PredictService {
             } else {
                 prediction.setPdResult("실패");
                 String content = prediction.getStockName() + "의 예측이 실패했습니다.";
-                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
+                user.setUserTemperature(prediction.getUser().getUserTemperature()-0.2);
 
+                alarmService.send(prediction.getUser(), content, AlarmTypeStatus.RESULT);
                 Alarm alarm = new Alarm();
                 alarm.setReceiverUser(prediction.getUser());
                 alarm.setContent(content);
@@ -205,6 +197,7 @@ public class PredictService {
                 alarm.setCreatedAt(LocalDateTime.now());
                 alarmRepository.save(alarm);
             }
+            userRepository.save(user);
             predictRepository.save(prediction);
         }
 
@@ -250,7 +243,6 @@ public class PredictService {
 
     public PredictRankDto getZoostraByStockName(String stockName) {
         String no = predictRepository.findZoostraByStockName(stockName);
-        System.out.println("userNo1: "+no);
         if (no != null) {
             int userNo = Integer.parseInt(no);
             String name = predictRepository.findUserNameByUserNo(userNo);
@@ -341,15 +333,11 @@ public class PredictService {
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
         UserKeyProjection userInfo = userRepository.findByUserNo(userNo);
         List<StockHistoryDto> historyDtoList = new ArrayList<>();
-        if(userInfo == null){
-            return historyDtoList;
-        }
 
-        String userAppKey = aesUtils.aesCBCDecode(userInfo.getUserAppKey(), "DB");
-        String userSecretKey = aesUtils.aesCBCDecode(userInfo.getUserSecretKey(), "DB");
-        String userAccount = aesUtils.aesCBCDecode(userInfo.getUserAccount(), "DB");
-
-        if (userAppKey == null || userSecretKey == null || userAccount == null ||
+        String userAppKey = aesUtils.aesCBCDecode(userInfo.getUserAppKey(), "db");
+        String userSecretKey = aesUtils.aesCBCDecode(userInfo.getUserSecretKey(), "db");
+        String userAccount = aesUtils.aesCBCDecode(userInfo.getUserAccount(), "db");
+        if (userAppKey == "" || userSecretKey == "" || userAccount == "" ||
                 userAppKey.isEmpty() || userSecretKey.isEmpty() || userAccount.isEmpty()
         ) {
             return historyDtoList;
@@ -445,8 +433,8 @@ public class PredictService {
 
     public String getAccessToken(int userNo) {
         User userInfo = userRepository.findMyInfo(userNo);
-        String userAppKey = aesUtils.aesCBCDecode(userInfo.getUserAppKey(), "DB");
-        String userSecretKey = aesUtils.aesCBCDecode(userInfo.getUserSecretKey(), "DB");
+        String userAppKey = aesUtils.aesCBCDecode(userInfo.getUserAppKey(), "db");
+        String userSecretKey = aesUtils.aesCBCDecode(userInfo.getUserSecretKey(), "db");
         // HttpClient 인스턴스 생성
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // API 엔드포인트 URL
