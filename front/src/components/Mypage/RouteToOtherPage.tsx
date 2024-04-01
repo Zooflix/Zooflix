@@ -1,20 +1,18 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { myPageInfoState } from "../../Store/MyPageState";
+import MsgModal from "./MsgModal";
 
 function RouteToOtherPage() {
   const navigate = useNavigate();
   const userInfo = useRecoilValue(myPageInfoState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleClickToPortfolio() {
     if (userInfo.userZbti === "Bear") {
-      return (
-        <div>
-          현재 ZBTI 테스트를 진행하지 않았습니다. 테스트 이후에 포트폴리오
-          확인할 수 있습니다.
-        </div>
-      );
+      setIsModalOpen(true);
     } else {
       navigate("/result");
     }
@@ -30,6 +28,10 @@ function RouteToOtherPage() {
         내 포트폴리오 확인하기
       </Button>
       <Button onClick={() => handleClickToUpdateUser()}>수정</Button>
+      <MsgModal
+        isModalOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+      />
     </Container>
   );
 }
