@@ -93,7 +93,7 @@ function DoughnutChart({
         width={imgWidth}
         className="ZbtiImg"
       ></Zbti>
-      <Temp>{temp}℃</Temp>
+      <Temp>{+temp}℃</Temp>
     </ChartWrapper>
   );
 }

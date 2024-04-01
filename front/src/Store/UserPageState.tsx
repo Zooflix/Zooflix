@@ -2,6 +2,7 @@ import { atom } from "recoil";
 
 // user page/유저 정보
 export const userPageInfoState = atom({
+<<<<<<< HEAD
   key: "userPageInfoState",
   default: {
     userNo: 0,
@@ -16,6 +17,21 @@ export const userPageInfoState = atom({
     subscribeFromMe: 0,
     userZbti: "",
   },
+=======
+    key: "userPageInfoState",
+    default: {
+        userNo: 0,
+        userId: "",
+        userName: "",
+        userTemperature: 30,
+        predictCount: 0,
+        successCount: 0,
+        predictionRate: 0,
+        subscribeToMe: 0,
+        subscribeFromMe: 0,
+        userZbti: "",
+    },
+>>>>>>> feature-fe/mypage
 });
 
 // user page / 유저가 쓴 예측 글 목록
