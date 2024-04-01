@@ -20,6 +20,8 @@ import ImgBtn from "../../components/Common/ImgBtn";
 import Character3d from "../../components/Character/Character3d";
 import SquareBtn from "../../components/Common/SquareBtn";
 import { myPageInfoState } from "../../Store/MyPageState";
+import PageTransition from "../../components/Zbti/PageTransition";
+import CommonPageTransition from "../../components/Common/CommonPageTransition";
 
 // 버튼 스타일
 const buttonStyleDark = {
@@ -34,7 +36,6 @@ const imgBtnStyle = {
   margin: "5px 0 20px",
 };
 
-
 function Player() {
   const [isPaused, setIsPaused] = useRecoilState(isPausedState);
   const audioEl = useRef<HTMLAudioElement>(null);
@@ -47,7 +48,7 @@ function Player() {
   useEffect(() => {
     console.log(isPaused);
   }, [isPaused]);
-  
+
   useEffect(() => {
     // 처음 플레이&radio페이지일 때만 tts 생성하기
     setCurrentUrl(window.location.href);
@@ -61,11 +62,9 @@ function Player() {
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     fetchData();
-
   }, []);
-
 
   useEffect(() => {
     if (currentUrl === "http://localhost:3000/radio") {
@@ -119,38 +118,40 @@ function Player() {
   };
 
   return (
-    <Wrapper>
-      <Title text="해외뉴스를 들려줄게요" />
-      <PlayContainer>
-        <audio ref={audioEl} />
-        {isPaused ? (
-          <ImgBtn
-            src={Playicon}
-            onClick={clickBtn}
-            disabled={isPaused ? false : true}
-            style={imgBtnStyle}
-          ></ImgBtn>
-        ) : (
-          <ImgBtn
-            src={Pauseicon}
-            onClick={clickBtn}
-            disabled={isPaused ? true : false}
-            style={imgBtnStyle}
-          ></ImgBtn>
+    <CommonPageTransition>
+      <Wrapper>
+        <Title text="해외뉴스를 들려줄게요" />
+        <PlayContainer>
+          <audio ref={audioEl} />
+          {isPaused ? (
+            <ImgBtn
+              src={Playicon}
+              onClick={clickBtn}
+              disabled={isPaused ? false : true}
+              style={imgBtnStyle}
+            ></ImgBtn>
+          ) : (
+            <ImgBtn
+              src={Pauseicon}
+              onClick={clickBtn}
+              disabled={isPaused ? true : false}
+              style={imgBtnStyle}
+            ></ImgBtn>
+          )}
+        </PlayContainer>
+        {myInfo && (
+          <Character3d
+            name={myInfo.userZbti}
+            characterScale={0.58}
+            canvasWidth={400}
+            canvasHeight={440}
+            toBelow={35}
+            action="turn"
+          />
         )}
-      </PlayContainer>
-      {myInfo && (
-        <Character3d
-        name={myInfo.userZbti}
-        characterScale={0.58}
-        canvasWidth={400}
-        canvasHeight={440}
-        toBelow={35}
-        action="turn"
-      />
-      )}
-      <SquareBtn text="자막보기" style={buttonStyleDark} />
-    </Wrapper>
+        <SquareBtn text="자막보기" style={buttonStyleDark} />
+      </Wrapper>
+    </CommonPageTransition>
   );
 }
 
