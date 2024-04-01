@@ -8,17 +8,13 @@ interface SubscribeButtonProps {
 
 function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
 
+
     function handleClickToSubscribe() {
-        if(userNo === subscribeNo) {
-            alert("본인 구독은 안됩니다.");
-            return;
-        }
 
         subscribeUser(userNo, subscribeNo);
         alert("구독 완료");
+        
     }
-
-    
 
     return (
         <GoToUpdateUser onClick={() => handleClickToSubscribe()}>
