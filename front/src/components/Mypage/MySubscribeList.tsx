@@ -94,6 +94,8 @@ const SubscriberList = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
+  flex-direction: column;
+  padding-left: 30px;
 `;
 
 const SubscriberOne = styled.div``;

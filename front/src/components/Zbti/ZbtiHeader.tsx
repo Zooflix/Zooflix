@@ -3,7 +3,7 @@ import styled from "styled-components";
 import BackBtn from "../Common/BackBtn";
 import logo from "../../assets/img/Logo.svg";
 
-function ZbtiHeader(props: { backLink: string}) {
+function ZbtiHeader(props: { backLink: string }) {
   return (
     <div>
       <Header>
@@ -22,6 +22,6 @@ const Header = styled.div`
   margin: 25px 0 0 20px;
   .logo {
     width: 150px;
-    margin: 0 20px;
+    margin: 10px 30px 0 30px;
   }
 `;
