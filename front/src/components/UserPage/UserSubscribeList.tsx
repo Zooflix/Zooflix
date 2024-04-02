@@ -33,13 +33,19 @@ function UserSubscribeList() {
                 </LeftSide>
                 <RightSide>
                     <h3>{userPageInfo.userName} 님이 구독 중인 회원</h3>
-                    {userPageSubscribeList &&
+                    {userPageSubscribeList.length === 0 ? (
+                        <NoSubscription>
+                            현재 구독 중인 회원이 없습니다.
+                        </NoSubscription>
+                    ) : (
                         userPageSubscribeList.map((subscribe) => (
                             <UserSubscription
                                 key={subscribe.subscribeNo}
                                 onSubscribe={subscribe}
                             />
-                        ))}
+                        ))
+
+                    )}
                 </RightSide>
             </Container>
         </Wrapper>
