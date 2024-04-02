@@ -59,11 +59,11 @@ const Wrapper = styled.div`
 const Container = styled.div`
     display: flex;
     flex-direction: row;
+    width: 100%;
 `;
 
 const LeftSide = styled.div`
     width: 50%;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     border: none;
@@ -79,6 +79,7 @@ const CardSection = styled.div`
 `;
 const RightSide = styled.div`
     width: 50%;
+    height: 100%;
     flex-direction: column;
     justify-content: center;
     h3 {
@@ -94,10 +95,13 @@ const SubscriberList = styled.div`
     padding-left: 30px;
 `;
 
-const SubscriberOne = styled.div``;
+const SubscriberOne = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
-const NoSubscription = styled.h3`
-    padding-top: 18px;
+const NoSubscription = styled.p`
     text-align: center;
     color: gray;
 `;
