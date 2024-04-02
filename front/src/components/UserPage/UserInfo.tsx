@@ -1,9 +1,26 @@
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { userPageInfoState, userPagePredictListState } from "../../Store/UserPageState";
+import { getUserInfo } from "../../apis/api/UserPage";
+import { useEffect } from "react";
 
 function UserInfo() {
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            //유저 정보
+            try {
+                const data = await getUserInfo(userPageInfo.userNo);
+                setUserPageInfo(data);
+                console.log(data);
+            } catch (error) {
+                console.log("유저 정보 불러오기 실패");
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
 
     return (
         <Wrapper>

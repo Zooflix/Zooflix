@@ -137,6 +137,7 @@ function UserDetailModal({
                 (subscribe) => subscribe.subscribeNo !== subscribeNo
             )
         );
+        window.location.reload();
     };
 
     return (

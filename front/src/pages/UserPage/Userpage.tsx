@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMyStockList } from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
@@ -44,6 +44,10 @@ function UserPage() {
 
     const [ModalUserNo, setModalUserNo] = useRecoilState(ModalUserNoState);
 
+    // 유저 정보를 바탕으로 userId 도 저장해야 함, 새로고침에 대한 이슈로 추가적으로 저장해놓아야함
+    const [userNo, setUserNo] = useState(ModalUserNo);
+    const [userName, setUserName] = useState(userPageInfo.userName);
+
     const navigate = useNavigate();
 
     const handleZbti = () => {
@@ -54,7 +58,7 @@ function UserPage() {
         const fetchData = async () => {
             //유저 정보
             try {
-                const data = await getUserInfo(ModalUserNo);
+                const data = await getUserInfo(userNo);
                 setUserPageInfo(data);
                 console.log(data);
             } catch (error) {
@@ -64,7 +68,7 @@ function UserPage() {
 
             //유저 예측 글 목록
             try {
-                const data = await getUserPredictList(ModalUserNo);
+                const data = await getUserPredictList(userNo);
                 setUserPagePredictList(data);
                 console.log(data);
             } catch (error) {
@@ -74,7 +78,7 @@ function UserPage() {
 
             //유저가 구독한 사람 목록
             try {
-                const data = await getUserSubscribeList(ModalUserNo);
+                const data = await getUserSubscribeList(userNo);
                 setUserPageSubscribeList(data);
             } catch (error) {
                 console.log("유저 구독한 사람 목록 불러오기 실패");
@@ -83,8 +87,6 @@ function UserPage() {
         };
         fetchData();
     }, []);
-
-    const userId = "user1"; //임시
 
     useEffect(() => {
         // 임의의 인덱스값 userNo 넣음
@@ -99,7 +101,7 @@ function UserPage() {
             }
         };
 
-        fetchData(userId);
+        fetchData(userName);
     }, []);
 
     return (
@@ -111,7 +113,7 @@ function UserPage() {
                     <UserInfo />
                     <SubscribeButton
                         userNo={myPageInfo.userNo}
-                        subscribeNo={ModalUserNo}
+                        subscribeNo={userNo}
                     />
                 </LeftSideMyInfo>
                 <Right>
