@@ -166,8 +166,4 @@ const RightSideMyInfo = styled.div`
 const GotoZbtiButton = styled.div`
   display: flex;
   justify-content: center;
-  &:hover {
-    cursor: pointer;
-    scale: 1.05;
-  }
 `;
