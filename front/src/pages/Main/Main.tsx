@@ -8,6 +8,7 @@ import Character3d from "../../components/Character/Character3d";
 import zooflix from "../../assets/img/Zooflix.svg";
 import { Link } from "react-router-dom";
 import { getRankingList } from "../../apis/api/Main";
+import { getMyInfo } from "../../apis/api/MyPage";
 import CommonPageTransition from "../../components/Common/CommonPageTransition";
 
 function Main() {
