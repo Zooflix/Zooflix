@@ -12,6 +12,7 @@ import { isPausedState } from "../../Store/RadioState";
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
 import Pauseicon from "../../assets/img/button/Pause.svg";
+import RadioIcon from "../../assets/img/radio/RadioIcon.svg"
 
 // 컴포넌트
 import ImgBtn from "../../components/Common/ImgBtn";
@@ -39,7 +40,7 @@ const clickBtnStyle = {
   width: "50px",
   borderRadius: "15px",
   padding: "3px",
-  margin: "0px 8px 0px 0px",
+  margin: "0px 0px 8px 0px",
   boxShadow: "none",
   border: "2px solid #d80000",
   color: "#d80000",
@@ -184,16 +185,17 @@ function Player() {
             )}
             <audio ref={audioEl} />
         </LeftContainer>
+        <MiddleContainer />
         <RightContainer>
-          <ContentContainer>
+          <RightDetailContainer>
             {news.length===0? (
-              <div>
+            <ContentContainer>
               <NewsTitle>
-                <span>라디오 자막이 나와요!</span>
+                <p>라디오를 재생해주세요!</p>
               </NewsTitle>
-              </div>
+            </ContentContainer>
             ) : (
-              <div>
+            <ContentContainer>
               <NewsTitle>
                 <SquareBtn text="click!"  style={clickBtnStyle}/> <br/>
                 <a href={news[currentAudioIndex]?.[0]}>
@@ -201,11 +203,10 @@ function Player() {
                 </a>
               </NewsTitle>
               <p>{news[currentAudioIndex]?.[2]}</p>
-              </div>
+            </ContentContainer>
             )}
-          </ContentContainer>
+          </RightDetailContainer>
         </RightContainer>
-
       </PlayContainer>
     </Wrapper>
   );
@@ -215,20 +216,9 @@ export default Player;
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin: auto 0;
+  justify-content: center;
 `;
 
-const RadioTitle = styled.h1`
-  font-family: WAGURITTF;  
-  font-weight: lighter;
-  font-size: 45px;
-  margin-bottom: 30px;
-  // color: white;
-
-  // text-shadow: -2px -2px 0 #2A4263, 2px -2px 0 #2A4263, -2px 2px 0 #2A4263, 2px 2px 0 #2A4263;
-`;
 const PlayContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -236,54 +226,60 @@ const PlayContainer = styled.div`
 `;
 
 const LeftContainer = styled.div`
-  margin: 30px 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto 0;
+`;
+
+const MiddleContainer = styled.div`
+  width: 50px;
 `;
 
 const RightContainer = styled.div`
-  width: 450px;
-  margin: 10px 70px;
-`
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 100px;
+  align-content: space-between;
+`;
+
+const RightDetailContainer = styled.div`
+  margin: auto 0;
+`;
+
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 550px;
-  margin: auto 0;
+  width: 430px;
 
   p {
     font-weight: bold;
+    margin-top: 40px;
+    word-break: keep-all;
   }
 `;
 
 const NewsTitle = styled.div`
-  font-family: Noto Sans KR;
-  margin-bottom: 40px;
+  font-family: NanumSquareRound;
   align-items: center;
-  font-size: 20px;
+  font-size: 17px;
 
   a {
-    // font-family: bitbit;
+    font-family: NPSfontBold;
     text-decoration: none;
     color: #1899e8;
-    font-weight: 600;
-  }
-  span {
-    font-family: NanumSquareRound;
     font-weight: bolder;
-    color: black;
-    background-color: #D7F1FA;
-    padding: 3px 13px;
+    font-size: 23px;
+    word-break: keep-all;
   }
 
   button {
     &:hover {
-      color: white;
-      background-color: #d80000;
+      color: #d80000;
+      background-color: #ffffff;
     }
   }
 `;
