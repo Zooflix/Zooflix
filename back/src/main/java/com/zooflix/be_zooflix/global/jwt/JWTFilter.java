@@ -27,10 +27,8 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // request의 헤더에서 access키에 담긴 토큰을 꺼냄
         String accessToken = request.getHeader("access");
-        System.out.println("jwt필터!");
         // 토큰이 없다면 다음 필터로 넘김
         if (accessToken == null) {
-            System.out.println("토큰이 없대");
             filterChain.doFilter(request, response);
 
             return;
@@ -40,7 +38,6 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             jwtUtil.isExpired(accessToken);
         } catch (ExpiredJwtException e) {
-            System.out.println("토큰 만료!");
             //response body
             PrintWriter writer = response.getWriter();
             writer.print("access token expired");
@@ -54,7 +51,6 @@ public class JWTFilter extends OncePerRequestFilter {
         String category = jwtUtil.getCategory(accessToken);
 
         if (!category.equals("access")) {
-            System.out.println("엑세스 토큰인지 확인");
             //response body
             PrintWriter writer = response.getWriter();
             writer.print("invalid access token");
@@ -63,18 +59,20 @@ public class JWTFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-        System.out.println("끝까지옴");
+
         // username, role 값을 획득
         String userId = jwtUtil.getUserId(accessToken);
         String role = jwtUtil.getRole(accessToken);
         String userName = jwtUtil.getUserName(accessToken);
         int userNo = jwtUtil.getUserNo(accessToken);
+        String userZbti = jwtUtil.getUserZbti(accessToken);
 
         UserDto userDto = new UserDto();
         userDto.setUserId(userId);
         userDto.setUserRole(role);
         userDto.setUserNo(userNo);
         userDto.setUserName(userName);
+        userDto.setUserZbti(userZbti);
         CustomUserDetails customUserDetails = new CustomUserDetails(userDto);
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
