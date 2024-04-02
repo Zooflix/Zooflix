@@ -36,9 +36,9 @@ function MySubscribeStock() {
       {!stockList ? (
         <h3>현재 정기 구독 중인 주식이 없습니다.</h3>
       ) : (
-        <div>
+        <CardListWrapper>
           <CardList myStockList={stockList} />
-        </div>
+        </CardListWrapper>
       )}
     </Wrapper>
   );
@@ -54,4 +54,9 @@ const Wrapper = styled.div`
     color: gray;
   }
   text-align: center;
+`;
+
+const CardListWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;
