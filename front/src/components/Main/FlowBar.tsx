@@ -12,20 +12,56 @@ function FlowBar({ kospi, kosdaq, usd }: Props) {
     <ScrollDiv>
       <ScrollWrapper>
         <ScrollPrimary>
-          <Text> 코스피 </Text>
-          <Indice>{kospi}</Indice>
-          <Text> 코스닥 </Text>
-          <Indice>{kosdaq}</Indice>
-          <Text> 달러환율 </Text>
-          <Indice>{usd}</Indice>
+          <Text>
+            코스피<Space></Space>
+            <Indice> {kospi}</Indice>
+          </Text>
+          <Text>
+            코스닥<Space></Space>
+            <Indice>{kosdaq}</Indice>
+          </Text>
+          <Text>
+            달러환율<Space></Space>
+            <Indice>{usd}</Indice>
+          </Text>
+          <Text>
+            코스피<Space></Space>
+            <Indice>{kospi}</Indice>
+          </Text>
+          <Text>
+            코스닥<Space></Space>
+            <Indice>{kosdaq}</Indice>
+          </Text>
+          <Text>
+            달러환율<Space></Space>
+            <Indice>{usd}</Indice>
+          </Text>
         </ScrollPrimary>
         <ScrollSecondary>
-          <Text> 코스피 </Text>
-          <Indice>{kospi}</Indice>
-          <Text> 코스닥 </Text>
-          <Indice>{kosdaq}</Indice>
-          <Text> 달러환율 </Text>
-          <Indice>{usd}</Indice>
+          <Text>
+            코스피<Space></Space>
+            <Indice>{kospi}</Indice>
+          </Text>
+          <Text>
+            코스닥<Space></Space>
+            <Indice>{kosdaq}</Indice>
+          </Text>
+          <Text>
+            달러환율<Space></Space>
+            <Indice>{usd}</Indice>
+          </Text>
+          <Text>
+            코스피<Space></Space>
+            <Indice>{kospi}</Indice>
+          </Text>
+          <Text>
+            코스닥<Space></Space>
+            <Indice>{kosdaq}</Indice>
+          </Text>
+          <Text>
+            달러환율<Space></Space>
+            <Indice>{usd}</Indice>
+          </Text>
         </ScrollSecondary>
       </ScrollWrapper>
     </ScrollDiv>
@@ -92,14 +128,20 @@ const ScrollSecondary = styled(ScrollElement)`
   animation: ${secondary} 20s linear infinite;
 `;
 
-const Text = styled.p`
+const Text = styled.div`
   font-size: 15px;
   font-weight: 600;
   color: #000000;
+  display: flex;
+  align-items: center;
 `;
 
-const Indice = styled.p`
+const Indice = styled.span`
   font-size: 15px;
   font-weight: 600;
   color: #0099e8;
+`;
+
+const Space = styled.span`
+  margin: 0 5px;
 `;
