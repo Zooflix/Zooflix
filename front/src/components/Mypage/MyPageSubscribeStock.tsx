@@ -34,7 +34,9 @@ function MyPageSubscribeStock() {
   return (
     <Wrapper>
       {!stockList ? (
-        <h3>현재 정기 구독 중인 주식이 없습니다.</h3>
+        <NoResultsMessage>
+          현재 정기 구독 중인 주식이 없습니다.
+        </NoResultsMessage>
       ) : (
         <div>
           <CardList />
