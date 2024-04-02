@@ -182,7 +182,7 @@ function UserDetailModal({
                 </Line>
               </LineContainer>
             </InfoContainer>
-            <ButtonContainer className="btn-container">
+            <ButtonContainer>
               {myPageInfo.userNo === userNo ? (
                 <></>
               ) : isSubscribe ? (
@@ -232,26 +232,10 @@ const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   button {
-    margin: 20px;
+    margin-left: 10px;
   }
 `;
-// const SubscribeButton = styled.button`
-//     background-color: #f84646;
-//     width: 90px;
-//     border-radius: 10px;
-//     cursor: pointer;
-//     padding: 7px 0;
-//     border: none;
-//     color: white;
-//     &:hover {
-//         background-color: white;
-//         box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-//         color: #f84646;
-//         font-weight: bold;
-//     }
-// `;
 
 const InfoContainer = styled.div`
   display: flex;
