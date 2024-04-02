@@ -68,7 +68,7 @@ export default DeleteSubButton;
 const Wrapper = styled.div`
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   div {
     margin: 0 10px;
     font-weight: bold;

@@ -134,8 +134,8 @@ function UserDetailModal({
         }
         if (isModalOpen) {
             fetchUserInfo();
+            console.log("isSubscribe? : " + isSubscribe);
         }
-        console.log("isSubscribe? : " + isSubscribe);
     }, [isModalOpen, userNo]);
 
     const navToUserPage = async () => {

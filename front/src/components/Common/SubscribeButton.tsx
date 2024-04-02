@@ -11,6 +11,7 @@ function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
         subscribeUser(userNo, subscribeNo);
         alert("구독 완료");
         window.location.reload();
+        // window.location.reload();
     }
 
     return (
@@ -36,6 +37,7 @@ const GoToUpdateUser = styled.button`
     padding: 7px 0;
     border: none;
     color: white;
+    margin-top: 30px;
     &:hover {
         background-color: white;
         box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);

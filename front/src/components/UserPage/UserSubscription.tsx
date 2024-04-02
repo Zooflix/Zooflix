@@ -13,15 +13,10 @@ interface SubscriptionProps {
 }
 
 function UserSubscription({ onSubscribe }: SubscriptionProps) {
-
     return (
         <Wrapper>
-            <LeftsideQuestion>
                 <div>{onSubscribe.subscribeName}</div>
-            </LeftsideQuestion>
-            <RightSideAnswer>
-                <div>{onSubscribe.subscribeTemperature + "°C"}</div>
-            </RightSideAnswer>
+                <Temp>{onSubscribe.subscribeTemperature + "°C"}</Temp>
         </Wrapper>
     );
 }
@@ -31,25 +26,16 @@ export default UserSubscription;
 const Wrapper = styled.div`
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
-`;
-
-const LeftsideQuestion = styled.div`
-    float: left;
-    width: 50%;
-    margin-top: 20px;
-`;
-
-const RightSideAnswer = styled.div`
-    float: right;
-    width: 50%;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-
-    btn {
-        margin-left: 100px;
+    justify-content: space-around;
+    div {
+        margin: 0 10px;
+        font-weight: bold;
     }
+`;
+
+const Temp = styled.div`
+  color: #0099e8;
+  font-weight: bold;
 `;
 
 const Button = styled.button`
