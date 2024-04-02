@@ -37,7 +37,7 @@ function Rank(props: RankProps) {
     };
 
     const closeModal = () => setIsModalOpen(false);
-    if (props.stockName === "null") {
+    if (props.stockName === "null" || props.stockName === "" ) {
         return (
             <BigWrapper>
                 <Wrapper>
