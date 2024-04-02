@@ -1,12 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "./Card";
+import { stockSubListState } from "../../Store/StockSubscribeState";
+import { useRecoilState } from "recoil";
 
-interface Props {
-  myStockList: any[];
-}
+const CardList: React.FC = () => {
 
-function CardList({ myStockList }: Props) {
+  const [myStockList] = useRecoilState(stockSubListState)
+
+  if (!myStockList || myStockList.length === 0) {
+    return <NoResultsMessage>현재 정기 구독 중인 주식이 없습니다.</NoResultsMessage>
+  }
+  
   return (
     <Wrapper>
       <Container>
@@ -21,10 +26,19 @@ function CardList({ myStockList }: Props) {
 export default CardList;
 const Wrapper = styled.div``;
 
+const NoResultsMessage = styled.div`
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
 const Container = styled.div`
   display: flex;
   overflow-y: auto;
-  flex-direction: row;
+  flex-direction: column;
+  overflow-y: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
