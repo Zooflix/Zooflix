@@ -35,6 +35,10 @@ public class JWTUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("userName", String.class);
     }
 
+    public String getUserZbti(String token) { // 유저 이름 검증
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("userZbti", String.class);
+    }
+
     public String getRole(String token) { // 유저 권한 검증
 
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("role", String.class);
@@ -49,13 +53,14 @@ public class JWTUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
 
-    public String createJwt(String category, int userNo, String userId, String userName, String role, Long expiredMs) {
+    public String createJwt(String category, int userNo, String userId, String userName, String userZbti, String role, Long expiredMs) {
 
         Claims claims = Jwts.claims();
         claims.put("category", category);
         claims.put("userNo", userNo);
         claims.put("userId", userId);
         claims.put("userName", userName);
+        claims.put("userZbti", userZbti);
         claims.put("role", role);
 
         return Jwts.builder()

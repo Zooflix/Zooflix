@@ -59,6 +59,10 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
+    public String getUserZbti() {
+        return userDto.getUserZbti();
+    }
+
     @Override
     public boolean isAccountNonLocked() {
 

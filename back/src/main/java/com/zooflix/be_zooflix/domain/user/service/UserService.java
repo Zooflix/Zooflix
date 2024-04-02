@@ -210,10 +210,11 @@ public class UserService {
         String userId = jwtUtil.getUserId(refresh);
         String role = jwtUtil.getRole(refresh);
         String userName = jwtUtil.getUserName(refresh);
+        String userZbti = jwtUtil.getUserZbti(refresh);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", userNo, userId, userName, role, 6000001L);
-        String newRefresh = jwtUtil.createJwt("refresh", userNo, userId, userName, role, 86400000L);
+        String newAccess = jwtUtil.createJwt("access", userNo, userId, userName, userZbti, role, 6000001L);
+        String newRefresh = jwtUtil.createJwt("refresh", userNo, userId, userName, userZbti, role, 86400000L);
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
         jwtRefreshRepository.deleteByRefreshToken(refresh);
