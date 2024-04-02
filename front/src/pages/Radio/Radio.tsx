@@ -109,7 +109,7 @@ function Player() {
       ttsMaker();
       setIsLoaded(true);
     }
-  }), [isClicked]
+  }, [isClicked]);
 
 
 
