@@ -1,17 +1,18 @@
 package com.zooflix.be_zooflix.scheduled;
 
-import ch.qos.logback.core.CoreConstants;
 import com.zooflix.be_zooflix.domain.alarm.entity.Alarm;
 import com.zooflix.be_zooflix.domain.alarm.entity.AlarmTypeStatus;
 import com.zooflix.be_zooflix.domain.alarm.repository.AlarmRepository;
 import com.zooflix.be_zooflix.domain.alarm.service.AlarmService;
 
-import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockSubscribeProjection;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.entity.User;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
 import com.zooflix.be_zooflix.global.securityAlgo.AesUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -49,7 +50,7 @@ public class ScheduledStockSubscribe {
         this.aesUtils = aesUtils;
     }
 
-    @Scheduled(cron = "0 00 17 * * ?")
+    @Scheduled(cron = "0 25 23 * * ?")
     public void performTask() throws IOException {
         // 특정 시간에 데이터베이스에서 주식 구독한 사람들 리스트 가져오기
 
@@ -71,16 +72,19 @@ public class ScheduledStockSubscribe {
                 String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/order-resv";
                 String tr_id = "CTSC0008U";
                 String data = "{\n" +
-                        "    \"CANO\":" + account.substring(0, 8) + ",\n" + // 계좌번호 앞 8자리
-                        "    \"ACNT_PRDT_CD\":" + account.substring(8) + ",\n" + // 계좌번호 뒤 2자리
-                        "    \"PDNO\":" + subscriber.getStockCode() + ",\n" +
-                        "    \"ORD_QTY\": " + subscriber.getStockCount() + ",\n" +
-                        "    \"ORD_UNPR\": 0,\n" + // 시장가로 구매
-                        "    \"SLL_BUY_DVSN_CD\": 02,\n" + // 매수
-                        "    \"ORD_DVSN_CD\": 01,\n" + // 시장가 구매
-                        "    \"ORD_OBJT_CBLC_DVSN_CD\": 10,\n" +
-                        "}";
-                httpPostBodyConnection(url, data, tr_id, subscriber);
+                        "    \"CANO\": \"" + account.substring(0, 8) + "\",\n" + // 계좌번호 앞 8자리
+                        "    \"ACNT_PRDT_CD\": \"" + account.substring(8) + "\",\n" + // 계좌번호 뒤 2자리
+                        "    \"PDNO\": \"" + subscriber.getStockCode() + "\",\n" +
+                        "    \"ORD_QTY\": \"" + subscriber.getStockCount() + "\",\n" +
+                        "    \"ORD_UNPR\": \"0\",\n" + // 시장가로 구매
+                        "    \"SLL_BUY_DVSN_CD\": \"02\",\n" + // 매수
+                        "    \"ORD_DVSN_CD\": \"01\",\n" + // 시장가 구매
+                        "    \"ORD_OBJT_CBLC_DVSN_CD\": \"10\",\n" +
+                        "    \"LOAN_DT\": \"\",\n" +
+                        "    \"RSVN_ORD_END_DT\":\"\"" +
+                    "}";
+                System.out.println(data.toString());
+                httpPostBodyConnection(url, data, tr_id, subscriber, AccessReturn);
             }
         }
     }
@@ -89,7 +93,7 @@ public class ScheduledStockSubscribe {
         // HttpClient 인스턴스 생성
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // API 엔드포인트 URL
-            String accessUrl = "https://openapivts.koreainvestment.com:29443/oauth2/tokenP";
+            String accessUrl = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";
 
             // POST 요청 생성
             HttpPost httpPost = new HttpPost(accessUrl);
@@ -115,7 +119,9 @@ public class ScheduledStockSubscribe {
                 if (entity != null) {
                     String responseBody = EntityUtils.toString(entity);
                     System.out.println("응답 본문: " + responseBody);
-                    return responseBody;
+                    JSONParser parser = new JSONParser();
+                    JSONObject jsonObject = (JSONObject) parser.parse(responseBody);
+                    return jsonObject.get("access_token").toString();
                 }
             }
         } catch (Exception e) {
@@ -150,7 +156,7 @@ public class ScheduledStockSubscribe {
         }
     }
 
-    public String httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeProjection subscriber) throws IOException {
+    public String httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribeProjection subscriber, String accessToken) throws IOException {
 
         String totalUrl = "";
         totalUrl = UrlData.trim().toString();
@@ -169,7 +175,7 @@ public class ScheduledStockSubscribe {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("authorization", "Bearer ");
+            conn.setRequestProperty("authorization", "Bearer "+accessToken.trim());
             conn.setRequestProperty("appKey", aesUtils.aesCBCDecode(subscriber.getUserAppKey(), "db"));
             conn.setRequestProperty("appSecret", aesUtils.aesCBCDecode(subscriber.getUserSecretKey(), "db"));
             conn.setRequestProperty("tr_id", TrId);
