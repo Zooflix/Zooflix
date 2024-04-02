@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 import { loginCheck } from "../../components/User/IsLoginCheck";
+import { getJwtUserId } from "../../apis/utils/jwt";
 
 function Mypage() {
   // 내 정보 저장
@@ -80,6 +81,16 @@ function Mypage() {
       .then((resSubscribe) => {
         setMyPageSubscribeList(resSubscribe);
         console.log("내가 구독한 사람 목록 : " + myPageSubscribeList);
+      })
+      .catch((error) => {
+        console.log("에러메세지: " + error.message);
+        console.error(error);
+      });
+
+      const dataStockSubscribe = await getMyStockList(getJwtUserId())
+      .then((reStock) => {
+        setMyStockList(reStock);
+        console.log("내가 구독한 주식 목록 : " + myStockList);
       })
       .catch((error) => {
         console.log("에러메세지: " + error.message);

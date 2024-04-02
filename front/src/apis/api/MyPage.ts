@@ -74,3 +74,17 @@ export const getMyStockList = async (userId: string) => {
     console.error(error);
   }
 };
+
+//유저 주식 구독 목록
+export const getUserStockList = async (userId: string) => {
+  try {
+    const response = await axios.get(`/stock/subscribe/list/${userId}`);
+    if(response.status === 500) {
+      return null;
+    }
+    console.log(response.data.resultData);
+    return response.data.resultData;
+  } catch (error) {
+    console.error(error);
+  }
+};

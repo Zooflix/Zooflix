@@ -2,7 +2,7 @@ import styled from "styled-components";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
-import { getMyStockList } from "../../apis/api/MyPage";
+import { getMyStockList, getUserStockList } from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 import {
@@ -93,7 +93,7 @@ function UserPage() {
         const fetchData = async (userId: string) => {
             //유저 주식 구독 목록
             try {
-                const data = await getMyStockList(userId);
+                const data = await getUserStockList(userPageInfo.userId);
                 console.log("*******************************************************" + userId);
                 setUserStockList(data);
             } catch (error) {
