@@ -13,96 +13,97 @@ import { getJwtUserZbti } from "../../apis/utils/jwt";
 import { loginCheck } from "../../components/User/IsLoginCheck";
 
 function Main() {
-  const [mainData, setMainData] = useState({
-    kospi: 0,
-    kosdaq: 0,
-    usd: 0,
+  const [mainData, setMainData] = useState<{
+    kospi: number;
+    kosdaq: number;
+    usd: number;
     zustraRank: [
       {
-        userNo: null,
-        userName: null,
-        predictCount: null,
-        successCount: null,
-        failCount: null,
-        userTemperature: null,
-        userZbti: null,
-        successStreak: null,
-        cnt: null,
+        userNo: number;
+        userName: string;
+        predictCount: number;
+        successCount: number;
+        failCount: number;
+        userTemperature: number;
+        userZbti: string;
+        successStreak: number;
+        cnt: number;
       },
       {
-        userNo: null,
-        userName: null,
-        predictCount: null,
-        successCount: null,
-        failCount: null,
-        userTemperature: null,
-        userZbti: null,
-        successStreak: null,
-        cnt: null,
+        userNo: number;
+        userName: string;
+        predictCount: number;
+        successCount: number;
+        failCount: number;
+        userTemperature: number;
+        userZbti: string;
+        successStreak: number;
+        cnt: number;
       },
       {
-        userNo: null,
-        userName: null,
-        predictCount: null,
-        successCount: null,
-        failCount: null,
-        userTemperature: null,
-        userZbti: null,
-        successStreak: null,
-        cnt: null,
-      },
-    ],
+        userNo: number;
+        userName: string;
+        predictCount: number;
+        successCount: number;
+        failCount: number;
+        userTemperature: number;
+        userZbti: string;
+        successStreak: number;
+        cnt: number;
+      }
+    ];
     topFailUser: {
-      userNo: null,
-      userName: null,
-      predictCount: null,
-      successCount: null,
-      failCount: null,
-      userTemperature: null,
-      userZbti: null,
-      successStreak: null,
-      cnt: null,
-    },
+      userNo: number;
+      userName: string;
+      predictCount: number;
+      successCount: number;
+      failCount: number;
+      userTemperature: number;
+      userZbti: string;
+      successStreak: number;
+      cnt: number;
+    };
     topStreakUser: {
-      userNo: null,
-      userName: null,
-      predictCount: null,
-      successCount: null,
-      failCount: null,
-      userTemperature: null,
-      userZbti: null,
-      successStreak: null,
-      cnt: null,
-    },
+      userNo: number;
+      userName: string;
+      predictCount: number;
+      successCount: number;
+      failCount: number;
+      userTemperature: number;
+      userZbti: string;
+      successStreak: number;
+      cnt: number;
+    };
     topStockUser: {
-      userNo: null,
-      userName: null,
-      predictCount: null,
-      successCount: null,
-      failCount: null,
-      userTemperature: null,
-      userZbti: null,
-      successStreak: null,
-      cnt: null,
-    },
+      userNo: number;
+      userName: string;
+      predictCount: number;
+      successCount: number;
+      failCount: number;
+      userTemperature: number;
+      userZbti: string;
+      successStreak: number;
+      cnt: number;
+      stockName: String;
+    };
     stockRank: [
       {
-        stockCode: null,
-        stockName: null,
-        subscriberCnt: null,
+        stockCode: string;
+        stockName: string;
+        subscriberCnt: number;
       },
       {
-        stockCode: null,
-        stockName: null,
-        subscriberCnt: null,
+        stockCode: string;
+        stockName: string;
+        subscriberCnt: number;
       },
       {
-        stockCode: null,
-        stockName: null,
-        subscriberCnt: null,
-      },
-    ],
-  });
+        stockCode: string;
+        stockName: string;
+        subscriberCnt: number;
+      }
+    ];
+  } | null>(null);
 
   useEffect(() => {
     console.log("main");
@@ -134,49 +135,54 @@ function Main() {
   return (
     <CommonPageTransition>
       <MainWrapper>
-        <FlowBar
-          kospi={mainData.kospi}
-          kosdaq={mainData.kosdaq}
-          usd={mainData.usd}
-        />
-        <Rank>
-          <ZustraRank rankData={mainData.zustraRank} zbti={zbti} />
-          <StockRank stockRank={mainData.stockRank} zbti={zbti} />
-        </Rank>
-        <BelowDiv>
-          <MoreRank
-            topFailUser={mainData.topFailUser}
-            topStreakUser={mainData.topStreakUser}
-            topStock={mainData.topStockUser}
-          />
-          <SubscribeDiv>
-            <Link to="/stocksub" style={{ textDecoration: "none" }}>
-              <Bubble>
-                <div>
-                  <img src={zooflix} width="140px" alt="zooflix" />
-                </div>
-                <div>주식 구독하러가기</div>
-              </Bubble>
-            </Link>
-            {loginCheck() ? (
-              <Character3d
-                name={getJwtUserZbti()}
-                characterScale={0.45}
-                canvasHeight={240}
-                canvasWidth={200}
-                toBelow={24}
+        {mainData && (
+          <>
+            {" "}
+            <FlowBar
+              kospi={mainData.kospi}
+              kosdaq={mainData.kosdaq}
+              usd={mainData.usd}
+            />
+            <Rank>
+              <ZustraRank rankData={mainData.zustraRank} zbti={zbti} />
+              <StockRank stockRank={mainData.stockRank} zbti={zbti} />
+            </Rank>
+            <BelowDiv>
+              <MoreRank
+                topFailUser={mainData.topFailUser}
+                topStreakUser={mainData.topStreakUser}
+                topStock={mainData.topStockUser}
               />
-            ) : (
-              <Character3d
-                name="Bear"
-                characterScale={0.45}
-                canvasHeight={240}
-                canvasWidth={200}
-                toBelow={24}
-              />
-            )}
-          </SubscribeDiv>
-        </BelowDiv>
+              <SubscribeDiv>
+                <Link to="/stocksub" style={{ textDecoration: "none" }}>
+                  <Bubble>
+                    <div>
+                      <img src={zooflix} width="140px" alt="zooflix" />
+                    </div>
+                    <div>주식 구독하러가기</div>
+                  </Bubble>
+                </Link>
+                {loginCheck() ? (
+                  <Character3d
+                    name={getJwtUserZbti()}
+                    characterScale={0.45}
+                    canvasHeight={240}
+                    canvasWidth={200}
+                    toBelow={24}
+                  />
+                ) : (
+                  <Character3d
+                    name="Bear"
+                    characterScale={0.45}
+                    canvasHeight={240}
+                    canvasWidth={200}
+                    toBelow={24}
+                  />
+                )}
+              </SubscribeDiv>
+            </BelowDiv>
+          </>
+        )}
       </MainWrapper>
     </CommonPageTransition>
   );

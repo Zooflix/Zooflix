@@ -55,7 +55,7 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
       )}
       {topStock ? (
         <UserDiv>
-          <Title>삼성전자 1위 예측자</Title>
+          <Title>{topStock.stockName} 1위 예측자</Title>
           <Character3d
             name={topStock.userZbti || "Bear"}
             characterScale={0.5}
