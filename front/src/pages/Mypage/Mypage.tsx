@@ -99,7 +99,6 @@ function Mypage() {
     fetchData();
   }, []);
 
-  console.log("유저 온도 : " + myPageInfo.userTemperature);
 
   return (
     <Wrapper>
