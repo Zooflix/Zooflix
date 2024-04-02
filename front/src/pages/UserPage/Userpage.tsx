@@ -46,7 +46,7 @@ function UserPage() {
 
     // 유저 정보를 바탕으로 userId 도 저장해야 함, 새로고침에 대한 이슈로 추가적으로 저장해놓아야함
     const [userNo, setUserNo] = useState(ModalUserNo);
-    const [userName, setUserName] = useState(userPageInfo.userName);
+    const [userId, setUserId] = useState(userPageInfo.userId);
 
     const navigate = useNavigate();
 
@@ -94,6 +94,7 @@ function UserPage() {
             //유저 주식 구독 목록
             try {
                 const data = await getMyStockList(userId);
+                console.log("*******************************************************" + userId);
                 setUserStockList(data);
             } catch (error) {
                 console.log("유저 주식 구독 목록 불러오기 실패");
@@ -101,14 +102,14 @@ function UserPage() {
             }
         };
 
-        fetchData(userName);
+        fetchData(userId);
     }, []);
 
     return (
         <Wrapper>
             <Container>
                 <LeftSideMyInfo>
-                    {userPageInfo.userName + " 님의 정보"}
+                    <h2>{userPageInfo.userName + " 님의 정보"}</h2>
                     <TempWithImage />
                     <UserInfo />
                     <SubscribeButton
