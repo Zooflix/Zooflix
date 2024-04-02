@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 // api
 import { getCachedData, playRadio } from "../../apis/api/Radio";
 import { getMyInfo } from "../../apis/api/MyPage";
+import { loginCheck } from "../../components/User/IsLoginCheck";
 
 // state
 import { isPausedState } from "../../Store/RadioState";
@@ -12,7 +13,6 @@ import { isPausedState } from "../../Store/RadioState";
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
 import Pauseicon from "../../assets/img/button/Pause.svg";
-import RadioIcon from "../../assets/img/radio/RadioIcon.svg"
 
 // 컴포넌트
 import ImgBtn from "../../components/Common/ImgBtn";
@@ -50,6 +50,7 @@ function Player() {
   const [isPaused, setIsPaused] = useRecoilState(isPausedState); // 재생, 중단 여부
   const [isClicked, setIsClicked] = useState(0); // 처음 재생버튼 눌렀는지 판단
   const [isLoaded, setIsLoaded] = useState(false); // 오디오 데이터 로딩 여부
+  const [cnt, setCnt] = useState(0);
 
   const audioEl = useRef<HTMLAudioElement>(null);
   const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
@@ -57,29 +58,31 @@ function Player() {
   const [blobUrlList, setBlobUrlList] = useState<string[]>([]);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   
+  const [isLogin, setIsLogin] = useState(loginCheck());
+
+
 
   // 마운트: 마이데이터 -> userZbti 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getMyInfo();
-        console.log(response.userZbti);
-        setMyInfo(response);
-      } catch (error) {
+        if (isLogin) {
+          const response = await getMyInfo();
+          console.log(response.userZbti);
+          setMyInfo(response);
+        }
+     } catch (error) {
         console.error(error);
       }
-    };
+    }
     fetchData();
-    // ttsMaker();
   }, []);
   
   // tts 재생
   const ttsMaker = async () => {
     const urlList = await playRadio();
-    console.log(urlList);
     setBlobUrlList(urlList);
     const response = await getCachedData();
-    console.log(response);
     setNews(response);
   };
 
@@ -91,15 +94,19 @@ function Player() {
   }, [blobUrlList])
 
   // 재생/중단 버튼
-  let cnt=0;
   const clickBtn = () => {
     setIsPaused(!isPaused);
-    console.log(audioEl.current?.src,isPaused);
+    setIsClicked(isClicked+1);
+    setCnt(cnt+1);
+
+    // if (isClicked===1) {
+    //   ttsMaker();
+    //   setIsLoaded(true);
+    // }
     
     if (!isPaused) {
       audioEl.current?.pause();
     } else {
-      setIsClicked(cnt++);
       audioEl.current?.play();
     }
   };
@@ -121,6 +128,7 @@ function Player() {
       if (currentAudioIndex < blobUrlList.length - 1) {
         setCurrentAudioIndex(currentAudioIndex + 1);
         setIsPaused(false); // 다음 오디오 재생을 위해 변경
+        setCnt(0); // 다음 오디오 재생을 위해 변경
       } else {
         setCurrentAudioIndex(0); // 마지막 오디오라면 처음으로 다시 재생
         setIsClicked(0);
@@ -160,7 +168,7 @@ function Player() {
           <Title text="해외 뉴스를 들려줄게요" />
           {myInfo && (
             <Character3d
-            name={myInfo.userZbti!=""? myInfo.userZbti:"Bear"}
+            name={isLogin? myInfo.userZbti:"Bear"}
             characterScale={0.52}
             canvasWidth={400}
             canvasHeight={550}
