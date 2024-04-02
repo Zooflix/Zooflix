@@ -89,26 +89,28 @@ function Mypage() {
 
   return (
     <Wrapper>
-      <Container>
-        <LeftSideMyInfo>
-          <h2>내 정보</h2>
-          <TemperatureWithImage />
-          <MyInfo />
-          <RouteToOtherPage />
-        </LeftSideMyInfo>
-        <Right>
-          <RightSideMyInfo>
-            <ContentHeader />
-          </RightSideMyInfo>
-          <GotoZbtiButton>
-            <img
-              src={GotoZbti}
-              alt="GotoZbti"
-              onClick={() => handleZbti()}
-            ></img>
-          </GotoZbtiButton>
-        </Right>
-      </Container>
+      {loginCheck() && (
+        <Container>
+          <LeftSideMyInfo>
+            <h2>내 정보</h2>
+            <TemperatureWithImage />
+            <MyInfo />
+            <RouteToOtherPage />
+          </LeftSideMyInfo>
+          <Right>
+            <RightSideMyInfo>
+              <ContentHeader />
+            </RightSideMyInfo>
+            <GotoZbtiButton>
+              <img
+                src={GotoZbti}
+                alt="GotoZbti"
+                onClick={() => handleZbti()}
+              ></img>
+            </GotoZbtiButton>
+          </Right>
+        </Container>
+      )}
     </Wrapper>
   );
 }
