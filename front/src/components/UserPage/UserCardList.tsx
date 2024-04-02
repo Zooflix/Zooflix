@@ -8,7 +8,7 @@ const SubscribeStockList: React.FC = () => {
   const [userStockList] = useRecoilState(stockSubListState);
 
   if (!userStockList || userStockList.length === 0) {
-    return <NoResultsMessage>결과를 찾을 수 없습니다</NoResultsMessage>;
+    return <NoResultsMessage>현재 정기 구독 중인 주식이 없습니다.</NoResultsMessage>;
   }
 
   return (

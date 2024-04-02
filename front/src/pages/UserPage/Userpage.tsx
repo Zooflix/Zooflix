@@ -114,8 +114,10 @@ function UserPage() {
                         subscribeNo={ModalUserNo}
                     />
                 </LeftSideMyInfo>
-                <RightSideMyInfo>
-                    <UserContentHeader />
+                <Right>
+                    <RightSideMyInfo>
+                        <UserContentHeader />
+                    </RightSideMyInfo>
                     <GotoZbtiButton>
                         <img
                             src={GotoZbti}
@@ -123,7 +125,7 @@ function UserPage() {
                             onClick={() => handleZbti()}
                         ></img>
                     </GotoZbtiButton>
-                </RightSideMyInfo>
+                </Right>
             </Container>
         </Wrapper>
     );
@@ -144,15 +146,19 @@ const Container = styled.div`
 
 const LeftSideMyInfo = styled.div`
     float: left;
-    width: 420px;
-    height: 785px;
+    width: 450px;
+    margin-bottom: 40px;
     text-align: center;
-    margin: 0 auto;
 
     background: #ffffff;
-    border: 0.77908px solid #e7e7e7;
-    box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
-    border-radius: 10.9071px;
+    border: 1px solid #e7e7e7;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+`;
+
+const Right = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
 
 const RightSideMyInfo = styled.div`
@@ -161,19 +167,11 @@ const RightSideMyInfo = styled.div`
     height: 660px;
     margin: 0 auto;
     background: #ffffff;
-    border: 0.77908px solid #e7e7e7;
-    box-shadow: 2.63329px 2.63329px 13.1587px -6.58322px rgba(0, 0, 0, 0.4);
-    border-radius: 10.9071px;
+    border: none;
 `;
 
 const GotoZbtiButton = styled.button`
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 695px;
-    margin: 0 auto;
-    background: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
+
 `;
