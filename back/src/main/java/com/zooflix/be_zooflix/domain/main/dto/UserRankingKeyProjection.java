@@ -10,4 +10,5 @@ public interface UserRankingKeyProjection {
     String getUserZbti();
     int getSuccessStreak();
     int getCnt();
+    String getStockName();
 }

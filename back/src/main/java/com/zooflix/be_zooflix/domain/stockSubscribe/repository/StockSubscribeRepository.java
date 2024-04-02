@@ -78,13 +78,14 @@ public interface StockSubscribeRepository extends JpaRepository<StockSubscribe, 
             "u.user_temperature AS userTemperature, " +
             "u.user_zbti AS userZbti, " +
             "u.success_streak AS successStreak, " +
-            "count(*) AS cnt " +
+            "count(*) AS cnt, " +
+            "p.stock_name AS stockName " +
             "FROM user u " +
             "JOIN predict p " +
             "ON u.user_no = p.user_no " +
             "where p.stock_name = (SELECT stock_name FROM predict GROUP BY stock_name ORDER BY count(*) DESC LIMIT 1) " +
             "and p.pd_result = '성공' "+
-            "GROUP BY u.user_no " +
+            "GROUP BY u.user_no, p.stock_name " +
             "ORDER BY COUNT(*) DESC " +
             "LIMIT 1")
     UserRankingKeyProjection getStockCodeMostPredictUSer();
