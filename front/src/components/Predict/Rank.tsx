@@ -42,7 +42,7 @@ function Rank(props: RankProps) {
             <BigWrapper>
                 <Wrapper>
                     <Content>
-                        이 달의 <b>주스트라다무스</b>
+                        이 달의 주스트라다무스
                     </Content>
                     <div
                         onClick={() =>
@@ -81,7 +81,7 @@ function Rank(props: RankProps) {
         return (
             <BigWrapper>
                 <Wrapper>
-                    {zoostra.userNo > 0 ? (
+                    {zoostra.userNo > 0 && props.stockName !== "" && props.stockName !== "null" ? (
                         <>
                             <Content>
                                 {props.stockName} 에서 예측을{" "}
@@ -109,8 +109,8 @@ function Rank(props: RankProps) {
                         </>
                     ) : (
                         <NoContent>
-                            {props.stockName} 종목은
-                            <br />
+                            {/* {props.stockName} 종목은
+                            <br /> */}
                             예측성공한 사용자가 없어요!
                         </NoContent>
                     )}
