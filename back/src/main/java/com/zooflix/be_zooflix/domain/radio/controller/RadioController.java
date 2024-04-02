@@ -38,8 +38,8 @@ public class RadioController {
     @GetMapping(value = "/radio/tts", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "tts 출력")
     public ResponseEntity<List<String>> playRadio() {
-        List<byte[]> audioList = radioService.getAudioList();
-        List<String> base64List = audioList
+        List<String[]> audioList = radioService.getCachedList();
+        List<String> base64List = radioService.callTtsEndpoint(audioList)
                 .stream()
                 .map(Base64.getEncoder()::encodeToString)
                 .collect(Collectors.toList());
