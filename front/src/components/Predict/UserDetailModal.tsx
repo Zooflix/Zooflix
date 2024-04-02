@@ -121,7 +121,7 @@ function UserDetailModal({
                 }
             }
         };
-        if (isLogin && myPageSubscribeList.length > 0) {
+        if (myPageSubscribeList.length > 0) {
             for (let i = 0; i < myPageSubscribeList.length; i++) {
                 if (myPageSubscribeList[i].subscribeName === userName) {
                     setIsSubscribe(true);
@@ -134,8 +134,8 @@ function UserDetailModal({
         }
         if (isModalOpen) {
             fetchUserInfo();
+            console.log("isSubscribe? : " + isSubscribe);
         }
-        console.log("isSubscribe? : " + isSubscribe);
     }, [isModalOpen, userNo]);
 
     const navToUserPage = async () => {
