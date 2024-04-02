@@ -13,7 +13,7 @@ function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
 
         subscribeUser(userNo, subscribeNo);
         alert("구독 완료");
-        
+        window.location.reload();
     }
 
     return (
