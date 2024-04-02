@@ -87,7 +87,7 @@ function Mypage() {
         console.error(error);
       });
 
-    const dataStock = await getMyStockList(userId)
+    const dataStock = await getMyStockList(myPageInfo.userName)
       .then((resStock) => {
         setMyStockList(resStock);
         console.log("내 주식 구독 목록 : " + myStockList);
@@ -98,7 +98,6 @@ function Mypage() {
       });
   };
 
-  const userId = "user1";
 
   return (
     <Wrapper>
