@@ -19,6 +19,9 @@ function Search(props: SearchProps) {
     const [searchResultVisible, setSearchResultVisible] =
         useState<boolean>(false);
     const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
+        if(e.currentTarget.value === ""){
+            props.onSearchChange({ stockName: "null", stockCode: "" });
+        }
         setKeyword(e.currentTarget.value);
         setSearchResultVisible(true);
     };
