@@ -10,7 +10,6 @@ import Mypage from "../../assets/img/SidebarIcon/Mypage.svg";
 import Predict from "../../assets/img/SidebarIcon/Predict.svg";
 import Radio from "../../assets/img/SidebarIcon/Radio.svg";
 
-
 // 스타일
 const activeStyle = {
   backgroundColor: "rgba(255,255,255,0.3)",
@@ -18,19 +17,17 @@ const activeStyle = {
   textDecoration: "none",
   width: "55px",
   height: "55px",
-  
-}
+};
 const nonActiveStyle = {
   textDecoration: "none",
-}
-
+};
 
 function SideNavBar() {
   const menus = [
     { name: "홈", path: "/main", icon: Home },
     { name: "주식", path: "/stocksub", icon: Stock },
-    { name: "예측", path: "/predict", icon: Mypage },
-    { name: "마이", path: "/my-page", icon: Predict },
+    { name: "예측", path: "/predict", icon: Predict },
+    { name: "마이", path: "/my-page", icon: Mypage },
     { name: "라디오", path: "/radio", icon: Radio },
   ];
 
@@ -42,14 +39,16 @@ function SideNavBar() {
         {menus.map((menu, index) => {
           return (
             <IconContainer>
-                <NavLink
-                  to={menu.path}
-                  key={index}
-                  style={({ isActive }) => (isActive ? activeStyle : nonActiveStyle)}
-                >
-                <BarIcon img={menu.icon} text={menu.name}/>
-            </NavLink>
-              </IconContainer>
+              <NavLink
+                to={menu.path}
+                key={index}
+                style={({ isActive }) =>
+                  isActive ? activeStyle : nonActiveStyle
+                }
+              >
+                <BarIcon img={menu.icon} text={menu.name} />
+              </NavLink>
+            </IconContainer>
           );
         })}
       </Menu>

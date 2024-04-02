@@ -2,16 +2,20 @@ import styled, { keyframes } from "styled-components";
 
 import Logo from "../../assets/img/Logo.svg";
 import alarmbtn from "../../assets/img/button/Alarmbtn.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AlarmModal from "../Alarm/AlarmModal";
 import { logoutUser } from "../../apis/api/User";
 import { loginCheck } from "../User/IsLoginCheck";
 import { getJwtUserId } from "../../apis/utils/jwt";
+import { useRecoilState } from "recoil";
+import { userIdState, isLoginState } from "../../Store/UserState";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(loginCheck());
+  const [userId, setUserId] = useRecoilState(userIdState);
+  const navigate = useNavigate();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -19,6 +23,9 @@ function Header() {
   const handleLogout = () => {
     logoutUser(); // 로그아웃 요청
     setIsLogin(false); // 로그인 상태 업데이트
+    setUserId(undefined);
+    localStorage.removeItem("userIdState");
+    navigate("/main");
   };
 
   const [access, setAccess] = useState(localStorage.getItem("access") || "");

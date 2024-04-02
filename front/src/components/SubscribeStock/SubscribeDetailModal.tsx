@@ -68,6 +68,8 @@ function SubscribeDetailModal({
         severity: "success",
         value: "주식 구독이 성공적으로 이루어졌습니다.",
       });
+      closeModal();
+      window.location.reload();
     }
   };
 
