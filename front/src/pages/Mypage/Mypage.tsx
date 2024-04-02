@@ -6,6 +6,7 @@ import ContentHeader from "../../components/Mypage/ContentHeader";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
 import {
+  
   myPageInfoState,
   myPagePredictListState,
   myPageSubscribeListState,
