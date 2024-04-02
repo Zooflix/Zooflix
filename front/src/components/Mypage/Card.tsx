@@ -29,6 +29,7 @@ const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
 
   async function terminationSubscribe() {
     const result = await cancelStockSubscribe(card.stockSubscribeNo);
+    window.location.reload();
   }
 
   return (

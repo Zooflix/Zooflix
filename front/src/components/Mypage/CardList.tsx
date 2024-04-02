@@ -25,7 +25,6 @@ const Container = styled.div`
   display: flex;
   overflow-y: auto;
   flex-direction: row;
-  overflow-y: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;

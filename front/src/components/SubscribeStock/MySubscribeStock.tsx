@@ -47,7 +47,11 @@ function MySubscribeStock() {
 export default MySubscribeStock;
 
 const Wrapper = styled.div`
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  border-radius: 30px;
   h3 {
     color: gray;
   }
+  text-align: center;
 `;

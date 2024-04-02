@@ -33,11 +33,13 @@ function SubscribeForm() {
     if (stock !== undefined && subscribeDay !== 0 && stockCnt !== 0) {
       if (
         accessToken === true ||
-        (account !== undefined &&
-          appkey !== undefined &&
-          secretkey !== undefined)
+        (account !== "" && appkey !== "" && secretkey !== "")
       ) {
-        setIsModalOpen(true);
+        if (subscribeDay < 0 && subscribeDay > 30) {
+          alert("구독일을 확인해주세요.");
+        } else {
+          setIsModalOpen(true);
+        }
       } else {
         alert("필수항목을 모두 입력해주세요.");
       }
@@ -140,7 +142,6 @@ function SubscribeForm() {
 export default SubscribeForm;
 
 const Wrapper = styled.div`
-  width: 1000px;
   border: none;
   border-radius: 30px;
   background-color: white;

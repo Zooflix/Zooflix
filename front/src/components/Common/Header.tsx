@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import AlarmModal from "../Alarm/AlarmModal";
 import { logoutUser } from "../../apis/api/User";
 import { loginCheck } from "../User/IsLoginCheck";
-import { getJwtUserId } from "../../apis/utils/jwt";
+import { getJwtUserName } from "../../apis/utils/jwt";
 import { useRecoilState } from "recoil";
 import { userIdState, isLoginState } from "../../Store/UserState";
 
@@ -37,38 +37,32 @@ function Header() {
 
   return (
     <Container>
-      <Space></Space>
       <ImgContainer>
         <img src={Logo} alt="logo" className="logo" />
-      </ImgContainer>
-      <LoginContainer>
-        {isLogin ? (
-          <LoginWrapper
-            style={{
-              textDecoration: "none",
-              color: "black",
-            }}
-          >
-            <div>{getJwtUserId()}님 반가워요!</div>
-            <Button onClick={handleLogout}>로그아웃</Button>
-          </LoginWrapper>
-        ) : (
-          <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-            <div>로그인</div>
-          </Link>
-        )}
-
-        <CircleContainer>
+        <LoginContainer>
           {isLogin ? (
-            <div>
-              <Circle onClick={openModal}>
-                <img src={alarmbtn} alt="alarmbtn" />
-              </Circle>
-              <AlarmModal isModalOpen={isModalOpen} closeModal={closeModal} />
-            </div>
-          ) : null}
-        </CircleContainer>
-      </LoginContainer>
+            <LoginWrapper>
+              <Text>{getJwtUserName()}님 반가워요!</Text>
+              <Button onClick={handleLogout}>로그아웃</Button>
+              <CircleContainer>
+                <div>
+                  <Circle onClick={openModal}>
+                    <img src={alarmbtn} alt="alarmbtn" />
+                  </Circle>
+                  <AlarmModal
+                    isModalOpen={isModalOpen}
+                    closeModal={closeModal}
+                  />
+                </div>
+              </CircleContainer>
+            </LoginWrapper>
+          ) : (
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <Login>로그인</Login>
+            </Link>
+          )}
+        </LoginContainer>
+      </ImgContainer>
     </Container>
   );
 }
@@ -76,46 +70,26 @@ function Header() {
 export default Header;
 
 const Container = styled.div`
-  margin-left: 6vw;
-  .logo {
-    width: 150px;
-  }
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const ImgContainer = styled.div`
-  // display: flex;
-  // justify-content: center;
-`;
-
-const LoginContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
 `;
 
 const CircleContainer = styled.div`
-  margin-top: 50px;
-  margin-left: 10px;
-  margin-right: 10px;
   cursor: pointer;
+  &:hover {
+    scale: 1.1;
+  }
 `;
 
 const CircleMotion = keyframes`
 `;
 
 const Circle = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: #2a4263;
   position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   img {
     position: absolute;
     top: 50%;
@@ -127,21 +101,52 @@ const Circle = styled.div`
   }
 `;
 
-const Button = styled.button`
-  border: none;
+const Button = styled.div`
   background-color: #2a4263;
-  padding: 10px;
+  padding: 10px 20px;
   color: white;
-  border-radius: 15px;
-  margin-left: 10px;
+  border-radius: 20px;
   cursor: pointer;
+  &:hover {
+    scale: 1.1;
+  }
+`;
+
+const Text = styled.div`
+  margin-top: 5px;
+`;
+
+const Login = styled.div`
+  background-color: #2a4263;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  &:hover {
+    scale: 1.1;
+  }
+  margin-right: 40px;
 `;
 
 const LoginWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  div {
+    margin-right: 10px;
+  }
+`;
+const ImgContainer = styled.div`
+  position: relative;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  .logo {
+    width: 150px;
+  }
 `;
 
-const Space = styled.div`
-  width: 11vw;
+const LoginContainer = styled.div`
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  justify-content: flex-end;
 `;

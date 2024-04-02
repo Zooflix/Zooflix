@@ -148,7 +148,7 @@ function Main() {
             topStock={mainData.topStockUser}
           />
           <SubscribeDiv>
-            <Link to="/stocksub">
+            <Link to="/stocksub" style={{ textDecoration: "none" }}>
               <Bubble>
                 <div>
                   <img src={zooflix} width="140px" alt="zooflix" />
