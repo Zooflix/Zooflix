@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { getJwtUserNo } from "../../apis/utils/jwt";
+import { useNavigate } from "react-router-dom";
 
 // 컴포넌트
 import Title from "../../components/Common/Title";
@@ -30,6 +32,7 @@ const searchInputStyle = {
 };
 
 function Predict() {
+  const navigate = useNavigate();
   const [sorted, setSorted] = useState("date"); // 초기값은 "date"
   const handleSortChange = (value: React.SetStateAction<string>) => {
     setSorted(value);
@@ -53,6 +56,21 @@ function Predict() {
     setDeleteOne(value);
   };
 
+  const createPredict = () => {
+    let no = 0;
+        try {
+            no = getJwtUserNo();
+        } catch (error) {
+            no = 0;
+        }
+    if(no === 0){
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    } else{
+      navigate("/predict/create");
+    }
+  }
+
   return (
     <CommonPageTransition>
       <Wrapper>
@@ -60,9 +78,7 @@ function Predict() {
           <LeftContainer>
             <FirstContainer>
               <Title text="주식 예측하기" />
-              <Link to="/predict/create">
-                <SquareBtn text="나도 예측하기" style={buttonStyleDark} />
-              </Link>
+                <SquareBtn text="나도 예측하기" style={buttonStyleDark} onClick={createPredict}/>
             </FirstContainer>
             <SecondContainer>
               <Search
