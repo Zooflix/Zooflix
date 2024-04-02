@@ -19,7 +19,7 @@ function SearchInput({ onSearchChange }: Props) {
         <label>종목</label>
         <Search
           type="text"
-          placeholder="종목명 또는 지수명을 입력해주세요."
+          placeholder="종목명을 입력해주세요."
           style={searchInputStyle}
           onSearchChange={onSearchChange}
         />

@@ -35,7 +35,7 @@ function SubscribeForm() {
         accessToken === true ||
         (account !== "" && appkey !== "" && secretkey !== "")
       ) {
-        if (subscribeDay < 0 && subscribeDay > 31) {
+        if (subscribeDay < 0 && subscribeDay > 30) {
           alert("구독일을 확인해주세요.");
         } else {
           setIsModalOpen(true);
@@ -142,7 +142,6 @@ function SubscribeForm() {
 export default SubscribeForm;
 
 const Wrapper = styled.div`
-  width: 1000px;
   border: none;
   border-radius: 30px;
   background-color: white;
