@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { getCachedData, playRadio } from "../../apis/api/Radio";
 import { getMyInfo } from "../../apis/api/MyPage";
 import { loginCheck } from "../../components/User/IsLoginCheck";
+import { getJwtUserZbti } from "../../apis/utils/jwt";
 
 // state
 import { isPausedState } from "../../Store/RadioState";
@@ -50,7 +51,6 @@ function Player() {
   const [isPaused, setIsPaused] = useRecoilState(isPausedState); // 재생, 중단 여부
   const [isClicked, setIsClicked] = useState(0); // 처음 재생버튼 눌렀는지 판단
   const [isLoaded, setIsLoaded] = useState(false); // 오디오 데이터 로딩 여부
-  const [cnt, setCnt] = useState(0);
 
   const audioEl = useRef<HTMLAudioElement>(null);
   const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
@@ -59,7 +59,6 @@ function Player() {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   
   const [isLogin, setIsLogin] = useState(loginCheck());
-
 
 
   // 마운트: 마이데이터 -> userZbti 불러오기
@@ -77,75 +76,68 @@ function Player() {
     }
     fetchData();
   }, []);
-  
-  // tts 재생
-  const ttsMaker = async () => {
+
+  // tts 생성
+  const ttsMaker = async() => {
     const urlList = await playRadio();
     setBlobUrlList(urlList);
     const response = await getCachedData();
     setNews(response);
-  };
+    setIsLoaded(true);
+  }
 
-  // blobUrlList가 변화되면 0번째부터 틀기
-  useEffect(()=>{
-    if (audioEl.current) {
-      audioEl.current.src = blobUrlList[0];
+  // 처음 재생버튼 누르면 tts 준비하기
+  useEffect(() => {
+    if (isLoaded) {
+      // 데이터 로딩되면 첫번째 오디오 재생하자
+      if (audioEl.current && blobUrlList.length > 0) {
+        audioEl.current.src = blobUrlList[0];
+        audioEl.current.play();
+      }
     }
-  }, [blobUrlList])
+  }, [isLoaded]);
 
-  // 재생/중단 버튼
-  const clickBtn = () => {
+  const clickBtn = async() => {
     setIsPaused(!isPaused);
     setIsClicked(isClicked+1);
-    setCnt(cnt+1);
-
-    // if (isClicked===1) {
-    //   ttsMaker();
-    //   setIsLoaded(true);
-    // }
+    console.log(isClicked);
     
-    if (!isPaused) {
-      audioEl.current?.pause();
-    } else {
-      audioEl.current?.play();
-    }
-  };
+  }
 
-  // 처음 재생버튼 누를 때만 tts 로딩
+  // 재생 중단
   useEffect(() => {
-    if (isClicked===1) {
+    console.log(isClicked);
+    if (isClicked===1 && !isPaused) { // 처음 재생버튼 누르면 tts 준비하기
       ttsMaker();
-      setIsLoaded(true);
+    } else {
+      if (isPaused) {
+        audioEl.current?.pause();
+      } else {
+        audioEl.current?.play();
+      };
     }
-  }, [isClicked]);
+  }, [isPaused]);
 
 
-
-  // audio 요소의 재생 완료 이벤트 처리
+  // 오디오 이벤트
   useEffect(() => {
     const handleAudioEnded = () => {
-      setIsPaused(true);
-      if (currentAudioIndex < blobUrlList.length - 1) {
-        setCurrentAudioIndex(currentAudioIndex + 1);
-        setIsPaused(false); // 다음 오디오 재생을 위해 변경
-        setCnt(0); // 다음 오디오 재생을 위해 변경
+      const nextIndex = currentAudioIndex+1;
+      if (nextIndex < blobUrlList.length - 1) {
+        setCurrentAudioIndex(nextIndex);
       } else {
-        setCurrentAudioIndex(0); // 마지막 오디오라면 처음으로 다시 재생
-        setIsClicked(0);
+        setCurrentAudioIndex(0);
+        setIsClicked(0); // 재생이 끝나면 버튼을 초기 상태로 되돌림
       }
     };
-    console.log("currentAudioIndex: ", currentAudioIndex);
-    
 
     if (audioEl.current) {
       audioEl.current.addEventListener("ended", handleAudioEnded);
+      return () => {
+        audioEl.current?.removeEventListener("ended", handleAudioEnded);
+      };
     }
-    return () => {
-      if (audioEl.current) {
-        audioEl.current.removeEventListener("ended", handleAudioEnded);
-      }
-    };
-  }, [currentAudioIndex]);
+  }, [currentAudioIndex, blobUrlList.length]);
 
 
   // currentIdx가 바뀔 때마다 src 갱신

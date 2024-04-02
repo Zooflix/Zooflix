@@ -16,8 +16,6 @@ export async function getCachedData() {
 export async function playRadio() {
     try {
         const response = await axios.get(`${REST_RADIO_API}/tts`);
-        console.log(response);
-        console.log(response.data);
         const base64List = response.data;
         const blobList = base64List.map((base64String: string) => {
             const byteDecode = atob(base64String);
