@@ -13,8 +13,17 @@ function formatTime(createdAt: string) {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
   const diffTime = Math.abs(currentDate.getTime() - createdDate.getTime());
+  if (diffTime < 60 * 1000) {
+    return "방금 전";
+  }
+
   const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
-  return `${diffHours}시간 전`;
+  if (diffHours < 1) {
+    const diffMinutes = Math.ceil(diffTime / (1000 * 60));
+    return `${diffMinutes}분 전`;
+  } else {
+    return `${diffHours}시간 전`;
+  }
 }
 
 function AlarmList() {
