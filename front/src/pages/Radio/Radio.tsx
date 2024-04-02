@@ -46,7 +46,10 @@ const clickBtnStyle = {
 }
 
 function Player() {
-  const [isPaused, setIsPaused] = useRecoilState(isPausedState);
+  const [isPaused, setIsPaused] = useRecoilState(isPausedState); // 재생, 중단 여부
+  const [isClicked, setIsClicked] = useState(0); // 처음 재생버튼 눌렀는지 판단
+  const [isLoaded, setIsLoaded] = useState(false); // 오디오 데이터 로딩 여부
+
   const audioEl = useRef<HTMLAudioElement>(null);
   const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
   const [news, setNews] = useState<any[]>([]);
@@ -54,7 +57,7 @@ function Player() {
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   
 
-  // 마운트: 음성데이터, 뉴스데이터 불러오기
+  // 마운트: 마이데이터 -> userZbti 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -66,7 +69,7 @@ function Player() {
       }
     };
     fetchData();
-    ttsMaker();
+    // ttsMaker();
   }, []);
   
   // tts 재생
@@ -87,6 +90,7 @@ function Player() {
   }, [blobUrlList])
 
   // 재생/중단 버튼
+  let cnt=0;
   const clickBtn = () => {
     setIsPaused(!isPaused);
     console.log(audioEl.current?.src,isPaused);
@@ -94,9 +98,20 @@ function Player() {
     if (!isPaused) {
       audioEl.current?.pause();
     } else {
+      setIsClicked(cnt++);
       audioEl.current?.play();
     }
   };
+
+  // 처음 재생버튼 누를 때만 tts 로딩
+  useEffect(() => {
+    if (isClicked===1) {
+      ttsMaker();
+      setIsLoaded(true);
+    }
+  }, [isClicked]);
+
+
 
   // audio 요소의 재생 완료 이벤트 처리
   useEffect(() => {
@@ -107,6 +122,7 @@ function Player() {
         setIsPaused(false); // 다음 오디오 재생을 위해 변경
       } else {
         setCurrentAudioIndex(0); // 마지막 오디오라면 처음으로 다시 재생
+        setIsClicked(0);
       }
     };
     console.log("currentAudioIndex: ", currentAudioIndex);
@@ -143,7 +159,7 @@ function Player() {
           <Title text="해외 뉴스를 들려줄게요" />
           {myInfo && (
             <Character3d
-            name={myInfo.userZbti}
+            name={myInfo.userZbti!=""? myInfo.userZbti:"Bear"}
             characterScale={0.52}
             canvasWidth={400}
             canvasHeight={550}
@@ -170,13 +186,23 @@ function Player() {
         </LeftContainer>
         <RightContainer>
           <ContentContainer>
-            <NewsTitle>
-              <SquareBtn text="click!"  style={clickBtnStyle}/> <br/>
-              <a href={news[currentAudioIndex]?.[0]}>
-                {news[currentAudioIndex]?.[1]}
-              </a>
-            </NewsTitle>
-            <p>{news[currentAudioIndex]?.[2]}</p>
+            {news.length===0? (
+              <div>
+              <NewsTitle>
+                <span>라디오 자막이 나와요!</span>
+              </NewsTitle>
+              </div>
+            ) : (
+              <div>
+              <NewsTitle>
+                <SquareBtn text="click!"  style={clickBtnStyle}/> <br/>
+                <a href={news[currentAudioIndex]?.[0]}>
+                  {news[currentAudioIndex]?.[1]}
+                </a>
+              </NewsTitle>
+              <p>{news[currentAudioIndex]?.[2]}</p>
+              </div>
+            )}
           </ContentContainer>
         </RightContainer>
 
