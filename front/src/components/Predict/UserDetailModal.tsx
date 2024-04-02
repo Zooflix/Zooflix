@@ -22,6 +22,7 @@ import {
 } from "../../Store/MyPageState";
 import { getMySubscribeList } from "../../apis/api/MyPage";
 import DeleteSubBtn from "../Common/DeleteSubBtn";
+import { getJwtUserNo } from "../../apis/utils/jwt";
 
 interface ModalProps {
     isModalOpen: boolean;
@@ -64,6 +65,9 @@ function UserDetailModal({
         myPageSubscribeListState
     );
 
+    // 로그인 했는지 안했는지
+    const [isLogin, setIsLogin] = useState(false);
+
     // 구독했는지 확인
     const [isSubscribe, setIsSubscribe] = useState(false);
 
@@ -71,6 +75,14 @@ function UserDetailModal({
     const [subNo, setSubNo] = useState(0);
 
     useEffect(() => {
+        if (localStorage.getItem("access") !== null) {
+            // 로그인 했다면
+            setIsLogin(true);
+        } else {
+            // 로그인 안 했다면
+            setIsLogin(false);
+        }
+
         const fetchUserInfo = async () => {
             // 유저 정보
             try {
@@ -99,12 +111,14 @@ function UserDetailModal({
             }
 
             //내가 구독한 사람 목록
-            try {
-                const data = await getMySubscribeList();
-                setMyPageSubscribeList(data);
-            } catch (error) {
-                console.log("내가 구독한 사람 목록 불러오기 실패");
-                console.error(error);
+            if (isLogin) {
+                try {
+                    const data = await getMySubscribeList();
+                    setMyPageSubscribeList(data);
+                } catch (error) {
+                    console.log("내가 구독한 사람 목록 불러오기 실패");
+                    console.error(error);
+                }
             }
         };
         if (myPageSubscribeList.length > 0) {
@@ -125,9 +139,9 @@ function UserDetailModal({
     }, [isModalOpen, userNo]);
 
     const navToUserPage = async () => {
-        if (myPageInfo.userNo === userNo) {
+        if (isLogin === true && myPageInfo.userNo === userNo) {
             navigate("/my-page");
-        } else {
+        } else if (isLogin === false || myPageInfo.userNo !== userNo) {
             navigate("/user-page");
         }
     };
@@ -158,7 +172,6 @@ function UserDetailModal({
                                     transparency="rgba(122,211,255,0.1)"
                                     imgWidth="200px"
                                 />
-                                {/* {userInfo.userTemperature}℃ */}
                             </GraphContainer>
                             <LineContainer>
                                 <Line>
@@ -184,7 +197,8 @@ function UserDetailModal({
                             </LineContainer>
                         </InfoContainer>
                         <ButtonContainer className="btn-container">
-                            {myPageInfo.userNo === userNo ? (
+                            {myPageInfo.userNo === userNo ||
+                            isLogin === false ? (
                                 <></>
                             ) : isSubscribe ? (
                                 <DeleteSubBtn
