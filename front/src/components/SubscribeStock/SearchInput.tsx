@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Search from "../Predict/Search";
-import { ChangeEvent, useState } from "react";
 
 const searchInputStyle = {
   width: "225px",
@@ -11,8 +10,6 @@ interface Props {
 }
 
 function SearchInput({ onSearchChange }: Props) {
-  const [stockName, setStockName] = useState("");
-
   return (
     <div>
       <SearchContainer>

@@ -8,8 +8,8 @@ import Character3d from "../../components/Character/Character3d";
 import zooflix from "../../assets/img/Zooflix.svg";
 import { Link } from "react-router-dom";
 import { getRankingList } from "../../apis/api/Main";
-import { getMyInfo } from "../../apis/api/MyPage";
 import CommonPageTransition from "../../components/Common/CommonPageTransition";
+import { getJwtUserZbti } from "../../apis/utils/jwt";
 
 function Main() {
   const [mainData, setMainData] = useState({
@@ -103,6 +103,8 @@ function Main() {
     ],
   });
 
+  console.log(getJwtUserZbti());
+
   useEffect(() => {
     console.log("main");
     handleList();
@@ -158,7 +160,7 @@ function Main() {
               </Bubble>
             </Link>
             <Character3d
-              name="Bear"
+              name={getJwtUserZbti()}
               characterScale={0.45}
               canvasHeight={240}
               canvasWidth={200}
