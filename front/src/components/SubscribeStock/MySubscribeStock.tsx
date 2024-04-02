@@ -1,6 +1,6 @@
 import { getMyStockList } from "../../apis/api/MyPage";
 import { useEffect, useState } from "react";
-import CardList from "../Mypage/CardList";
+import SubscribeList from "./SubscribeList";
 import styled from "styled-components";
 
 import { useRecoilState } from "recoil";
@@ -37,7 +37,7 @@ function MySubscribeStock() {
         <h3>현재 정기 구독 중인 주식이 없습니다.</h3>
       ) : (
         <div>
-          <CardList />
+          <SubscribeList myStockList={stockList} />
         </div>
       )}
     </Wrapper>
@@ -46,22 +46,12 @@ function MySubscribeStock() {
 
 export default MySubscribeStock;
 
-const Wrapper = styled.div``;
-const NoResultsMessage = styled.div`
-  color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
-
-const Container = styled.div`
-  display: flex;
-  overflow-y: auto;
-  flex-direction: column;
-  overflow-y: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
+const Wrapper = styled.div`
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  border-radius: 30px;
+  h3 {
+    color: gray;
   }
+  text-align: center;
 `;
