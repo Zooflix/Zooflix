@@ -37,7 +37,7 @@ function MySubscribeStock() {
         <h3>현재 정기 구독 중인 주식이 없습니다.</h3>
       ) : (
         <div>
-          <CardList myStockList={stockList} />
+          <CardList />
         </div>
       )}
     </Wrapper>
@@ -46,8 +46,22 @@ function MySubscribeStock() {
 
 export default MySubscribeStock;
 
-const Wrapper = styled.div`
-  h3 {
-    color: gray;
+const Wrapper = styled.div``;
+const NoResultsMessage = styled.div`
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
+const Container = styled.div`
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;

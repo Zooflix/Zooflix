@@ -96,6 +96,7 @@ const List = styled.div`
   padding: 10px;
   border-radius: 10px;
   height: 550px;
+  overflow: auto;
 `;
 
 const Button = styled.button<{ selected: boolean }>`

@@ -7,6 +7,9 @@ import { stockSubListState } from "../../Store/StockSubscribeState";
 const SubscribeStockList: React.FC = () => {
   const [userStockList] = useRecoilState(stockSubListState);
 
+  console.log("***************************" + userStockList);
+
+
   if (!userStockList || userStockList.length === 0) {
     return <NoResultsMessage>현재 정기 구독 중인 주식이 없습니다.</NoResultsMessage>;
   }
