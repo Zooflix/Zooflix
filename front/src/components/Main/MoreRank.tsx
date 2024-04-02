@@ -98,6 +98,7 @@ const UserDiv = styled.div`
   flex-direction: column;
   align-items: center;
   width: 33%;
+  height: 130px;
 `;
 
 const UserName = styled.div`

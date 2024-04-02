@@ -2,6 +2,12 @@ import styled from "styled-components";
 import first from "../../assets/img/rank/first.svg";
 import second from "../../assets/img/rank/second.svg";
 import third from "../../assets/img/rank/third.svg";
+import { useRecoilState } from "recoil";
+import {
+  selectedStockCode,
+  selectedStockName,
+} from "../../Store/StockSubscribeState";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   stockRank: any[];
@@ -10,6 +16,17 @@ interface Props {
 
 function StockRank({ stockRank, zbti }: Props) {
   const rankArr = [first, second, third];
+  const [selectStockName, setSelectStockName] =
+    useRecoilState(selectedStockName);
+  const [selectStockCode, setSelectStockCode] =
+    useRecoilState(selectedStockCode);
+  const navigate = useNavigate();
+
+  function selectStock(name: string, code: string) {
+    setSelectStockName(name);
+    setSelectStockCode(code);
+    navigate("/stocksub");
+  }
 
   return (
     <RankWrapper>
@@ -18,7 +35,12 @@ function StockRank({ stockRank, zbti }: Props) {
           <Title>많은 사람들이 구독중인 주식</Title>
           {stockRank.map((stock, index) => {
             return (
-              <StockItem key={index}>
+              <StockItem
+                key={index}
+                onClick={() => {
+                  selectStock(stock.stockName, stock.stockCode);
+                }}
+              >
                 <Title>
                   <img src={rankArr[index]} height="50px" />
                   {stock.stockName}
@@ -68,4 +90,7 @@ const StockItem = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
+  &:hover {
+    scale: 1.05;
+  }
 `;

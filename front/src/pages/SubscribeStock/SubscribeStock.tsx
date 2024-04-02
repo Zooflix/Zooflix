@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 function SubscribeStock() {
   const [name, setName] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
