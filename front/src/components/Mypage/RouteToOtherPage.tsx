@@ -27,7 +27,7 @@ function RouteToOtherPage() {
       <Button onClick={() => handleClickToPortfolio()}>
         내 포트폴리오 확인하기
       </Button>
-      <Button onClick={() => handleClickToUpdateUser()}>수정</Button>
+      <Button onClick={() => handleClickToUpdateUser()}>정보 수정</Button>
       <MsgModal
         isModalOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
@@ -55,4 +55,7 @@ const Button = styled.button`
   background-color: #e7f1f5;
   color: #97adca;
   margin: 0 10px;
+  &:hover {
+    scale: 1.1;
+  }
 `;

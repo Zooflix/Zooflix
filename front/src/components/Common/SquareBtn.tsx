@@ -39,5 +39,7 @@ const Button = styled.button`
   &:hover {
     background-color: black;
     color: white;
+    cursor: pointer;
+    scale: 1.1;
   }
 `;

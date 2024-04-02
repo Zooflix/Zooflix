@@ -87,7 +87,7 @@ function Mypage() {
         console.error(error);
       });
 
-      const dataStockSubscribe = await getMyStockList(getJwtUserId())
+    const dataStockSubscribe = await getMyStockList(getJwtUserId())
       .then((reStock) => {
         setMyStockList(reStock);
         console.log("내가 구독한 주식 목록 : " + myStockList);
@@ -166,5 +166,8 @@ const RightSideMyInfo = styled.div`
 const GotoZbtiButton = styled.div`
   display: flex;
   justify-content: center;
+  &:hover {
+    cursor: pointer;
+    scale: 1.05;
   }
 `;
