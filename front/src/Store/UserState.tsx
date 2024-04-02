@@ -3,13 +3,19 @@ import { recoilPersist } from "recoil-persist";
 
 // 아이디
 const { persistAtom } = recoilPersist({
-  key: "userIdState", //원하는 key 값 입력
+  key: "TokenAtom", //원하는 key 값 입력
   storage: localStorage,
 });
 
 export const userIdState = atom({
   key: "userIdState",
-  default: [],
+  default: undefined,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const isLoginState = atom({
+  key: "isLoginState",
+  default: false,
   effects_UNSTABLE: [persistAtom],
 });
 

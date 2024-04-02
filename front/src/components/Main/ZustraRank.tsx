@@ -14,6 +14,7 @@ import { subscribeUser } from "../../apis/api/MyPage";
 import { getJwtUserNo } from "../../apis/utils/jwt";
 import { selectUserNoState } from "../../Store/PredictState";
 import { useNavigate } from "react-router-dom";
+import { loginCheck } from "../../components/User/IsLoginCheck";
 
 interface InnerGraphProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -38,6 +39,8 @@ function ZustraRank({ rankData, zbti }: Props) {
   const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
   const navigate = useNavigate();
 
+  const [isLogin, setIsLogin] = useState(loginCheck());
+
   useEffect(() => {});
 
   function moreBtnClick(index: number) {
@@ -49,8 +52,13 @@ function ZustraRank({ rankData, zbti }: Props) {
   }
 
   async function subscribe(subscribeUserNo: number) {
-    const result = await subscribeUser(getJwtUserNo(), subscribeUserNo);
-    alert("유저 구독이 완료되었습니다.");
+    if (!isLogin) {
+      alert("로그인이 필요한 기능입니다.");
+      navigate("/login");
+    } else {
+      const result = await subscribeUser(getJwtUserNo(), subscribeUserNo);
+      alert("유저 구독이 완료되었습니다.");
+    }
   }
 
   function linkProfile(userNo: number) {

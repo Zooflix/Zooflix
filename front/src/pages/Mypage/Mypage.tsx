@@ -10,7 +10,7 @@ import {
   myPagePredictListState,
   myPageSubscribeListState,
 } from "../../Store/MyPageState";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   getMyInfo,
   getMyPredictList,
@@ -19,6 +19,7 @@ import {
 } from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
+import { loginCheck } from "../../components/User/IsLoginCheck";
 
 function Mypage() {
   // 내 정보 저장
@@ -36,70 +37,68 @@ function Mypage() {
 
   // 주식 리스트 저장
   const [myStockList, setMyStockList] = useRecoilState(stockSubListState);
+  const [isLogin, setIsLogin] = useState(loginCheck());
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLogin) {
+      alert("로그인이 필요한 페이지입니다.");
+      navigate("/login");
+    } else {
+      fetchData();
+    }
+  }, []);
 
   const handleZbti = () => {
     navigate("/zbti");
   };
 
   const fetchData = async () => {
-    if (!localStorage.getItem("access")) {
-      alert("로그인이 필요합니다.");
-      navigate("/login");
-      return;
-    } else {
-      //내 정보
-      const dataInfo = await getMyInfo()
-        .then((resInfo) => {
-          console.log(resInfo);
-          setMyPageInfo(resInfo);
-          console.log("마이인포: " + myPageInfo.userName);
-        })
-        .catch((error) => {
-          console.log("에러메세지" + error.message);
-          console.error(error);
-        });
+    //내 정보
+    const dataInfo = await getMyInfo()
+      .then((resInfo) => {
+        console.log(resInfo);
+        setMyPageInfo(resInfo);
+        console.log("마이인포: " + myPageInfo.userName);
+      })
+      .catch((error) => {
+        console.log("에러메세지" + error.message);
+        console.error(error);
+      });
 
-      const dataPredict = await getMyPredictList()
-        .then((resPredict) => {
-          setMyPagePredictList(resPredict);
-          console.log("프리딕트: " + myPagePredictList);
-        })
-        .catch((error) => {
-          console.log("에러메세지: " + error.message);
-          console.error(error);
-        });
+    const dataPredict = await getMyPredictList()
+      .then((resPredict) => {
+        setMyPagePredictList(resPredict);
+        console.log("프리딕트: " + myPagePredictList);
+      })
+      .catch((error) => {
+        console.log("에러메세지: " + error.message);
+        console.error(error);
+      });
 
-      const dataSubscribe = await getMySubscribeList()
-        .then((resSubscribe) => {
-          setMyPageSubscribeList(resSubscribe);
-          console.log("내가 구독한 사람 목록 : " + myPageSubscribeList);
-        })
-        .catch((error) => {
-          console.log("에러메세지: " + error.message);
-          console.error(error);
-        });
+    const dataSubscribe = await getMySubscribeList()
+      .then((resSubscribe) => {
+        setMyPageSubscribeList(resSubscribe);
+        console.log("내가 구독한 사람 목록 : " + myPageSubscribeList);
+      })
+      .catch((error) => {
+        console.log("에러메세지: " + error.message);
+        console.error(error);
+      });
 
-      const dataStock = await getMyStockList(userId)
-        .then((resStock) => {
-          setMyStockList(resStock);
-          console.log("내 주식 구독 목록 : " + myStockList);
-        })
-        .catch((error) => {
-          console.log("에러메세지: " + error.message);
-          console.error(error);
-        });
-    }
+    const dataStock = await getMyStockList(userId)
+      .then((resStock) => {
+        setMyStockList(resStock);
+        console.log("내 주식 구독 목록 : " + myStockList);
+      })
+      .catch((error) => {
+        console.log("에러메세지: " + error.message);
+        console.error(error);
+      });
   };
 
   const userId = "user1";
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  console.log("유저 온도 : " + myPageInfo.userTemperature);
 
   return (
     <Wrapper>
