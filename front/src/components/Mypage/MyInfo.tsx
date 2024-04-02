@@ -1,10 +1,6 @@
-import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import {
-  myPageInfoState,
-  myPagePredictListState,
-} from "../../Store/MyPageState";
+import { myPageInfoState } from "../../Store/MyPageState";
 
 function MyInfo() {
   const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);

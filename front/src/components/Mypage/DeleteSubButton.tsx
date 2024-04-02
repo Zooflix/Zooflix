@@ -1,77 +1,92 @@
 import styled from "styled-components";
 import { deleteMySubscribe } from "../../apis/api/MyPage";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
+import { useState } from "react";
 
 interface Subscription {
-    subscribeNo: number;
-    subscribeName: string;
-    subscribeTemperature: number;
+  subscribeNo: number;
+  subscribeName: string;
+  subscribeTemperature: number;
 }
 
 interface SubscriptionProps {
-    text: String;
-    onSubscribe: Subscription;
-    onDelete: (subscribeNo: number) => void;
+  text: String;
+  onSubscribe: Subscription;
+  onDelete: (subscribeNo: number) => void;
 }
 
 function DeleteSubButton({ text, onSubscribe, onDelete }: SubscriptionProps) {
-    const deleteSubscription = (subscribeNo: number) => {
-        const isConfirmed = window.confirm("구독을 취소하시겠습니까?");
-        if (!isConfirmed) {
-            return;
-        }
-        try {
-            deleteMySubscribe(subscribeNo);
-            onDelete(subscribeNo);
-        } catch (error) {
-            console.log("deleteSubscription error : " + error);
-        }
-    };
+  const [open, setOpen] = useState(false);
 
-    return (
-        <Wrapper>
-            <LeftsideQuestion>
-                <div>{onSubscribe.subscribeName}</div>
-            </LeftsideQuestion>
-            <RightSideAnswer>
-                <div>{onSubscribe.subscribeTemperature + "°C"}</div>
-                <Button
-                    onClick={() => deleteSubscription(onSubscribe.subscribeNo)}
-                >
-                    {text}
-                </Button>
-            </RightSideAnswer>
-        </Wrapper>
-    );
+  const [alertOption, setAlertOption] = useState<{
+    severity: AlertColor;
+    value: string;
+  }>({ severity: "error", value: "" });
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const deleteSubscription = (subscribeNo: number) => {
+    const isConfirmed = window.confirm("구독을 취소하시겠습니까?");
+
+    if (!isConfirmed) {
+      return;
+    }
+    try {
+      deleteMySubscribe(subscribeNo);
+      onDelete(subscribeNo);
+      setAlertOption({ severity: "success", value: "구독이 취소되었습니다." });
+      setOpen(true);
+    } catch (error) {
+      console.log("deleteSubscription error : " + error);
+    }
+  };
+
+  return (
+    <Wrapper>
+      <div>{onSubscribe.subscribeName}</div>
+      <Temp>{onSubscribe.subscribeTemperature}°C</Temp>
+      <Button onClick={() => deleteSubscription(onSubscribe.subscribeNo)}>
+        {text}
+      </Button>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert severity={alertOption.severity} onClose={handleClose}>
+          {alertOption.value}
+        </Alert>
+      </Snackbar>
+    </Wrapper>
+  );
 }
 
 export default DeleteSubButton;
 
 const Wrapper = styled.div`
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-`;
-
-const LeftsideQuestion = styled.div`
-    float: left;
-    width: 50%;
-    margin-top: 20px;
-`;
-
-const RightSideAnswer = styled.div`
-    float: right;
-    width: 50%;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-
-    btn {
-        margin-left: 100px;
-    }
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  div {
+    margin: 0 10px;
+    font-weight: bold;
+  }
 `;
 
 const Button = styled.button`
-    margin-left: 10px;
-    border: 0;
-    background-color: transparent;
+  margin-left: 10px;
+  border: none;
+  background-color: #e7f1f5;
+  border-radius: 15px;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+`;
+
+const Temp = styled.div`
+  color: #0099e8;
+  font-weight: bold;
 `;

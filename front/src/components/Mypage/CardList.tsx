@@ -5,13 +5,14 @@ import { stockSubListState } from "../../Store/StockSubscribeState";
 import { useRecoilState } from "recoil";
 
 const CardList: React.FC = () => {
-
-  const [myStockList] = useRecoilState(stockSubListState)
+  const [myStockList] = useRecoilState(stockSubListState);
 
   if (!myStockList || myStockList.length === 0) {
-    return <NoResultsMessage>현재 정기 구독 중인 주식이 없습니다.</NoResultsMessage>
+    return (
+      <NoResultsMessage>현재 정기 구독 중인 주식이 없습니다.</NoResultsMessage>
+    );
   }
-  
+
   return (
     <Wrapper>
       <Container>
@@ -21,13 +22,13 @@ const CardList: React.FC = () => {
       </Container>
     </Wrapper>
   );
-}
+};
 
 export default CardList;
 const Wrapper = styled.div``;
 
 const NoResultsMessage = styled.div`
-  color: black;
+  color: gray;
   display: flex;
   justify-content: center;
   align-items: center;

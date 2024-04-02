@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { zbtiQuestionState } from "../../Store/ZbtiState";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 // 이미지
 import ZbtiStartImg from "../../assets/img/Zbti/ZbtiStartImg.svg";
@@ -9,6 +9,7 @@ import ZbtiStartImg from "../../assets/img/Zbti/ZbtiStartImg.svg";
 // 컴포넌트
 import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
 import StartTest from "../../components/Zbti/StartTest";
+import BackBtn from "../../components/Common/BackBtn";
 
 function ZbtiStart() {
   const [zbtiValue, setZbtiValue] = useRecoilState(zbtiQuestionState);
@@ -21,7 +22,8 @@ function ZbtiStart() {
 
   return (
     <Wrapper>
-      <ZbtiHeader backLink="/my-page" />
+      <BackBtn link="/my-page" className="back" />
+      {/* <ZbtiHeader backLink="/my-page" /> */}
       <Container>
         <h1>
           <span>나</span>
@@ -35,13 +37,7 @@ function ZbtiStart() {
           <span>?</span>
         </h1>
         <ImgContainer>
-          <img
-            src={ZbtiStartImg}
-            alt="icon"
-            className="icon"
-            loading="lazy"
-            decoding="async"
-          />
+          <img src={ZbtiStartImg} alt="icon" className="icon" />
         </ImgContainer>
         <StartTest text="주BTI 검사하기" onClick={handleStartClick} />
       </Container>
@@ -54,6 +50,10 @@ export default ZbtiStart;
 const Wrapper = styled.div`
   .icon {
     width: 900px;
+  }
+  .back {
+    margin-left: 40px;
+    margin-top: 40px;
   }
 `;
 
@@ -72,8 +72,8 @@ const Container = styled.div`
     position: relative;
     top: 20px;
     display: inline-block;
-    animation: bounce .5s ease alternate;
-    animation-iteration-count : 2;
+    animation: bounce 0.5s ease alternate;
+    animation-iteration-count: 2;
     font-size: 50px;
     color: #0d274d;
   }
@@ -106,16 +106,9 @@ const Container = styled.div`
   @keyframes bounce {
     100% {
       top: -20px;
-      text-shadow: 0 1px 0 #fff,
-                   0 2px 0 #fff,
-                   0 3px 0 #CCC,
-                   0 4px 0 #CCC,
-                   0 5px 0 #CCC,
-                   0 6px 0 #CCC,
-                   0 7px 0 #CCC,
-                   0 8px 0 #CCC,
-                   0 9px 0 #CCC,
-                   0 50px 25px rgba(0, 0, 0, .2);
+      text-shadow: 0 1px 0 #fff, 0 2px 0 #fff, 0 3px 0 #ccc, 0 4px 0 #ccc,
+        0 5px 0 #ccc, 0 6px 0 #ccc, 0 7px 0 #ccc, 0 8px 0 #ccc, 0 9px 0 #ccc,
+        0 50px 25px rgba(0, 0, 0, 0.2);
     }
   }
 `;
