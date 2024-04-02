@@ -1,12 +1,12 @@
 import { getMyStockList } from "../../apis/api/MyPage";
 import { useEffect, useState } from "react";
-import CardList from "../Mypage/CardList";
+import CardList from "./CardList";
 import styled from "styled-components";
 
 import { useRecoilState } from "recoil";
 import { userIdState } from "../../Store/UserState";
 
-function MySubscribeStock() {
+function MyPageSubscribeStock() {
   const [userId] = useRecoilState(userIdState);
   const [stockList, setStockList] = useState<
     | {
@@ -36,17 +36,18 @@ function MySubscribeStock() {
       {!stockList ? (
         <h3>현재 정기 구독 중인 주식이 없습니다.</h3>
       ) : (
-        <CardListWrapper>
+        <div>
           <CardList />
-        </CardListWrapper>
+        </div>
       )}
     </Wrapper>
   );
 }
 
-export default MySubscribeStock;
+export default MyPageSubscribeStock;
 
 const Wrapper = styled.div``;
+
 const NoResultsMessage = styled.div`
   color: black;
   display: flex;
@@ -55,7 +56,13 @@ const NoResultsMessage = styled.div`
   height: 100%;
 `;
 
-const CardListWrapper = styled.div`
+const Container = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  overflow-y: auto;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;

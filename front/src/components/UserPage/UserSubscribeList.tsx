@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import CardList from "./UserCardList";
+import UserCardList from "./UserCardList";
 import {
     userPageInfoState,
     userPageSubscribeListState,
@@ -28,7 +28,7 @@ function UserSubscribeList() {
                 <LeftSide>
                     <h3>{userPageInfo.userName} 님이 정기구독 중인 주식</h3>
                     <CardSection>
-                        <CardList />
+                        <UserCardList />
                     </CardSection>
                 </LeftSide>
                 <RightSide>
@@ -40,7 +40,7 @@ function UserSubscribeList() {
                                 onSubscribe={subscribe}
                             />
                         ))}
-                </RightSide>    
+                </RightSide>
             </Container>
         </Wrapper>
     );
@@ -84,4 +84,20 @@ const RightSide = styled.div`
     h3 {
         text-align: center;
     }
+`;
+
+const SubscriberList = styled.div`
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding-left: 30px;
+`;
+
+const SubscriberOne = styled.div``;
+
+const NoSubscription = styled.h3`
+    padding-top: 18px;
+    text-align: center;
+    color: gray;
 `;

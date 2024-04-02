@@ -9,12 +9,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SubscribeStock() {
-  const [isLogin, setIsLogin] = useState(loginCheck());
   const [name, setName] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLogin) {
+    if (!loginCheck()) {
       alert("로그인이 필요한 페이지입니다.");
       navigate("/login");
     } else {
@@ -49,6 +48,7 @@ const Wrapper = styled.div`
 `;
 
 const SubscribeContainer = styled.div`
+  width: 1000px;
   margin-bottom: 30px;
 `;
 

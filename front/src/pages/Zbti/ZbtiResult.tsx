@@ -157,7 +157,7 @@ function ZbtiResult() {
       const canvas = await html2canvas(div, { scale: 2 });
       canvas.toBlob((blob) => {
         if (blob !== null) {
-          saveAs(blob, "result.png");
+          saveAs(blob, "나만의 포트폴리오.png");
         }
       });
     } catch (error) {

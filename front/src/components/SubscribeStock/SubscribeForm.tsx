@@ -30,21 +30,27 @@ function SubscribeForm() {
   const [secretkey, setSecretkey] = useState("");
 
   function openModal() {
-    if (stock !== undefined && subscribeDay !== 0 && stockCnt !== 0) {
-      if (
-        accessToken === true ||
-        (account !== "" && appkey !== "" && secretkey !== "")
-      ) {
-        if (subscribeDay < 0 && subscribeDay > 31) {
-          alert("구독일을 확인해주세요.");
+    if (
+      stock !== undefined &&
+      subscribeDay > 0 &&
+      subscribeDay < 31 &&
+      stockCnt > 0
+    ) {
+      if (accessToken === false) {
+        if (account.length! == 10) {
+          alert("계좌번호는 10자리 입니다.");
+        } else if (appkey.length < 2) {
+          alert("App Key를 확인해주세요.");
+        } else if (secretkey.length < 2) {
+          alert("Secret Key를 확인해주세요.");
         } else {
           setIsModalOpen(true);
         }
       } else {
-        alert("필수항목을 모두 입력해주세요.");
+        setIsModalOpen(true);
       }
     } else {
-      alert("필수항목을 모두 입력해주세요.");
+      alert("입력을 확인해주세요.");
     }
   }
   const closeModal = () => setIsModalOpen(false);
@@ -69,7 +75,7 @@ function SubscribeForm() {
           <SearchInput onSearchChange={setStock} />
           <SubscribeDateInput
             text="구독일"
-            placeholder="구독일"
+            placeholder="1 ~ 30"
             onDayChange={setSubscribeDay}
           />
           <QuantityInput
@@ -142,7 +148,6 @@ function SubscribeForm() {
 export default SubscribeForm;
 
 const Wrapper = styled.div`
-  width: 1000px;
   border: none;
   border-radius: 30px;
   background-color: white;

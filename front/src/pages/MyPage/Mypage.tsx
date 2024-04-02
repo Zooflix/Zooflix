@@ -37,12 +37,11 @@ function Mypage() {
 
   // 주식 리스트 저장
   const [myStockList, setMyStockList] = useRecoilState(stockSubListState);
-  const [isLogin, setIsLogin] = useState(loginCheck());
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLogin) {
+    if (!loginCheck()) {
       alert("로그인이 필요한 페이지입니다.");
       navigate("/login");
     } else {
@@ -86,18 +85,7 @@ function Mypage() {
         console.log("에러메세지: " + error.message);
         console.error(error);
       });
-
-    const dataStock = await getMyStockList(myPageInfo.userName)
-      .then((resStock) => {
-        setMyStockList(resStock);
-        console.log("내 주식 구독 목록 : " + myStockList);
-      })
-      .catch((error) => {
-        console.log("에러메세지: " + error.message);
-        console.error(error);
-      });
   };
-
 
   return (
     <Wrapper>

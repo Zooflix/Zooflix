@@ -7,32 +7,33 @@ interface SubscribeButtonProps {
 }
 
 function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
-
-
     function handleClickToSubscribe() {
-
         subscribeUser(userNo, subscribeNo);
         alert("구독 완료");
         window.location.reload();
     }
 
     return (
-        <GoToUpdateUser onClick={() => handleClickToSubscribe()}>
-            구독
-        </GoToUpdateUser>
+        <Wrapper>
+            <GoToUpdateUser onClick={() => handleClickToSubscribe()}>
+                구독
+            </GoToUpdateUser>
+        </Wrapper>
     );
 }
 
 export default SubscribeButton;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    padding: 50px 0;
+`;
 
 const GoToUpdateUser = styled.button`
     background-color: #f84646;
     width: 90px;
     border-radius: 10px;
     cursor: pointer;
-    padding: 7px 0;
+    padding: 15px 0;
     border: none;
     color: white;
     &:hover {
