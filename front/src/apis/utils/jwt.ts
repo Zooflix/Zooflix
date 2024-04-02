@@ -15,3 +15,9 @@ export function getJwtUserName() {
   const decoded = require("jwt-decode").jwtDecode(token);
   return decoded.userName;
 }
+
+export function getJwtUserZbti() {
+  const token = localStorage.getItem("access");
+  const decoded = require("jwt-decode").jwtDecode(token);
+  return decoded.userZbti;
+}
