@@ -46,4 +46,8 @@ function MySubscribeStock() {
 
 export default MySubscribeStock;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  h3 {
+    color: gray;
+  }
+`;

@@ -101,5 +101,7 @@ const SubscriberList = styled.div`
 const SubscriberOne = styled.div``;
 
 const NoSubscription = styled.h3`
+  padding-top: 18px;
   text-align: center;
+  color: gray;
 `;
