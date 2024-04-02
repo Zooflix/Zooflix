@@ -103,7 +103,6 @@ function Main() {
     ],
   });
 
-  console.log(getJwtUserZbti());
 
   useEffect(() => {
     console.log("main");
