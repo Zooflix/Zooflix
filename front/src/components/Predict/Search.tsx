@@ -68,6 +68,8 @@ function Search(props: SearchProps) {
       stockName: selectStockName,
       stockCode: selectStockCode,
     });
+    setSelectStockName("");
+    setSelectStockCode("");
   }, []);
 
   return (

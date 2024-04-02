@@ -33,7 +33,7 @@ const GoToUpdateUser = styled.button`
     width: 90px;
     border-radius: 10px;
     cursor: pointer;
-    padding: 15px 0;
+    padding: 7px 0;
     border: none;
     color: white;
     &:hover {
