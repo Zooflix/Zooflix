@@ -8,6 +8,7 @@ import { selectStockNameState } from "../../Store/PredictState";
 import { selectUserNameState } from "../../Store/PredictState";
 import { ModalUserNoState } from "../../Store/PredictState";
 import { ModalUserNameState } from "../../Store/PredictState";
+import { useNavigate } from "react-router-dom";
 
 import Deletebtn from "../../assets/img/button/Deletebtn.svg";
 import Reportbtn from "../../assets/img/button/Reportbtn.svg";
@@ -37,6 +38,7 @@ const ClickWithOpen = styled(Click)<{ isOpen: boolean }>`
 `;
 
 function PredictList(props: PredictProps) {
+    const navigate = useNavigate();
     const [userNo, setUserNo] = useState(0);
     const [openItems, setOpenItems] = useState<number[]>([]);
     const [deletePdResult, setDeletePdResult] = useState(true);
@@ -92,6 +94,17 @@ function PredictList(props: PredictProps) {
     //신고모달 : 2
     const [isModalOpen2, setIsModalOpen2] = useState(false);
     const openModal2 = (userNo: number, pdNo: number) => {
+        let no = 0;
+        try {
+            no = getJwtUserNo();
+        } catch (error) {
+            no = 0;
+        }
+    if(no === 0){
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+      return;
+    }
         setIsModalOpen2(true);
     };
 
