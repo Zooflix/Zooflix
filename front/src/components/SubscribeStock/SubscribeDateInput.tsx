@@ -23,7 +23,7 @@ function SubscribeDateInput(props: InputProps) {
           placeholder={props.placeholder}
           onChange={changeDay}
           min="1"
-          max="31"
+          max="30"
           required
         />
         일에 구독을 신청합니다.

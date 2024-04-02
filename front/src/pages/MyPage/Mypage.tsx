@@ -37,12 +37,11 @@ function Mypage() {
 
   // 주식 리스트 저장
   const [myStockList, setMyStockList] = useRecoilState(stockSubListState);
-  const [isLogin, setIsLogin] = useState(loginCheck());
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLogin) {
+    if (!loginCheck()) {
       alert("로그인이 필요한 페이지입니다.");
       navigate("/login");
     } else {
@@ -97,7 +96,6 @@ function Mypage() {
         console.error(error);
       });
   };
-
 
   return (
     <Wrapper>
