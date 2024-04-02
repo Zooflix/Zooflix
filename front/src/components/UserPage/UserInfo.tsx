@@ -1,6 +1,9 @@
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { userPageInfoState, userPagePredictListState } from "../../Store/UserPageState";
+import {
+    userPageInfoState,
+    userPagePredictListState,
+} from "../../Store/UserPageState";
 import { getUserInfo } from "../../apis/api/UserPage";
 import { useEffect } from "react";
 
@@ -53,4 +56,8 @@ const Wrapper = styled.div`
 
 const LeftsideQuestion = styled.div``;
 
-const RightSideAnswer = styled.div``;
+const RightSideAnswer = styled.div`
+    h4 {
+        color: #0099e8;
+    }
+`;

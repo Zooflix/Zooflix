@@ -2,7 +2,7 @@ import styled from "styled-components";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
-import { getMyStockList, getUserStockList } from "../../apis/api/MyPage";
+import { getMyStockList, getMySubscribeList, getUserStockList } from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 import {
@@ -20,12 +20,18 @@ import TempWithImage from "../../components/UserPage/TempWithImage";
 import SubscribeButton from "../../components/Common/SubscribeButton";
 import UserContentHeader from "../../components/UserPage/UserContentHeader";
 import UserInfo from "../../components/UserPage/UserInfo";
-import { myPageInfoState } from "../../Store/MyPageState";
+import {
+    myPageInfoState,
+    myPageSubscribeListState,
+} from "../../Store/MyPageState";
 
 function UserPage() {
     // 내 정보
     const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
-
+    // 나의 구독 리스트 저장
+    const [myPageSubscribeList, setMyPageSubscribeList] = useRecoilState(
+        myPageSubscribeListState
+    );
     // 유저 정보
     const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
 
@@ -56,6 +62,9 @@ function UserPage() {
 
     // 로그인 체크
     const [isLogin, setIsLogin] = useState(false);
+
+    // 구독했는지 확인
+    const [isSubscribe, setIsSubscribe] = useState(false);
 
     useEffect(() => {
         if (localStorage.getItem("access") !== null) {
@@ -95,8 +104,31 @@ function UserPage() {
                 console.log("유저 구독한 사람 목록 불러오기 실패");
                 console.error(error);
             }
+
+            // 내 유저 구독 목록
+            try {
+                const data = await getMySubscribeList();
+                setMyPageSubscribeList(data);
+            } catch (error) {
+                console.log("내가 구독한 사람 목록 불러오기 실패");
+                console.error(error);
+            }
         };
         fetchData();
+
+        if (myPageSubscribeList.length > 0) {
+            for (let i = 0; i < myPageSubscribeList.length; i++) {
+                if (
+                    myPageSubscribeList[i].subscribeName ===
+                    userPageInfo.userName
+                ) {
+                    setIsSubscribe(true);
+                    break;
+                } else {
+                    setIsSubscribe(false);
+                }
+            }
+        }
     }, []);
 
     useEffect(() => {
@@ -119,6 +151,8 @@ function UserPage() {
         fetchData(userId);
     }, []);
 
+    console.log("*************************" + isSubscribe);
+
     return (
         <Wrapper>
             <Container>
@@ -126,13 +160,13 @@ function UserPage() {
                     <h2>{userPageInfo.userName + " 님의 정보"}</h2>
                     <TempWithImage />
                     <UserInfo />
-                    {isLogin ? (
+                    {isLogin === false || isSubscribe ? (
+                        <NotButton />
+                    ) : (
                         <SubscribeButton
                             userNo={myPageInfo.userNo}
                             subscribeNo={userNo}
                         />
-                    ) : (
-                        <NotLogin/>
                     )}
                 </LeftSideMyInfo>
                 <Right>
@@ -196,6 +230,6 @@ const GotoZbtiButton = styled.div`
     justify-content: center;
 `;
 
-const NotLogin = styled.div`
-    padding: 50px 0;
+const NotButton = styled.div`
+    padding: 70px 0;
 `;
