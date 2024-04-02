@@ -41,7 +41,7 @@ function AlarmList() {
   return (
     <Wrapper>
       {alarmList.length === 0 ? (
-        <p className="noalarm">📌현재 알람이 존재하지 않습니다!</p>
+        <p className="noalarm">📌현재 알림이 존재하지 않습니다!</p>
       ) : (
         alarmList.map((alarm, index) => (
           <Container key={index}>

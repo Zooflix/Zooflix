@@ -32,7 +32,7 @@ function AlarmModal({ isModalOpen, closeModal }: AlarmModalProps) {
       <Container>
         <TitleContainer>
           <img src={alarmbtn} alt="alarmbtn" />
-          <h2>알람창</h2>
+          <h2>알림창</h2>
         </TitleContainer>
         <BtnContainer>
           <RemoveBtn onClick={handleRemoveAlarm}>알림 비우기</RemoveBtn>
