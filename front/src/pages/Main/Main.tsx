@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { getRankingList } from "../../apis/api/Main";
 import CommonPageTransition from "../../components/Common/CommonPageTransition";
 import { getJwtUserZbti } from "../../apis/utils/jwt";
+import { loginCheck } from "../../components/User/IsLoginCheck";
 
 function Main() {
   const [mainData, setMainData] = useState({
@@ -103,8 +104,6 @@ function Main() {
     ],
   });
 
-  console.log(getJwtUserZbti());
-
   useEffect(() => {
     console.log("main");
     handleList();
@@ -159,13 +158,23 @@ function Main() {
                 <div>주식 구독하러가기</div>
               </Bubble>
             </Link>
-            <Character3d
-              name={getJwtUserZbti()}
-              characterScale={0.45}
-              canvasHeight={240}
-              canvasWidth={200}
-              toBelow={24}
-            />
+            {loginCheck() ? (
+              <Character3d
+                name={getJwtUserZbti()}
+                characterScale={0.45}
+                canvasHeight={240}
+                canvasWidth={200}
+                toBelow={24}
+              />
+            ) : (
+              <Character3d
+                name="Bear"
+                characterScale={0.45}
+                canvasHeight={240}
+                canvasWidth={200}
+                toBelow={24}
+              />
+            )}
           </SubscribeDiv>
         </BelowDiv>
       </MainWrapper>
