@@ -49,6 +49,7 @@ const Wrapper = styled.div`
 `;
 
 const SubscribeContainer = styled.div`
+  width: 1000px;
   margin-bottom: 30px;
 `;
 

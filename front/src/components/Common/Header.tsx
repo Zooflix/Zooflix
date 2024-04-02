@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import AlarmModal from "../Alarm/AlarmModal";
 import { logoutUser } from "../../apis/api/User";
 import { loginCheck } from "../User/IsLoginCheck";
-import { getJwtUserId } from "../../apis/utils/jwt";
+import { getJwtUserName } from "../../apis/utils/jwt";
 import { useRecoilState } from "recoil";
 import { userIdState, isLoginState } from "../../Store/UserState";
 
@@ -42,7 +42,7 @@ function Header() {
         <LoginContainer>
           {isLogin ? (
             <LoginWrapper>
-              <Text>{getJwtUserId()}님 반가워요!</Text>
+              <Text>{getJwtUserName()}님 반가워요!</Text>
               <Button onClick={handleLogout}>로그아웃</Button>
               <CircleContainer>
                 <div>
