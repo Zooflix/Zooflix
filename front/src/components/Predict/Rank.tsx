@@ -29,6 +29,12 @@ function Rank(props: RankProps) {
         });
     }, [props.stockName]);
 
+    useEffect(() => {
+        getZoostra(props.stockName).then((data) => {
+            setZoostra(data);
+        });
+    }, []);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = (userName: string, userNo: number) => {
         setModalUserName(userName);
@@ -111,7 +117,7 @@ function Rank(props: RankProps) {
                         <NoContent>
                             {/* {props.stockName} 종목은
                             <br /> */}
-                            예측성공한 사용자가 없어요!
+                            예측 성공한 사용자가 없어요!
                         </NoContent>
                     )}
                 </Wrapper>

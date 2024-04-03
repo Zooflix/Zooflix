@@ -30,9 +30,9 @@ function Search(props: SearchProps) {
     useRecoilState(selectedStockCode);
 
   const onChangeData = (e: React.FormEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value === "") {
-      props.onSearchChange({ stockName: "null", stockCode: "" });
-    }
+    // if (e.currentTarget.value === "") {
+    //   props.onSearchChange({ stockName: "null", stockCode: "" });
+    // }
     setKeyword(e.currentTarget.value);
     setSearchResultVisible(true);
   };
