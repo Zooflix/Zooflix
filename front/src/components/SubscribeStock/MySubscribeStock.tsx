@@ -6,7 +6,11 @@ import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { userIdState } from "../../Store/UserState";
 
-function MySubscribeStock() {
+interface Props {
+  fetchData: boolean;
+}
+
+function MySubscribeStock({ fetchData }: Props) {
   const [userId] = useRecoilState(userIdState);
   const [stockList, setStockList] = useState<
     | {
@@ -29,7 +33,7 @@ function MySubscribeStock() {
 
   useEffect(() => {
     getStockList();
-  }, []);
+  }, [fetchData]);
 
   return (
     <Wrapper>

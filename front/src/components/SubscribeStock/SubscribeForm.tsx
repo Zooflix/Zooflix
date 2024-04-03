@@ -14,7 +14,12 @@ import { getUserApi } from "../../apis/api/Subscribe";
 import { useRecoilState } from "recoil";
 import { userNoState } from "../../Store/UserState";
 
-function SubscribeForm() {
+interface Props {
+  setFetchData: (value: boolean) => void;
+  fetchData: boolean;
+}
+
+function SubscribeForm({ setFetchData, fetchData }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [accessToken, setAccessToken] = useState<boolean>(false);
   const [userNo, setUserNo] = useRecoilState(userNoState);
@@ -139,6 +144,8 @@ function SubscribeForm() {
           userAccount={account}
           userAppKey={appkey}
           userSecretKey={secretkey}
+          setFetchData={setFetchData}
+          fetchData={fetchData}
         />
       </ButtonContainer>
     </Wrapper>

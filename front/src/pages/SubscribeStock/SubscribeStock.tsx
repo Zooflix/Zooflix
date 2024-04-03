@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 function SubscribeStock() {
   const [name, setName] = useState("");
+  const [changeData, setChangeData] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -27,11 +28,11 @@ function SubscribeStock() {
       <Wrapper>
         <SubscribeContainer>
           <Title>주식 정기 구독하기</Title>
-          <SubscribeForm />
+          <SubscribeForm setFetchData={setChangeData} fetchData={changeData} />
         </SubscribeContainer>
         <SubscribeContainer>
           <Title>{name}님이 구독중인 주식 목록</Title>
-          <MySubscribeStock />
+          <MySubscribeStock fetchData={changeData} />
         </SubscribeContainer>
       </Wrapper>
     </CommonPageTransition>
