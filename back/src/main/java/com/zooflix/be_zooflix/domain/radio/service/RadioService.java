@@ -146,7 +146,6 @@ public class RadioService {
                 summaries.add(new String[]{url, title, summary});
             }
         }
-        System.out.println();
         return summaries;
 
     }
@@ -161,7 +160,6 @@ public class RadioService {
 
         /* 1-1. 캐싱 데이터가 없다면 */
         if (cachedList == null || cachedList.isEmpty()) {
-            System.out.println("새로 캐싱하기");
             /* 1-2. 없다면 크롤링+번역+요약 */
             List<String> crawlingResult = callCrawlingEndpoint(); // 크롤링+번역
             List<String[]> summaryResult = callSummaryEndpoint(crawlingResult); // 요약
@@ -205,7 +203,6 @@ public class RadioService {
 
         // 마지막 업데이트 시간
         String lastUpdateTimeStr = redisTemplate.opsForValue().get("lastUpdateTime");
-        System.out.println("마지막 업데이트: "+lastUpdateTimeStr);
 
         /* 1-1. 캐싱 데이터가 있다면 업데이트 */
         if (cachedList != null || !cachedList.isEmpty()) {
@@ -281,7 +278,6 @@ public class RadioService {
             for (String[] str : data) {
                 if (str.length>2) {
                     String text = str[2]; // 기사 본문
-                    System.out.println("cachedNews: " + text);
                     String encodeText = URLEncoder.encode(text, StandardCharsets.UTF_8.toString());
 
                     URL url = new URL(pythonTtsUrl);
@@ -307,14 +303,11 @@ public class RadioService {
                         }
                         is.close();
                         byteList.add(baos.toByteArray());
-                        System.out.println("하나씩 저장 완료");
                     } else { // 오류 발생
-                        System.out.println("tts 오류");
                         return null;
                     }
                 }
             }
-            System.out.println("byteList add 완료");
             return byteList;
         } catch (Exception e) {
             e.printStackTrace();
