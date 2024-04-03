@@ -205,6 +205,7 @@ public class RadioService {
 
         // 마지막 업데이트 시간
         String lastUpdateTimeStr = redisTemplate.opsForValue().get("lastUpdateTime");
+        System.out.println("마지막 업데이트: "+lastUpdateTimeStr);
 
         /* 1-1. 캐싱 데이터가 있다면 업데이트 */
         if (cachedList != null || !cachedList.isEmpty()) {
