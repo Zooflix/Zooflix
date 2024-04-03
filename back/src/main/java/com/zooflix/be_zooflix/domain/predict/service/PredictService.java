@@ -349,7 +349,7 @@ public class PredictService {
         String userAppKey = aesUtils.aesCBCDecode(userInfo.getUserAppKey(), "db");
         String userSecretKey = aesUtils.aesCBCDecode(userInfo.getUserSecretKey(), "db");
         String userAccount = aesUtils.aesCBCDecode(userInfo.getUserAccount(), "db");
-        if (userAppKey == "" || userSecretKey == "" || userAccount == "" ||
+        if (userAppKey == null || userSecretKey == null || userAccount == null ||
                 userAppKey.isEmpty() || userSecretKey.isEmpty() || userAccount.isEmpty()
         ) {
             return historyDtoList;
