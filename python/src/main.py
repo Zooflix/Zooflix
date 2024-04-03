@@ -50,15 +50,22 @@ async def get_indices():
         yesterday = now - timedelta(days=1)
         today = yesterday.strftime('%Y-%m-%d')
 
-    kospi_data = fdr.DataReader('KS11', today)
-    kosdaq_data = fdr.DataReader('KQ11', today)
-    usd_krw_data = fdr.DataReader('USD/KRW', today)
+    # kospi_data = fdr.DataReader('KS11', today)
+    # kosdaq_data = fdr.DataReader('KQ11', today)
+    # usd_krw_data = fdr.DataReader('USD/KRW', today)
+    #
+    # kospi_index = kospi_data.iloc[0]['Close']
+    # kosdaq_index = kosdaq_data.iloc[0]['Close']
+    # usd_krw_rate = usd_krw_data.iloc[0]['Close']
 
-    kospi_index = kospi_data.iloc[0]['Close']
-    kosdaq_index = kosdaq_data.iloc[0]['Close']
-    usd_krw_rate = usd_krw_data.iloc[0]['Close']
+    indices_list = ['KS11', 'KQ11', 'USD/KRW']
+    indices_data = [fdr.DataReader(code, today)['Close'] for code in indices_list]
 
-    return [kospi_index, kosdaq_index, usd_krw_rate]
+    kospi_index = indices_data[0].iloc[-1]
+    kosdaq_index = indices_data[1].iloc[-1]
+    usd_krw_rate = indices_data[2].iloc[-1]
+
+    return {kospi_index, kosdaq_index, usd_krw_rate}
 
 #
 # 전체목록 가져오기
