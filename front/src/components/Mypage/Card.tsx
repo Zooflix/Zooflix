@@ -13,9 +13,16 @@ interface ItemProps {
     userNo: number;
   };
   cardIndex: number;
+  setFetchData?: (value: boolean) => void;
+  fetchData?: boolean;
 }
 
-const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
+const Card: React.FC<ItemProps> = ({
+  card,
+  cardIndex,
+  setFetchData,
+  fetchData,
+}) => {
   const color = [
     "linear-gradient(180deg, rgba(172, 228, 152, 0.95) 6.05%, rgba(211, 249, 194, 0.95) 33.05%, rgba(196, 236, 214, 0.95) 58.05%, rgba(175, 227, 239, 0.95) 81.05%, rgba(130, 211, 228, 0.95) 106.05%)",
     "linear-gradient(180deg, rgba(255, 124, 124, 0.95) 6.05%, rgba(255, 161, 108, 0.95) 42.05%, rgba(255, 172, 74, 0.95) 60.55%, rgba(255, 190, 89, 0.95) 75.55%, rgba(255, 225, 120, 0.95) 106.05%)",
@@ -28,8 +35,11 @@ const Card: React.FC<ItemProps> = ({ card, cardIndex }) => {
   console.log(date.getMonth());
 
   async function terminationSubscribe() {
-    const result = await cancelStockSubscribe(card.stockSubscribeNo);
-    window.location.reload();
+    await cancelStockSubscribe(card.stockSubscribeNo).then(() => {
+      if (fetchData !== undefined && setFetchData !== undefined) {
+        setFetchData(!fetchData);
+      }
+    });
   }
 
   return (

@@ -13,13 +13,13 @@ function SignupForm() {
   const navigate = useNavigate();
 
   const [isChecked, setIsChecked] = useState(false);
-  const [userId, setUserId] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userPw, setUserPw] = useState('');
-  const [userPwCheck, setUserPwCheck] = useState('');
-  const [userAppKey, setUserAppKey] = useState('');
-  const [userSecretKey, setUserSecretKey] = useState('');
-  const [userAccount, setUserAccount] = useState('');
+  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPw, setUserPw] = useState("");
+  const [userPwCheck, setUserPwCheck] = useState("");
+  const [userAppKey, setUserAppKey] = useState("");
+  const [userSecretKey, setUserSecretKey] = useState("");
+  const [userAccount, setUserAccount] = useState("");
 
   const handleCheckboxChange = (event: any) => {
     setIsChecked(event.target.checked);
@@ -27,12 +27,21 @@ function SignupForm() {
 
   const handleSignup = async () => {
     try {
-      if (!userName.trim() || !userPw.trim() || !userId.trim() || !userPwCheck.trim()) {
+      if (
+        !userName.trim() ||
+        !userPw.trim() ||
+        !userId.trim() ||
+        !userPwCheck.trim()
+      ) {
         alert("필수 항목을 모두 입력해주세요.");
         return;
       }
       if (userPw.length < 4) {
         alert("비밀번호는 4자 이상 입력해주세요.");
+        return;
+      }
+      if (userName.length > 10) {
+        alert("닉네임은 10글자 이하로 입력해주세요.");
         return;
       }
 
@@ -41,16 +50,18 @@ function SignupForm() {
         if (idCheckResult?.status === 200) {
           if (idCheckResult?.data === "중복") {
             alert("사용할 수 없는 아이디입니다.");
-          }
-          else {
+          } else {
             const nameCheckResult = await nameCheck(userName);
             if (nameCheckResult?.status === 200) {
               if (nameCheckResult?.data === "중복") {
                 alert("사용할 수 없는 이름입니다.");
-              }
-              else {
+              } else {
                 if (isChecked) {
-                  if (userAppKey === '' || userSecretKey === '' || userAccount === '') {
+                  if (
+                    userAppKey === "" ||
+                    userSecretKey === "" ||
+                    userAccount === ""
+                  ) {
                     alert("APP KEY 정보를 전부 입력해주세요.");
                     return;
                   }
@@ -58,32 +69,31 @@ function SignupForm() {
                   setUserSecretKey(userSecretKey);
                   setUserAccount(userAccount);
                 }
-                const signupResult = await signupUser(userId, userName, userPw, 
-                  userAppKey, userSecretKey, userAccount);
+                const signupResult = await signupUser(
+                  userId,
+                  userName,
+                  userPw,
+                  userAppKey,
+                  userSecretKey,
+                  userAccount
+                );
                 if (signupResult?.status === 200) {
                   alert("회원가입이 완료되었습니다.");
                   navigate("/login");
-                }
-                else {
+                } else {
                   alert("회원가입에 실패하였습니다.");
                 }
               }
-            }
-            else {
+            } else {
               alert("사용할 수 없는 이름입니다.");
             }
           }
-        }
-        else {
+        } else {
           alert("사용할 수 없는 아이디입니다.");
         }
-      }
-      else {
+      } else {
         alert("비밀번호가 일치하지 않습니다.");
       }
-      
-      
-      
     } catch (e) {
       console.error(e);
     }
@@ -95,10 +105,30 @@ function SignupForm() {
       <Container>
         <h2>REGISTER</h2>
         <InputContainer>
-          <UserInput type="text" placeholder="아이디를 입력하세요" value={userId} onChange={(e) => setUserId(e.target.value)} />
-          <UserInput type="text" placeholder="닉네임을 입력하세요" value={userName} onChange={(e) => setUserName(e.target.value)} />
-          <UserInput type="password" placeholder="비밀번호를 입력하세요" value={userPw} onChange={(e) => setUserPw(e.target.value)} />
-          <UserInput type="password" placeholder="비밀번호를 다시 입력하세요" value={userPwCheck} onChange={(e) => setUserPwCheck(e.target.value)} />
+          <UserInput
+            type="text"
+            placeholder="아이디를 입력하세요"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+          <UserInput
+            type="text"
+            placeholder="닉네임을 입력하세요 (10자 이하)"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          <UserInput
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            value={userPw}
+            onChange={(e) => setUserPw(e.target.value)}
+          />
+          <UserInput
+            type="password"
+            placeholder="비밀번호를 다시 입력하세요"
+            value={userPwCheck}
+            onChange={(e) => setUserPwCheck(e.target.value)}
+          />
           <CheckboxContainer>
             <input
               type="checkbox"

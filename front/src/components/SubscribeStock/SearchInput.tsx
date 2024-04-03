@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Search from "../Predict/Search";
+import { useEffect } from "react";
 
 const searchInputStyle = {
   width: "225px",
@@ -7,9 +8,10 @@ const searchInputStyle = {
 
 interface Props {
   onSearchChange: (value: { stockName: string; stockCode: string }) => void;
+  resetInput: boolean;
 }
 
-function SearchInput({ onSearchChange }: Props) {
+function SearchInput({ onSearchChange, resetInput }: Props) {
   return (
     <div>
       <SearchContainer>
@@ -19,6 +21,7 @@ function SearchInput({ onSearchChange }: Props) {
           placeholder="종목명을 입력해주세요."
           style={searchInputStyle}
           onSearchChange={onSearchChange}
+          resetInput={resetInput}
         />
       </SearchContainer>
     </div>

@@ -50,7 +50,7 @@ function SubscribeDetailModal({
     setIsChecked(event.target.checked);
   };
 
-  const handleSubscribeAlert = () => {
+  async function handleSubscribeAlert() {
     if (!isChecked) {
       setOpen(true);
       setAlertOption({
@@ -59,7 +59,7 @@ function SubscribeDetailModal({
       });
     } else {
       setOpen(true);
-      insertStockSubscribe({
+      await insertStockSubscribe({
         stockName,
         stockCode,
         stockSubscribeDay,
@@ -67,15 +67,18 @@ function SubscribeDetailModal({
         userAccount,
         userAppKey,
         userSecretKey,
+      }).then(() => {
+        setAlertOption({
+          severity: "success",
+          value: "주식 구독이 성공적으로 이루어졌습니다.",
+        });
+        setFetchData(!fetchData);
+        closeModal();
+        setOpen(false);
+        setIsChecked(false);
       });
-      setAlertOption({
-        severity: "success",
-        value: "주식 구독이 성공적으로 이루어졌습니다.",
-      });
-      closeModal();
-      setFetchData(!fetchData);
     }
-  };
+  }
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,

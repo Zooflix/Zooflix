@@ -42,7 +42,7 @@ function SubscribeForm({ setFetchData, fetchData }: Props) {
       stockCnt > 0
     ) {
       if (accessToken === false) {
-        if (account.length! == 10) {
+        if (account.length !== 10) {
           alert("계좌번호는 10자리 입니다.");
         } else if (appkey.length < 2) {
           alert("App Key를 확인해주세요.");
@@ -77,17 +77,19 @@ function SubscribeForm({ setFetchData, fetchData }: Props) {
     <Wrapper>
       <InputContainer>
         <FirstContainer>
-          <SearchInput onSearchChange={setStock} />
+          <SearchInput onSearchChange={setStock} resetInput={fetchData} />
           <SubscribeDateInput
             text="구독일"
             placeholder="1 ~ 30"
             onDayChange={setSubscribeDay}
+            resetInput={fetchData}
           />
           <QuantityInput
             text="수량"
             stockCntChange={setStockCnt}
             stockCnt={stockCnt}
             stockName={stock?.stockName}
+            resetInput={fetchData}
           />
         </FirstContainer>
         {!accessToken ? (

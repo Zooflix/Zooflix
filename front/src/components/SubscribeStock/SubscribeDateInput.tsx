@@ -1,17 +1,24 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface InputProps {
   text?: string;
   placeholder: string;
   onDayChange: (value: number) => void;
+  resetInput: boolean;
 }
 
 function SubscribeDateInput(props: InputProps) {
+  const [date, setDate] = useState<number>();
   const changeDay = (event: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
+    setDate(value);
     props.onDayChange(value);
   };
+
+  useEffect(() => {
+    setDate(undefined);
+  }, [props.resetInput]);
 
   return (
     <Wrapper>
@@ -24,6 +31,7 @@ function SubscribeDateInput(props: InputProps) {
           onChange={changeDay}
           min="1"
           max="30"
+          value={date}
           required
         />
         일에 구독을 신청합니다.

@@ -8,9 +8,10 @@ import { userIdState } from "../../Store/UserState";
 
 interface Props {
   fetchData: boolean;
+  setFetchData: (value: boolean) => void;
 }
 
-function MySubscribeStock({ fetchData }: Props) {
+function MySubscribeStock({ fetchData, setFetchData }: Props) {
   const [userId] = useRecoilState(userIdState);
   const [stockList, setStockList] = useState<
     | {
@@ -41,7 +42,11 @@ function MySubscribeStock({ fetchData }: Props) {
         <h3>현재 정기 구독 중인 주식이 없습니다.</h3>
       ) : (
         <div>
-          <SubscribeList myStockList={stockList} />
+          <SubscribeList
+            myStockList={stockList}
+            setFetchData={setFetchData}
+            fetchData={fetchData}
+          />
         </div>
       )}
     </Wrapper>

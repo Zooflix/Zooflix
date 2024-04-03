@@ -14,6 +14,7 @@ type SearchProps = {
   placeholder: string;
   style?: React.CSSProperties;
   onSearchChange: (value: { stockName: string; stockCode: string }) => void;
+  resetInput?: boolean;
 };
 
 function Search(props: SearchProps) {
@@ -46,6 +47,10 @@ function Search(props: SearchProps) {
     };
   }, [keyword]);
 
+  useEffect(() => {
+    setKeyword("");
+  }, [props.resetInput]);
+
   const handleSearchChange = (value: {
     stockName: string;
     stockCode: string;
@@ -63,13 +68,15 @@ function Search(props: SearchProps) {
   };
 
   useEffect(() => {
-    setKeyword(selectStockName);
-    props.onSearchChange({
-      stockName: selectStockName,
-      stockCode: selectStockCode,
-    });
-    setSelectStockName("");
-    setSelectStockCode("");
+    if (selectStockName !== "") {
+      setKeyword(selectStockName);
+      props.onSearchChange({
+        stockName: selectStockName,
+        stockCode: selectStockCode,
+      });
+      setSelectStockName("");
+      setSelectStockCode("");
+    }
   }, []);
 
   return (

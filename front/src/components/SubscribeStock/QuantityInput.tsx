@@ -29,12 +29,18 @@ interface InputProps {
   stockCntChange: (stock: number) => void;
   stockCnt: number;
   stockName?: string;
+  resetInput: boolean;
 }
 
 function QuantityInput(props: InputProps) {
   const [currentTime, setCurrentTime] = useState<string>("");
   const [isClicked, setIsClicked] = useState(false);
   const [nowPrice, setNowPrice] = useState(0);
+  const [cnt, setCnt] = useState<number>();
+
+  useEffect(() => {
+    setCnt(1);
+  }, [props.resetInput]);
 
   const setTime = async () => {
     const today = new Date();
@@ -76,6 +82,7 @@ function QuantityInput(props: InputProps) {
 
   function stockCntChange(event: ChangeEvent<HTMLInputElement>) {
     const value = parseInt(event.target.value);
+    setCnt(value);
     props.stockCntChange(value);
   }
 
@@ -88,6 +95,7 @@ function QuantityInput(props: InputProps) {
           placeholder={props.placeholder}
           onChange={stockCntChange}
           min="1"
+          value={cnt}
         />{" "}
         주
       </InputContainer>
