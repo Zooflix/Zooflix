@@ -33,9 +33,6 @@ public class MainService {
         RestTemplate restTemplate = new RestTemplate();
         // REST API 호출
         Double[] result = restTemplate.getForObject(indicesEndpoint, Double[].class);
-        System.out.println("call");
-        System.out.println(result[0]);
-        System.out.println(result.length);
 
         // double[]로 변환
         double[] convertedResult = new double[result.length];
