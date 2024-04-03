@@ -56,5 +56,6 @@ const Button = styled.button`
   &:hover {
     background-color: black;
     color: white;
+    scale: 1.1;
   }
 `;

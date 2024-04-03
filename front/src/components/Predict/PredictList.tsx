@@ -239,7 +239,7 @@ function PredictList(props: PredictProps) {
 
 export default PredictList;
 const Wrapper = styled.div`
-  padding: 20px;
+  padding: 15px;
 `;
 
 const Feed = styled.div<FeedProps>`
@@ -266,6 +266,9 @@ const Feed = styled.div<FeedProps>`
   img {
     width: 24px;
     height: 24px;
+    &:hover {
+      scale: 1.1;
+    }
   }
 `;
 
@@ -285,6 +288,9 @@ const FeedIcon = styled.div`
   margin-top: 10px;
   img {
     cursor: pointer;
+    &:hover {
+      scale: 1.1;
+    }
   }
 `;
 

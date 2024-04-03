@@ -41,6 +41,10 @@ function Mypage() {
 
   const navigate = useNavigate();
 
+  const handleZbti = () => {
+    navigate("/zbti");
+  };
+
   useEffect(() => {
     if (!loginCheck()) {
       alert("로그인이 필요한 페이지입니다.");
@@ -49,10 +53,6 @@ function Mypage() {
       fetchData();
     }
   }, []);
-
-  const handleZbti = () => {
-    navigate("/zbti");
-  };
 
   const fetchData = async () => {
     //내 정보

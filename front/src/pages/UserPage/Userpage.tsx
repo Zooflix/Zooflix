@@ -251,10 +251,13 @@ const RightSideMyInfo = styled.div`
 const GotoZbtiButton = styled.div`
   display: flex;
   justify-content: center;
-  &hover {
+  &:hover {
     scale: 1.05;
   }
   cursor: pointer;
+  img {
+    width: 750px;
+  }
 `;
 
 const NotButton = styled.div`
