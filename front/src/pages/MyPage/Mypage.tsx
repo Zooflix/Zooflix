@@ -129,6 +129,7 @@ function Mypage() {
 export default Mypage;
 
 const Wrapper = styled.div`
+  margin-left: 6vw;
   display: block;
 `;
 
@@ -160,10 +161,15 @@ const RightSideMyInfo = styled.div`
   height: 660px;
   margin: 0 auto;
   background: #ffffff;
-  border: none;
 `;
 
 const GotoZbtiButton = styled.div`
   display: flex;
   justify-content: center;
+  img {
+    cursor: pointer;
+    &hover {
+      scale: 1.1;
+    }
+  }
 `;

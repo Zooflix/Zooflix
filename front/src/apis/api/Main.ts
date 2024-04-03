@@ -4,7 +4,15 @@ import { axios } from "../utils/axios";
 export async function getRankingList() {
   try {
     const response = await axios.get(`/main/ranking`);
-    console.log("result Data" + response.data.resultData);
+    return response.data.resultData;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getMainIndices() {
+  try {
+    const response = await axios.get(`/main/indices`);
     return response.data.resultData;
   } catch (e) {
     console.log(e);

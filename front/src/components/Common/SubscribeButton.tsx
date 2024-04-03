@@ -7,7 +7,11 @@ interface SubscribeButtonProps {
   onSubscribe: () => void;
 }
 
-function SubscribeButton({ userNo, subscribeNo, onSubscribe }: SubscribeButtonProps) {
+function SubscribeButton({
+  userNo,
+  subscribeNo,
+  onSubscribe,
+}: SubscribeButtonProps) {
   function handleClickToSubscribe() {
     subscribeUser(userNo, subscribeNo);
     onSubscribe();
@@ -26,8 +30,7 @@ function SubscribeButton({ userNo, subscribeNo, onSubscribe }: SubscribeButtonPr
 
 export default SubscribeButton;
 
-const Wrapper = styled.div`
-`;
+const Wrapper = styled.div``;
 
 const GoToUpdateUser = styled.button`
   background-color: #f84646;
@@ -37,7 +40,7 @@ const GoToUpdateUser = styled.button`
   padding: 7px 0;
   border: none;
   color: white;
-  margin-top: 30px;
+  margin-bottom: 30px;
   &:hover {
     background-color: white;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
@@ -45,4 +48,5 @@ const GoToUpdateUser = styled.button`
     font-weight: bold;
     scale: 1.1;
   }
+  cursor: pointer;
 `;

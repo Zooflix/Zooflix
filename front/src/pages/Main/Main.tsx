@@ -7,7 +7,7 @@ import StockRank from "../../components/Main/StockRank";
 import Character3d from "../../components/Character/Character3d";
 import zooflix from "../../assets/img/Zooflix.svg";
 import { Link } from "react-router-dom";
-import { getRankingList } from "../../apis/api/Main";
+import { getRankingList, getMainIndices } from "../../apis/api/Main";
 import CommonPageTransition from "../../components/Common/CommonPageTransition";
 import { getJwtUserZbti } from "../../apis/utils/jwt";
 import { loginCheck } from "../../components/User/IsLoginCheck";
@@ -22,10 +22,12 @@ import { getMyInfo, getMySubscribeList } from "../../apis/api/MyPage";
 function Main() {
   const [userZbtiState, setuserZbtiState] = useRecoilState(userZbti);
   console.log(userZbtiState);
-  const [mainData, setMainData] = useState<{
+  const [indices, setIndices] = useState<{
     kospi: number;
     kosdaq: number;
     usd: number;
+  }>();
+  const [mainData, setMainData] = useState<{
     zustraRank: [
       {
         userNo: number;
@@ -93,7 +95,6 @@ function Main() {
       userZbti: string;
       successStreak: number;
       cnt: number;
-      stockName: String;
     };
     stockRank: [
       {
@@ -130,6 +131,9 @@ function Main() {
     const list = await getRankingList();
     console.log("rankinglist" + list);
     setMainData(list || []);
+
+    const list2 = await getMainIndices();
+    setIndices(list2);
   };
 
   let zbti = new Map();
@@ -191,11 +195,7 @@ function Main() {
         {mainData && (
           <>
             {" "}
-            <FlowBar
-              kospi={mainData.kospi}
-              kosdaq={mainData.kosdaq}
-              usd={mainData.usd}
-            />
+            <FlowBar indices={indices} />
             <Rank>
               <ZustraRank rankData={mainData.zustraRank} zbti={zbti} />
               <StockRank stockRank={mainData.stockRank} zbti={zbti} />

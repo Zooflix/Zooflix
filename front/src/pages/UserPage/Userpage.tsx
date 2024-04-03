@@ -211,6 +211,7 @@ function UserPage() {
 export default UserPage;
 
 const Wrapper = styled.div`
+  margin-left: 6vw;
   display: block;
 `;
 
@@ -250,6 +251,10 @@ const RightSideMyInfo = styled.div`
 const GotoZbtiButton = styled.div`
   display: flex;
   justify-content: center;
+  &hover {
+    scale: 1.05;
+  }
+  cursor: pointer;
 `;
 
 const NotButton = styled.div`

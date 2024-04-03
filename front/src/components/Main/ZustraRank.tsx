@@ -48,7 +48,7 @@ function ZustraRank({ rankData, zbti }: Props) {
 
   const navigate = useNavigate();
 
-  useEffect(() => {}, [linkProfile, moreBtnClick, deleteSubscribe]);
+  //   useEffect(() => {}, [linkProfile, moreBtnClick, deleteSubscribe]);
 
   function moreBtnClick(index: number, subscribeUserName: string) {
     if (expandedIndex === index) {
@@ -104,7 +104,7 @@ function ZustraRank({ rankData, zbti }: Props) {
   return (
     <RankWrapper>
       <RankHeader>주스트라다무스 랭킹</RankHeader>
-      {rankData ? (
+      {rankData && (
         <RankDiv>
           {rankData.map((item, index) => {
             const isExpanded = expandedIndex === index;
@@ -202,8 +202,6 @@ function ZustraRank({ rankData, zbti }: Props) {
             );
           })}
         </RankDiv>
-      ) : (
-        <div>Loading...</div>
       )}
     </RankWrapper>
   );

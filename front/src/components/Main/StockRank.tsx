@@ -30,7 +30,7 @@ function StockRank({ stockRank, zbti }: Props) {
 
   return (
     <RankWrapper>
-      {stockRank ? (
+      {stockRank && (
         <StockDiv>
           <Title>많은 사람들이 구독중인 주식</Title>
           {stockRank.map((stock, index) => {
@@ -50,8 +50,6 @@ function StockRank({ stockRank, zbti }: Props) {
             );
           })}
         </StockDiv>
-      ) : (
-        <div>Loading...</div>
       )}
     </RankWrapper>
   );
