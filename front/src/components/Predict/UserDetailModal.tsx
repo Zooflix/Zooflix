@@ -121,7 +121,7 @@ function UserDetailModal({
                 }
             }
         };
-        if (myPageSubscribeList.length > 0) {
+        if (isLogin && myPageSubscribeList.length > 0) {
             for (let i = 0; i < myPageSubscribeList.length; i++) {
                 if (myPageSubscribeList[i].subscribeName === userName) {
                     setIsSubscribe(true);
