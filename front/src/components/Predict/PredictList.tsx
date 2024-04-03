@@ -2,12 +2,14 @@ import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import { getJwtUserNo } from "../../apis/utils/jwt";
-import { deletePredict } from "../../apis/api/Predict";
-import { selectedPdNoState, selectUserNoState } from "../../Store/PredictState";
-import { selectStockNameState } from "../../Store/PredictState";
-import { selectUserNameState } from "../../Store/PredictState";
-import { ModalUserNoState } from "../../Store/PredictState";
-import { ModalUserNameState } from "../../Store/PredictState";
+import {
+    selectedPdNoState,
+    selectUserNoState,
+    selectStockNameState,
+    selectUserNameState,
+    ModalUserNoState,
+    ModalUserNameState,
+} from "../../Store/PredictState";
 import { useNavigate } from "react-router-dom";
 
 import Deletebtn from "../../assets/img/button/Deletebtn.svg";
@@ -100,11 +102,11 @@ function PredictList(props: PredictProps) {
         } catch (error) {
             no = 0;
         }
-    if(no === 0){
-      alert("로그인이 필요합니다.");
-      navigate("/login");
-      return;
-    }
+        if (no === 0) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            return;
+        }
         setIsModalOpen2(true);
     };
 
@@ -112,9 +114,9 @@ function PredictList(props: PredictProps) {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const deleteModal = (pdNo: number, pdResult: string) => {
         setSelectedPdNo(pdNo);
-        if(pdResult === null){
+        if (pdResult === null) {
             setDeletePdResult(false);
-        }else{
+        } else {
             setDeletePdResult(true);
         }
         setIsDeleteModalOpen(true);
@@ -207,7 +209,12 @@ function PredictList(props: PredictProps) {
                                     <img
                                         src={Deletebtn}
                                         alt="삭제"
-                                        onClick={() => deleteModal(item.pdNo, item.pdResult)}
+                                        onClick={() =>
+                                            deleteModal(
+                                                item.pdNo,
+                                                item.pdResult
+                                            )
+                                        }
                                     />
                                 ) : (
                                     <img
