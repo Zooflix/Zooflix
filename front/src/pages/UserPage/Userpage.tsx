@@ -67,7 +67,9 @@ function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       //유저 정보
-      userInfoAxios();
+      userInfoAxios().then(() => {
+        getUserStockSubscribe();
+      });
 
       //유저 예측 글 목록
       getUserPredict();
@@ -78,29 +80,12 @@ function UserPage() {
       if (loginCheck()) {
         // 내 유저 구독 목록
         getMyUserSubscribe();
-      }
-    };
-
-    if (loginCheck()) {
-      checkSubscribe();
-    }
-  }, [userNumber]);
-
-  useEffect(() => {
-    // 임의의 인덱스값 userNo 넣음
-    const fetchData = async () => {
-      //유저 주식 구독 목록
-      try {
-        const data = await getUserStockList(userPageInfo.userId);
-        setUserStockList(data);
-      } catch (error) {
-        console.log("유저 주식 구독 목록 불러오기 실패");
-        console.error(error);
+        checkSubscribe();
       }
     };
 
     fetchData();
-  }, []);
+  }, [userNumber]);
 
   async function getMyUserSubscribe() {
     try {
@@ -171,6 +156,16 @@ function UserPage() {
     getMySubList();
     setIsSubscribe(!isSubscribe);
   };
+
+  async function getUserStockSubscribe() {
+    try {
+      const data = await getUserStockList(userPageInfo.userId);
+      setUserStockList(data);
+    } catch (error) {
+      console.log("유저 주식 구독 목록 불러오기 실패");
+      console.error(error);
+    }
+  }
 
   return (
     <Wrapper>
