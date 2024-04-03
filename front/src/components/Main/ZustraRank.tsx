@@ -16,11 +16,8 @@ import {
   subscribeUser,
 } from "../../apis/api/MyPage";
 import { getJwtUserNo } from "../../apis/utils/jwt";
-import { selectUserNoState } from "../../Store/PredictState";
 import { useNavigate } from "react-router-dom";
 import { loginCheck } from "../../components/User/IsLoginCheck";
-import { userPageInfoState } from "../../Store/UserPageState";
-import { getUserInfo } from "../../apis/api/UserPage";
 import { myPageSubscribeListState } from "../../Store/MyPageState";
 
 interface InnerGraphProps
@@ -43,8 +40,6 @@ function ZustraRank({ rankData, zbti }: Props) {
   ];
 
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [selectUserNo, setSelectUserNo] = useRecoilState(selectUserNoState);
-  const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
   // 추가 변수
   const [mySubscribeList, setMySubscribeList] = useRecoilState(
     myPageSubscribeListState
