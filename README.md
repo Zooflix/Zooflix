@@ -20,6 +20,83 @@
 주식 정보에 대한 구독으로 주식을 처음 접해보는 분들께 도움을 드릴 뿐만 아니라,
 직접 주식을 선정하여 매달 사야하는 번거로움을 줄여주는 자동 적립식 투자를 기획하였습니다.
 
+<br>
+<br>
+
+# 📖목차 
+- [README](#readme)
+	- [📝 설계 문서](##-설계-문서)
+	    - 요구사항 명세서
+	    - ERD
+        - API 명세서
+		- 와이어 프레임
+	- [🚧 시스템 아키텍쳐](##-시스템-아키텍쳐)
+	- [🛠 기술 스택](##-기술-스택)
+	- [📂 파일 구조](##-파일-구조)
+    - [🎥 시연 영상](##-시연-영상)
+	- [💾 결과물](##-결과물)
+    - [❤ 역할](##-역할)
+
+<br>
+<br>
+
+
+## 🛠 기술 스택
+
+
+### Front
+
+- Visual Studio Code : x64-1.85.1
+- Node.js : v20.10.0
+- React : v18.2.0
+- react-router-dom : v6.21.3
+- recoil : v0.7.7
+- axios : ^1.6.5
+
+- APIs
+  - KAKAO LINK API
+  - KAKAO LOGIN API
+- Library
+	- html2canvas v1.4.1
+	- @mui 
+	- js-file-download v0.4.12
+	- jszip : v3.10.1
+	- @stomp/stompjs : v7.0.0
+	- dajjs. v.1.11.10
+	- moment : ^2.30.1
+
+
+### Back
+
+- Intellij : 2023.3.2
+- Spring-boot : 3.2
+- Java : jdk 17.0.9 2023-10-17 LTS
+
+### DB
+
+- Amazon S3
+- MySQL : 8.0.34
+
+### CI/CD
+
+- Docker
+- Jenkins
+- NGINX
+
+### 협업 툴
+
+- GitLab
+- Notion
+- JIRA
+- MatterMost
+- Webex
+- Gerrit
+
+<br>
+<br>
+
+
+
 
 ## 👨‍👩‍👧‍👦 팀원 소개
 이수민(팀장) - 풀스택
