@@ -251,6 +251,7 @@ public class StockSubscribeService {
         dto.setStockSubscribeDay(stockSubscribe.getStockSubscribeDay());
         dto.setStockSubscribeCreate(stockSubscribe.getStockSubscribeCreate());
         dto.setUserId(stockSubscribe.getUser().getUserId());
+        dto.setUserNo(stockSubscribe.getUser().getUserNo());
         return dto;
     }
 
