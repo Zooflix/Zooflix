@@ -103,8 +103,8 @@ function CharacterCursor({
 
     const onMouseMove = (event: MouseEvent) => {
       if (canvasRef.current) {
-        canvasRef.current.style.left = event.clientX + 1 + "px";
-        canvasRef.current.style.top = event.clientY + 1 + "px";
+        canvasRef.current.style.left = event.clientX + 2 + "px";
+        canvasRef.current.style.top = event.clientY + 2 + "px";
       }
     };
 

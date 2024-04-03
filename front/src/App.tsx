@@ -20,13 +20,12 @@ import { AnimatePresence } from "framer-motion";
 import Loading from "./pages/Zbti/Loading";
 import Predict from "./pages/Predict/Predict";
 import PredictCreate from "./pages/Predict/PredictCreate";
-import Intro from "./components/Landing/Intro";
 import styled from "styled-components";
 import SubscribeStock from "./pages/SubscribeStock/SubscribeStock";
 import UpdateMyInfo from "./components/Mypage/UpdateMyInfo";
-import CharacterCursor from "./components/Character/CharacterCursor";
 import UserPage from "./pages/UserPage/Userpage";
 import ZbtiResult from "./pages/Zbti/ZbtiResult";
+import Landing from "./pages/Landing/Landing";
 
 function App() {
   const location = useLocation();
@@ -53,19 +52,12 @@ function App() {
 
   return (
     <>
-      {/* <CharacterCursor
-        name="Bear"
-        characterScale={0.4}
-        action="turn"
-        canvasHeight={70}
-        canvasWidth={50}
-      /> */}
       <AppWrapper>
         <AnimatePresence>
           {showHeaderandSide() && <Header />}
           {showHeaderandSide() && <SideNavBar />}
           <Routes>
-            <Route path="/" element={<Intro />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/radio" element={<Radio />} />
