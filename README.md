@@ -20,12 +20,12 @@
 	    - ERD
 	    - 기능 명세서
         - API 명세서
-	- [🚧 시스템 아키텍쳐](##-시스템-아키텍쳐)
+	- [🚧 서비스 아키텍쳐](#-서비스-아키텍쳐)
 	- [🛠 기술 스택](#-기술-스택)
 	- [📂 파일 구조](#-파일-구조)
     - [🎥 시연 영상](#-시연-영상)
 	- [💾 결과물](#-결과물)
-    - [❤ 역할](#-역할)
+    - [❤ 팀원 소개](#-팀원-소개)
 
 <br>
 <br>
@@ -82,22 +82,34 @@
 ## 📝 설계 문서
 
 ## 와이어 프레임
-피그마 : https://www.figma.com/file/dEX5XTOWUgf2YJlal4eTkE/Zooflix?type=design&node-id=0-1&mode=design&t=CZOzcR4NJneLxIWr-0
+피그마 링크 : https://www.figma.com/file/dEX5XTOWUgf2YJlal4eTkE/Zooflix?type=design&node-id=0-1&mode=design&t=CZOzcR4NJneLxIWr-0
 
 <br>
 
 ## ERD
-
+![ERD](/uploads/e439c5880a9875780477e86287fc64d9/ERD.PNG)
+erdcloud 링크 : https://www.erdcloud.com/d/aYNeA42SgzizSQ4sD
 
 <br>
 
 ## 기능 명세서
-
+![기능명세서1](/uploads/980a79619e136411d5e5c919737fa09b/기능명세서1.PNG)
+![기능명세서2](/uploads/108e8060031ef56cc8a80bae48151b0d/기능명세서2.PNG)
+![기능명세서3](/uploads/1e9399d10c39118d1ce226aa2cfefc87/기능명세서3.PNG)
+노션 링크 : https://www.notion.so/1df7af87bf02416b985264e42c93e389
 
 <br>
 
 ## API 명세서
+노션 링크 : https://www.notion.so/API-149bda589c204683abee01b64ab28a36
 
+
+
+
+<br>
+
+## 🚧 서비스 아키텍쳐
+![서비스_아키텍처3D](/uploads/a85a91d339e8d7fe80f19c3cfbbffdec/서비스_아키텍처3D.PNG)
 
 
 <br>
@@ -147,8 +159,9 @@
 <br>
 <br>
 
+## 📂 파일 구조
 
 
 
-## 👨‍👩‍👧‍👦 팀원 소개
+## ❤ 팀원 소개
 ![팀원](/uploads/59e70a144426b0377726dc50092a8d5d/팀원.PNG)
