@@ -14,7 +14,12 @@ import { getUserApi } from "../../apis/api/Subscribe";
 import { useRecoilState } from "recoil";
 import { userNoState } from "../../Store/UserState";
 
-function SubscribeForm() {
+interface Props {
+  setFetchData: (value: boolean) => void;
+  fetchData: boolean;
+}
+
+function SubscribeForm({ setFetchData, fetchData }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [accessToken, setAccessToken] = useState<boolean>(false);
   const [userNo, setUserNo] = useRecoilState(userNoState);
@@ -37,7 +42,7 @@ function SubscribeForm() {
       stockCnt > 0
     ) {
       if (accessToken === false) {
-        if (account.length! == 10) {
+        if (account.length !== 10) {
           alert("계좌번호는 10자리 입니다.");
         } else if (appkey.length < 2) {
           alert("App Key를 확인해주세요.");
@@ -72,17 +77,19 @@ function SubscribeForm() {
     <Wrapper>
       <InputContainer>
         <FirstContainer>
-          <SearchInput onSearchChange={setStock} />
+          <SearchInput onSearchChange={setStock} resetInput={fetchData} />
           <SubscribeDateInput
             text="구독일"
             placeholder="1 ~ 30"
             onDayChange={setSubscribeDay}
+            resetInput={fetchData}
           />
           <QuantityInput
             text="수량"
             stockCntChange={setStockCnt}
             stockCnt={stockCnt}
             stockName={stock?.stockName}
+            resetInput={fetchData}
           />
         </FirstContainer>
         {!accessToken ? (
@@ -139,6 +146,8 @@ function SubscribeForm() {
           userAccount={account}
           userAppKey={appkey}
           userSecretKey={secretkey}
+          setFetchData={setFetchData}
+          fetchData={fetchData}
         />
       </ButtonContainer>
     </Wrapper>

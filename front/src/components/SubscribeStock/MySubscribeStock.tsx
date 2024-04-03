@@ -6,7 +6,12 @@ import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { userIdState } from "../../Store/UserState";
 
-function MySubscribeStock() {
+interface Props {
+  fetchData: boolean;
+  setFetchData: (value: boolean) => void;
+}
+
+function MySubscribeStock({ fetchData, setFetchData }: Props) {
   const [userId] = useRecoilState(userIdState);
   const [stockList, setStockList] = useState<
     | {
@@ -29,7 +34,7 @@ function MySubscribeStock() {
 
   useEffect(() => {
     getStockList();
-  }, []);
+  }, [fetchData]);
 
   return (
     <Wrapper>
@@ -37,7 +42,11 @@ function MySubscribeStock() {
         <h3>현재 정기 구독 중인 주식이 없습니다.</h3>
       ) : (
         <div>
-          <SubscribeList myStockList={stockList} />
+          <SubscribeList
+            myStockList={stockList}
+            setFetchData={setFetchData}
+            fetchData={fetchData}
+          />
         </div>
       )}
     </Wrapper>
