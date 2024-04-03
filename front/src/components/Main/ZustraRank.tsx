@@ -259,11 +259,11 @@ const Name = styled.span`
   font-weight: bold;
 `;
 
-const SmallText = styled.span`
+const SmallText = styled.div`
   margin: 2px;
-  font-weight: semi-bold;
+  font-weight: bold;
   font-size: 10px;
-  color: gray;
+  color: lightgray;
 `;
 
 const Zbti = styled.div`

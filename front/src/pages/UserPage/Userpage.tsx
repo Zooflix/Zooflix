@@ -61,6 +61,8 @@ function UserPage() {
     navigate("/zbti");
   };
 
+  // 구독을 했으면 그 번호를 저장
+  const [subNo, setSubNo] = useState(0);
   // 구독했는지 확인
   const [isSubscribe, setIsSubscribe] = useState(false);
 
@@ -69,6 +71,11 @@ function UserPage() {
       //유저 정보
       userInfoAxios().then(() => {
         getUserStockSubscribe();
+        if (loginCheck()) {
+          // 내 유저 구독 목록
+          getMyUserSubscribe();
+          checkSubscribe();
+        }
       });
 
       //유저 예측 글 목록
@@ -76,14 +83,7 @@ function UserPage() {
 
       //유저가 구독한 사람 목록
       getUserSubscribe();
-
-      if (loginCheck()) {
-        // 내 유저 구독 목록
-        getMyUserSubscribe();
-        checkSubscribe();
-      }
     };
-
     fetchData();
   }, [userNumber]);
 
@@ -136,6 +136,7 @@ function UserPage() {
       for (let i = 0; i < myPageSubscribeList.length; i++) {
         if (myPageSubscribeList[i].subscribeName === userPageInfo.userName) {
           setIsSubscribe(true);
+          setSubNo(i);
           break;
         } else {
           setIsSubscribe(false);
@@ -176,11 +177,15 @@ function UserPage() {
             <TempWithImage />
             <UserInfo />
             {!loginCheck() || isSubscribe ? (
-              <NotButton />
+              <DeleteSubBtn
+                onSubscribe={myPageSubscribeList[subNo]}
+                onDelete={togleSubscription}
+                text={"구독 취소"}
+              />
             ) : (
               <SubscribeButton
                 userNo={myPageInfo.userNo}
-                subscribeNo={userNumber}
+                subscribeNo={userPageInfo.userNo}
                 onSubscribe={togleSubscription}
               />
             )}
