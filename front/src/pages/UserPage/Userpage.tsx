@@ -50,14 +50,11 @@ function UserPage() {
   // 유저 주식 리스트
   const [userStockList, setUserStockList] = useRecoilState(stockSubListState);
 
-  //   const [ModalUserNo, setModalUserNo] = useRecoilState(ModalUserNoState);
-
-  // 유저 정보를 바탕으로 userId 도 저장해야 함, 새로고침에 대한 이슈로 추가적으로 저장해놓아야함
-  //   const [userNo, setUserNo] = useState(ModalUserNo);
-
   const navigate = useNavigate();
 
   const { userNo } = useParams();
+
+  const [userNumber, setUserNumber] = useState(parseInt(userNo || ""));
 
   const handleZbti = () => {
     navigate("/zbti");
@@ -77,22 +74,17 @@ function UserPage() {
       //유저가 구독한 사람 목록
       getUserSubscribe();
 
-      // 내 유저 구독 목록
-      getMyUserSubscribe();
+      if (loginCheck()) {
+        // 내 유저 구독 목록
+        getMyUserSubscribe();
+      }
     };
     fetchData();
 
-    if (myPageSubscribeList.length > 0) {
-      for (let i = 0; i < myPageSubscribeList.length; i++) {
-        if (myPageSubscribeList[i].subscribeName === userPageInfo.userName) {
-          setIsSubscribe(true);
-          break;
-        } else {
-          setIsSubscribe(false);
-        }
-      }
+    if (loginCheck()) {
+      checkSubscribe();
     }
-  }, []);
+  }, [userNumber]);
 
   useEffect(() => {
     // 임의의 인덱스값 userNo 넣음
@@ -114,6 +106,7 @@ function UserPage() {
     try {
       const data = await getMySubscribeList();
       setMyPageSubscribeList(data);
+      console.log(" getMyUSerSubscribe ", data);
     } catch (error) {
       console.log("내가 구독한 사람 목록 불러오기 실패");
       console.error(error);
@@ -122,8 +115,9 @@ function UserPage() {
 
   async function getUserSubscribe() {
     try {
-      const data = await getUserSubscribeList(parseInt(userNo || ""));
+      const data = await getUserSubscribeList(userNumber);
       setUserPageSubscribeList(data);
+      console.log(" getUserSubscribe ", data);
     } catch (error) {
       console.log("유저 구독한 사람 목록 불러오기 실패");
       console.error(error);
@@ -132,9 +126,9 @@ function UserPage() {
 
   async function getUserPredict() {
     try {
-      const data = await getUserPredictList(parseInt(userNo || ""));
+      const data = await getUserPredictList(userNumber);
       setUserPagePredictList(data);
-      console.log(data);
+      console.log(" getUSerPredict ", data);
     } catch (error) {
       console.log("유저 예측 목록 실패");
       console.error(error);
@@ -143,44 +137,59 @@ function UserPage() {
 
   async function userInfoAxios() {
     try {
-      const data = await getUserInfo(parseInt(userNo || ""));
+      const data = await getUserInfo(userNumber);
       setUserPageInfo(data);
-      console.log(data);
+      console.log(" userInfoAxios ", data);
     } catch (error) {
       console.log("유저 정보 불러오기 실패");
       console.error(error);
     }
   }
 
+  function checkSubscribe() {
+    if (myPageSubscribeList.length > 0) {
+      for (let i = 0; i < myPageSubscribeList.length; i++) {
+        if (myPageSubscribeList[i].subscribeName === userPageInfo.userName) {
+          setIsSubscribe(true);
+          break;
+        } else {
+          setIsSubscribe(false);
+        }
+      }
+    }
+  }
+
   return (
     <Wrapper>
-      <Container>
-        <LeftSideMyInfo>
-          <h2>{userPageInfo.userName + " 님의 정보"}</h2>
-          <TempWithImage />
-          <UserInfo />
-          {!loginCheck() || isSubscribe ? (
-            <NotButton />
-          ) : (
-            <SubscribeButton
-              userNo={myPageInfo.userNo}
-              subscribeNo={parseInt(userNo || "")}
-            />
-          )}
-        </LeftSideMyInfo>
-        <Right>
-          <RightSideMyInfo>
-            <UserContentHeader />
-          </RightSideMyInfo>
-          <GotoZbtiButton>
-            <img
-              src={GotoZbti}
-              alt="GotoZbti"
-              onClick={() => handleZbti()}
-            ></img>
-          </GotoZbtiButton>
-        </Right>
-      </Container>
+      {userPageInfo && (
+        <Container>
+          <LeftSideMyInfo>
+            <h2>{userPageInfo.userName + " 님의 정보"}</h2>
+            <TempWithImage />
+            <UserInfo />
+            {!loginCheck() || isSubscribe ? (
+              <NotButton />
+            ) : (
+              <SubscribeButton
+                userNo={myPageInfo.userNo}
+                subscribeNo={userNumber}
+              />
+            )}
+          </LeftSideMyInfo>
+          <Right>
+            <RightSideMyInfo>
+              <UserContentHeader />
+            </RightSideMyInfo>
+            <GotoZbtiButton>
+              <img
+                src={GotoZbti}
+                alt="GotoZbti"
+                onClick={() => handleZbti()}
+              ></img>
+            </GotoZbtiButton>
+          </Right>
+        </Container>
+      )}
     </Wrapper>
   );
 }
