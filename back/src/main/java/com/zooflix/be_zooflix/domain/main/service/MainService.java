@@ -62,7 +62,6 @@ public class MainService {
         double[] convertedResult = new double[result.length];
         for (int i = 0; i < result.length; i++) {
             convertedResult[i] = result[i];
-            System.out.println(convertedResult[i]);
         }
 
         return convertedResult;
