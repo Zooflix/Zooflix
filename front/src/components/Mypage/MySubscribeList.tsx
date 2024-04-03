@@ -75,6 +75,9 @@ const LeftSide = styled.div`
   margin-right: 10px;
   height: 100%;
   overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const CardSection = styled.div`
@@ -95,6 +98,9 @@ const RightSide = styled.div`
     text-align: center;
   }
   overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const SubscriberOne = styled.div`

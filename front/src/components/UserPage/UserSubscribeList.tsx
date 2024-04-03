@@ -1,25 +1,37 @@
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
 import UserCardList from "./UserCardList";
-import {
-  userPageInfoState,
-  userPageSubscribeListState,
-} from "../../Store/UserPageState";
 import UserSubscription from "./UserSubscription";
+import { useEffect, useState } from "react";
+import { getUserSubscribeList } from "../../apis/api/UserPage";
 
-function UserSubscribeList() {
-  const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
+interface Props {
+  userPageInfo: any;
+}
 
-  const [userPageSubscribeList, setUserPageSubScribeList] = useRecoilState(
-    userPageSubscribeListState
-  );
+function UserSubscribeList({ userPageInfo }: Props) {
+  const [userPageSubscribeList, setUserPageSubscribeList] = useState([]);
+
+  async function getUserSubscribe() {
+    try {
+      const data = await getUserSubscribeList(userPageInfo.userNo);
+      setUserPageSubscribeList(data);
+      console.log(" getUserSubscribe ", data);
+    } catch (error) {
+      console.log("유저 구독한 사람 목록 불러오기 실패");
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getUserSubscribe();
+  }, []);
 
   return (
     <Wrapper>
       <LeftSide>
         <h3>{userPageInfo.userName} 님이 정기구독 중인 주식</h3>
         <CardSection>
-          <UserCardList />
+          <UserCardList userPageInfo={userPageInfo} />
         </CardSection>
       </LeftSide>
       <RightSide>
@@ -27,11 +39,8 @@ function UserSubscribeList() {
         {userPageSubscribeList.length === 0 ? (
           <NoSubscription>현재 구독 중인 회원이 없습니다.</NoSubscription>
         ) : (
-          userPageSubscribeList.map((subscribe) => (
-            <UserSubscription
-              key={subscribe.subscribeNo}
-              onSubscribe={subscribe}
-            />
+          userPageSubscribeList.map((subscribe, index) => (
+            <UserSubscription key={index} onSubscribe={subscribe} />
           ))
         )}
       </RightSide>
@@ -65,6 +74,10 @@ const LeftSide = styled.div`
     text-align: center;
   }
   overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const CardSection = styled.div`
@@ -85,6 +98,9 @@ const RightSide = styled.div`
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const SubscriberList = styled.div`

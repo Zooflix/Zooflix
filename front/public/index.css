@@ -18,8 +18,9 @@
 }
 
 @font-face {
-  font-family: 'NPSfontBold';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/NPSfontBold.woff2') format('woff2');
+  font-family: "NPSfontBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/NPSfontBold.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: normal;
 }
@@ -97,8 +98,9 @@
 }
 
 @font-face {
-  font-family: 'WAGURITTF';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403@1.0/WAGURITTF.woff2') format('woff2');
+  font-family: "WAGURITTF";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2403@1.0/WAGURITTF.woff2")
+    format("woff2");
   font-weight: normal;
   font-style: normal;
 }
@@ -128,14 +130,5 @@ body {
 }
 
 ::-webkit-scrollbar {
-  display: none;
-}
-
-/*특정 부분 스크롤바 없애기*/
-
-.box {
-  -ms-overflow-style: none;
-}
-.box::-webkit-scrollbar {
   display: none;
 }

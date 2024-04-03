@@ -1,26 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MySubscribeList from "../Mypage/MySubscribeList";
 import PredictList from "../Predict/PredictList";
 import { useRecoilState } from "recoil";
-import {
-  userPageInfoState,
-  userPagePredictListState,
-} from "../../Store/UserPageState";
+import { userPagePredictListState } from "../../Store/UserPageState";
 import UserSubscribeList from "./UserSubscribeList";
+import { getUserPredictList } from "../../apis/api/UserPage";
 
-function UserContentHeader() {
+interface Props {
+  userPageInfo: any;
+}
+
+function UserContentHeader({ userPageInfo }: Props) {
   const [selectedTab, setSelectedTab] = useState<string>("user-predictions");
 
-  const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
+  const [userPagePredictList, setUserPagePredictList] = useState([]);
 
-  const [userPagePredictList, setUserPagePredictList] = useRecoilState(
-    userPagePredictListState
-  );
+  async function getUserPredict() {
+    try {
+      const data = await getUserPredictList(userPageInfo.userNo);
+      setUserPagePredictList(data);
+      console.log(" getUSerPredict ", data);
+    } catch (error) {
+      console.log("유저 예측 목록 실패");
+      console.error(error);
+    }
+  }
 
   const handleTabClick = (tabName: string) => {
     setSelectedTab(tabName);
   };
+
+  useEffect(() => {
+    getUserPredict();
+  }, [userPageInfo]);
 
   return (
     <Wrapper>
@@ -54,7 +67,9 @@ function UserContentHeader() {
         {selectedTab === "user-predictions" && (
           <PredictList currentPage={userPagePredictList} />
         )}
-        {selectedTab === "user-subscriptions" && <UserSubscribeList />}
+        {selectedTab === "user-subscriptions" && (
+          <UserSubscribeList userPageInfo={userPageInfo} />
+        )}
       </List>
     </Wrapper>
   );

@@ -38,16 +38,6 @@ function UserPage() {
   // 유저 정보
   const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
 
-  // 유저 예측 리스트
-  const [userPagePredictList, setUserPagePredictList] = useRecoilState(
-    userPagePredictListState
-  );
-
-  // 유저 구독 리스트
-  const [userPageSubscribeList, setUserPageSubscribeList] = useRecoilState(
-    userPageSubscribeListState
-  );
-
   // 유저 주식 리스트
   const [userStockList, setUserStockList] = useRecoilState(stockSubListState);
 
@@ -56,10 +46,6 @@ function UserPage() {
   const { userNo } = useParams();
 
   const [userNumber, setUserNumber] = useState(parseInt(userNo || ""));
-
-  useEffect(() => {
-    setUserNumber(parseInt(userNo || ""));
-  }, [userNo]);
 
   const handleZbti = () => {
     navigate("/zbti");
@@ -71,24 +57,18 @@ function UserPage() {
   const [isSubscribe, setIsSubscribe] = useState(false);
 
   useEffect(() => {
+    console.log("userNo " + userNumber);
     const fetchData = async () => {
       //유저 정보
       userInfoAxios().then(() => {
-        getUserStockSubscribe();
         if (loginCheck()) {
           // 내 유저 구독 목록
-          getMyUserSubscribe();
-          checkSubscribe();
+          getMyUserSubscribe().then(() => {
+            checkSubscribe();
+          });
         }
       });
-
-      //유저 예측 글 목록
-      getUserPredict();
-
-      //유저가 구독한 사람 목록
-      getUserSubscribe();
     };
-
     fetchData();
   }, []);
 
@@ -103,31 +83,9 @@ function UserPage() {
     }
   }
 
-  async function getUserSubscribe() {
-    try {
-      const data = await getUserSubscribeList(userNumber);
-      setUserPageSubscribeList(data);
-      console.log(" getUserSubscribe ", data);
-    } catch (error) {
-      console.log("유저 구독한 사람 목록 불러오기 실패");
-      console.error(error);
-    }
-  }
-
-  async function getUserPredict() {
-    try {
-      const data = await getUserPredictList(userNumber);
-      setUserPagePredictList(data);
-      console.log(" getUSerPredict ", data);
-    } catch (error) {
-      console.log("유저 예측 목록 실패");
-      console.error(error);
-    }
-  }
-
   async function userInfoAxios() {
     try {
-      const data = await getUserInfo(parseInt(userNo || ""));
+      const data = await getUserInfo(userNumber);
       setUserPageInfo(data);
       console.log(" userInfoAxios ", data);
     } catch (error) {
@@ -163,16 +121,6 @@ function UserPage() {
     setIsSubscribe(!isSubscribe);
   };
 
-  async function getUserStockSubscribe() {
-    try {
-      const data = await getUserStockList(userPageInfo.userId);
-      setUserStockList(data);
-    } catch (error) {
-      console.log("유저 주식 구독 목록 불러오기 실패");
-      console.error(error);
-    }
-  }
-
   return (
     <Wrapper>
       {userPageInfo && (
@@ -180,7 +128,7 @@ function UserPage() {
           <LeftSideMyInfo>
             <h2>{userPageInfo.userName + " 님의 정보"}</h2>
             <TempWithImage />
-            <UserInfo />
+            <UserInfo userPageInfo={userPageInfo} />
             {!loginCheck() || isSubscribe ? (
               <DeleteSubBtn
                 onSubscribe={myPageSubscribeList[subNo]}
@@ -197,7 +145,7 @@ function UserPage() {
           </LeftSideMyInfo>
           <Right>
             <RightSideMyInfo>
-              <UserContentHeader />
+              <UserContentHeader userPageInfo={userPageInfo} />
             </RightSideMyInfo>
             <GotoZbtiButton>
               <img
