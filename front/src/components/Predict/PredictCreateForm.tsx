@@ -173,8 +173,11 @@ function PredictCreateForm() {
   };
 
   const fetchData = async () => {
-    const result = await selectNowPrice(stockName);
-    setNowPrice(result);
+    try {
+      const result = await selectNowPrice(stockName);
+      setNowPrice(result);
+    } catch (error) {      
+    }
   };
 
   const possibleCheck = async () => {
@@ -270,7 +273,7 @@ function PredictCreateForm() {
           />
           {stockName && (
             <>
-              <span>
+              <span style={{margin: "30px"}}>
                 <span className="highlighter">{currentTime}</span> 기준 <br />
                 {stockName}의 현재가는
                 <span className="highlighter"> {nowPrice}원</span>
