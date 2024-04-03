@@ -64,47 +64,37 @@
 
 ## 🛠 기술 스택
 
+### ☑Backend
 
-### Front
+- **Java** : Oracle Open JDK 17.0.9
+- **Spring Boot** : 3.2.1
+- **JPA** : hibernate-core-6.4.1
+- **DB:** MySQL 8.0
+- **IntelliJ** : 2023. 3
 
-- Visual Studio Code : x64-1.85.1
-- Node.js : v20.10.0
-- React : v18.2.0
-- react-router-dom : v6.21.3
-- recoil : v0.7.7
-- axios : ^1.6.5
+### ☑Frontend
 
-- APIs
-  - KAKAO LINK API
-  - KAKAO LOGIN API
-- Library
-	- html2canvas v1.4.1
-	- @mui 
-	- js-file-download v0.4.12
-	- jszip : v3.10.1
-	- @stomp/stompjs : v7.0.0
-	- dajjs. v.1.11.10
-	- moment : ^2.30.1
+- **Node.js** : 20.10.0
+- **TypeScript** : 4.9.5
+- **React** : 18.2.9
+- **Recoil** : 0.7.7
+- **Axios** : 1.6.7
+- **Vscode** : 1.85.1
 
+### ☑Server
 
-### Back
+- **AWS EC2**
+    - 서버 사양
 
-- Intellij : 2023.3.2
-- Spring-boot : 3.2
-- Java : jdk 17.0.9 2023-10-17 LTS
+### ☑Service
 
-### DB
+- **NginX : 1.24.0**
+- **nginx-proxy-manager** : 2.11.1
+- **Docker** : 24.0.5
+- **Jenkins** : lts-jdk17
+- **Sonarqube** : lts-community
 
-- Amazon S3
-- MySQL : 8.0.34
-
-### CI/CD
-
-- Docker
-- Jenkins
-- NGINX
-
-### 협업 툴
+### ☑협업 툴
 
 - GitLab
 - Notion
@@ -120,14 +110,4 @@
 
 
 ## 👨‍👩‍👧‍👦 팀원 소개
-이수민(팀장) - 풀스택
-
-김진우 - 풀스택, 인프라
-
-김혜진 - 풀스택
-
-박소현 - 풀스택
-
-양성주 - 풀스택
-
-조민준 - 풀스택
+![팀원](/uploads/59e70a144426b0377726dc50092a8d5d/팀원.PNG)
