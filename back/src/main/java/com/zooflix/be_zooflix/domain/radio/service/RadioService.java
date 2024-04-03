@@ -207,7 +207,7 @@ public class RadioService {
         String lastUpdateTimeStr = redisTemplate.opsForValue().get("lastUpdateTime");
 
         /* 1-1. 캐싱 데이터가 있다면 업데이트 */
-        if (cachedList != null || !cachedList.isEmpty()) {
+        if (cachedList != null && !cachedList.isEmpty()) {
             Long lastUpdateTime = Long.parseLong(lastUpdateTimeStr);
             Long currentTime = System.currentTimeMillis();
             if ((currentTime-lastUpdateTime)>7200000) { // 2시간이 지났다면 업데이트

@@ -177,10 +177,6 @@ public class StockSubscribeService {
             }
 
             conn.connect();
-            System.out.println("http 요청 방식" + "POST BODY JSON");
-            System.out.println("http 요청 타입" + "application/json");
-            System.out.println("http 요청 주소" + UrlData);
-            System.out.println("");
 
             br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
         } catch (IOException e) {

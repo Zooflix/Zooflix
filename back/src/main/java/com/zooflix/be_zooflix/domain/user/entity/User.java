@@ -27,7 +27,7 @@ public class User {
     private String userId;
     @Column
     private String userPw;
-    @Column(unique = true)
+    @Column(unique = true, length = 60)
     private String userName;
     @Column
     private int reportCount = 0;
