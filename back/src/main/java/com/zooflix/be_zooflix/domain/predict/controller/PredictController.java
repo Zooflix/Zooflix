@@ -32,24 +32,29 @@ public class PredictController {
     @Operation(summary = "전체 예측 글 조회")
     @GetMapping("/predict")
     public ResponseEntity<?> selectPredicts(@RequestParam String sorted, @RequestParam String stockName) {
-        if (sorted.equals("userTem") && stockName.equals("null")) { //(종목x 온도순 정렬o)
-            List<PredictResDto> predicts = predictService.getSortedPredicts();
-            return ResponseEntity.ok(predicts);
-        } else if (sorted.equals("date") && !stockName.equals("null")) { //(종목o 정렬x)
-            List<PredictResDto> selectedPredicts = predictService.getPredictsByStockName(stockName);
-            return ResponseEntity.ok(selectedPredicts);
-        } else if (sorted.equals("userTem")) { //(종목o 온도순 정렬o)
-            List<PredictResDto> selectedPredicts = predictService.getSortedPredictsByStockName(stockName);
-            return ResponseEntity.ok(selectedPredicts);
-        } else if (sorted.equals("end") && stockName.equals("null")) { //(종목x 완료 정렬o)
-            List<PredictResDto> predicts = predictService.getEndPredicts();
-            return ResponseEntity.ok(predicts);
-        } else if (sorted.equals("end")) { //(종목o 완료 정렬o)
-            List<PredictResDto> selectedPredicts = predictService.getEndPredictsByStockName(stockName);
-            return ResponseEntity.ok(selectedPredicts);
-        } else { //기본(종목x 정렬x)
-            List<PredictResDto> predicts = predictService.getPredicts();
-            return ResponseEntity.ok(predicts);
+        if (stockName.equals("null") || stockName.isEmpty()) { // 전체
+            if (sorted.equals("userTem")) {
+                List<PredictResDto> predicts = predictService.getSortedPredicts();
+                return ResponseEntity.ok(predicts);
+            } else if (sorted.equals("end")) {
+                List<PredictResDto> predicts = predictService.getEndPredicts();
+                return ResponseEntity.ok(predicts);
+            } else {
+                List<PredictResDto> predicts = predictService.getPredicts();
+                return ResponseEntity.ok(predicts);
+            }
+        } else {
+            if (sorted.equals("userTem")) {
+                List<PredictResDto> selectedPredicts = predictService.getSortedPredictsByStockName(stockName);
+                return ResponseEntity.ok(selectedPredicts);
+            } else if (sorted.equals("end")) {
+                List<PredictResDto> selectedPredicts = predictService.getEndPredictsByStockName(stockName);
+                return ResponseEntity.ok(selectedPredicts);
+            } else {
+                List<PredictResDto> selectedPredicts = predictService.getPredictsByStockName(stockName);
+                return ResponseEntity.ok(selectedPredicts);
+            }
+
         }
     }
 
