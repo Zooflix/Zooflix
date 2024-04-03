@@ -25,7 +25,8 @@ function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
 
 export default SubscribeButton;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+`;
 
 const GoToUpdateUser = styled.button`
   background-color: #f84646;
