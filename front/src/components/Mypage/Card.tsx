@@ -44,6 +44,10 @@ const Card: React.FC<ItemProps> = ({
     });
   }
 
+  console.log(loginCheck());
+  console.log(getJwtUserNo());
+  console.log(card.userNo);
+
   return (
     <CardWrapper>
       <Wrapper color={color[cardIndex % 4]}>

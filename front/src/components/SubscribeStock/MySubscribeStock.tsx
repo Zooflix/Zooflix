@@ -22,6 +22,7 @@ function MySubscribeStock({ fetchData, setFetchData }: Props) {
         stockSubscribeCreate: string;
         stockSubscribeDay: number;
         userId: string;
+        userNo: number;
       }[]
   >([]);
 
