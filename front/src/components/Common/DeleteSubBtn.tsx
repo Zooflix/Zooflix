@@ -10,7 +10,7 @@ interface Subscription {
 interface SubscriptionProps {
     text: String;
     onSubscribe: Subscription;
-    onDelete: (subscribeNo: number) => void;
+    onDelete: () => void;
 }
 
 function DeleteSubBtn({ text, onSubscribe, onDelete }: SubscriptionProps) {
@@ -21,7 +21,7 @@ function DeleteSubBtn({ text, onSubscribe, onDelete }: SubscriptionProps) {
         }
         try {
             deleteMySubscribe(subscribeNo);
-            onDelete(subscribeNo);
+            onDelete();
         } catch (error) {
             console.log("deleteSubscription error : " + error);
         }
