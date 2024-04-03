@@ -24,7 +24,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AlarmService {
 
-    private final UserRepository userRepository;
     private final EmitterRepository emitterRepository;
     private final AlarmRepository alarmRepository;
 
@@ -93,8 +92,6 @@ public class AlarmService {
     public void send(User receiver, String content, AlarmTypeStatus type){
         String userId = receiver.getUserId();
         Alarm alarm = createAlarm(receiver, content, type);
-
-//        alarmRepository.save(alarm);
 
         Map<String, Object> sseEmitters = emitterRepository.findAllEventCacheStartWithByEmail(userId);
         sseEmitters.forEach(

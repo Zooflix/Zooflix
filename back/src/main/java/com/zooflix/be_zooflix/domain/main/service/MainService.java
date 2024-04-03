@@ -33,9 +33,6 @@ public class MainService {
         RestTemplate restTemplate = new RestTemplate();
         // REST API 호출
         Double[] result = restTemplate.getForObject(indicesEndpoint, Double[].class);
-        System.out.println("call");
-        System.out.println(result[0]);
-        System.out.println(result.length);
 
         // double[]로 변환
         double[] convertedResult = new double[result.length];
@@ -50,16 +47,13 @@ public class MainService {
      */
 
     public MainDto mainRankingData() {
-        long start = System.currentTimeMillis();
         List<UserRankingKeyProjection> userRankingList = userRepository.getUserRanking();
         UserRankingKeyProjection mostPredictUser = userRepository.getMostPredictUser();
         UserRankingKeyProjection mostWrongPredictUser = userRepository.getMostWrongPredictUser();
         UserRankingKeyProjection stockCodeMostPredictUSer = stockSubscribeRepository.getStockCodeMostPredictUSer();
-        System.out.println("사용자 "+stockCodeMostPredictUSer.getCnt());
         List<StockRankingProjection> stockRankingList = stockSubscribeRepository.getStockRanking();
 
-        MainDto dto = new MainDto(userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
-        return dto;
+        return new MainDto(userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
     }
 
     public MainIndiceDto mainIndices(){
