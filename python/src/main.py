@@ -56,8 +56,7 @@ async def get_indices():
     kospi_index = indices_data[0].iloc[-1]
     kosdaq_index = indices_data[1].iloc[-1]
     usd_krw_rate = indices_data[2].iloc[-1]
-
-    return {kospi_index, kosdaq_index, usd_krw_rate}
+    return [kospi_index, kosdaq_index, usd_krw_rate]
 
 #
 # 전체목록 가져오기
