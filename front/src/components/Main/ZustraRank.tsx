@@ -10,7 +10,11 @@ import first from "../../assets/img/rank/first.svg";
 import second from "../../assets/img/rank/second.svg";
 import third from "../../assets/img/rank/third.svg";
 import { useRecoilState } from "recoil";
-import { deleteMySubscribe, subscribeUser } from "../../apis/api/MyPage";
+import {
+  deleteMySubscribe,
+  getMySubscribeList,
+  subscribeUser,
+} from "../../apis/api/MyPage";
 import { getJwtUserNo } from "../../apis/utils/jwt";
 import { selectUserNoState } from "../../Store/PredictState";
 import { useNavigate } from "react-router-dom";
@@ -49,20 +53,7 @@ function ZustraRank({ rankData, zbti }: Props) {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      //유저 정보
-      try {
-        const data = await getUserInfo(selectUserNo);
-        setUserPageInfo(data);
-        console.log(data);
-      } catch (error) {
-        console.log("유저 정보 불러오기 실패");
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [linkProfile, moreBtnClick, deleteSubscribe]);
+  useEffect(() => {}, [linkProfile, moreBtnClick, deleteSubscribe]);
 
   function moreBtnClick(index: number, subscribeUserName: string) {
     if (expandedIndex === index) {
@@ -89,9 +80,10 @@ function ZustraRank({ rankData, zbti }: Props) {
       alert("로그인이 필요한 기능입니다.");
       navigate("/login");
     } else {
-      const result = await subscribeUser(getJwtUserNo(), subscribeUserNo);
+      subscribeUser(getJwtUserNo(), subscribeUserNo);
       alert("유저 구독이 완료되었습니다.");
-      window.location.reload();
+      getMySubscribeList();
+      setIsSubscribe(!isSubscribe);
     }
   }
 
@@ -99,9 +91,13 @@ function ZustraRank({ rankData, zbti }: Props) {
   async function deleteSubscribe(subscribeUserName: string) {
     for (let i = 0; i < mySubscribeList.length; i++) {
       if (mySubscribeList[i].subscribeName === subscribeUserName) {
-        const result = await deleteMySubscribe(mySubscribeList[i].subscribeNo);
+        deleteMySubscribe(mySubscribeList[i].subscribeNo);
+
         alert("유저 구독이 취소되었습니다.");
-        window.location.reload();
+
+        getMySubscribeList();
+        setIsSubscribe(!isSubscribe);
+        break;
       }
     }
   }

@@ -3,10 +3,12 @@ import Pagination from "react-js-pagination";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { selectPredicts } from "../../apis/api/Predict";
-import { selectUserNoState } from "../../Store/PredictState";
-import { deletePdNoState } from "../../Store/PredictState";
-import { selectStockNameState } from "../../Store/PredictState";
-import { selectUserNameState } from "../../Store/PredictState";
+import {
+    selectUserNoState,
+    deletePdNoState,
+    selectStockNameState,
+    selectUserNameState,
+} from "../../Store/PredictState";
 import "./Page.css";
 
 type PageProps = {

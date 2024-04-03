@@ -11,17 +11,6 @@ function StockHistory() {
     const [selectUserName, setSelectUserName] =
         useRecoilState(selectUserNameState);
     const [stockHistoryList, setStockHistoryList] = useState<any[]>([]);
-    // const stockHistoryList = [{
-    //     stockType: "매수",
-    //     stockName: "삼성전자",
-    //     stockNum: 10,
-    //     stockDate: "20240321"
-    // },{
-    //     stockType: "매수",
-    //     stockName: "삼성전자",
-    //     stockNum: 5,
-    //     stockDate: "20240312"
-    // }]
     useEffect(() => {
         if(selectUserNo===0){
             return;

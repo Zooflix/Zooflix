@@ -5,8 +5,7 @@ import { getZoostra } from "../../apis/api/Predict";
 import Zbti from "./Zbti";
 import Crown from "../../assets/img/rank/crown.svg";
 import UserDetailModal from "./UserDetailModal";
-import { ModalUserNoState } from "../../Store/PredictState";
-import { ModalUserNameState } from "../../Store/PredictState";
+import { ModalUserNoState, ModalUserNameState } from "../../Store/PredictState";
 
 type RankProps = {
     stockName: string;
@@ -43,13 +42,11 @@ function Rank(props: RankProps) {
     };
 
     const closeModal = () => setIsModalOpen(false);
-    if (props.stockName === "null" || props.stockName === "" ) {
+    if (props.stockName === "null" || props.stockName === "") {
         return (
             <BigWrapper>
                 <Wrapper>
-                    <Content>
-                        이 달의 주스트라다무스
-                    </Content>
+                    <Content>이 달의 주스트라다무스</Content>
                     <div
                         onClick={() =>
                             openModal(zoostra.userName, zoostra.userNo)
@@ -87,7 +84,9 @@ function Rank(props: RankProps) {
         return (
             <BigWrapper>
                 <Wrapper>
-                    {zoostra.userNo > 0 && props.stockName !== "" && props.stockName !== "null" ? (
+                    {zoostra.userNo > 0 &&
+                    props.stockName !== "" &&
+                    props.stockName !== "null" ? (
                         <>
                             <Content>
                                 {props.stockName} 에서 예측을{" "}
