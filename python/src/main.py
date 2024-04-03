@@ -52,20 +52,10 @@ async def get_indices():
 
     kospi_data = fdr.DataReader('KS11', today)
     kosdaq_data = fdr.DataReader('KQ11', today)
-    dau_data = fdr.DataReader('DJI', today)
-    # nasdaq_data = fdr.DataReader('IXIC', today, today)
-    # us500_data = fdr.DataReader('US500', today, today)
-    # kospi50_data = fdr.DataReader('KS50', today, today)
-    # kospi100_data = fdr.DataReader('KS100', today, today)
     usd_krw_data = fdr.DataReader('USD/KRW', today)
 
     kospi_index = kospi_data.iloc[0]['Close']
     kosdaq_index = kosdaq_data.iloc[0]['Close']
-    # dau_index = dau_data.iloc[0]["Close"]
-    # nasdaq_index = nasdaq_data.iloc[0]['Close']
-    # us500_index = us500_data.iloc[0]['Close']
-    # kospi50_index = kospi50_data.iloc[0]['Close']
-    # kospi100_index = kospi100_data.iloc[0]['Close']
     usd_krw_rate = usd_krw_data.iloc[0]['Close']
 
     return [kospi_index, kosdaq_index, usd_krw_rate]
