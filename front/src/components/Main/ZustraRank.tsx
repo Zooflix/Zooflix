@@ -98,7 +98,15 @@ function ZustraRank({ rankData, zbti }: Props) {
   }
 
   function linkProfile(userNo: number) {
-    navigate(`/user-page/${userNo}`);
+    if (loginCheck()) {
+      if (userNo === getJwtUserNo()) {
+        navigate("/my-page");
+      } else {
+        navigate(`/user-page/${userNo}`);
+      }
+    } else {
+      navigate(`/user-page/${userNo}`);
+    }
   }
 
   return (
@@ -186,14 +194,20 @@ function ZustraRank({ rankData, zbti }: Props) {
                       <Button onClick={() => linkProfile(item.userNo)}>
                         프로필 가기
                       </Button>
-                      {isSubscribe ? (
-                        <Button onClick={() => deleteSubscribe(item.userName)}>
-                          구독 취소
-                        </Button>
-                      ) : (
-                        <Button onClick={() => subscribe(item.userNo)}>
-                          구독하기
-                        </Button>
+                      {!(loginCheck() && getJwtUserNo() === item.userNo) && (
+                        <>
+                          {isSubscribe ? (
+                            <Button
+                              onClick={() => deleteSubscribe(item.userName)}
+                            >
+                              구독 취소
+                            </Button>
+                          ) : (
+                            <Button onClick={() => subscribe(item.userNo)}>
+                              구독하기
+                            </Button>
+                          )}
+                        </>
                       )}
                     </ButtonDiv>
                   </InfoDiv>
@@ -309,6 +323,9 @@ const Button = styled.div`
   padding: 10px 30px;
   font-weight: bold;
   text-align: center;
+  &:hover {
+    scale: 1.1;
+  }
 `;
 
 const ButtonDiv = styled.div`

@@ -132,7 +132,7 @@ function Main() {
 
   // ----------------추가 부분----------------
   // 내 정보 담기
-  const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
+  //   const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
 
   // 내 구독 목록 담기
   const [mySubscribeList, setMySubscribeList] = useRecoilState(
@@ -152,23 +152,23 @@ function Main() {
 
     if (loginCheck()) {
       MyUserSubscribe();
-      getUserInfo();
+      //   getUserInfo();
     }
   }, []);
 
   //내 정보
-  async function getUserInfo() {
-    await getMyInfo()
-      .then((resInfo) => {
-        console.log(resInfo);
-        setMyPageInfo(resInfo);
-        console.log("마이인포: " + myPageInfo.userName);
-      })
-      .catch((error) => {
-        console.log("에러메세지" + error.message);
-        console.error(error);
-      });
-  }
+  //   async function getUserInfo() {
+  //     await getMyInfo()
+  //       .then((resInfo) => {
+  //         console.log(resInfo);
+  //         setMyPageInfo(resInfo);
+  //         console.log("마이인포: " + myPageInfo.userName);
+  //       })
+  //       .catch((error) => {
+  //         console.log("에러메세지" + error.message);
+  //         console.error(error);
+  //       });
+  //   }
 
   //내 구독 목록
   async function MyUserSubscribe() {

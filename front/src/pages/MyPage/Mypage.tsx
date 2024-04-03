@@ -168,8 +168,9 @@ const GotoZbtiButton = styled.div`
   justify-content: center;
   img {
     cursor: pointer;
-    &hover {
-      scale: 1.1;
+    width: 750px;
+    &:hover {
+      scale: 1.05;
     }
   }
 `;

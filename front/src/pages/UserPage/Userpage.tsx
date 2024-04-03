@@ -85,7 +85,7 @@ function UserPage() {
       getUserSubscribe();
     };
     fetchData();
-  }, [userNumber]);
+  }, []);
 
   async function getMyUserSubscribe() {
     try {

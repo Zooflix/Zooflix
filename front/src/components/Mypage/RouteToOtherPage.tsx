@@ -43,7 +43,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  padding: 50px 0;
+  padding-bottom: 20px;
 `;
 
 const Button = styled.button`

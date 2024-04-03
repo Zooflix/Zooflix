@@ -31,13 +31,17 @@ const Wrapper = styled.div`
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  padding: 5px 70px;
+  padding: 10px 70px;
 `;
 
-const LeftsideQuestion = styled.div``;
+const LeftsideQuestion = styled.div`
+  text-align: left;
+  padding-left: 20px;
+`;
 
 const RightSideAnswer = styled.div`
   h4 {
     color: #0099e8;
   }
+  padding-right: 20px;
 `;
