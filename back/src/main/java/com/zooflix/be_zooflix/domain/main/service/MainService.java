@@ -49,14 +49,15 @@ public class MainService {
      */
 
     public MainDto mainRankingData() {
+        long start = System.currentTimeMillis();
         List<UserRankingKeyProjection> userRankingList = userRepository.getUserRanking();
         UserRankingKeyProjection mostPredictUser = userRepository.getMostPredictUser();
         UserRankingKeyProjection mostWrongPredictUser = userRepository.getMostWrongPredictUser();
         UserRankingKeyProjection stockCodeMostPredictUSer = stockSubscribeRepository.getStockCodeMostPredictUSer();
         List<StockRankingProjection> stockRankingList = stockSubscribeRepository.getStockRanking();
-
         double[] indices = callIndicesEndpoint();
+        MainDto dto = new MainDto(indices[0], indices[1], indices[2], userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
 
-        return new MainDto(indices[0], indices[1], indices[2], userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
+        return dto;
     }
 }

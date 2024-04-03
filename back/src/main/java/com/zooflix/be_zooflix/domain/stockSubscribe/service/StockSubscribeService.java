@@ -84,7 +84,7 @@ public class StockSubscribeService {
         if(request.getStockSubscribeDay() == now.getDayOfMonth()){
             String AccessReturn = getAccessToken(subscribe);
 
-            String account = subscribe.getUser().getUserAccount();
+            String account = aesUtils.aesCBCDecode(subscribe.getUser().getUserAccount(), "db");
             // 국내 주식 주문
             String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/order-cash";
             String tr_id = "TTTC0802U";
@@ -94,7 +94,7 @@ public class StockSubscribeService {
                     "    \"PDNO\": \"" + subscribe.getStockCode() + "\",\n" +
                     "    \"ORD_DVSN\": \"01\",\n" + // 시장가 구매
                     "    \"ORD_QTY\": \"" + subscribe.getStockCount() + "\",\n" +
-                    "    \"ORD_UNPR\": \"0\",\n" + // 시장가로 구매
+                    "    \"ORD_UNPR\": \"0\"\n" + // 시장가로 구매
                     "}";
             System.out.println(data.toString());
             httpPostBodyConnection(url, data, tr_id, subscribe, AccessReturn);
@@ -114,8 +114,8 @@ public class StockSubscribeService {
             // 요청 본문 데이터
             String accessData = "{\n" +
                     "    \"grant_type\": \"client_credentials\",\n" +
-                    "    \"appkey\": \"" + subscriber.getUser().getUserAppKey() + "\",\n" +
-                    "    \"appsecret\": \"" + subscriber.getUser().getUserSecretKey()+ "\"\n" +
+                    "    \"appkey\": \"" +  aesUtils.aesCBCDecode(subscriber.getUser().getUserAppKey(), "db") + "\",\n" +
+                    "    \"appsecret\": \"" + aesUtils.aesCBCDecode(subscriber.getUser().getUserSecretKey(), "db")+ "\"\n" +
                     "}";
             StringEntity requestBody = new StringEntity(accessData);
             httpPost.setEntity(requestBody);
@@ -163,8 +163,8 @@ public class StockSubscribeService {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("authorization", "Bearer "+accessToken.trim());
-            conn.setRequestProperty("appKey", subscriber.getUser().getUserAppKey());
-            conn.setRequestProperty("appSecret", subscriber.getUser().getUserSecretKey());
+            conn.setRequestProperty("appKey", aesUtils.aesCBCDecode(subscriber.getUser().getUserAppKey(), "db"));
+            conn.setRequestProperty("appSecret", aesUtils.aesCBCDecode(subscriber.getUser().getUserSecretKey(), "db"));
             conn.setRequestProperty("tr_id", TrId);
             conn.setDoOutput(true);
 
