@@ -66,12 +66,9 @@ public class StockSubscribeController {
     @GetMapping("/subscribe/list/{userId}")
     @Operation(summary = "구독중인 주식 목록 조회")
     public ResponseEntity<ResultResponse<List<StockSubscribeDto>>> subscribeList(@PathVariable(name = "userId") String userId, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        System.out.println("Original User Id : " + userId);
         if(customUserDetails != null) {
-            System.out.println("Token true");
             userId = customUserDetails.getUserId();
         }
-        System.out.println("user ID : " + userId);
         List<StockSubscribeDto> subscribes = service.subscribeList(userId);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), subscribes));
     }
