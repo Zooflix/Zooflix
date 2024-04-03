@@ -21,12 +21,27 @@ import { getMyInfo, getMySubscribeList } from "../../apis/api/MyPage";
 
 function Main() {
   const [userZbtiState, setuserZbtiState] = useRecoilState(userZbti);
-  console.log(userZbtiState);
+  let zbti = new Map();
+  //Bear, Cow, Fox, Hippo, Lion, Monkey, Pig, Rabbit, Rhino, Sloth, Unicorn, Zebra
+  zbti.set("Lion", "일단 다 사자");
+  zbti.set("Monkey", "재간둥이 원숭이");
+  zbti.set("Pig", "저금왕 돼지");
+  zbti.set("Rabbit", "팔랑귀 단타마스터 토끼");
+  zbti.set("Unicorn", "공모주 러버 유니콘");
+  zbti.set("Hippo", "큰 손 투자자 하마");
+  zbti.set("Cow", "느긋한 젖소");
+  zbti.set("Zebra", "호기심 많은 얼룩말");
+  zbti.set("Panda", "하나만 판다");
+  zbti.set("Bear", "검사 결과 없음");
+  zbti.set("Fox", "재빠른 여우");
+  zbti.set("Sloth", "게으른 나무늘보");
+
   const [indices, setIndices] = useState<{
     kospi: number;
     kosdaq: number;
     usd: number;
   }>();
+
   const [mainData, setMainData] = useState<{
     zustraRank: [
       {
@@ -115,42 +130,6 @@ function Main() {
     ];
   } | null>(null);
 
-  useEffect(() => {
-    console.log("main");
-    handleList();
-    console.log(mainData);
-
-    // ------추가 부분--------
-    if (loginCheck()) {
-      fetchdata();
-    }
-    // ----------------------
-  }, []);
-
-  const handleList = async () => {
-    const list = await getRankingList();
-    console.log("rankinglist" + list);
-    setMainData(list || []);
-
-    const list2 = await getMainIndices();
-    setIndices(list2);
-  };
-
-  let zbti = new Map();
-  //Bear, Cow, Fox, Hippo, Lion, Monkey, Pig, Rabbit, Rhino, Sloth, Unicorn, Zebra
-  zbti.set("Lion", "일단 다 사자");
-  zbti.set("Monkey", "재간둥이 원숭이");
-  zbti.set("Pig", "저금왕 돼지");
-  zbti.set("Rabbit", "팔랑귀 단타마스터 토끼");
-  zbti.set("Unicorn", "공모주 러버 유니콘");
-  zbti.set("Hippo", "큰 손 투자자 하마");
-  zbti.set("Cow", "느긋한 젖소");
-  zbti.set("Zebra", "호기심 많은 얼룩말");
-  zbti.set("Panda", "하나만 판다");
-  zbti.set("Bear", "검사 결과 없음");
-  zbti.set("Fox", "재빠른 여우");
-  zbti.set("Sloth", "게으른 나무늘보");
-
   // ----------------추가 부분----------------
   // 내 정보 담기
   const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
@@ -160,9 +139,26 @@ function Main() {
     myPageSubscribeListState
   );
 
-  const fetchdata = async () => {
-    //내 정보
-    const dataInfo = await getMyInfo()
+  const handleList = async () => {
+    const list = await getRankingList();
+    setMainData(list || []);
+
+    const list2 = await getMainIndices();
+    setIndices(list2);
+  };
+
+  useEffect(() => {
+    handleList();
+
+    if (loginCheck()) {
+      MyUserSubscribe();
+      getUserInfo();
+    }
+  }, []);
+
+  //내 정보
+  async function getUserInfo() {
+    await getMyInfo()
       .then((resInfo) => {
         console.log(resInfo);
         setMyPageInfo(resInfo);
@@ -172,9 +168,11 @@ function Main() {
         console.log("에러메세지" + error.message);
         console.error(error);
       });
+  }
 
-    //내 구독 목록
-    const dataSubscribe = await getMySubscribeList()
+  //내 구독 목록
+  async function MyUserSubscribe() {
+    await getMySubscribeList()
       .then((resSubscribe) => {
         setMySubscribeList(resSubscribe);
         console.log("내가 구독한 사람 목록 : " + mySubscribeList);
@@ -183,8 +181,7 @@ function Main() {
         console.log("에러메세지: " + error.message);
         console.error(error);
       });
-  };
-  // ---------------------------------
+  }
 
   return (
     <CommonPageTransition>
