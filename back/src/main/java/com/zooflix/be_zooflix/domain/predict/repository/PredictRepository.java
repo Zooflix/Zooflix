@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface PredictRepository extends JpaRepository<Predict, Integer> {
 
-    Predict findByPdNo(int PdNo);
+    Predict findByPdNo(int pdNo);
 
     List<Predict> findByStockNameOrderByCreateDateDesc(String stockName);
     @Query(nativeQuery = true, value = "select * from predict p where pd_date <= :pdDate AND pd_result IS NULL")

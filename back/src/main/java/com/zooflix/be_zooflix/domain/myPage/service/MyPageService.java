@@ -37,9 +37,6 @@ public class    MyPageService {
     // 내 정보
     public MyInfoDto getMyInfo(int userNo) {
         User user = userRepository.findMyInfo(userNo);
-//        if( user == null) {
-//            throw new NullPointerException("존재하지 않은 유저입니다.");
-//        }
 
         // 나를 구독한 사람 목록
         List<UserSubscribe> subscribeToMe = userSubscribeRepository.findSubscribeToMe(userNo);
@@ -57,13 +54,6 @@ public class    MyPageService {
 
         // 성공 횟수
         int successPredictNum = user.getSuccessCount();
-//        List<Predict> predictList = predictRepository.findMyPredictList(userNo);
-
-//        for(int i = 0; i < predictList.size(); i++) {
-//            if(predictList.get(i).getPdResult() == "성공") {
-//                successPredictNum++;
-//            }
-//        }
 
         double tempRate = 0;
         double successRate = 0;
@@ -74,9 +64,6 @@ public class    MyPageService {
         } else {
             successRate = 0;
         }
-
-
-        System.out.println("예측 성공률 : " + successRate);
 
         MyInfoDto myInfo = new MyInfoDto();
         myInfo.setUserNo(user.getUserNo());
@@ -95,10 +82,6 @@ public class    MyPageService {
     //내 예측 글 정보담기
     public List<MyPredictionDto> getMyPredictByNo(int userNo) {
         List<Predict> myPredict= predictRepository.findMyPredictList(userNo);
-
-//        if(myPredict.isEmpty()){//내 예측이 존재하지 않으면
-//            throw new NullPointerException("예측이 존재하지 않습니다.");
-//        }
 
         List<MyPredictionDto> myPredictList = new ArrayList<>();
 
@@ -121,10 +104,6 @@ public class    MyPageService {
     //내가 구독 중인 회원 목록(구독 인덱스, 닉네임, 온도)
     public List<MySubscribeDto> getMySubscribe(int userNo) {
         List<UserSubscribe> userSubscribeFromMe = userSubscribeRepository.findSubscribeFromMe(userNo);
-
-//        if(userSubscribeFromMe.isEmpty()) {
-//            throw new NullPointerException("현재 구독 목록이 없습니다.");
-//        }
 
         List<MySubscribeDto> mySubscribeList = new ArrayList<>();
 

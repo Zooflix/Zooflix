@@ -43,7 +43,6 @@ public class RadioController {
                 .stream()
                 .map(Base64.getEncoder()::encodeToString)
                 .collect(Collectors.toList());
-        System.out.println("audioList 완료");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(base64List);
