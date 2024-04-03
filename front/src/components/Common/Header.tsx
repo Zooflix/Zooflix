@@ -9,12 +9,13 @@ import { logoutUser } from "../../apis/api/User";
 import { loginCheck } from "../User/IsLoginCheck";
 import { getJwtUserName } from "../../apis/utils/jwt";
 import { useRecoilState } from "recoil";
-import { userIdState, isLoginState } from "../../Store/UserState";
+import { userIdState, userZbti } from "../../Store/UserState";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(loginCheck());
   const [userId, setUserId] = useRecoilState(userIdState);
+  const [zbti, setZbti] = useRecoilState(userZbti);
   const navigate = useNavigate();
 
   const openModal = () => setIsModalOpen(true);
@@ -25,6 +26,8 @@ function Header() {
     setIsLogin(false); // 로그인 상태 업데이트
     setUserId(undefined);
     localStorage.removeItem("userIdState");
+    setZbti("Bear");
+    localStorage.removeItem("userZbti");
     navigate("/main");
   };
 

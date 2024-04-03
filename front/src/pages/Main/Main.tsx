@@ -11,8 +11,12 @@ import { getRankingList } from "../../apis/api/Main";
 import CommonPageTransition from "../../components/Common/CommonPageTransition";
 import { getJwtUserZbti } from "../../apis/utils/jwt";
 import { loginCheck } from "../../components/User/IsLoginCheck";
+import { useRecoilState } from "recoil";
+import { userZbti } from "../../Store/UserState";
 
 function Main() {
+  const [userZbtiState, setuserZbtiState] = useRecoilState(userZbti);
+  console.log(userZbtiState);
   const [mainData, setMainData] = useState<{
     kospi: number;
     kosdaq: number;
@@ -162,23 +166,13 @@ function Main() {
                     <div>주식 구독하러가기</div>
                   </Bubble>
                 </Link>
-                {loginCheck() ? (
-                  <Character3d
-                    name={getJwtUserZbti()}
-                    characterScale={0.45}
-                    canvasHeight={240}
-                    canvasWidth={200}
-                    toBelow={24}
-                  />
-                ) : (
-                  <Character3d
-                    name="Bear"
-                    characterScale={0.45}
-                    canvasHeight={240}
-                    canvasWidth={200}
-                    toBelow={24}
-                  />
-                )}
+                <Character3d
+                  name={userZbtiState}
+                  characterScale={0.45}
+                  canvasHeight={240}
+                  canvasWidth={200}
+                  toBelow={24}
+                />
               </SubscribeDiv>
             </BelowDiv>
           </>

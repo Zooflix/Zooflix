@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../apis/api/User";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { userIdState } from "../../Store/UserState";
+import { userIdState, userZbti } from "../../Store/UserState";
 import UserBack from "./UserBack";
 import BackBtn from "../Common/BackBtn";
+import { getJwtUserZbti } from "../../apis/utils/jwt";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ function LoginForm() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [userId, setUserId] = useRecoilState(userIdState);
+  const [zbti, setZbti] = useRecoilState(userZbti);
 
   // const [access, setAccess] = useState(localStorage.getItem("access") || "");
 
@@ -31,6 +33,7 @@ function LoginForm() {
       if (result == 200) {
         setUserId(id);
         navigate("/main");
+        setZbti(getJwtUserZbti());
       } else {
         alert("아이디나 비밀번호를 확인해주세요.");
       }
