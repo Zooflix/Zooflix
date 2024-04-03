@@ -95,26 +95,32 @@ function Predict() {
             .then((resInfo) => {
                 console.log(resInfo);
                 setMyPageInfo(resInfo);
-                console.log("마이인포: " + myPageInfo.userName);
             })
             .catch((error) => {
-                console.log("에러메세지" + error.message);
                 console.error(error);
             });
 
+        //내 구독 목록
         const dataSubscribe = await getMySubscribeList()
             .then((resSubscribe) => {
                 setMySubscribeList(resSubscribe);
-                console.log("내가 구독한 사람 목록 : " + mySubscribeList);
             })
             .catch((error) => {
-                console.log("에러메세지: " + error.message);
                 console.error(error);
             });
     };
 
     useEffect(() => {
-        fetchdata();
+        if (localStorage.getItem("access") !== null) {
+            // 로그인 했다면
+            setIsLogin(true);
+        } else {
+            // 로그인 안 했다면
+            setIsLogin(false);
+        }
+        if (isLogin === true) {
+            fetchdata();
+        }
     }, []);
 
     return (
