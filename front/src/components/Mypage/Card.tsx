@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import React from "react";
 import { cancelStockSubscribe } from "../../apis/api/Subscribe";
+import { loginCheck } from "../User/IsLoginCheck";
+import { getJwtUserNo } from "../../apis/utils/jwt";
 
 interface ItemProps {
   card: {
@@ -63,7 +65,9 @@ const Card: React.FC<ItemProps> = ({
               </div>
             )}
 
-            <Button onClick={terminationSubscribe}>구독 해지</Button>
+            {loginCheck() && getJwtUserNo() === card.userNo && (
+              <Button onClick={terminationSubscribe}>구독 해지</Button>
+            )}
           </Content>
         </Back>
       </Wrapper>
