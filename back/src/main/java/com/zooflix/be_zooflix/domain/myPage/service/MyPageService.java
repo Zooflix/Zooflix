@@ -53,7 +53,7 @@ public class    MyPageService {
         int subscribeFromMeCount = subscribeFromMe.size();
 
         // 총 예측 횟수
-        int totalPredictNum = predictRepository.findMyPredictList(userNo).size();
+        int totalPredictNum = user.getPredictCount();
 
         // 성공 횟수
         int successPredictNum = user.getSuccessCount();

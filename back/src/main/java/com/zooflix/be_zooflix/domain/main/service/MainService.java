@@ -1,13 +1,14 @@
 package com.zooflix.be_zooflix.domain.main.service;
 
 import com.zooflix.be_zooflix.domain.main.dto.MainDto;
+import com.zooflix.be_zooflix.domain.main.dto.MainIndiceDto;
 import com.zooflix.be_zooflix.domain.main.dto.StockRankingProjection;
 import com.zooflix.be_zooflix.domain.main.dto.UserRankingKeyProjection;
 import com.zooflix.be_zooflix.domain.stockSubscribe.dto.StockRankingDto;
 import com.zooflix.be_zooflix.domain.stockSubscribe.repository.StockSubscribeRepository;
 import com.zooflix.be_zooflix.domain.user.dto.UserRankingDto;
 import com.zooflix.be_zooflix.domain.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,10 +55,16 @@ public class MainService {
         UserRankingKeyProjection mostPredictUser = userRepository.getMostPredictUser();
         UserRankingKeyProjection mostWrongPredictUser = userRepository.getMostWrongPredictUser();
         UserRankingKeyProjection stockCodeMostPredictUSer = stockSubscribeRepository.getStockCodeMostPredictUSer();
+        System.out.println("사용자 "+stockCodeMostPredictUSer.getCnt());
         List<StockRankingProjection> stockRankingList = stockSubscribeRepository.getStockRanking();
-        double[] indices = callIndicesEndpoint();
-        MainDto dto = new MainDto(indices[0], indices[1], indices[2], userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
 
+        MainDto dto = new MainDto(userRankingList, stockRankingList, mostPredictUser, mostWrongPredictUser, stockCodeMostPredictUSer);
         return dto;
     }
+
+    public MainIndiceDto mainIndices(){
+        double[] indices = callIndicesEndpoint();
+        return new MainIndiceDto(indices[0], indices[1], indices[2]);
+    }
 }
+
