@@ -23,10 +23,6 @@ function DeleteSubButton({ text, onSubscribe, onDelete }: SubscriptionProps) {
     value: string;
   }>({ severity: "error", value: "" });
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };

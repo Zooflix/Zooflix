@@ -16,16 +16,9 @@ function LoginForm() {
   const [userId, setUserId] = useRecoilState(userIdState);
   const [zbti, setZbti] = useRecoilState(userZbti);
 
-  // const [access, setAccess] = useState(localStorage.getItem("access") || "");
-
   const handleSignupClick = () => {
     navigate("/signup");
   };
-
-  useEffect(() => {
-    // const storedAccess = localStorage.getItem("access");
-    // setAccess(storedAccess || "");
-  }, []);
 
   const handleLogin = async () => {
     try {

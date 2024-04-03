@@ -14,13 +14,7 @@ function UserSubscribeList() {
         userPageSubscribeListState
     );
 
-    const deleteSubscription = (subscribeNo: number) => {
-        setUserPageSubScribeList(
-            userPageSubscribeList.filter(
-                (subscribe) => subscribe.subscribeNo !== subscribeNo
-            )
-        );
-    };
+
 
     return (
         <Wrapper>

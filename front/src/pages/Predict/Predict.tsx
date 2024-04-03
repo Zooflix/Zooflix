@@ -75,8 +75,7 @@ function Predict() {
     // 내 정보 담기
     const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
 
-    // 로그인 체크
-    const [isLogin, setIsLogin] = useState(false);
+
 
     // 내 구독 목록 담기
     const [mySubscribeList, setMySubscribeList] = useRecoilState(
@@ -111,11 +110,9 @@ function Predict() {
     useEffect(() => {
         if (localStorage.getItem("access") !== null) {
             // 로그인 했다면
-            setIsLogin(true);
             fetchdata();
         } else {
             // 로그인 안 했다면
-            setIsLogin(false);
         }
     }, []);
 

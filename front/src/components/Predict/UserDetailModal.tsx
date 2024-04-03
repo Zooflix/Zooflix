@@ -22,7 +22,6 @@ import {
 } from "../../Store/MyPageState";
 import { getMySubscribeList } from "../../apis/api/MyPage";
 import DeleteSubBtn from "../Common/DeleteSubBtn";
-import { getJwtUserNo } from "../../apis/utils/jwt";
 
 interface ModalProps {
   isModalOpen: boolean;

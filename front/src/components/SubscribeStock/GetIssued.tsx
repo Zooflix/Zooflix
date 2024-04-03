@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 function GetIssued() {
-  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     const url =

@@ -16,7 +16,6 @@ function SubscribeButton({
     subscribeUser(userNo, subscribeNo);
     onSubscribe();
     alert("구독이 완료되었습니다.");
-    // window.location.reload();
   }
 
   return (

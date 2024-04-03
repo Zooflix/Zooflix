@@ -31,10 +31,7 @@ function MyPrediction({ prediction, onDelete }: PredictionItemProps) {
   };
 
   const deleteMyPredict = (predictNo: number) => {
-    // const isConfirmed = window.confirm("글을 삭제하시겠습니까?");
-    // if (!isConfirmed) {
-    //     return;
-    // }
+
     try {
       deletePredict(predictNo);
       onDelete(predictNo);

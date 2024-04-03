@@ -155,9 +155,6 @@ function Main() {
   // 내 정보 담기
   const [myPageInfo, setMyPageInfo] = useRecoilState(myPageInfoState);
 
-  // 로그인 체크
-  const [isLogin, setIsLogin] = useState(false);
-
   // 내 구독 목록 담기
   const [mySubscribeList, setMySubscribeList] = useRecoilState(
     myPageSubscribeListState

@@ -2,11 +2,8 @@ import styled from "styled-components";
 import UserInput from "../User/UserInput";
 import { useEffect, useState } from "react";
 import SubmitBtn from "../Common/SubmitBtn";
-import { useRecoilState } from "recoil";
-import { myPageInfoState } from "../../Store/MyPageState";
-import { updateUserInfo, loginCheck, nameCheck, updateUser } from "../../apis/api/User";
-import { updateUserInfoState } from "../../Store/UserState";
-import { securityAesEncode, securityAesDecode } from "../../apis/utils/security";
+import { updateUserInfo, loginCheck, updateUser } from "../../apis/api/User";
+import { securityAesDecode } from "../../apis/utils/security";
 import { useNavigate } from "react-router-dom";
 
 const InputStyle = {
@@ -63,12 +60,6 @@ function UpdateMyInfo() {
                 return;
             }
 
-            // const nameCheckResult = await nameCheck(userName);
-            // if (nameCheckResult?.data === "중복") {
-            //     alert("사용할 수 없는 이름입니다.");
-            //     return;
-            // }
-
             const updateResult = await updateUser(userId, userName, userNewPw, userAppKey, userSecretKey, userAccount);
             if (updateResult?.status) {
                 alert("회원 정보 수정 완료")
@@ -82,10 +73,6 @@ function UpdateMyInfo() {
             console.error(e);
         }
     }
-
-  // access 토큰 받아지면 사용할 것
-    const [updateUserInfoData, setUpdateUserInfoData] =
-    useRecoilState(updateUserInfoState);
 
     useEffect(() => {
 
@@ -110,7 +97,7 @@ function UpdateMyInfo() {
     <Wrapper>
       <h2>UPDATE</h2>
       <InputContainer>
-        {/* 로그인유저의 이름 들어가기 */}
+
         <UserInput
           type="text"
           style={InputStyle}
