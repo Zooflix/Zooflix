@@ -333,6 +333,9 @@ public class PredictService {
     public Float getNowPrice(String stockName) {
         RestTemplate restTemplate = new RestTemplate();
         String code = stockListRepository.findStockCode(stockName);
+//        if(code.isEmpty()){
+//            return 0;
+//        }
         String url = pythonNowPrice + "?stock_code=" + code;
         Float result = restTemplate.getForObject(url, Float.class);
 
