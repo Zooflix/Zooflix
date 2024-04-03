@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import time
 import uvicorn
 from fastapi import FastAPI,Request, Query
 import requests
@@ -49,14 +49,6 @@ async def get_indices():
     elif (now.hour < 9 or (now.hour == 9 and now.minute < 20)) or (datetime.datetime.today().weekday() == 5):
         yesterday = now - timedelta(days=1)
         today = yesterday.strftime('%Y-%m-%d')
-
-    # kospi_data = fdr.DataReader('KS11', today)
-    # kosdaq_data = fdr.DataReader('KQ11', today)
-    # usd_krw_data = fdr.DataReader('USD/KRW', today)
-    #
-    # kospi_index = kospi_data.iloc[0]['Close']
-    # kosdaq_index = kosdaq_data.iloc[0]['Close']
-    # usd_krw_rate = usd_krw_data.iloc[0]['Close']
 
     indices_list = ['KS11', 'KQ11', 'USD/KRW']
     indices_data = [fdr.DataReader(code, today)['Close'] for code in indices_list]
