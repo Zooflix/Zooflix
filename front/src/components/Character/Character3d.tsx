@@ -53,9 +53,9 @@ function Character3d({
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(canvasWidth, canvasHeight);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    // const controls = new OrbitControls(camera, renderer.domElement);
     // 사용자가 화면을 만지지 못하게 조절
-    controls.enabled = false;
+    // controls.enabled = false;
 
     const fbxLoader = new FBXLoader();
     fbxLoader.load(`/character/${name}.fbx`, (object) => {

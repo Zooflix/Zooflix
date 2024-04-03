@@ -95,6 +95,7 @@ const SubscriberOne = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 5px;
   //   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
 `;
 

@@ -13,17 +13,22 @@ function formatTime(createdAt: string) {
   const createdDate = new Date(createdAt);
   const currentDate = new Date();
   const diffTime = Math.abs(currentDate.getTime() - createdDate.getTime());
+
   if (diffTime < 60 * 1000) {
     return "방금 전";
   }
 
-  const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
-  if (diffHours < 1) {
-    const diffMinutes = Math.ceil(diffTime / (1000 * 60));
+  const diffMinutes = Math.ceil(diffTime / (1000 * 60));
+  if (diffMinutes < 60) {
     return `${diffMinutes}분 전`;
-  } else {
+  }
+
+  const diffHours = Math.ceil(diffMinutes / 60);
+  if (diffHours < 24) {
     return `${diffHours}시간 전`;
   }
+
+  return `${Math.ceil(diffHours / 24)}일 전`;
 }
 
 function AlarmList() {
@@ -75,9 +80,13 @@ const Wrapper = styled.div`
     margin-top: 20%;
     text-align: center;
   }
+
+  max-height: 300px;
+  overflow-y: auto;
 `;
 
 const Container = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
