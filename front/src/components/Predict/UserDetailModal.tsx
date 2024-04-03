@@ -146,13 +146,18 @@ function UserDetailModal({
         }
     };
 
-    const deleteSubscription = (subscribeNo: number) => {
-        setMyPageSubscribeList(
-            myPageSubscribeList.filter(
-                (subscribe) => subscribe.subscribeNo !== subscribeNo
-            )
-        );
-        window.location.reload();
+    const togleSubscription = () => {
+        
+        const getMySubList = async () => {
+            try {
+                const data = await getMySubscribeList();
+                setMyPageSubscribeList(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getMySubList();
+        setIsSubscribe(!isSubscribe);
     };
 
     return (
@@ -205,13 +210,14 @@ function UserDetailModal({
                             ) : isSubscribe ? (
                                 <DeleteSubBtn
                                     onSubscribe={myPageSubscribeList[subNo]}
-                                    onDelete={deleteSubscription}
+                                    onDelete={togleSubscription}
                                     text={"구독 취소"}
                                 />
                             ) : (
                                 <SubscribeButton
                                     userNo={myPageInfo.userNo}
                                     subscribeNo={userPageInfo.userNo}
+                                    onSubscribe={togleSubscription}
                                 />
                             )}
                             <SquareBtn

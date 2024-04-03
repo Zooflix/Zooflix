@@ -4,13 +4,14 @@ import { subscribeUser } from "../../apis/api/MyPage";
 interface SubscribeButtonProps {
   userNo: number; // 유저 번호
   subscribeNo: number; // 구독할 유저의 번호
+  onSubscribe: () => void;
 }
 
-function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
+function SubscribeButton({ userNo, subscribeNo, onSubscribe }: SubscribeButtonProps) {
   function handleClickToSubscribe() {
     subscribeUser(userNo, subscribeNo);
+    onSubscribe();
     alert("구독이 완료되었습니다.");
-    window.location.reload();
     // window.location.reload();
   }
 

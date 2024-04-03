@@ -2,7 +2,11 @@ import styled from "styled-components";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
-import { getMyStockList, getMySubscribeList, getUserStockList } from "../../apis/api/MyPage";
+import {
+    getMyStockList,
+    getMySubscribeList,
+    getUserStockList,
+} from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
 import { stockSubListState } from "../../Store/StockSubscribeState";
 import {
@@ -24,6 +28,7 @@ import {
     myPageInfoState,
     myPageSubscribeListState,
 } from "../../Store/MyPageState";
+import DeleteSubBtn from "../../components/Common/DeleteSubBtn";
 
 function UserPage() {
     // 내 정보
@@ -62,6 +67,9 @@ function UserPage() {
 
     // 로그인 체크
     const [isLogin, setIsLogin] = useState(false);
+
+    // 구독을 했으면 그 번호를 저장
+    const [subNo, setSubNo] = useState(0);
 
     // 구독했는지 확인
     const [isSubscribe, setIsSubscribe] = useState(false);
@@ -123,6 +131,7 @@ function UserPage() {
                     userPageInfo.userName
                 ) {
                     setIsSubscribe(true);
+                    setSubNo(i);
                     break;
                 } else {
                     setIsSubscribe(false);
@@ -147,6 +156,19 @@ function UserPage() {
         fetchData();
     }, []);
 
+    const togleSubscription = () => {
+        const getMySubList = async () => {
+            try {
+                const data = await getMySubscribeList();
+                setMyPageSubscribeList(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        getMySubList();
+        setIsSubscribe(!isSubscribe);
+    };
+
     return (
         <Wrapper>
             <Container>
@@ -155,11 +177,16 @@ function UserPage() {
                     <TempWithImage />
                     <UserInfo />
                     {isLogin === false || isSubscribe ? (
-                        <NotButton />
+                        <DeleteSubBtn
+                        onSubscribe={myPageSubscribeList[subNo]}
+                        onDelete={togleSubscription}
+                        text={"구독 취소"}
+                    />
                     ) : (
                         <SubscribeButton
                             userNo={myPageInfo.userNo}
                             subscribeNo={userNo}
+                            onSubscribe={togleSubscription}
                         />
                     )}
                 </LeftSideMyInfo>
