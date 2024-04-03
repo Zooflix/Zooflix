@@ -7,7 +7,6 @@ import { useRecoilState } from "recoil";
 import ZbtiStartImg from "../../assets/img/Zbti/ZbtiStartImg.svg";
 
 // 컴포넌트
-import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
 import StartTest from "../../components/Zbti/StartTest";
 import BackBtn from "../../components/Common/BackBtn";
 

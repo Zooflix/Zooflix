@@ -1,6 +1,6 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { useNavigate } from "react-router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 
 // 이미지
@@ -13,7 +13,6 @@ import Bear from "../../assets/img/character/Bear.svg";
 import Cow from "../../assets/img/character/Cow.svg";
 import Lion from "../../assets/img/character/Lion.svg";
 import Monkey from "../../assets/img/character/Monkey.svg";
-import Pig from "../../assets/img/character/Pig.svg";
 import Zebra from "../../assets/img/character/Zebra.svg";
 
 
@@ -87,13 +86,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Slogan = styled.h1`
-  font-family: WAGURITTF;
-  font-size: 50px;
-  font-weight: lighter;
-  margin-top: 250px;
 `;
 
 const Container = styled.div`

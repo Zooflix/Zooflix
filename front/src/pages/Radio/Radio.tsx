@@ -4,8 +4,6 @@ import { useRecoilState } from "recoil";
 
 // api
 import { getCachedData, playRadio } from "../../apis/api/Radio";
-import { getMyInfo } from "../../apis/api/MyPage";
-import { loginCheck } from "../../components/User/IsLoginCheck";
 
 // state
 import { isPausedState } from "../../Store/RadioState";
@@ -24,12 +22,6 @@ import { myPageInfoState } from "../../Store/MyPageState";
 
 
 // 버튼 스타일
-const buttonStyleDark = {
-  backgroundColor: "#1E3659",
-  color: "white",
-  border: "none",
-};
-
 const imgBtnStyle = {
   width: "50px",
   height: "30px",
@@ -58,24 +50,10 @@ function Player() {
   const [blobUrlList, setBlobUrlList] = useState<string[]>([]);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   
-  const [isLogin, setIsLogin] = useState(loginCheck());
 
 
-  // 마운트: 마이데이터 -> userZbti 불러오기
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (isLogin) {
-  //         const response = await getMyInfo();
-  //         console.log(response.userZbti);
-  //         setMyInfo(response);
-  //       }
-  //    } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
+  // 스피너
+  
 
   // tts 생성
   const ttsMaker = async() => {
@@ -100,13 +78,10 @@ function Player() {
   const clickBtn = async() => {
     setIsPaused(!isPaused);
     setIsClicked(isClicked+1);
-    console.log(isClicked);
-    
   }
 
   // 재생 중단
   useEffect(() => {
-    console.log(isClicked);
     if (isClicked===1 && !isPaused) { // 처음 재생버튼 누르면 tts 준비하기
       ttsMaker();
     } else {
@@ -158,16 +133,14 @@ function Player() {
       <PlayContainer>
         <LeftContainer>
           <Title text="해외 뉴스를 들려줄게요" />
-          {myInfo && (
-            <Character3d
-            name={userZbtiState}
-            characterScale={0.52}
-            canvasWidth={400}
-            canvasHeight={550}
-            toBelow={35}
-            action="turn"
-            />
-          )}
+          <Character3d
+          name={userZbtiState}
+          characterScale={0.52}
+          canvasWidth={400}
+          canvasHeight={550}
+          toBelow={35}
+          action="turn"
+          />
           {isPaused ? (
               <ImgBtn
                 src={Playicon}
