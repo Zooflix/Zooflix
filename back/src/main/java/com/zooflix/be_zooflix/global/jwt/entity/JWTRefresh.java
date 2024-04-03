@@ -14,7 +14,7 @@ public class JWTRefresh {
     private Long refreshNo;
     @Column
     private String userId;
-    @Column
+    @Column(length = 500)
     private String refreshToken;
     @Column
     private String expiration;

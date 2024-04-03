@@ -50,7 +50,7 @@ public class ScheduledStockSubscribe {
         this.aesUtils = aesUtils;
     }
 
-    @Scheduled(cron = "0 25 23 * * ?")
+    @Scheduled(cron = "0 55 23 * * ?")
     public void performTask() throws IOException {
         // 특정 시간에 데이터베이스에서 주식 구독한 사람들 리스트 가져오기
 

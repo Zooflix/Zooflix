@@ -120,6 +120,13 @@ async def generate_stock_graph(stock_code, stock_name: str = Query(..., descript
     plt.grid(False)
     plt.tight_layout()
 
+    if platform.system() == 'Windows':
+        plt.rc('font', family='Malgun Gothic')
+    elif platform.system() == 'Darwin':
+        plt.rc('font', family='AppleGothic')
+    else:
+        plt.rc('font', family='NanumGothic')
+
     # 그래프 이미지를 메모리에 저장
     img_buffer = io.BytesIO()
     plt.savefig(img_buffer, format='png')
@@ -166,6 +173,13 @@ async def generate_chart(stock_code, stock_name, date, predict_dates, predict_co
     plt.legend()
     plt.grid(False)
     plt.tight_layout()
+
+    if platform.system() == 'Windows':
+        plt.rc('font', family='Malgun Gothic')
+    elif platform.system() == 'Darwin':
+        plt.rc('font', family='AppleGothic')
+    else:
+        plt.rc('font', family='NanumGothic')
 
     # 그래프 이미지를 메모리에 저장
     img_buffer = io.BytesIO()

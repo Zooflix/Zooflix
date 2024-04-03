@@ -56,14 +56,14 @@ public class    MyPageService {
         int totalPredictNum = predictRepository.findMyPredictList(userNo).size();
 
         // 성공 횟수
-        int successPredictNum = 0;
-        List<Predict> predictList = predictRepository.findMyPredictList(userNo);
+        int successPredictNum = user.getSuccessCount();
+//        List<Predict> predictList = predictRepository.findMyPredictList(userNo);
 
-        for(int i = 0; i < predictList.size(); i++) {
-            if(predictList.get(i).getPdResult() == "성공") {
-                successPredictNum++;
-            }
-        }
+//        for(int i = 0; i < predictList.size(); i++) {
+//            if(predictList.get(i).getPdResult() == "성공") {
+//                successPredictNum++;
+//            }
+//        }
 
         double tempRate = 0;
         double successRate = 0;

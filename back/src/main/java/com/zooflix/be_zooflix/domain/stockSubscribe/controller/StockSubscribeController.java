@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.zooflix.be_zooflix.global.result.ResultResponse;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -35,7 +36,7 @@ public class StockSubscribeController {
      */
     @PostMapping("/subscribe")
     @Operation(summary = "주식 정기 구독")
-    public ResponseEntity<ResultResponse<String>> insertStockSubscribe(@RequestBody @Valid AddStockSubscribeRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public ResponseEntity<ResultResponse<String>> insertStockSubscribe(@RequestBody @Valid AddStockSubscribeRequest request, @AuthenticationPrincipal CustomUserDetails customUserDetails) throws IOException {
         if(customUserDetails == null) {
             throw new RuntimeException("토큰이 존재하지 않습니다.");
         }
