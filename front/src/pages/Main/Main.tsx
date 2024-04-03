@@ -136,6 +136,8 @@ function Main() {
   zbti.set("Fox", "재빠른 여우");
   zbti.set("Sloth", "게으른 나무늘보");
 
+  
+
   return (
     <CommonPageTransition>
       <MainWrapper>

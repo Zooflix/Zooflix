@@ -26,7 +26,6 @@ function SubscribeButton({ userNo, subscribeNo }: SubscribeButtonProps) {
 export default SubscribeButton;
 
 const Wrapper = styled.div`
-    padding: 50px 0;
 `;
 
 const GoToUpdateUser = styled.button`
