@@ -57,11 +57,6 @@ function Predict() {
         setCurrentPage(value);
     };
 
-    const [deleteOne, setDeleteOne] = useState(0);
-    const handleDeleteChange = (value: number) => {
-        setDeleteOne(value);
-    };
-
     const createPredict = () => {
         let no = 0;
         try {

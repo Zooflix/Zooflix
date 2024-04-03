@@ -17,7 +17,7 @@ function Sort(props: SortProps) {
                     최신순
                 </option>
                 <option key="userTem" value="userTem">
-                    온도순
+                    예측 날짜 순
                 </option>
                 <option key="end" value="end">
                     예측 완료 글
