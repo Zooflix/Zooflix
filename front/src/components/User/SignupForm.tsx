@@ -142,19 +142,19 @@ function SignupForm() {
           {isChecked && (
             <>
               <UserInput
-                type="text"
+                type="password"
                 placeholder="한국투자증권의 APP key를 입력하세요"
                 value={userAppKey}
                 onChange={(e) => setUserAppKey(e.target.value)}
               />
               <UserInput
-                type="text"
+                type="password"
                 placeholder="한국투자증권의 APP Secret key를 입력하세요"
                 value={userSecretKey}
                 onChange={(e) => setUserSecretKey(e.target.value)}
               />
               <UserInput
-                type="text"
+                type="password"
                 placeholder="한국투자증권의 계좌번호를 입력하세요(10자)"
                 value={userAccount}
                 onChange={(e) => setUserAccount(e.target.value)}

@@ -110,6 +110,17 @@ function ZustraRank({ rankData, zbti }: Props) {
 
     function linkProfile(userNo: number) {
         setSelectUserNo(userNo);
+        const fetchData = async () => {
+            //유저 정보
+            try {
+                const data = await getUserInfo(selectUserNo);
+                setUserPageInfo(data);
+                console.log(data);
+            } catch (error) {
+                console.log("유저 정보 불러오기 실패");
+                console.error(error);
+            }
+        };
         navigate("/user-page");
     }
 
