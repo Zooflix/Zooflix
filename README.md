@@ -163,7 +163,7 @@ erdcloud 링크 : https://www.erdcloud.com/d/aYNeA42SgzizSQ4sD
 ## 📂 파일 구조
 
 ### 리액트 + TypeScript
-
+```
 📦front
 ┣ 📂.vscode
 ┣ 📂conf
@@ -201,11 +201,11 @@ erdcloud 링크 : https://www.erdcloud.com/d/aYNeA42SgzizSQ4sD
 ┣ 📜README.md
 ┣ 📜sonar-project.properties
 ┗ 📜tsconfig.json
-
+```
 <br>
 
 ### Python
-
+```
 📦python
 ┣ 📂src
 ┃ ┗ 📜main.py
@@ -214,11 +214,11 @@ erdcloud 링크 : https://www.erdcloud.com/d/aYNeA42SgzizSQ4sD
 ┣ 📜package.json
 ┣ 📜package-lock.json
 ┗ 📜requiremenets.txt
-
+```
 <br>
 
 ### BackEnd
-
+```
 📦back
 ┣ 📂.gradle
 ┣ 📂.idea
@@ -252,7 +252,7 @@ erdcloud 링크 : https://www.erdcloud.com/d/aYNeA42SgzizSQ4sD
 ┣ 📜hs_err_pid23608.log
 ┣ 📜settings.gradle
 ┗ 📜sonar-project.properties
-
+```
 <br>
 
 ## ❤ 팀원 소개
