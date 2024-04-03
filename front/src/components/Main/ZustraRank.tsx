@@ -54,6 +54,7 @@ function ZustraRank({ rankData, zbti }: Props) {
     const navigate = useNavigate();
 
     useEffect(() => {
+
     }, [linkProfile, moreBtnClick, deleteSubscribe]);
 
     function moreBtnClick(index: number, subscribeUserName: string) {
