@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { zbtiQuestionState } from "../../Store/ZbtiState";
 
