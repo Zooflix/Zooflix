@@ -6,10 +6,10 @@ import { useRecoilState } from "recoil";
 import { getCachedData, playRadio } from "../../apis/api/Radio";
 import { getMyInfo } from "../../apis/api/MyPage";
 import { loginCheck } from "../../components/User/IsLoginCheck";
-import { getJwtUserZbti } from "../../apis/utils/jwt";
 
 // state
 import { isPausedState } from "../../Store/RadioState";
+import { userZbti } from "../../Store/UserState";
 
 // 이미지
 import Playicon from "../../assets/img/button/Play.svg";
@@ -21,8 +21,7 @@ import Title from "../../components/Common/Title";
 import Character3d from "../../components/Character/Character3d";
 import SquareBtn from "../../components/Common/SquareBtn";
 import { myPageInfoState } from "../../Store/MyPageState";
-import PageTransition from "../../components/Zbti/PageTransition";
-import CommonPageTransition from "../../components/Common/CommonPageTransition";
+
 
 // 버튼 스타일
 const buttonStyleDark = {
@@ -51,6 +50,7 @@ function Player() {
   const [isPaused, setIsPaused] = useRecoilState(isPausedState); // 재생, 중단 여부
   const [isClicked, setIsClicked] = useState(0); // 처음 재생버튼 눌렀는지 판단
   const [isLoaded, setIsLoaded] = useState(false); // 오디오 데이터 로딩 여부
+  const [userZbtiState, setuserZbtiState] = useRecoilState(userZbti); // zbti
 
   const audioEl = useRef<HTMLAudioElement>(null);
   const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
@@ -62,20 +62,20 @@ function Player() {
 
 
   // 마운트: 마이데이터 -> userZbti 불러오기
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (isLogin) {
-          const response = await getMyInfo();
-          console.log(response.userZbti);
-          setMyInfo(response);
-        }
-     } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (isLogin) {
+  //         const response = await getMyInfo();
+  //         console.log(response.userZbti);
+  //         setMyInfo(response);
+  //       }
+  //    } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
 
   // tts 생성
   const ttsMaker = async() => {
@@ -160,7 +160,7 @@ function Player() {
           <Title text="해외 뉴스를 들려줄게요" />
           {myInfo && (
             <Character3d
-            name={isLogin? myInfo.userZbti:"Bear"}
+            name={userZbtiState}
             characterScale={0.52}
             canvasWidth={400}
             canvasHeight={550}
