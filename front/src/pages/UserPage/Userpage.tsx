@@ -133,14 +133,10 @@ function UserPage() {
 
     useEffect(() => {
         // 임의의 인덱스값 userNo 넣음
-        const fetchData = async (userId: string) => {
+        const fetchData = async () => {
             //유저 주식 구독 목록
             try {
                 const data = await getUserStockList(userPageInfo.userId);
-                console.log(
-                    "*******************************************************" +
-                        userId
-                );
                 setUserStockList(data);
             } catch (error) {
                 console.log("유저 주식 구독 목록 불러오기 실패");
@@ -148,10 +144,8 @@ function UserPage() {
             }
         };
 
-        fetchData(userId);
+        fetchData();
     }, []);
-
-    console.log("*************************" + isSubscribe);
 
     return (
         <Wrapper>
