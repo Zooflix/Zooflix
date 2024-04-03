@@ -161,6 +161,96 @@ erdcloud 링크 : https://www.erdcloud.com/d/aYNeA42SgzizSQ4sD
 
 ## 📂 파일 구조
 
+### 리액트 + TypeScript
+
+📦front
+ ┣ 📂.vscode
+ ┣ 📂conf
+ ┣ 📂node_modules
+ ┣ 📂public
+ ┣ 📂src
+ ┃ ┣ 📂apis
+ ┃ ┣ 📂assets
+ ┃ ┣ 📂components  
+ ┃ ┃ ┣ 📂Alarm
+ ┃ ┃ ┣ 📂Character
+ ┃ ┃ ┣ 📂Common
+ ┃ ┃ ┣ 📂Landing
+ ┃ ┃ ┣ 📂Main
+ ┃ ┃ ┣ 📂Mypage
+ ┃ ┃ ┣ 📂Portfolio
+ ┃ ┃ ┣ 📂Predict
+ ┃ ┃ ┣ 📂SubscribeStock
+ ┃ ┃ ┣ 📂User
+ ┃ ┃ ┣ 📂UserPage
+ ┃ ┃ ┗ 📂Zbti
+ ┃ ┣ 📂fonts
+ ┃ ┣ 📂pages
+ ┃ ┣ 📂Store
+ ┃ ┣ 📜App.tsx
+ ┃ ┣ 📜index.tsx
+ ┃ ┣ 📜react-app-env.d.ts
+ ┃ ┣ 📜reportWebVitals.ts
+ ┃ ┗ 📜setupTests.ts
+ ┣ 📜.env
+ ┣ 📜.gitignore
+ ┣ 📜Dockerfile
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜README.md
+ ┣ 📜sonar-project.properties
+ ┗ 📜tsconfig.json
+
+<br>
+
+### Python
+
+📦python
+ ┣ 📂src
+ ┃ ┗ 📜main.py
+ ┣ 📂venv
+ ┣ 📜Dockerfile
+ ┣ 📜package.json
+ ┣ 📜package-lock.json
+ ┗ 📜requiremenets.txt
+
+<br>
+
+### BackEnd
+
+📦back
+ ┣ 📂.gradle
+ ┣ 📂.idea
+ ┣ 📂build
+ ┣ 📂gradle
+ ┣ 📂src
+ ┃ ┣ 📂main
+ ┃ ┃ ┣ 📂java
+ ┃ ┃ ┃ ┗ 📂com.zooflix.be_zooflix
+ ┃ ┃ ┃   ┣ 📂domain
+ ┃ ┃ ┃   ┃ ┣ 📂alarm
+ ┃ ┃ ┃   ┃ ┣ 📂main
+ ┃ ┃ ┃   ┃ ┣ 📂myPage
+ ┃ ┃ ┃   ┃ ┣ 📂portfolio
+ ┃ ┃ ┃   ┃ ┣ 📂predict
+ ┃ ┃ ┃   ┃ ┣ 📂radio
+ ┃ ┃ ┃   ┃ ┣ 📂report
+ ┃ ┃ ┃   ┃ ┣ 📂stockSubscribe
+ ┃ ┃ ┃   ┃ ┣ 📂user
+ ┃ ┃ ┃   ┃ ┗ 📂userSubscribe
+ ┃ ┃ ┃   ┣ 📂global
+ ┃ ┃ ┃   ┣ 📂scheduled
+ ┃ ┃ ┃   ┗ 📜BeZooflixApplication
+ ┃ ┃ ┗ 📂resources
+ ┃ ┗ 📂test
+ ┣ 📜.gitignore
+ ┣ 📜build.gradle
+ ┣ 📜Dockerfile
+ ┣ 📜gradlew
+ ┣ 📜gradlew.bat
+ ┣ 📜hs_err_pid23608.log
+ ┣ 📜settings.gradle
+ ┗ 📜sonar-project.properties
 
 
 ## ❤ 팀원 소개
