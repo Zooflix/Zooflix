@@ -29,6 +29,8 @@ import ZbtiHeader from "../../components/Zbti/ZbtiHeader";
 import { useEffect, useRef } from "react";
 import { getJwtUserName } from "../../apis/utils/jwt";
 
+import { userZbti } from "../../Store/UserState";
+
 interface ImgMap {
   [key: string]: string;
 }
@@ -51,6 +53,7 @@ function ZbtiResult() {
   const zbtiValue = useRecoilValue(zbtiQuestionState);
   const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
   console.log(zbtiValue);
+  const [userZbtiState, setuserZbtiState] = useRecoilState(userZbti);
 
   const isSloth =
     JSON.stringify(zbtiValue) === JSON.stringify([2, 1, 1, 2, 1, 2, 1, 2]);
@@ -140,6 +143,7 @@ function ZbtiResult() {
   useEffect(() => {
     console.log(myInfo.userZbti);
     zbtiUpdate(myInfo.userZbti);
+    setuserZbtiState(myInfo.userZbti);
   }, [myInfo.userZbti]);
 
   const navigate = useNavigate();

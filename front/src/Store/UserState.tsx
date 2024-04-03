@@ -19,6 +19,12 @@ export const isLoginState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const userZbti = atom({
+  key: "userZbti",
+  default: "Bear",
+  effects_UNSTABLE: [persistAtom],
+});
+
 //유저 이름
 export const userNameState = atom({
   key: "userNameState",
