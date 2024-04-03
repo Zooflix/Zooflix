@@ -83,7 +83,7 @@ function App() {
 
             <Route path="/predict/create" element={<PredictCreate />} />
 
-            <Route path="/user-page" element={<UserPage />} />
+            <Route path="/user-page/:userNo" element={<UserPage />} />
           </Routes>
         </AnimatePresence>
       </AppWrapper>
