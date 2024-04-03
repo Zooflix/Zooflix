@@ -21,7 +21,7 @@ function ReportModal({ isModalOpen, closeModal, pdNo, userNo }: ReportProps) {
   const [open, setOpen] = useState(false);
   const [alertOption, setAlertOption] = useState<{
     severity: AlertColor;
-    value: String;
+    value: string;
   }>({ severity: "error", value: "" });
 
   const handleClose = (

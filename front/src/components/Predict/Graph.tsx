@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
-import { selectGraph } from "../../apis/api/Predict";
-import { selectCompareGraph } from "../../apis/api/Predict";
-import { selectUserNoState } from "../../Store/PredictState";
-import { selectStockNameState } from "../../Store/PredictState";
-import { selectUserNameState } from "../../Store/PredictState";
+import { selectGraph, selectCompareGraph } from "../../apis/api/Predict";
+import {
+    selectUserNoState,
+    selectStockNameState,
+    selectUserNameState,
+} from "../../Store/PredictState";
 
 type GraphProps = {
     stockName: string;
