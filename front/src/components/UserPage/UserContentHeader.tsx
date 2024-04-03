@@ -96,7 +96,6 @@ const List = styled.div`
   justify-content: center;
   border: 1px solid #e7e7e7;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 10px;
   border-radius: 10px;
   height: 550px;
   overflow: auto;

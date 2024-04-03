@@ -24,8 +24,8 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
             name={topStreakUser.userZbti || "Bear"}
             characterScale={0.5}
             canvasWidth={70}
-            canvasHeight={60}
-            toBelow={28}
+            canvasHeight={65}
+            toBelow={27}
             action="turn"
           />
           <UserName>{topStreakUser.userName}</UserName>
@@ -43,8 +43,8 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
             name={topFailUser.userZbti || "Bear"}
             characterScale={0.5}
             canvasWidth={70}
-            canvasHeight={60}
-            toBelow={28}
+            canvasHeight={65}
+            toBelow={27}
             action="turn"
           />
           <UserName>{topFailUser.userName}</UserName>
@@ -60,8 +60,8 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
             name={topStock.userZbti || "Bear"}
             characterScale={0.5}
             canvasWidth={70}
-            canvasHeight={60}
-            toBelow={28}
+            canvasHeight={65}
+            toBelow={27}
             action="turn"
           />
           <UserName>{topStock.userName}</UserName>

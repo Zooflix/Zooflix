@@ -125,14 +125,16 @@ function ZustraRank({ rankData, zbti }: Props) {
                       name={item.userZbti || "Bear"}
                       characterScale={0.35}
                       canvasWidth={50}
-                      canvasHeight={100}
+                      canvasHeight={95}
+                      toBelow={23}
                     />
                   ) : (
                     <Character3d
                       name={item.userZbti || "Bear"}
                       characterScale={0.35}
                       canvasWidth={50}
-                      canvasHeight={100}
+                      canvasHeight={95}
+                      toBelow={23}
                       action="turn"
                     />
                   )}

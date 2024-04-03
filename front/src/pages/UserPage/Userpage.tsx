@@ -57,6 +57,10 @@ function UserPage() {
 
   const [userNumber, setUserNumber] = useState(parseInt(userNo || ""));
 
+  useEffect(() => {
+    setUserNumber(parseInt(userNo || ""));
+  }, [userNo]);
+
   const handleZbti = () => {
     navigate("/zbti");
   };
@@ -84,6 +88,7 @@ function UserPage() {
       //유저가 구독한 사람 목록
       getUserSubscribe();
     };
+
     fetchData();
   }, []);
 
@@ -122,7 +127,7 @@ function UserPage() {
 
   async function userInfoAxios() {
     try {
-      const data = await getUserInfo(userNumber);
+      const data = await getUserInfo(parseInt(userNo || ""));
       setUserPageInfo(data);
       console.log(" userInfoAxios ", data);
     } catch (error) {
@@ -232,6 +237,7 @@ const LeftSideMyInfo = styled.div`
   border: 1px solid #e7e7e7;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
+  padding-bottom: 20px;
 `;
 
 const Right = styled.div`

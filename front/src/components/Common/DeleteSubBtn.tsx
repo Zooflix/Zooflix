@@ -47,7 +47,7 @@ const Button = styled.button`
   padding: 7px 0;
   border: 1px solid gray;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-top: 30px;
 
   //스타일 바로 추가
   border: none;
