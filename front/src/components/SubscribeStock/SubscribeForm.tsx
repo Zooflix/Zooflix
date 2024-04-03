@@ -29,7 +29,7 @@ function SubscribeForm({ setFetchData, fetchData }: Props) {
     stockCode: string;
   } | null>(null);
   const [subscribeDay, setSubscribeDay] = useState(0);
-  const [stockCnt, setStockCnt] = useState(0);
+  const [stockCnt, setStockCnt] = useState(1);
   const [account, setAccount] = useState("");
   const [appkey, setAppkey] = useState("");
   const [secretkey, setSecretkey] = useState("");

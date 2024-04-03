@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import Logo from "../../assets/img/Logo.svg";
 import alarmbtn from "../../assets/img/button/Alarmbtn.svg";
@@ -84,9 +84,6 @@ const CircleContainer = styled.div`
   }
 `;
 
-const CircleMotion = keyframes`
-`;
-
 const Circle = styled.div`
   width: 40px;
   height: 40px;
@@ -99,9 +96,7 @@ const Circle = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  &:hover {
-    // animation: ${CircleMotion} 1s infinite alternate;
-  }
+
 `;
 
 const Button = styled.div`

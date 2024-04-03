@@ -53,9 +53,9 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
       ) : (
         <div>Loading...</div>
       )}
-      {topStock ? (
+      {topStock && (
         <UserDiv>
-          <Title>{topStock.stockName} 1위 예측자</Title>
+          <Title>삼성전자 1위 예측자</Title>
           <Character3d
             name={topStock.userZbti || "Bear"}
             characterScale={0.5}
@@ -65,10 +65,8 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
             action="turn"
           />
           <UserName>{topStock.userName}</UserName>
-          <PredictCount>예측 {topFailUser.cnt}회 성공</PredictCount>
+          <PredictCount>예측 {topStock.cnt}회 성공</PredictCount>
         </UserDiv>
-      ) : (
-        <div>Loading...</div>
       )}
     </RankWrapper>
   );

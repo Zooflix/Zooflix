@@ -4,7 +4,6 @@ import { axios } from "../utils/axios";
 export async function getSSELink(userId: string) {
   try {
     const response = await axios.get(`/alarm/subscribe/${userId}`);
-    console.log(response.data);
     return response.data;
   } catch (e) {
     console.log(e);
@@ -15,7 +14,6 @@ export async function getSSELink(userId: string) {
 export async function getAlarmList(userId: string) {
   try {
     const response = await axios.get(`/alarm/${userId}`);
-    console.log(response.data.resultData);
     return response.data.resultData;
   } catch (e) {
     console.log(e);
@@ -26,7 +24,6 @@ export async function getAlarmList(userId: string) {
 export async function UpdateIsRead(alarmNo: number) {
   try {
     const response = await axios.put(`/alarm/${alarmNo}`);
-    console.log(response.data);
     return response.data;
   } catch (e) {
     console.log(e);

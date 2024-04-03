@@ -2,68 +2,72 @@ import styled, { keyframes } from "styled-components";
 import { ReactNode } from "react";
 
 interface Props {
-  kospi: ReactNode;
-  kosdaq: ReactNode;
-  usd: ReactNode;
+  indices?: {
+    kospi: number;
+    kosdaq: number;
+    usd: number;
+  };
 }
 
-function FlowBar({ kospi, kosdaq, usd }: Props) {
+function FlowBar({ indices }: Props) {
   return (
     <ScrollDiv>
-      <ScrollWrapper>
-        <ScrollPrimary>
-          <Text>
-            코스피<Space></Space>
-            <Indice> {kospi}</Indice>
-          </Text>
-          <Text>
-            코스닥<Space></Space>
-            <Indice>{kosdaq}</Indice>
-          </Text>
-          <Text>
-            달러환율<Space></Space>
-            <Indice>{usd}</Indice>
-          </Text>
-          <Text>
-            코스피<Space></Space>
-            <Indice>{kospi}</Indice>
-          </Text>
-          <Text>
-            코스닥<Space></Space>
-            <Indice>{kosdaq}</Indice>
-          </Text>
-          <Text>
-            달러환율<Space></Space>
-            <Indice>{usd}</Indice>
-          </Text>
-        </ScrollPrimary>
-        <ScrollSecondary>
-          <Text>
-            코스피<Space></Space>
-            <Indice>{kospi}</Indice>
-          </Text>
-          <Text>
-            코스닥<Space></Space>
-            <Indice>{kosdaq}</Indice>
-          </Text>
-          <Text>
-            달러환율<Space></Space>
-            <Indice>{usd}</Indice>
-          </Text>
-          <Text>
-            코스피<Space></Space>
-            <Indice>{kospi}</Indice>
-          </Text>
-          <Text>
-            코스닥<Space></Space>
-            <Indice>{kosdaq}</Indice>
-          </Text>
-          <Text>
-            달러환율<Space></Space>
-            <Indice>{usd}</Indice>
-          </Text>
-        </ScrollSecondary>
-      </ScrollWrapper>
+      {indices && (
+        <ScrollWrapper>
+          <ScrollPrimary>
+            <Text>
+              코스피<Space></Space>
+              <Indice> {indices.kospi}</Indice>
+            </Text>
+            <Text>
+              코스닥<Space></Space>
+              <Indice>{indices.kosdaq}</Indice>
+            </Text>
+            <Text>
+              달러환율<Space></Space>
+              <Indice>{indices.usd}</Indice>
+            </Text>
+            <Text>
+              코스피<Space></Space>
+              <Indice> {indices.kospi}</Indice>
+            </Text>
+            <Text>
+              코스닥<Space></Space>
+              <Indice>{indices.kosdaq}</Indice>
+            </Text>
+            <Text>
+              달러환율<Space></Space>
+              <Indice>{indices.usd}</Indice>
+            </Text>
+          </ScrollPrimary>
+          <ScrollSecondary>
+            <Text>
+              코스피<Space></Space>
+              <Indice> {indices.kospi}</Indice>
+            </Text>
+            <Text>
+              코스닥<Space></Space>
+              <Indice>{indices.kosdaq}</Indice>
+            </Text>
+            <Text>
+              달러환율<Space></Space>
+              <Indice>{indices.usd}</Indice>
+            </Text>
+            <Text>
+              코스피<Space></Space>
+              <Indice> {indices.kospi}</Indice>
+            </Text>
+            <Text>
+              코스닥<Space></Space>
+              <Indice>{indices.kosdaq}</Indice>
+            </Text>
+            <Text>
+              달러환율<Space></Space>
+              <Indice>{indices.usd}</Indice>
+            </Text>
+          </ScrollSecondary>
+        </ScrollWrapper>
+      )}
     </ScrollDiv>
   );
 }
