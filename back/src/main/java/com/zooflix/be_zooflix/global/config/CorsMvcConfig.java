@@ -13,7 +13,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
         corsRegistry.addMapping("/**")
 //                .allowedOrigins("*")
                 .allowedMethods("*")
-        .allowedOrigins("http://localhost:3000", "https://zooflix.duckdns.org")
+        .allowedOrigins("https://zooflix.duckdns.org")
                 .allowCredentials(true)
                 .exposedHeaders("access")
                 .maxAge(3600L);
