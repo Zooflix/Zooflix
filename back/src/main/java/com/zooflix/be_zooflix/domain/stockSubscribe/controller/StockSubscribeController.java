@@ -67,10 +67,8 @@ public class StockSubscribeController {
     @Operation(summary = "구독중인 주식 목록 조회")
     public ResponseEntity<ResultResponse<List<StockSubscribeDto>>> subscribeList(@PathVariable(name = "userId") String userId, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         if(customUserDetails != null) {
-            System.out.println("구독주식토큰존재함");
             userId = customUserDetails.getUserId();
         }
-        System.out.println("구독주식목록아이디 : " + userId);
         List<StockSubscribeDto> subscribes = service.subscribeList(userId);
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), subscribes));
     }

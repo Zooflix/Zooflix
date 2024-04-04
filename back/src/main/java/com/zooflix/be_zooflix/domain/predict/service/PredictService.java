@@ -153,7 +153,6 @@ public class PredictService {
             alarm.setCreatedAt(LocalDateTime.now());
             alarmRepository.save(alarm);
         }
-        System.out.println("알림이 성공적으로 전송되었습니다. ->" + content);
 
         return toDto(predictRepository.save(predict));
     }
@@ -246,8 +245,7 @@ public class PredictService {
         int userNo = predictRepository.findZoostra();
         String name = predictRepository.findUserNameByUserNo(userNo);
         String zbti = predictRepository.findUserZbtiByUserNo(userNo);
-        PredictRankDto rank = new PredictRankDto(userNo, name, zbti);
-        return rank;
+        return new PredictRankDto(userNo, name, zbti);
     }
 
     public PredictRankDto getZoostraByStockName(String stockName) {
@@ -256,11 +254,9 @@ public class PredictService {
             int userNo = Integer.parseInt(no);
             String name = predictRepository.findUserNameByUserNo(userNo);
             String zbti = predictRepository.findUserZbtiByUserNo(userNo);
-            PredictRankDto rank = new PredictRankDto(userNo, name, zbti);
-            return rank;
+            return new PredictRankDto(userNo, name, zbti);
         } else {
-            PredictRankDto rank = new PredictRankDto();
-            return rank;
+            return new PredictRankDto();
         }
     }
 
@@ -326,20 +322,15 @@ public class PredictService {
     }
 
     public List<StockResponseProjection> getStockSearch(String stockName) {
-        List<StockResponseProjection> list = stockListRepository.findStockListByStockName(stockName);
-        return list;
+        return stockListRepository.findStockListByStockName(stockName);
     }
 
     public Float getNowPrice(String stockName) {
         RestTemplate restTemplate = new RestTemplate();
         String code = stockListRepository.findStockCode(stockName);
-//        if(code.isEmpty()){
-//            return 0;
-//        }
         String url = pythonNowPrice + "?stock_code=" + code;
-        Float result = restTemplate.getForObject(url, Float.class);
 
-        return result;
+        return restTemplate.getForObject(url, Float.class);
     }
 
     public List<StockHistoryDto> getStockHistory(int userNo) throws IOException {
@@ -349,7 +340,7 @@ public class PredictService {
         String userAppKey = aesUtils.aesCBCDecode(userInfo.getUserAppKey(), "db");
         String userSecretKey = aesUtils.aesCBCDecode(userInfo.getUserSecretKey(), "db");
         String userAccount = aesUtils.aesCBCDecode(userInfo.getUserAccount(), "db");
-        if (userAppKey == "" || userSecretKey == "" || userAccount == "" ||
+        if (userAppKey == null || userSecretKey == null || userAccount == null ||
                 userAppKey.isEmpty() || userSecretKey.isEmpty() || userAccount.isEmpty()
         ) {
             return historyDtoList;
@@ -408,7 +399,6 @@ public class PredictService {
                 sb.append(responseData);
             }
             returnData = sb.toString();
-            String responseCode = String.valueOf(conn.getResponseCode());
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(returnData);

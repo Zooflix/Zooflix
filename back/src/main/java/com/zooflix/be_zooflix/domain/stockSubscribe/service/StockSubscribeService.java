@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,12 +83,12 @@ public class StockSubscribeService {
         LocalDate now = LocalDate.now();
 
         if(request.getStockSubscribeDay() == now.getDayOfMonth()){
-            String AccessReturn = getAccessToken(subscribe);
+            String accessReturn = getAccessToken(subscribe);
 
             String account = aesUtils.aesCBCDecode(subscribe.getUser().getUserAccount(), "db");
             // 국내 주식 주문
             String url = "https://openapi.koreainvestment.com:9443/uapi/domestic-stock/v1/trading/order-cash";
-            String tr_id = "TTTC0802U";
+            String trId = "TTTC0802U";
             String data = "{\n" +
                     "    \"CANO\": \"" + account.substring(0, 8) + "\",\n" + // 계좌번호 앞 8자리
                     "    \"ACNT_PRDT_CD\": \"" + account.substring(8) + "\",\n" + // 계좌번호 뒤 2자리
@@ -96,8 +97,7 @@ public class StockSubscribeService {
                     "    \"ORD_QTY\": \"" + subscribe.getStockCount() + "\",\n" +
                     "    \"ORD_UNPR\": \"0\"\n" + // 시장가로 구매
                     "}";
-            System.out.println(data.toString());
-            httpPostBodyConnection(url, data, tr_id, subscribe, AccessReturn);
+            httpPostBodyConnection(url, data, trId, subscribe, accessReturn);
         }
         return subscribe.getStockCode();
     }
@@ -125,13 +125,11 @@ public class StockSubscribeService {
             try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
                 // 응답 상태코드 확인
                 int statusCode = response.getStatusLine().getStatusCode();
-                System.out.println("응답 상태코드: " + statusCode);
 
                 // 응답 본문 읽기
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     String responseBody = EntityUtils.toString(entity);
-                    System.out.println("응답 본문: " + responseBody);
                     JSONParser parser = new JSONParser();
                     JSONObject jsonObject = (JSONObject) parser.parse(responseBody);
                     return jsonObject.get("access_token").toString();
@@ -143,10 +141,10 @@ public class StockSubscribeService {
         return "fail";
     }
 
-    public String httpPostBodyConnection(String UrlData, String ParamData, String TrId, StockSubscribe subscriber, String accessToken) throws IOException {
+    public String httpPostBodyConnection(String urlData, String paramData, String trId, StockSubscribe subscriber, String accessToken) throws IOException {
 
         String totalUrl = "";
-        totalUrl = UrlData.trim().toString();
+        totalUrl = urlData.trim();
 
         URL url = null;
         HttpURLConnection conn = null;
@@ -165,26 +163,21 @@ public class StockSubscribeService {
             conn.setRequestProperty("authorization", "Bearer "+accessToken.trim());
             conn.setRequestProperty("appKey", aesUtils.aesCBCDecode(subscriber.getUser().getUserAppKey(), "db"));
             conn.setRequestProperty("appSecret", aesUtils.aesCBCDecode(subscriber.getUser().getUserSecretKey(), "db"));
-            conn.setRequestProperty("tr_id", TrId);
+            conn.setRequestProperty("tr_id", trId);
             conn.setDoOutput(true);
 
             try (OutputStream os = conn.getOutputStream()) {
-                byte request_data[] = ParamData.getBytes("utf-8");
-                os.write(request_data);
-                os.close();
+                byte[] requestData = paramData.getBytes(StandardCharsets.UTF_8);
+                os.write(requestData);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             conn.connect();
-            System.out.println("http 요청 방식" + "POST BODY JSON");
-            System.out.println("http 요청 타입" + "application/json");
-            System.out.println("http 요청 주소" + UrlData);
-            System.out.println("");
 
-            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
         } catch (IOException e) {
-            br = new BufferedReader(new InputStreamReader(conn.getErrorStream(), "UTF-8"));
+            br = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
         } finally {
             try {
                 sb = new StringBuffer();
@@ -192,12 +185,7 @@ public class StockSubscribeService {
                     sb.append(responseData);
                 }
                 returnData = sb.toString();
-                String responseCode = String.valueOf(conn.getResponseCode());
-                System.out.println("http 응답 코드 : " + responseCode);
-                System.out.println("http 응답 데이터 : " + returnData);
-                if (br != null) {
-                    br.close();
-                }
+                br.close();
 
                 //성공하면 구매 내역 테이블에 추가
 //                stockSubscribeRepository.addStockPurchase();
@@ -263,6 +251,7 @@ public class StockSubscribeService {
         dto.setStockSubscribeDay(stockSubscribe.getStockSubscribeDay());
         dto.setStockSubscribeCreate(stockSubscribe.getStockSubscribeCreate());
         dto.setUserId(stockSubscribe.getUser().getUserId());
+        dto.setUserNo(stockSubscribe.getUser().getUserNo());
         return dto;
     }
 
