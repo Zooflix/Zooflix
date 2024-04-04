@@ -1,5 +1,7 @@
 package com.zooflix.be_zooflix.domain.radio.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import java.io.ByteArrayOutputStream;
@@ -78,24 +80,34 @@ public class RadioService {
 
     @Qualifier("RedisTemplate")
     private final RedisTemplate<String, String> redisTemplate;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
 
 
     /*
-     * 크롤링+번역
+     * 크롤링
      * */
     public List<String> callCrawlingEndpoint() {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("webUrl", pythonNewsUrl); // 요청 바디에 크롤링사이트 url을 추가
-        requestBody.put("clientId", pythonPpgClientId);
-        requestBody.put("clientSecret", pythonPpgClientSecret);
-        requestBody.put("ppgUrl", pythonPpgUrl);
 
         return restTemplate.postForObject(pythonEndpointNewsCrawling, requestBody, List.class);
     }
 
+    /*
+     * 번역
+     * */
+    public List<String> callTranslationEndpoint(List<String> crawlingData) {
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("clientId", pythonPpgClientId);
+        requestBody.put("clientSecret", pythonPpgClientSecret);
+        requestBody.put("ppgUrl", pythonPpgUrl);
+        requestBody.put("list", crawlingData);
 
+        return restTemplate.postForObject(pythonEndpointNewsCrawling, requestBody,  List.class);
+    }
 
     /*
      * 요약 by clova
@@ -153,123 +165,78 @@ public class RadioService {
     }
 
 
-
     /*
-    *  뉴스 캐싱 in Redis
+    * 크롤링+번역+클로바
     * */
-    public List<String[]> getCachedList() {
-        List<String> cachedList = redisTemplate.opsForList().range(REDIS_NEWS_KEY, 0, -1); // 리스트에서 모든 요소 가져오기
-
-        /* 1-1. 캐싱 데이터가 없다면 */
-        if (cachedList == null || cachedList.isEmpty()) {
-            /* 1-2. 없다면 크롤링+번역+요약 */
-            List<String> crawlingResult = callCrawlingEndpoint(); // 크롤링+번역
-            List<String[]> summaryResult = callSummaryEndpoint(crawlingResult); // 요약
-
-            /* 1-3. 레디스에 저장 */
-            if (!summaryResult.isEmpty()) {
-                for (String[] arr : summaryResult) {
-                    String serialized = String.join(REDIS_DELIMITER, arr);
-                    redisTemplate.opsForList().rightPush(REDIS_NEWS_KEY, serialized);
-                    redisTemplate.expire(REDIS_NEWS_KEY, Duration.ofDays(1));
-                }
-            }
-        }
-
-        /* 2-1. 캐싱데이터가 있다면*/
-        cachedList = redisTemplate.opsForList().range(REDIS_NEWS_KEY, 0, -1);
-        List<String[]> cachedDataList = new ArrayList<>();
-        for (String serialized : cachedList) {
-            String[] arr = serialized.split(REDIS_DELIMITER); // 직렬화된 문자열을 @@@로 분할하여 다시 배열로 변환
-            if (arr.length>2)
-                cachedDataList.add(arr);
-        }
-
-        /* 2-3. 저장 시간 저장*/
-        String lastUpdateTime = redisTemplate.opsForValue().get(REDIS_LAST_UPDATE_TIME);
-        if (lastUpdateTime == null || lastUpdateTime.length()==0) {
-            long currentTime = System.currentTimeMillis();
-            redisTemplate.opsForValue().set(REDIS_LAST_UPDATE_TIME, String.valueOf(currentTime));
-        }
-        return cachedDataList;
-
+    public List<String[]> getNews() {
+        List<String> crawlingResult = callCrawlingEndpoint();
+        List<String> translationResult = callTranslationEndpoint(crawlingResult);
+        List<String[]> newsResult = callSummaryEndpoint(translationResult);
+        return newsResult;
     }
 
+
     /*
-    * 캐싱 업데이트 in Redis
+    * 레디스에 저장
     * */
     @Scheduled(cron = "0 0 0/2 * * *")
-    public void updateCachedList() {
-        // 캐싱 데이터
-        List<String> cachedList = redisTemplate.opsForList().range(REDIS_NEWS_KEY, 0, -1);
-
-        // 마지막 업데이트 시간
-        String lastUpdateTimeStr = redisTemplate.opsForValue().get(REDIS_LAST_UPDATE_TIME);
-
-        /* 1-1. 캐싱 데이터가 있다면 업데이트 */
-        if (cachedList != null && !cachedList.isEmpty()) {
-            Long lastUpdateTime = Long.parseLong(lastUpdateTimeStr);
-            Long currentTime = System.currentTimeMillis();
-            if ((currentTime-lastUpdateTime)>7200000) { // 2시간이 지났다면 업데이트
-                List<String> crawlingResult = callCrawlingEndpoint(); // 크롤링+번역
-                List<String[]> summaryResult = callSummaryEndpoint(crawlingResult); // 요약
-
-                // 임시 리스트에 저장
-                ListOperations<String, String> listOps = redisTemplate.opsForList();
-                if (!summaryResult.isEmpty()) {
-                    for (String[] arr : summaryResult) {
-                        String serialized = String.join(REDIS_DELIMITER, arr);
-                        listOps.rightPushAll(TEMP_LIST, serialized);
-                    }
-                }
-
-                List<String> oldNews = listOps.range(REDIS_NEWS_KEY, 0, -1);
-                List<String> newNews = listOps.range(TEMP_LIST, 0, -1);
-
-                Set<String> oldNewsSet = new HashSet<>(oldNews);
-                Set<String> newNewsSet = new HashSet<>(newNews);
-                newNewsSet.removeAll(oldNewsSet); // 임시에는 있지만 기존에는 없는 항목 찾기
-
-                if (!newNewsSet.isEmpty()) {
-                    for(String news : newNewsSet) {
-                        listOps.rightPushAll(REDIS_NEWS_KEY, news);
-                    }
-                }
-
-                // 임시리스트 삭제
-                redisTemplate.delete(TEMP_LIST);
-
-
-                // 레디스에 저장
-                if (!summaryResult.isEmpty()) {
-                    for (String[] arr : summaryResult) {
-                        String serialized = String.join(REDIS_DELIMITER, arr);
-                        redisTemplate.opsForList().rightPush(REDIS_NEWS_KEY, serialized);
-                        redisTemplate.expire(REDIS_NEWS_KEY, Duration.ofDays(1));
-                    }
-                }
-            }
-        } else { /* 1-2. 캐싱 데이터가 없다면 캐싱 */
-            List<String> crawlingResult = callCrawlingEndpoint(); // 크롤링+번역
-            List<String[]> summaryResult = callSummaryEndpoint(crawlingResult); // 요약
-
-            // 레디스에 저장
-            if (!summaryResult.isEmpty()) {
-                for (String[] arr : summaryResult) {
-                    String serialized = String.join(REDIS_DELIMITER, arr);
-                    redisTemplate.opsForList().rightPush(REDIS_NEWS_KEY, serialized);
-                    redisTemplate.expire(REDIS_NEWS_KEY, Duration.ofDays(1));
-                }
-            }
+    public void saveNews() {
+        List<String[]> newNews = getNews();
+        for(String[] str : newNews) {
+            String serialized = String.join(REDIS_DELIMITER, str);
+            redisTemplate.opsForList().rightPush(REDIS_NEWS_KEY, serialized);
         }
-
-        // 시간 저장
-        String currentTime = String.valueOf(System.currentTimeMillis());
-        redisTemplate.delete(REDIS_LAST_UPDATE_TIME);
-        redisTemplate.opsForValue().set(REDIS_LAST_UPDATE_TIME, String.valueOf(currentTime));
-
     }
 
+    /*
+    * 레디스 조회
+    * */
+    public List<String[]> getCachedNews() {
+        List<String[]> cachedNews = new ArrayList<>();
+        List<String> cached = redisTemplate.opsForList().range(REDIS_NEWS_KEY, 0,-1);
+        if (cached==null || cached.size()==0)  {
+            saveNews();
+        }
+        for(String serialized : cached) {
+            String[] arr = serialized.split(REDIS_DELIMITER);
+            if (arr.length>2) cachedNews.add(arr);
+        }
+        return cachedNews;
+    }
+
+    /*
+     * 레디스 업데이트
+     * */
+    @Scheduled(cron = "0 0 0/2 * * *")
+    public void updateNews() {
+        List<String> newNews = callCrawlingEndpoint(); // 크롤링한 새 데이터
+        List<String[]> cachedNews = getCachedNews(); // 캐싱데이터
+        List<String[]> updatedNews = new ArrayList<>();
+
+        for (String str : newNews) {
+            JsonParser parser = new JsonParser(); // JSONParser로 JSONObject로 변환
+            JsonObject jsonObject = parser.parse(str).getAsJsonObject();
+            String url = jsonObject.get("Url").getAsString();
+
+            for(String[] arr : cachedNews) {
+                if (arr[0]!=url) continue;
+                updatedNews.add(arr);
+            }
+        }
+//        for(String[] arr:newNews) {
+//            String serialized = String.join(REDIS_DELIMITER, arr);
+//            if (!newNews.contains(serialized)) continue;
+//            updatedNews.add(arr);
+//        }
+
+        if (updatedNews.size()!=0 || !updatedNews.isEmpty()) {
+            redisTemplate.delete(REDIS_NEWS_KEY);
+            for(String[] arr:cachedNews) {
+                String serialized = String.join(REDIS_DELIMITER, arr);
+                redisTemplate.opsForList().rightPush(REDIS_NEWS_KEY, serialized);
+            }
+        }
+    }
 
     /*
      * tts by clova
