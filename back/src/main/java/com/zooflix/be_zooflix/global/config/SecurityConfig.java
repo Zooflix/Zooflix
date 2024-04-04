@@ -96,7 +96,7 @@ public class SecurityConfig {
         //경로별 인가 작업. /**는 모든 경로를 뜻함.
         http
                 .authorizeHttpRequests((auth) -> auth
-//                        .requestMatchers("/auth/signup", "/", "/auth/login", "/auth/reissue").permitAll()
+                        .requestMatchers("/swagger-ui/**").hasRole("ADMIN")
                         .requestMatchers("/**").permitAll()
 //                        .requestMatchers("/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
