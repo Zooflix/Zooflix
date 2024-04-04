@@ -18,6 +18,7 @@ public class StockSubscribeDto {
     private LocalDateTime stockSubscribeCreate;
     private int stockSubscribeDay;
     private String userId;
+    private int userNo;
     private String userAppKey;
     private String userSecretKey;
     private String userAccount;

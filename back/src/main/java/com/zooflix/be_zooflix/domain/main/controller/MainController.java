@@ -1,6 +1,7 @@
 package com.zooflix.be_zooflix.domain.main.controller;
 
 import com.zooflix.be_zooflix.domain.main.dto.MainDto;
+import com.zooflix.be_zooflix.domain.main.dto.MainIndiceDto;
 import com.zooflix.be_zooflix.domain.main.service.MainService;
 import com.zooflix.be_zooflix.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,9 +29,14 @@ public class MainController {
     @GetMapping("/ranking")
     @Operation(summary = "메인페이지 랭킹 데이터 조회")
     public ResponseEntity<ResultResponse<MainDto>> mainRankingData() {
-        System.out.println("main");
         MainDto mainData = mainService.mainRankingData();
+        return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), mainData));
+    }
 
+    @GetMapping("/indices")
+    @Operation(summary = "메인페이지 주요 지표 데이터 조회")
+    public ResponseEntity<ResultResponse<MainIndiceDto>> mainStockIndices() {
+        MainIndiceDto mainData = mainService.mainIndices();
         return ResponseEntity.ok(ResultResponse.res(HttpStatus.OK, HttpStatus.OK.toString(), mainData));
     }
 }
