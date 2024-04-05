@@ -10,12 +10,13 @@ import {
   selectUserNameState,
 } from "../../Store/PredictState";
 import "./Page.css";
+import { userZbti } from "../../Store/UserState";
 
 type PageProps = {
   sorted: string;
   stockName: string;
   onCurrentPageChange: (value: any[]) => void;
-  zbti: boolean;
+  toggle: boolean;
 };
 
 function Page(props: PageProps) {
@@ -36,10 +37,11 @@ function Page(props: PageProps) {
   const [selectUserName, setSelectUserName] =
     useRecoilState(selectUserNameState);
   const [deletePdNo, setDeletePdNo] = useRecoilState(deletePdNoState);
+  const [zbti, setZbti] = useRecoilState(userZbti);
 
   useEffect(() => {
     fetchData();
-  }, [props.sorted, props.stockName, props.zbti]);
+  }, [props.sorted, props.stockName, props.toggle]);
 
   useEffect(() => {
     setDeletePdNo(0);
@@ -58,7 +60,8 @@ function Page(props: PageProps) {
       const result = await selectPredicts(
         props.sorted,
         props.stockName,
-        props.zbti
+        zbti,
+        props.toggle
       );
       setData(result);
       setPage(1);
