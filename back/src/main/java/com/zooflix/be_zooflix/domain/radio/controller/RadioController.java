@@ -1,6 +1,7 @@
 package com.zooflix.be_zooflix.domain.radio.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zooflix.be_zooflix.domain.radio.service.RadioService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,8 +29,8 @@ public class RadioController {
 
     @GetMapping(value = "/radio/cachedData")
     @Operation(summary = "캐싱 데이터 반환")
-    public ResponseEntity<List<String[]>> insertNews() {
-        List<String[]> list = radioService.getCachedList();
+    public ResponseEntity<List<String[]>> selectCachedData() {
+        List<String[]> list = radioService.getCachedNews();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(list);
@@ -38,8 +39,8 @@ public class RadioController {
     @GetMapping(value = "/radio/tts", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "tts 출력")
     public ResponseEntity<List<String>> playRadio() {
-        List<String[]> audioList = radioService.getCachedList();
-        List<String> base64List = radioService.callTtsEndpoint(audioList)
+        List<String[]> cachedList = radioService.getCachedNews();
+        List<String> base64List = radioService.callTtsEndpoint(cachedList)
                 .stream()
                 .map(Base64.getEncoder()::encodeToString)
                 .collect(Collectors.toList());

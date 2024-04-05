@@ -203,34 +203,24 @@ async def compare_graph(stock_code, stock_name: str = Query(..., description="�
 
 
 #
-# 크롤링+번역
+# 크롤링
 #
-@app.post("/radio/crawling/translation/endpoint")
-async def getCrawlingData(request: Request):
+@app.post("/radio/crawling/endpoint")
+async def crawling(request: Request):
     request_body = await request.json()
     webUrl = request_body.get("webUrl")  # 요청 바디에서 웹 URL 가져오기
-    clientId = request_body.get("clientId")
-    clientSecret = request_body.get("clientSecret")
-    ppgUrl = request_body.get("ppgUrl")
-    crawlingNews = await crawling(webUrl)
-    transNews = await translation(clientId, clientSecret, ppgUrl, crawlingNews)
-    return transNews
 
-
-# 크롤링
-@app.get("/radio/crawling")
-async def crawling(url):
-    crawlingList = [] # 기사+본문 리스트
+    crawlingList = []  # 기사+본문 리스트
 
     # 1. 기사 URL 얻기
     articleUrl = ""
     head = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'}
-    response = get(url, headers=head)
+    response = get(webUrl, headers=head)
     if (response.status_code == 200):
         soup = BeautifulSoup(response.text, "html.parser")  # 해당 web의 html 전체
         newsList = soup.find_all('a', class_="Card-title")  # 기사목록
-        if (newsList!=[]):
+        if (newsList != []):
             for news in newsList:
                 articleUrl = news['href']
                 newsTitle = news.text
@@ -239,13 +229,14 @@ async def crawling(url):
                 response = get(articleUrl, headers=head)
                 if (response.status_code == 200):
                     soup = BeautifulSoup(response.text, "html.parser")  # 해당 web의 html을 긁어오기
-                    newsContent = soup.find_all('div', class_=["FeaturedContent-articleBody", "ArticleBody-articleBody"])  # 기사 본문
+                    newsContent = soup.find_all('div', class_=["FeaturedContent-articleBody",
+                                                               "ArticleBody-articleBody"])  # 기사 본문
 
                     content_texts = ""  # 기사 본문 문자열
                     for description in newsContent:
                         contentList = description.find_all('p')
                         for oneContent in contentList:
-                            content_texts += oneContent.text+ " "
+                            content_texts += oneContent.text + " "
                         oneCrawling = {
                             "Url": articleUrl,
                             "Title": newsTitle,
@@ -263,11 +254,21 @@ async def crawling(url):
     else:
         errorMsg = "newsPage is not found"
         return errorMsg
+    return crawlingList
 
 
-# 번역 by Papago
-@app.get("/radio/translation")
-async def translation(id, secret, url, list):
+
+#
+# 번역
+#
+@app.post("/radio/translation/endpoint")
+async def translation(request: Request):
+    request_body = await request.json()
+    clientId = request_body.get("clientId")
+    clientSecret = request_body.get("clientSecret")
+    ppgUrl = request_body.get("ppgUrl")
+    list = request_body.get("list")
+
     translationList = []
 
     for news in list:
@@ -281,17 +282,17 @@ async def translation(id, secret, url, list):
             "text": newsTitle
         }
         headers = {
-            "X-NCP-APIGW-API-KEY-ID": id,
-            "X-NCP-APIGW-API-KEY": secret,
+            "X-NCP-APIGW-API-KEY-ID": clientId,
+            "X-NCP-APIGW-API-KEY": clientSecret,
             "Content-Type": "application/json"
         }
-        titleResponse = requests.post(url, data=json.dumps(titleData).encode("utf-8"), headers=headers)
+        titleResponse = requests.post(ppgUrl, data=json.dumps(titleData).encode("utf-8"), headers=headers)
         contentData = {
             "source": "en",
             "target": "ko",
             "text": newsContent
         }
-        contentResponse = requests.post(url, data=json.dumps(contentData).encode("utf-8"), headers=headers)
+        contentResponse = requests.post(ppgUrl, data=json.dumps(contentData).encode("utf-8"), headers=headers)
 
         # JSON 문자열을 파이썬 객체로 변환
         titleJson = titleResponse.json()
@@ -301,10 +302,10 @@ async def translation(id, secret, url, list):
             "TranslationTitle": titleJson["message"]["result"]["translatedText"],
             "TranslationContent": contentJson["message"]["result"]["translatedText"]
         }
-        if (titleResponse.status_code == 200 & contentResponse.status_code==200):
+        if (titleResponse.status_code == 200 & contentResponse.status_code == 200):
             translationList.append(json.dumps(oneTranslation, ensure_ascii=False))
         else:
-            print("Error Code:" + str(titleJson)+ str(contentJson) + " translation is failed")
+            print("Error Code:" + str(titleJson) + str(contentJson) + " translation is failed")
     return translationList
 
 
@@ -345,6 +346,7 @@ async def summary(request: Request):
     responseJson = response.json()
     if (response.status_code == 200):
         result = responseJson["summary"].replace("\n", " ")
+        result = result.replace('\\\"', '\"')
         return result
     else:
         print("Error Code:" + str(responseJson)+" summary is failed")
