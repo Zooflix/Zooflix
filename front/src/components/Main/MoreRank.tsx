@@ -1,5 +1,9 @@
 import Character3d from "../Character/Character3d";
 import styled from "styled-components";
+import UserDetailModal from "../Predict/UserDetailModal";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { ModalUserNoState, ModalUserNameState } from "../../Store/PredictState";
 
 interface Props {
   topFailUser: any;
@@ -8,65 +12,84 @@ interface Props {
 }
 
 function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
-  let zbti = new Map();
-  zbti.set("Lion", "일단 다 사자");
-  zbti.set("Monkey", "재간둥이 원숭이");
-  zbti.set("Pig", "저금왕 돼지");
-  zbti.set("Rabbit", "팔랑귀 토끼");
-  zbti.set("Bear", "검사 결과 없음");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ModalUserNo, setModalUserNo] = useRecoilState(ModalUserNoState);
+  const [ModalUserName, setModalUserName] = useRecoilState(ModalUserNameState);
+  const openModal = (userName: string, userNo: number) => {
+    setModalUserName(userName);
+    setModalUserNo(userNo);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <RankWrapper>
-      {topStreakUser ? (
-        <UserDiv>
-          <Title>최다 연속 예측 성공</Title>
+      {topStreakUser && (
+        <UserDiv
+          onClick={() => {
+            openModal(topStreakUser.userName, topStreakUser.userNo);
+          }}
+        >
+          <Title>최다 예측 성공</Title>
           <Character3d
             name={topStreakUser.userZbti || "Bear"}
-            characterScale={0.5}
+            characterScale={0.47}
             canvasWidth={70}
-            canvasHeight={65}
-            toBelow={27}
+            canvasHeight={60}
+            toBelow={26}
             action="turn"
           />
           <UserName>{topStreakUser.userName}</UserName>
-          <PredictCount>
-            연속 {topStreakUser.successStreak}회 예측 성공
-          </PredictCount>
+          <PredictCount>{topStreakUser.successCount}회 예측 성공</PredictCount>
         </UserDiv>
-      ) : (
-        <div>Loading...</div>
       )}
-      {topFailUser ? (
-        <UserDiv>
+      {topFailUser && (
+        <UserDiv
+          onClick={() => {
+            openModal(topFailUser.userName, topFailUser.userNo);
+          }}
+        >
           <Title>최다 예측 실패</Title>
           <Character3d
             name={topFailUser.userZbti || "Bear"}
-            characterScale={0.5}
+            characterScale={0.47}
             canvasWidth={70}
-            canvasHeight={65}
-            toBelow={27}
+            canvasHeight={60}
+            toBelow={26}
             action="turn"
           />
           <UserName>{topFailUser.userName}</UserName>
           <PredictCount>예측 {topFailUser.failCount}회 실패</PredictCount>
         </UserDiv>
-      ) : (
-        <div>Loading...</div>
       )}
       {topStock && (
-        <UserDiv>
+        <UserDiv
+          onClick={() => {
+            openModal(topStock.userName, topStock.userNo);
+          }}
+        >
           <Title>삼성전자 1위 예측자</Title>
           <Character3d
             name={topStock.userZbti || "Bear"}
-            characterScale={0.5}
+            characterScale={0.47}
             canvasWidth={70}
-            canvasHeight={65}
-            toBelow={27}
+            canvasHeight={60}
+            toBelow={26}
             action="turn"
           />
           <UserName>{topStock.userName}</UserName>
           <PredictCount>예측 {topStock.cnt}회 성공</PredictCount>
         </UserDiv>
+      )}
+      {topStreakUser && (
+        <>
+          <UserDetailModal
+            isModalOpen={isModalOpen}
+            closeModal={closeModal}
+            userName={ModalUserName}
+            userNo={ModalUserNo}
+          />
+        </>
       )}
     </RankWrapper>
   );
@@ -97,6 +120,9 @@ const UserDiv = styled.div`
   align-items: center;
   width: 33%;
   height: 130px;
+  &:hover {
+    scale: 1.05;
+  }
 `;
 
 const UserName = styled.div`

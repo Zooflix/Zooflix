@@ -10,7 +10,7 @@ import {
   myPagePredictListState,
   myPageSubscribeListState,
 } from "../../Store/MyPageState";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   getMyInfo,
   getMyPredictList,

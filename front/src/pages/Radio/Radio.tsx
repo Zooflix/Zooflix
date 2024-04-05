@@ -20,6 +20,8 @@ import Character3d from "../../components/Character/Character3d";
 import SquareBtn from "../../components/Common/SquareBtn";
 import { myPageInfoState } from "../../Store/MyPageState";
 
+import { loginCheck } from "../../components/User/IsLoginCheck";
+import { useNavigate } from "react-router-dom";
 
 // 버튼 스타일
 const imgBtnStyle = {
@@ -36,7 +38,7 @@ const clickBtnStyle = {
   boxShadow: "none",
   border: "2px solid #d80000",
   color: "#d80000",
-}
+};
 
 function Player() {
   const [isPaused, setIsPaused] = useRecoilState(isPausedState); // 재생, 중단 여부
@@ -49,20 +51,19 @@ function Player() {
   const [news, setNews] = useState<any[]>([]);
   const [blobUrlList, setBlobUrlList] = useState<string[]>([]);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
-  
 
+  const navigate = useNavigate();
 
   // 스피너
-  
 
   // tts 생성
-  const ttsMaker = async() => {
+  const ttsMaker = async () => {
     const urlList = await playRadio();
     setBlobUrlList(urlList);
     const response = await getCachedData();
     setNews(response);
     setIsLoaded(true);
-  }
+  };
 
   // 처음 재생버튼 누르면 tts 준비하기
   useEffect(() => {
@@ -75,29 +76,34 @@ function Player() {
     }
   }, [isLoaded]);
 
-  const clickBtn = async() => {
-    setIsPaused(!isPaused);
-    setIsClicked(isClicked+1);
-  }
+  const clickBtn = async () => {
+    if (!loginCheck()) {
+      alert("로그인이 필요한 기능입니다.");
+      navigate("/login");
+    } else {
+      setIsPaused(!isPaused);
+      setIsClicked(isClicked + 1);
+    }
+  };
 
   // 재생 중단
   useEffect(() => {
-    if (isClicked===1 && !isPaused) { // 처음 재생버튼 누르면 tts 준비하기
+    if (isClicked === 1 && !isPaused) {
+      // 처음 재생버튼 누르면 tts 준비하기
       ttsMaker();
     } else {
       if (isPaused) {
         audioEl.current?.pause();
       } else {
         audioEl.current?.play();
-      };
+      }
     }
   }, [isPaused]);
-
 
   // 오디오 이벤트
   useEffect(() => {
     const handleAudioEnded = () => {
-      const nextIndex = currentAudioIndex+1;
+      const nextIndex = currentAudioIndex + 1;
       if (nextIndex < blobUrlList.length - 1) {
         setCurrentAudioIndex(nextIndex);
       } else {
@@ -114,10 +120,9 @@ function Player() {
     }
   }, [currentAudioIndex, blobUrlList.length]);
 
-
   // currentIdx가 바뀔 때마다 src 갱신
-  useEffect(()=> {
-    if(audioEl.current) {
+  useEffect(() => {
+    if (audioEl.current) {
       audioEl.current.src = blobUrlList[currentAudioIndex];
     }
     if (!isPaused) {
@@ -125,8 +130,7 @@ function Player() {
         audioEl.current?.play();
       }, 1000);
     }
-  }, [currentAudioIndex])
-
+  }, [currentAudioIndex]);
 
   return (
     <Wrapper>
@@ -134,49 +138,49 @@ function Player() {
         <LeftContainer>
           <Title text="해외 뉴스를 들려줄게요" />
           <Character3d
-          name={userZbtiState}
-          characterScale={0.52}
-          canvasWidth={400}
-          canvasHeight={550}
-          toBelow={35}
-          action="turn"
+            name={userZbtiState}
+            characterScale={0.52}
+            canvasWidth={420}
+            canvasHeight={550}
+            toBelow={33}
+            action="turn"
           />
           {isPaused ? (
-              <ImgBtn
-                src={Playicon}
-                onClick={clickBtn}
-                disabled={isPaused ? false : true}
-                style={imgBtnStyle}
-              ></ImgBtn>
-            ) : (
-              <ImgBtn
-                src={Pauseicon}
-                onClick={clickBtn}
-                disabled={isPaused ? true : false}
-                style={imgBtnStyle}
-              ></ImgBtn>
-            )}
-            <audio ref={audioEl} />
+            <ImgBtn
+              src={Playicon}
+              onClick={clickBtn}
+              disabled={isPaused ? false : true}
+              style={imgBtnStyle}
+            ></ImgBtn>
+          ) : (
+            <ImgBtn
+              src={Pauseicon}
+              onClick={clickBtn}
+              disabled={isPaused ? true : false}
+              style={imgBtnStyle}
+            ></ImgBtn>
+          )}
+          <audio ref={audioEl} />
         </LeftContainer>
         <MiddleContainer />
         <RightContainer>
           <RightDetailContainer>
-            {news.length===0? (
-            <ContentContainer>
-              <NewsTitle>
-                <p>라디오를 재생해주세요!</p>
-              </NewsTitle>
-            </ContentContainer>
+            {news.length === 0 ? (
+              <ContentContainer>
+                <NewsTitle>
+                  <p>라디오를 재생해주세요!</p>
+                </NewsTitle>
+              </ContentContainer>
             ) : (
-            <ContentContainer>
-              <NewsTitle>
-                <SquareBtn text="click!"  style={clickBtnStyle}/> <br/>
-                <a href={news[currentAudioIndex]?.[0]}>
-                  {news[currentAudioIndex]?.[1]}
-                </a>
-              </NewsTitle>
-              <p>{news[currentAudioIndex]?.[2]}</p>
-            </ContentContainer>
+              <ContentContainer>
+                <NewsTitle>
+                  <SquareBtn text="click!" style={clickBtnStyle} /> <br />
+                  <a href={news[currentAudioIndex]?.[0]}>
+                    {news[currentAudioIndex]?.[1]}
+                  </a>
+                </NewsTitle>
+                <p>{news[currentAudioIndex]?.[2]}</p>
+              </ContentContainer>
             )}
           </RightDetailContainer>
         </RightContainer>
@@ -220,7 +224,6 @@ const RightContainer = styled.div`
 const RightDetailContainer = styled.div`
   margin: auto 0;
 `;
-
 
 const ContentContainer = styled.div`
   display: flex;

@@ -4,7 +4,7 @@ import { atom } from "recoil";
 export interface stockSubscription {
   stockSubscribeNo: number;
   stockName: string;
-  stockCode: number;
+  stockCode: string;
   stockCount: number;
   stockSubscribeDay: number;
   stockSubscribeCreate: Date;

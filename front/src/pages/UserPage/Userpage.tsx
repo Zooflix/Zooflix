@@ -2,20 +2,10 @@ import styled from "styled-components";
 import GotoZbti from "../../assets/img/button/GotoZbti.svg";
 import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
-import { getMySubscribeList, getUserStockList } from "../../apis/api/MyPage";
+import { getMySubscribeList } from "../../apis/api/MyPage";
 import { useNavigate } from "react-router";
-import { stockSubListState } from "../../Store/StockSubscribeState";
-import {
-  userPageInfoState,
-  userPagePredictListState,
-  userPageSubscribeListState,
-} from "../../Store/UserPageState";
-import { ModalUserNoState } from "../../Store/PredictState";
-import {
-  getUserPredictList,
-  getUserSubscribeList,
-  getUserInfo,
-} from "../../apis/api/UserPage";
+import { userPageInfoState } from "../../Store/UserPageState";
+import { getUserInfo } from "../../apis/api/UserPage";
 import TempWithImage from "../../components/UserPage/TempWithImage";
 import SubscribeButton from "../../components/Common/SubscribeButton";
 import UserContentHeader from "../../components/UserPage/UserContentHeader";
@@ -37,9 +27,6 @@ function UserPage() {
   );
   // 유저 정보
   const [userPageInfo, setUserPageInfo] = useRecoilState(userPageInfoState);
-
-  // 유저 주식 리스트
-  const [userStockList, setUserStockList] = useRecoilState(stockSubListState);
 
   const navigate = useNavigate();
 

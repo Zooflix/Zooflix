@@ -3,12 +3,17 @@ import { axios, axiosPrivate } from "../utils/axios";
 const REST_PREDICT_API = "/predict";
 
 //전체 예측 글 조회
-export async function selectPredicts(sorted: string, stockName: string) {
+export async function selectPredicts(
+  sorted: string,
+  stockName: string,
+  zbti: boolean
+) {
   try {
     const response = await axios.get(`${REST_PREDICT_API}`, {
       params: {
         sorted: sorted,
         stockName: stockName,
+        zbti: zbti,
       },
     });
     return response.data;
