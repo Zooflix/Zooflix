@@ -262,11 +262,12 @@ async def crawling(request: Request):
 # 번역
 #
 @app.post("/radio/translation/endpoint")
-async def translation(request: Request, list):
+async def translation(request: Request):
     request_body = await request.json()
     clientId = request_body.get("clientId")
     clientSecret = request_body.get("clientSecret")
     ppgUrl = request_body.get("ppgUrl")
+    list = request_body.get("list")
 
     translationList = []
 
@@ -345,6 +346,7 @@ async def summary(request: Request):
     responseJson = response.json()
     if (response.status_code == 200):
         result = responseJson["summary"].replace("\n", " ")
+        result = result.replace('\\\"', '\"')
         return result
     else:
         print("Error Code:" + str(responseJson)+" summary is failed")

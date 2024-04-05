@@ -38,12 +38,12 @@ public class RadioService {
 
     final String REDIS_NEWS_KEY = "cachedNews";
     final String REDIS_DELIMITER = " @@@ ";
-    final String REDIS_LAST_UPDATE_TIME = "lastUpdateTime";
-    final String TEMP_LIST = "tempList";
 
     /* News.py 엔드포인트 */
     @Value("${python.endpoint.news.crawling}")
     private String pythonEndpointNewsCrawling;
+    @Value("${python.endpoint.news.translation}")
+    private String pythonEndpointNewsTranslation;
     @Value("${python.endpoint.news.summary}")
     private String pythonEndpointNewsSummary;
     @Value("${python.endpoint.news.tts}")
@@ -104,9 +104,10 @@ public class RadioService {
         requestBody.put("clientId", pythonPpgClientId);
         requestBody.put("clientSecret", pythonPpgClientSecret);
         requestBody.put("ppgUrl", pythonPpgUrl);
+
         requestBody.put("list", crawlingData);
 
-        return restTemplate.postForObject(pythonEndpointNewsCrawling, requestBody,  List.class);
+        return restTemplate.postForObject(pythonEndpointNewsTranslation, requestBody, List.class);
     }
 
     /*
@@ -179,7 +180,6 @@ public class RadioService {
     /*
     * 레디스에 저장
     * */
-    @Scheduled(cron = "0 0 0/2 * * *")
     public void saveNews() {
         List<String[]> newNews = getNews();
         for(String[] str : newNews) {
@@ -194,12 +194,15 @@ public class RadioService {
     public List<String[]> getCachedNews() {
         List<String[]> cachedNews = new ArrayList<>();
         List<String> cached = redisTemplate.opsForList().range(REDIS_NEWS_KEY, 0,-1);
-        if (cached==null || cached.size()==0)  {
+        if (cached==null || cached.isEmpty())  {
             saveNews();
+            cached = redisTemplate.opsForList().range(REDIS_NEWS_KEY, 0,-1);
         }
-        for(String serialized : cached) {
-            String[] arr = serialized.split(REDIS_DELIMITER);
-            if (arr.length>2) cachedNews.add(arr);
+        if (cached!=null) {
+            for(String serialized : cached) {
+                String[] arr = serialized.split(REDIS_DELIMITER);
+                if (arr.length>2) cachedNews.add(arr);
+            }
         }
         return cachedNews;
     }
@@ -207,29 +210,23 @@ public class RadioService {
     /*
      * 레디스 업데이트
      * */
-    @Scheduled(cron = "0 0 0/2 * * *")
+    @Scheduled(cron = "0 0 0 */1 * *")
     public void updateNews() {
-        List<String> newNews = callCrawlingEndpoint(); // 크롤링한 새 데이터
+        List<String[]> newNews = getNews(); // 크롤링한 새 데이터 [{djlfjssf,dlfjlsj,dfljlsjfls}.{}{}]
         List<String[]> cachedNews = getCachedNews(); // 캐싱데이터
-        List<String[]> updatedNews = new ArrayList<>();
 
-        for (String str : newNews) {
-            JsonParser parser = new JsonParser(); // JSONParser로 JSONObject로 변환
-            JsonObject jsonObject = parser.parse(str).getAsJsonObject();
-            String url = jsonObject.get("Url").getAsString();
+        List<String[]> plusNews = new ArrayList<>(); // 새로 추가된 리스트
 
-            for(String[] arr : cachedNews) {
-                if (arr[0]!=url) continue;
-                updatedNews.add(arr);
+        for(int i =cachedNews.size()-1; i>=0; i--) {
+            if (!cachedNews.get(i)[0].equals(newNews.get(i)[0])) {
+                cachedNews.remove(i);
+                plusNews.add(new String[] {newNews.get(i)[0], newNews.get(i)[1], newNews.get(i)[2]});
             }
         }
-//        for(String[] arr:newNews) {
-//            String serialized = String.join(REDIS_DELIMITER, arr);
-//            if (!newNews.contains(serialized)) continue;
-//            updatedNews.add(arr);
-//        }
+        if (!plusNews.isEmpty())
+            cachedNews.addAll(0,plusNews);
 
-        if (updatedNews.size()!=0 || !updatedNews.isEmpty()) {
+        if (!cachedNews.isEmpty()) {
             redisTemplate.delete(REDIS_NEWS_KEY);
             for(String[] arr:cachedNews) {
                 String serialized = String.join(REDIS_DELIMITER, arr);
