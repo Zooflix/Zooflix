@@ -31,27 +31,27 @@ public class PredictController {
 
     @Operation(summary = "전체 예측 글 조회")
     @GetMapping("/predict")
-    public ResponseEntity<?> selectPredicts(@RequestParam String sorted, @RequestParam String stockName) {
+    public ResponseEntity<?> selectPredicts(@RequestParam String sorted, @RequestParam String stockName, @RequestParam String zbti, @RequestParam boolean toggle ) {
         if (stockName.equals("null") || stockName.isEmpty()) { // 전체
             if (sorted.equals("userTem")) {
-                List<PredictResDto> predicts = predictService.getSortedPredicts();
+                List<PredictResDto> predicts = predictService.getSortedPredicts(zbti, toggle);
                 return ResponseEntity.ok(predicts);
             } else if (sorted.equals("end")) {
-                List<PredictResDto> predicts = predictService.getEndPredicts();
+                List<PredictResDto> predicts = predictService.getEndPredicts(zbti, toggle);
                 return ResponseEntity.ok(predicts);
             } else {
-                List<PredictResDto> predicts = predictService.getPredicts();
+                List<PredictResDto> predicts = predictService.getPredicts(zbti, toggle);
                 return ResponseEntity.ok(predicts);
             }
         } else {
             if (sorted.equals("userTem")) {
-                List<PredictResDto> selectedPredicts = predictService.getSortedPredictsByStockName(stockName);
+                List<PredictResDto> selectedPredicts = predictService.getSortedPredictsByStockName(stockName, zbti, toggle);
                 return ResponseEntity.ok(selectedPredicts);
             } else if (sorted.equals("end")) {
-                List<PredictResDto> selectedPredicts = predictService.getEndPredictsByStockName(stockName);
+                List<PredictResDto> selectedPredicts = predictService.getEndPredictsByStockName(stockName, zbti, toggle);
                 return ResponseEntity.ok(selectedPredicts);
             } else {
-                List<PredictResDto> selectedPredicts = predictService.getPredictsByStockName(stockName);
+                List<PredictResDto> selectedPredicts = predictService.getPredictsByStockName(stockName, zbti, toggle);
                 return ResponseEntity.ok(selectedPredicts);
             }
 

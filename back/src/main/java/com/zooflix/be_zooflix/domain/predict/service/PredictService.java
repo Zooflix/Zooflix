@@ -76,44 +76,74 @@ public class PredictService {
     }
 
     //전체 예측 목록 조회
-    public List<PredictResDto> getPredicts() {
-        List<Predict> predicts = predictRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
+    public List<PredictResDto> getPredicts(String zbti, boolean toggle) {
+        List<Predict> predicts = new ArrayList<Predict>();
+        if (toggle) {
+            predicts = predictRepository.findAllZbti(zbti);
+        } else {
+            predicts = predictRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"));
+        }
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    public List<PredictResDto> getSortedPredicts() {
-        List<Predict> predicts = predictRepository.findByAllOrderByUserTem();
+    public List<PredictResDto> getSortedPredicts(String zbti, boolean toggle) {
+        List<Predict> predicts = new ArrayList<Predict>();
+        if(toggle){
+            predicts = predictRepository.findByAllOrderByUserTemZbti(zbti);
+        }else {
+            predicts = predictRepository.findByAllOrderByUserTem();
+        }
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    public List<PredictResDto> getEndPredicts() {
-        List<Predict> predicts = predictRepository.findEndPredict();
+    public List<PredictResDto> getEndPredicts(String zbti, boolean toggle) {
+        List<Predict> predicts = new ArrayList<Predict>();
+        if(toggle) {
+            predicts = predictRepository.findEndPredictZbti(zbti);
+        }else {
+            predicts = predictRepository.findEndPredict();
+        }
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     //종목명 검색
-    public List<PredictResDto> getPredictsByStockName(String stockName) {
-        List<Predict> predicts = predictRepository.findByStockNameOrderByCreateDateDesc(stockName);
+    public List<PredictResDto> getPredictsByStockName(String stockName, String zbti, boolean toggle) {
+        List<Predict> predicts = new ArrayList<Predict>();
+        if(toggle){
+            predicts = predictRepository.findByStockNameOrderByCreateDateDescZbti(stockName, zbti);
+        }else {
+            predicts = predictRepository.findByStockNameOrderByCreateDateDesc(stockName);
+        }
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    public List<PredictResDto> getSortedPredictsByStockName(String stockName) {
-        List<Predict> predicts = predictRepository.findByStockNameOrderByUserTem(stockName);
+    public List<PredictResDto> getSortedPredictsByStockName(String stockName, String zbti, boolean toggle) {
+        List<Predict> predicts = new ArrayList<Predict>();
+        if(toggle){
+            predicts = predictRepository.findByStockNameOrderByUserTemZbti(stockName, zbti);
+        }else{
+            predicts = predictRepository.findByStockNameOrderByUserTem(stockName);
+        }
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    public List<PredictResDto> getEndPredictsByStockName(String stockName) {
-        List<Predict> predicts = predictRepository.findEndPredictByStockName(stockName);
+    public List<PredictResDto> getEndPredictsByStockName(String stockName, String zbti, boolean toggle) {
+        List<Predict> predicts = new ArrayList<Predict>();
+        if(toggle){
+            predicts = predictRepository.findEndPredictByStockNameZbti(stockName, zbti);
+        }else {
+            predicts = predictRepository.findEndPredictByStockName(stockName);
+        }
         return predicts.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
