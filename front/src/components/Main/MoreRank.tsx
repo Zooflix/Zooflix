@@ -30,7 +30,7 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
             openModal(topStreakUser.userName, topStreakUser.userNo);
           }}
         >
-          <Title>최다 연속 예측 성공</Title>
+          <Title>최다 예측 성공</Title>
           <Character3d
             name={topStreakUser.userZbti || "Bear"}
             characterScale={0.47}
@@ -40,9 +40,7 @@ function MoreRank({ topFailUser, topStreakUser, topStock }: Props) {
             action="turn"
           />
           <UserName>{topStreakUser.userName}</UserName>
-          <PredictCount>
-            연속 {topStreakUser.successStreak}회 예측 성공
-          </PredictCount>
+          <PredictCount>{topStreakUser.successCount}회 예측 성공</PredictCount>
         </UserDiv>
       )}
       {topFailUser && (
