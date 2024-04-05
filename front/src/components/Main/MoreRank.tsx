@@ -122,6 +122,9 @@ const UserDiv = styled.div`
   align-items: center;
   width: 33%;
   height: 130px;
+  &:hover {
+    scale: 1.05;
+  }
 `;
 
 const UserName = styled.div`

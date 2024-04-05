@@ -243,6 +243,7 @@ function PredictList(props: PredictProps) {
 export default PredictList;
 const Wrapper = styled.div`
   padding: 15px;
+  width: 45vw;
 `;
 
 const PredictDiv = styled.div`
