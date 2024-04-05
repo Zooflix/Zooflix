@@ -22,7 +22,6 @@ import {
 } from "../../Store/MyPageState";
 import { getMyInfo, getMySubscribeList } from "../../apis/api/MyPage";
 import { userZbti } from "../../Store/UserState";
-import Zbti from "../../components/Predict/Zbti";
 import { loginCheck } from "../../components/User/IsLoginCheck";
 import Character3d from "../../components/Character/Character3d";
 
@@ -158,18 +157,13 @@ function Predict() {
               </SearchDiv>
               {loginCheck() && (
                 <ZbtiBox>
-                  {/* <Zbti
-                    userZbti={userZbtiState}
-                    width="50px"
-                    className="ZbtiImg"
-                  ></Zbti> */}
                   <Character3d
                     name={userZbtiState}
-                    characterScale={0.5}
+                    characterScale={0.45}
                     action="turn"
-                    canvasHeight={50}
+                    canvasHeight={60}
                     canvasWidth={40}
-                    toBelow={23}
+                    toBelow={25}
                   />
                   내 유형만 보기
                   <ToggleContainer
@@ -206,7 +200,7 @@ function Predict() {
             sorted={sorted}
             stockName={stockName}
             onCurrentPageChange={handleCurrentPageChange}
-            zbti={isOn}
+            toggle={isOn}
           />
         </LowerContainer>
       </Wrapper>

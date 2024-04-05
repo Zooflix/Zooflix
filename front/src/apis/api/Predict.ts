@@ -6,7 +6,8 @@ const REST_PREDICT_API = "/predict";
 export async function selectPredicts(
   sorted: string,
   stockName: string,
-  zbti: boolean
+  zbti: string,
+  toggle: boolean
 ) {
   try {
     const response = await axios.get(`${REST_PREDICT_API}`, {
@@ -14,6 +15,7 @@ export async function selectPredicts(
         sorted: sorted,
         stockName: stockName,
         zbti: zbti,
+        toggle: toggle,
       },
     });
     return response.data;
