@@ -127,7 +127,7 @@ function PredictList(props: PredictProps) {
 
   return (
     <Wrapper>
-      {props.currentPage &&
+      {props.currentPage.length > 0 ? (
         props.currentPage.map((item) => (
           <Feed
             key={item.pdNo}
@@ -209,7 +209,10 @@ function PredictList(props: PredictProps) {
               </FeedIcon>
             </ClickWithOpen>
           </Feed>
-        ))}
+        ))
+      ) : (
+        <PredictDiv>작성한 예측글이 없습니다.</PredictDiv>
+      )}
       {/* 모달 */}
       {props.currentPage && (
         <>
@@ -240,6 +243,12 @@ function PredictList(props: PredictProps) {
 export default PredictList;
 const Wrapper = styled.div`
   padding: 15px;
+`;
+
+const PredictDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Feed = styled.div<FeedProps>`

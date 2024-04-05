@@ -120,25 +120,26 @@ function ZustraRank({ rankData, zbti }: Props) {
               <UserDiv key={index} expanded={isExpanded}>
                 <UserRank>
                   <img src={rankArr[index]} height="50px" />
-                  {index === 0 ? (
-                    <Character3d
-                      name={item.userZbti || "Bear"}
-                      characterScale={0.35}
-                      canvasWidth={50}
-                      canvasHeight={95}
-                      toBelow={23}
-                    />
-                  ) : (
-                    <Character3d
-                      name={item.userZbti || "Bear"}
-                      characterScale={0.35}
-                      canvasWidth={50}
-                      canvasHeight={95}
-                      toBelow={23}
-                      action="turn"
-                    />
-                  )}
-
+                  <CharacterDiv>
+                    {index === 0 ? (
+                      <Character3d
+                        name={item.userZbti || "Bear"}
+                        characterScale={0.37}
+                        canvasWidth={50}
+                        canvasHeight={95}
+                        toBelow={23}
+                      />
+                    ) : (
+                      <Character3d
+                        name={item.userZbti || "Bear"}
+                        characterScale={0.37}
+                        canvasWidth={50}
+                        canvasHeight={95}
+                        toBelow={23}
+                        action="turn"
+                      />
+                    )}
+                  </CharacterDiv>
                   <Margin>
                     <div>
                       <Name>{item.userName}</Name>
@@ -303,6 +304,7 @@ const InnerGraph = styled.div<InnerGraphProps>`
 
 const Margin = styled.div`
   margin-left: 20px;
+  width: 120px;
 `;
 
 const ToggleButton = styled.div`
@@ -385,4 +387,11 @@ const Num = styled.div`
   font-weight: bold;
   font-size: 12px;
   color: #0099e8;
+`;
+
+const CharacterDiv = styled.div`
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

@@ -3,12 +3,18 @@ import React from "react";
 import { cancelStockSubscribe } from "../../apis/api/Subscribe";
 import { loginCheck } from "../User/IsLoginCheck";
 import { getJwtUserNo } from "../../apis/utils/jwt";
+import { useRecoilState } from "recoil";
+import {
+  selectedStockCode,
+  selectedStockName,
+} from "../../Store/StockSubscribeState";
+import { useNavigate } from "react-router-dom";
 
 interface ItemProps {
   card: {
     stockSubscribeNo: number;
     stockName: string;
-    stockCode: number;
+    stockCode: string;
     stockCount: number;
     stockSubscribeDay: number;
     stockSubscribeCreate: Date;
@@ -33,8 +39,12 @@ const Card: React.FC<ItemProps> = ({
   ];
 
   const date = new Date(card.stockSubscribeCreate);
-  console.log(date);
-  console.log(date.getMonth());
+
+  const [selectStockName, setSelectStockName] =
+    useRecoilState(selectedStockName);
+  const [selectStockCode, setSelectStockCode] =
+    useRecoilState(selectedStockCode);
+  const navigate = useNavigate();
 
   async function terminationSubscribe() {
     await cancelStockSubscribe(card.stockSubscribeNo).then(() => {
@@ -44,9 +54,11 @@ const Card: React.FC<ItemProps> = ({
     });
   }
 
-  console.log(loginCheck());
-  console.log(getJwtUserNo());
-  console.log(card.userNo);
+  function goToSubscribe(name: string, code: string) {
+    setSelectStockName(name);
+    setSelectStockCode(code);
+    navigate("/stocksub");
+  }
 
   return (
     <CardWrapper>
@@ -69,8 +81,16 @@ const Card: React.FC<ItemProps> = ({
               </div>
             )}
 
-            {loginCheck() && getJwtUserNo() === card.userNo && (
+            {loginCheck() && getJwtUserNo() === card.userNo ? (
               <Button onClick={terminationSubscribe}>구독 해지</Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  goToSubscribe(card.stockName, card.stockCode);
+                }}
+              >
+                나도 구독하러 가기
+              </Button>
             )}
           </Content>
         </Back>
