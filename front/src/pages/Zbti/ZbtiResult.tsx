@@ -30,6 +30,7 @@ import { useEffect, useRef } from "react";
 import { getJwtUserName } from "../../apis/utils/jwt";
 
 import { userZbti } from "../../Store/UserState";
+import { getMyInfo } from "../../apis/api/MyPage";
 
 interface ImgMap {
   [key: string]: string;
@@ -53,7 +54,7 @@ function ZbtiResult() {
   const zbtiValue = useRecoilValue(zbtiQuestionState);
   const [myInfo, setMyInfo] = useRecoilState(myPageInfoState);
   console.log(zbtiValue);
-  const [userZbtiState, setuserZbtiState] = useRecoilState(userZbti);
+  const [userZbtiState, setUserZbtiState] = useRecoilState(userZbti);
 
   const isSloth =
     JSON.stringify(zbtiValue) === JSON.stringify([2, 1, 1, 2, 1, 2, 1, 2]);
@@ -127,25 +128,38 @@ function ZbtiResult() {
         ...prevMyInfo,
         userZbti: "Lion",
       }));
-    } else {
+    } else if (zbtiValue.length > 0) {
       setMyInfo((prevMyInfo) => ({
         ...prevMyInfo,
         userZbti: "Panda",
       }));
     }
-    console.log(myInfo.userZbti);
   };
 
   useEffect(() => {
+    fetchData();
     setZbti();
   }, []);
 
   useEffect(() => {
     console.log(myInfo.userZbti);
     zbtiUpdate(myInfo.userZbti);
-    setuserZbtiState(myInfo.userZbti);
+    setUserZbtiState(myInfo.userZbti);
   }, [myInfo.userZbti]);
 
+  const fetchData = async () => {
+    //내 정보
+    const dataInfo = await getMyInfo()
+      .then((resInfo) => {
+        setMyInfo(resInfo);
+        setZbti();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  
+  
   const navigate = useNavigate();
   const handleRetry = () => {
     navigate("/zbti");
