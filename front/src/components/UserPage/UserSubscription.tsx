@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { deleteMySubscribe } from "../../apis/api/MyPage";
+import { useNavigate } from "react-router-dom";
 
 interface Subscription {
   subscribeNo: number;
   subscribeName: string;
   subscribeTemperature: number;
+  subscribeUserNo: number;
 }
 
 interface SubscriptionProps {
@@ -13,9 +14,15 @@ interface SubscriptionProps {
 }
 
 function UserSubscription({ onSubscribe }: SubscriptionProps) {
+  const Navigate = useNavigate();
+
+  function toUserPage() {
+    Navigate(`/user-page/${onSubscribe.subscribeUserNo}`);
+  }
+
   return (
-    <Wrapper>
-      <div>{onSubscribe.subscribeName}</div>
+    <Wrapper onClick={toUserPage}>
+      <UserName>{onSubscribe.subscribeName}</UserName>
       <Temp>{onSubscribe.subscribeTemperature + "°C"}</Temp>
     </Wrapper>
   );
@@ -26,11 +33,15 @@ export default UserSubscription;
 const Wrapper = styled.div`
   margin: 0 auto;
   display: flex;
-  justify-content: space-around;
-  div {
-    margin: 10px;
-    font-weight: bold;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  width: 70%;
+  padding: 10px;
+  border-radius: 20px;
+  &:hover {
+    scale: 1.05;
   }
+  margin: 10px;
+  cursor: pointer;
 `;
 
 const Temp = styled.div`
@@ -38,8 +49,7 @@ const Temp = styled.div`
   font-weight: bold;
 `;
 
-const Button = styled.button`
-  margin-left: 10px;
-  border: 0;
-  background-color: transparent;
+const UserName = styled.div`
+  width: 170px;
+  margin-left: 20px;
 `;
