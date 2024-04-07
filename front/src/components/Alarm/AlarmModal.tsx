@@ -51,6 +51,7 @@ const Container = styled.div`
   background-color: #2a4263;
   border-radius: 20px;
   border: none;
+  margin-top: 100px;
 `;
 
 const TitleContainer = styled.div`
