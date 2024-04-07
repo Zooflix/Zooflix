@@ -114,6 +114,8 @@ public class    MyPageService {
             mySubscribeDto.setSubscribeNo(val.getSubscribeNo());
             mySubscribeDto.setSubscribeName(myInfoDto.getUserName());   //유저 닉네임
             mySubscribeDto.setSubscribeTemperature(myInfoDto.getUserTemperature()); //유저 온도
+            mySubscribeDto.setSubscribeUserNo(myInfoDto.getUserNo());
+
 
             mySubscribeList.add(mySubscribeDto);
         }
