@@ -19,7 +19,7 @@ function Landing1() {
           alt="landing1"
           loading="lazy"
           decoding="async"
-          width="670px"
+          width="700px"
         />
       </div>
     </LandingWrapper>
