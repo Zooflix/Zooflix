@@ -22,7 +22,7 @@ function Landing3() {
           alt="landing1"
           loading="lazy"
           decoding="async"
-          width="630px"
+          width="670px"
         />
       </div>
     </LandingWrapper>
