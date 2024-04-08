@@ -6,7 +6,10 @@ function Landing3() {
   return (
     <LandingWrapper>
       <Margin>
-        <h1>투자 성향 분석 포트폴리오</h1>
+        <h1>
+          투자 성향 분석
+          <br /> 포트폴리오
+        </h1>
         <p>
           나도 모르던 나의 투자성향
           <br />
@@ -14,7 +17,13 @@ function Landing3() {
         </p>
       </Margin>
       <div>
-        <img src={landing3} alt="landing1" loading="lazy" decoding="async" />
+        <img
+          src={landing3}
+          alt="landing1"
+          loading="lazy"
+          decoding="async"
+          width="630px"
+        />
       </div>
     </LandingWrapper>
   );
