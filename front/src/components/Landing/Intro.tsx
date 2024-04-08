@@ -140,19 +140,19 @@ export default Intro;
 
 const LandingPage = styled.div`
   background: linear-gradient(180deg, #81b9d6 0%, #c4d3e8 55.5%, #ffffff 96.5%);
-  padding-top: 110px;
+  padding-top: 105px;
   height: 100vh;
   width: 100vw;
   text-align: center;
   color: white;
   font-weight: 600;
   img {
-    margin: 20px 0;
+    margin: 17px 0;
   }
 `;
 
 const Margin = styled.div`
-  margin-top: 30px;
+  margin-top: 15px;
   display: flex;
   justify-content: center;
 `;
