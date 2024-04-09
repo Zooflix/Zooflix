@@ -2,10 +2,11 @@ import styled from "styled-components";
 import DeleteSubButton from "./DeleteSubButton";
 import { useRecoilState } from "recoil";
 import { myPageSubscribeListState } from "../../Store/MyPageState";
-import MySubscribeStock from "../SubscribeStock/MySubscribeStock";
 import CardList from "./CardList";
+import { useNavigate } from "react-router-dom";
 
 function MySubscribeList() {
+  const Navigate = useNavigate();
   const [myPageSubscribeList, setMyPageSubScribeList] = useRecoilState(
     myPageSubscribeListState
   );
@@ -17,6 +18,10 @@ function MySubscribeList() {
       )
     );
   };
+
+  function toUserPage(userNo: number) {
+    Navigate(`/user-page/${userNo}`);
+  }
 
   return (
     <Wrapper>
@@ -35,7 +40,12 @@ function MySubscribeList() {
           <NoSubscription>현재 구독 중인 사용자가 없습니다.</NoSubscription>
         ) : (
           myPageSubscribeList.map((subscribe) => (
-            <SubscriberOne key={subscribe.subscribeNo}>
+            <SubscriberOne
+              key={subscribe.subscribeNo}
+              onClick={() => {
+                toUserPage(subscribe.subscribeUserNo);
+              }}
+            >
               <DeleteSubButton
                 onSubscribe={subscribe}
                 onDelete={deleteSubscription}
@@ -89,8 +99,9 @@ const CardSection = styled.div`
 const RightSide = styled.div`
   width: 50%;
   height: 100%;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   border: 1px solid #e7e7e7;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
@@ -104,11 +115,15 @@ const RightSide = styled.div`
 `;
 
 const SubscriberOne = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 15px;
-  //   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  width: 70%;
+  padding: 10px;
+  border-radius: 20px;
+  &:hover {
+    scale: 1.05;
+  }
+  cursor: pointer;
 `;
 
 const NoSubscription = styled.p`

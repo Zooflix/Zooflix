@@ -5,9 +5,9 @@ function ListHeader() {
     return (
         <Wrapper>
             <span>{header[0]}</span>
-            <span style={{paddingLeft: "110px"}}>{header[1]}</span>
-            <span style={{paddingLeft: "80px"}}>{header[2]}</span>
-            <span style={{paddingLeft: "75px"}}>{header[3]}</span>
+            <span style={{paddingLeft: "7vw"}}>{header[1]}</span>
+            <span style={{paddingLeft: "5vw"}}>{header[2]}</span>
+            <span style={{paddingLeft: "5vw"}}>{header[3]}</span>
         </Wrapper>
     );
 }
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid lightgray;
-    padding-right: 110px;
-    padding-left: 70px;
+    // padding-right: 8vw;
+    padding-left: 5vw;
     margin-bottom: 20px;
 `;

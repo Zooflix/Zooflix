@@ -24,7 +24,7 @@ function UserSubscribeList({ userPageInfo }: Props) {
 
   useEffect(() => {
     getUserSubscribe();
-  }, []);
+  }, [userPageInfo]);
 
   return (
     <Wrapper>
@@ -88,8 +88,9 @@ const CardSection = styled.div`
 const RightSide = styled.div`
   width: 50%;
   height: 100%;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   h3 {
     text-align: center;
   }
@@ -101,20 +102,6 @@ const RightSide = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const SubscriberList = styled.div`
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-  padding-left: 30px;
-`;
-
-const SubscriberOne = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const NoSubscription = styled.p`

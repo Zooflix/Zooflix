@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { myPageInfoState } from "../../Store/MyPageState";
 import MsgModal from "./MsgModal";
+import { userZbti } from "../../Store/UserState";
 
 function RouteToOtherPage() {
   const navigate = useNavigate();
   const userInfo = useRecoilValue(myPageInfoState);
+  const [userSbti, setUserZbti] = useRecoilState(userZbti);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  
   function handleClickToPortfolio() {
+    setUserZbti(userInfo.userZbti);
     if (userInfo.userZbti === "Bear") {
       setIsModalOpen(true);
     } else {

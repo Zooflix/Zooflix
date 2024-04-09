@@ -32,8 +32,6 @@ function UserPage() {
 
   const { userNo } = useParams();
 
-  const [userNumber, setUserNumber] = useState(parseInt(userNo || ""));
-
   const handleZbti = () => {
     navigate("/zbti");
   };
@@ -44,7 +42,7 @@ function UserPage() {
   const [isSubscribe, setIsSubscribe] = useState(false);
 
   useEffect(() => {
-    console.log("userNo " + userNumber);
+    console.log("userNo " + parseInt(userNo || ""));
     const fetchData = async () => {
       //유저 정보
       userInfoAxios().then(() => {
@@ -57,7 +55,7 @@ function UserPage() {
       });
     };
     fetchData();
-  }, []);
+  }, [userNo]);
 
   async function getMyUserSubscribe() {
     try {
@@ -72,7 +70,7 @@ function UserPage() {
 
   async function userInfoAxios() {
     try {
-      const data = await getUserInfo(userNumber);
+      const data = await getUserInfo(parseInt(userNo || ""));
       setUserPageInfo(data);
       console.log(" userInfoAxios ", data);
     } catch (error) {

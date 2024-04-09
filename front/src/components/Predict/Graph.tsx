@@ -82,12 +82,12 @@ const Container = styled.div`
   background-color: white;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
   width: 70%;
-  height: 270px;
+  height: 260px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   img {
     width: 95%;
     height: 95%;

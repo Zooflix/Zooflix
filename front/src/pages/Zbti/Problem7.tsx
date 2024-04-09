@@ -50,7 +50,7 @@ export default Problem7;
 
 const Wrapper = styled.div`
   .icon {
-    width: 400px;
+    width: 370px;
   }
 `;
 
@@ -58,12 +58,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px 0 30px;
-  max-height: 350px;
+  max-height: 300px;
 `;
+

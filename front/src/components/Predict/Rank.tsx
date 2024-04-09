@@ -171,7 +171,7 @@ const Name = styled.div`
     align-items: center;
     padding: 10px;
     span {
-        padding-left: 15px;
+        padding-left: 5px;
     }
 `;
 

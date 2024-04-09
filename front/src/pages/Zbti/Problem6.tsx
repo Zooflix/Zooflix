@@ -22,7 +22,7 @@ function Problem6() {
       <Wrapper>
         <ZbtiHeader backLink="/zbti" />
         <Container>
-          <Question text="아파트 주민회의에서 주민이 B주식은 오른다고 무조건 사라고 했다." />
+          <Question text="아파트 주민회의에서 주민이 B주식은 무조건 오른다고 했다." />
           <ImgContainer>
             <img
               src={Icon}
@@ -58,12 +58,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 
 const ImgContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px 0 30px;
-  max-height: 350px;
+  max-height: 300px;
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../apis/api/User";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userIdState, userZbti } from "../../Store/UserState";
 import UserBack from "./UserBack";
@@ -35,6 +35,12 @@ function LoginForm() {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
+
   return (
     <LoginWrapper>
       <UserBack />
@@ -47,12 +53,14 @@ function LoginForm() {
             placeholder="아이디를 입력하세요"
             value={id}
             onChange={(e) => setId(e.target.value)}
+            onKeyUp={handleKeyPress}
           />
           <input
             type="password"
             placeholder="비밀번호를 입력하세요"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyUp={handleKeyPress}
           />
         </InputContainer>
         <button onClick={handleLogin}>로그인 하기</button>

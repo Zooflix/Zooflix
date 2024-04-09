@@ -21,7 +21,7 @@ function SubscribeStockList({ userPageInfo }: Props) {
   }
   useEffect(() => {
     getUserStockSubscribe();
-  }, []);
+  }, [userPageInfo]);
 
   if (!userStockList || userStockList.length === 0) {
     return (

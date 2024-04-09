@@ -6,7 +6,7 @@ function Landing1() {
   return (
     <LandingWrapper>
       <Margin>
-        <h1>주식 예측 히스토리</h1>
+        <h1>주식 정보 구독</h1>
         <p>
           히스토리로 보는 숨은 주식고수
           <br />
@@ -14,7 +14,13 @@ function Landing1() {
         </p>
       </Margin>
       <div>
-        <img src={img1} alt="landing1" loading="lazy" decoding="async" />
+        <img
+          src={img1}
+          alt="landing1"
+          loading="lazy"
+          decoding="async"
+          width="700px"
+        />
       </div>
     </LandingWrapper>
   );
