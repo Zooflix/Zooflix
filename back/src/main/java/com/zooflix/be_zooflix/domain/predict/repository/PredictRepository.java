@@ -16,6 +16,11 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
     Predict findByPdNo(int pdNo);
 
     List<Predict> findByStockNameOrderByCreateDateDesc(String stockName);
+
+    @Query(nativeQuery = true, value = "select p.* from predict p left join user u on p.user_no = u.user_no WHERE p.stock_name = :stockName and " +
+            "u.user_zbti = :zbti order by pd_date DESC")
+    List<Predict> findByStockNameOrderByCreateDateDescZbti(String stockName, String zbti);
+
     @Query(nativeQuery = true, value = "select * from predict p where pd_date <= :pdDate AND pd_result IS NULL")
     List<Predict> findByPdDate(LocalDate pdDate);
 
@@ -34,6 +39,19 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
 
     @Query(nativeQuery = true
             , value = "SELECT p.*\n" +
+            " FROM predict p\n" +
+            "INNER JOIN user u ON p.user_no = u.user_no\n" +
+            "WHERE u.user_zbti = :zbti\n"+
+            "ORDER BY\n" +
+            "  CASE WHEN p.pd_result IS NULL THEN 0 ELSE 1 END,\n" +
+            "  CASE WHEN p.pd_result IS NULL THEN p.pd_date END ASC,\n" +
+            "  CASE WHEN p.pd_result IS NOT NULL THEN p.pd_date END DESC,\n" +
+            "  u.user_temperature DESC;")
+    List<Predict> findByAllOrderByUserTemZbti(String zbti);
+
+
+    @Query(nativeQuery = true
+            , value = "SELECT p.*\n" +
             "FROM predict p\n" +
             "INNER JOIN user u ON p.user_no = u.user_no\n" +
             "WHERE p.stock_name = :stockName\n" +
@@ -43,6 +61,18 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
             "  CASE WHEN p.pd_result IS NOT NULL THEN p.pd_date END DESC,\n" +
             "  u.user_temperature DESC;")
     List<Predict> findByStockNameOrderByUserTem(String stockName);
+
+    @Query(nativeQuery = true
+            , value = "SELECT p.*\n" +
+            "FROM predict p\n" +
+            "INNER JOIN user u ON p.user_no = u.user_no\n" +
+            "WHERE p.stock_name = :stockName and u.user_zbti = :zbti\n" +
+            "ORDER BY\n" +
+            "  CASE WHEN p.pd_result IS NULL THEN 0 ELSE 1 END,\n" +
+            "  CASE WHEN p.pd_result IS NULL THEN p.pd_date END ASC,\n" +
+            "  CASE WHEN p.pd_result IS NOT NULL THEN p.pd_date END DESC,\n" +
+            "  u.user_temperature DESC;")
+    List<Predict> findByStockNameOrderByUserTemZbti(String stockName, String zbti);
 
     @Query(nativeQuery = true, value = "SELECT pd_date from predict where user_no= :userNo AND stock_name = :stockName AND pd_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) and pd_date <= CURRENT_DATE();")
     List<String> findPdDateByUserNo(int userNo, String stockName);
@@ -59,8 +89,19 @@ public interface PredictRepository extends JpaRepository<Predict, Integer> {
     @Query(nativeQuery = true, value = "select * from predict p where pd_result IS NOT NULL order by pd_date DESC")
     List<Predict> findEndPredict();
 
+    @Query(nativeQuery = true, value = "select * from predict p left join user u on p.user_no = u.user_no where pd_result IS NOT NULL and u.user_zbti = :zbti order by pd_date DESC")
+    List<Predict> findEndPredictZbti(String zbti);
+
     @Query(nativeQuery = true, value = "select * from predict p WHERE p.stock_name = :stockName AND pd_result IS NOT NULL order by pd_date DESC")
     List<Predict> findEndPredictByStockName(String stockName);
+
+    @Query(nativeQuery = true, value = "select p.* from predict p left join user u on p.user_no = u.user_no WHERE p.stock_name = :stockName AND pd_result IS NOT NULL and " +
+            "u.user_zbti = :zbti order by pd_date DESC")
+    List<Predict> findEndPredictByStockNameZbti(String stockName, String zbti);
+
+
+    @Query(nativeQuery = true, value = "select p.* from predict p left join user u on p.user_no = u.user_no where u.user_zbti = :zbti order by pd_date DESC")
+    List<Predict> findAllZbti(String zbti);
 
     @Modifying(clearAutomatically = true)
     @Transactional

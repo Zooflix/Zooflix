@@ -6,6 +6,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class MyInfoDto {
     private int userNo;                 //유저 인덱스
     private String userId;              //유저 아이디
